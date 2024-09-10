@@ -44,8 +44,8 @@ To run this project locally, you'll need to have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/student-progress-analytics.git
-   cd student-progress-analytics
+   git clone https://github.com/Ra-Asis-Software/ra-asis-spa.git
+   cd ra-asis-spa
 
 2. Install Dependencies
 
@@ -54,7 +54,7 @@ npm install
 
 3. Set up environment variables: Create a .env file in the root directory and include the following:
 
-DB_URI=mongodb://localhost:27017/student_analytics
+MONGO_URI=mongodb://localhost:27017/ra_asis_spa
 JWT_SECRET=your_secret_key
 NODE_ENV=development
 
