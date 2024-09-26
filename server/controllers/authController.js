@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const generateToken = require('../utils/generateToken');
 
 // @desc    Register a new user
-// @route   POST /api/users/register
+// @route   POST /api/auth/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, phoneNumber, email, username, password, role } = req.body;
