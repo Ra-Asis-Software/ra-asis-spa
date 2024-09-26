@@ -28,15 +28,32 @@ const Register = () => {
   // Validation Function
   const validateFields = () => {
     const newErrors = {};
-    if (!firstName) newErrors.firstName = 'Please enter your first name!';
-    if (!lastName) newErrors.lastName = 'Please enter your last name!';
-    if (!phoneNumber) newErrors.phoneNumber = 'Please enter your phone number!';
-    if (!email) newErrors.email = 'Please enter your email address!';
-    if (!username) newErrors.username = 'Please enter your preferred username!';
-    if (!password) newErrors.password = 'Please enter your preferred password!';
+
+        // First Name Validation (ensure only letters and at least 2 characters)
+        if (!firstName) newErrors.firstName = 'You did not enter your first name!';
+        else if (!/^[A-Za-z]+$/.test(firstName)) newErrors.firstName = 'Your first name should contain only letters!';
+        else if (firstName.length < 2) newErrors.firstName = 'Your first name should be at least 2 characters long!';
+
+        // Last Name Validation (ensure only letters and at least 2 characters)
+        if (!lastName) newErrors.lastName = 'Please enter your last name!';
+        else if (!/^[A-Za-z]+$/.test(lastName)) newErrors.lastName = 'Your last name should contain only letters!';
+        else if (lastName.length < 2) newErrors.lastName = 'Your last name should be at least 2 characters long!';
+
+        // Phone Number Validation (digits only, length 10)
+        if (!phoneNumber) newErrors.phoneNumber = 'Please enter your phone number!';
+        else if (!/^\d{10}$/.test(phoneNumber)) newErrors.phoneNumber = 'The phone number you provided is invalid!';
+
+        // Email Validation (basic email format check)
+        if (!email) newErrors.email = 'Please enter your email address!';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Please enter a valid email address!';
+
+        // Username and Password (not changing yet, will handle later)
+        if (!username) newErrors.username = 'Please enter your preferred username!';
+        if (!password) newErrors.password = 'Please enter your preferred password!';
 
     return newErrors;
   };
+
 
   // Handle form submission
   const onSubmit = async (e) => {
