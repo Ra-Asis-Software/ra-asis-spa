@@ -29,27 +29,36 @@ const Register = () => {
   const validateFields = () => {
     const newErrors = {};
 
-        // First Name Validation (ensure only letters and at least 2 characters)
-        if (!firstName) newErrors.firstName = 'You did not enter your first name!';
-        else if (!/^[A-Za-z]+$/.test(firstName)) newErrors.firstName = 'Your first name should contain only letters!';
-        else if (firstName.length < 2) newErrors.firstName = 'Your first name should be at least 2 characters long!';
+    // First Name Validation (ensure only letters and at least 2 characters)
+    if (!firstName) newErrors.firstName = 'You did not enter your first name!';
+    else if (!/^[A-Za-z]+$/.test(firstName)) newErrors.firstName = 'Your first name should contain only letters!';
+    else if (firstName.length < 2) newErrors.firstName = 'Your first name should be at least 2 characters long!';
 
-        // Last Name Validation (ensure only letters and at least 2 characters)
-        if (!lastName) newErrors.lastName = 'Please enter your last name!';
-        else if (!/^[A-Za-z]+$/.test(lastName)) newErrors.lastName = 'Your last name should contain only letters!';
-        else if (lastName.length < 2) newErrors.lastName = 'Your last name should be at least 2 characters long!';
+    // Last Name Validation (ensure only letters and at least 2 characters)
+    if (!lastName) newErrors.lastName = 'Please enter your last name!';
+    else if (!/^[A-Za-z]+$/.test(lastName)) newErrors.lastName = 'Your last name should contain only letters!';
+    else if (lastName.length < 2) newErrors.lastName = 'Your last name should be at least 2 characters long!';
 
-        // Phone Number Validation (digits only, length 10)
-        if (!phoneNumber) newErrors.phoneNumber = 'Please enter your phone number!';
-        else if (!/^\d{10}$/.test(phoneNumber)) newErrors.phoneNumber = 'The phone number you provided is invalid!';
+    // Phone Number Validation (digits only, length 10)
+    if (!phoneNumber) newErrors.phoneNumber = 'Please enter your phone number!';
+    else if (!/^\d{10}$/.test(phoneNumber)) newErrors.phoneNumber = 'The phone number you provided is invalid!';
 
-        // Email Validation (basic email format check)
-        if (!email) newErrors.email = 'Please enter your email address!';
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Please enter a valid email address!';
+    // Email Validation (basic email format check)
+    if (!email) newErrors.email = 'Please enter your email address!';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Please enter a valid email address!';
 
-        // Username and Password (not changing yet, will handle later)
-        if (!username) newErrors.username = 'Please enter your preferred username!';
-        if (!password) newErrors.password = 'Please enter your preferred password!';
+    // Username Validation (lowercase letters, at least 3 characters)
+    if (!username) newErrors.username = 'Please enter your preferred username!';
+    else if (!/^[a-z]+$/.test(username)) newErrors.username = 'Username should contain only lowercase letters, no special characters!';
+    else if (username.length < 3) newErrors.username = 'Username should be at least 3 characters long!';
+
+    // Password Validation (at least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character)
+    if (!password) newErrors.password = 'Please enter your preferred password!';
+    else if (password.length < 8) newErrors.password = 'Password should be at least 8 characters long!';
+    else if (!/[A-Z]/.test(password)) newErrors.password = 'Password should contain at least one uppercase letter!';
+    else if (!/[a-z]/.test(password)) newErrors.password = 'Password should contain at least one lowercase letter!';
+    else if (!/[0-9]/.test(password)) newErrors.password = 'Password should contain at least one number!';
+    else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) newErrors.password = 'Password should contain at least one special character!';
 
     return newErrors;
   };
