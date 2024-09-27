@@ -76,117 +76,119 @@ const Register = () => {
     try {
       const res = await axios.post('/api/auth/register', formData);
       console.log(res.data); // For testing
-      alert('User registered successfully');
+      alert('You registration was successful. Check your inbox to verify your email');
     } catch (err) {
       console.error(err.response.data);
-      alert('Registration failed');
+      alert('Something went wrong, please try again');
     }
   };
 
   return (
-    <div className='registration'>
-      <div className='registration-intro'>
-        <h2>Register</h2>
-      </div>
-      <div className='registration-form'>
-        <form onSubmit={onSubmit}>
-          <div className='user-category'>
-            <div className='user-category-heading'>
-              <h3>Please select a user category</h3>
+    <div className='registration-container'>
+        <div className='registration-content'>
+            <div className='registration-intro'>
+                <h2>Register</h2>
             </div>
-            <div className='user-category-choices'>
-              <label>
-                <input
-                  type="radio"
-                  name="role"
-                  value="student"
-                  checked={role === 'student'}
-                  onChange={onChange}
-                />
-                Student
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="role"
-                  value="teacher"
-                  checked={role === 'teacher'}
-                  onChange={onChange}
-                />
-                Teacher
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="role"
-                  value="parent"
-                  checked={role === 'parent'}
-                  onChange={onChange}
-                />
-                Parent
-              </label>
+            <div className='registration-form'>
+                <form onSubmit={onSubmit}>
+                <div className='user-category'>
+                    <div className='user-category-heading'>
+                    <h3>Please select a user category</h3>
+                    </div>
+                    <div className='user-category-choices'>
+                    <label>
+                        <input
+                        type="radio"
+                        name="role"
+                        value="student"
+                        checked={role === 'student'}
+                        onChange={onChange}
+                        />
+                        Student
+                    </label>
+                    <label>
+                        <input
+                        type="radio"
+                        name="role"
+                        value="teacher"
+                        checked={role === 'teacher'}
+                        onChange={onChange}
+                        />
+                        Teacher
+                    </label>
+                    <label>
+                        <input
+                        type="radio"
+                        name="role"
+                        value="parent"
+                        checked={role === 'parent'}
+                        onChange={onChange}
+                        />
+                        Parent
+                    </label>
+                    </div>
+                </div>
+                <div className='personal-details'>
+                    <input
+                    type="text"
+                    name="firstName"
+                    value={firstName}
+                    placeholder="First Name"
+                    onChange={onChange}
+                    />
+                    {errors.firstName && <small className="error">{errors.firstName}</small>}
+                    <input
+                    type="text"
+                    name="lastName"
+                    value={lastName}
+                    placeholder="Last Name"
+                    onChange={onChange}
+                    />
+                    {errors.lastName && <small className="error">{errors.lastName}</small>}
+                    <input
+                    type="text"
+                    name="phoneNumber"
+                    value={phoneNumber}
+                    placeholder="Phone Number"
+                    onChange={onChange}
+                    />
+                    {errors.phoneNumber && <small className="error">{errors.phoneNumber}</small>}
+                </div>
+                <div className='credential-details'>
+                    <input
+                    type="email"
+                    name="email"
+                    value={email}
+                    placeholder="Email"
+                    onChange={onChange}
+                    />
+                    {errors.email && <small className="error">{errors.email}</small>}
+                    <input
+                    type="text"
+                    name="username"
+                    value={username}
+                    placeholder="Username"
+                    onChange={onChange}
+                    />
+                    {errors.username && <small className="error">{errors.username}</small>}
+                    <input
+                    type="password"
+                    name="password"
+                    value={password}
+                    placeholder="Password"
+                    onChange={onChange}
+                    />
+                    {errors.password && <small className="error">{errors.password}</small>}
+                </div>
+                <div className='submit-button'>
+                    <button type="submit">Submit</button>
+                </div>
+                </form>
             </div>
-          </div>
-          <div className='personal-details'>
-            <input
-              type="text"
-              name="firstName"
-              value={firstName}
-              placeholder="First Name"
-              onChange={onChange}
-            />
-            {errors.firstName && <small className="error">{errors.firstName}</small>}
-            <input
-              type="text"
-              name="lastName"
-              value={lastName}
-              placeholder="Last Name"
-              onChange={onChange}
-            />
-            {errors.lastName && <small className="error">{errors.lastName}</small>}
-            <input
-              type="text"
-              name="phoneNumber"
-              value={phoneNumber}
-              placeholder="Phone Number"
-              onChange={onChange}
-            />
-            {errors.phoneNumber && <small className="error">{errors.phoneNumber}</small>}
-          </div>
-          <div className='credential-details'>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Email"
-              onChange={onChange}
-            />
-            {errors.email && <small className="error">{errors.email}</small>}
-            <input
-              type="text"
-              name="username"
-              value={username}
-              placeholder="Username"
-              onChange={onChange}
-            />
-            {errors.username && <small className="error">{errors.username}</small>}
-            <input
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Password"
-              onChange={onChange}
-            />
-            {errors.password && <small className="error">{errors.password}</small>}
-          </div>
-          <div className='submit-button'>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
-      <div className='login-prompt'>
-        <p>Already have an account ? <Link to='/login'>Login</Link></p>
-      </div>
+            <div className='login-prompt'>
+                <p>Already have an account ? <Link to='/login'>Login</Link></p>
+            </div>
+        </div>
     </div>
   );
 };
