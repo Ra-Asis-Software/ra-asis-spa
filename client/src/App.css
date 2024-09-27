@@ -39,7 +39,7 @@ button, a{
 /* Header Styling */
 
 header {
-  background: transparent;
+  background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -66,4 +66,17 @@ header.sticky {
 
 .app-logo img {
   max-height: 100px;
+}
+
+
+/*Registration Page Styling*/
+
+.registration-container{
+  background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
+  padding-top: 1px;
+  padding-bottom: 200px;
+}
+
+.registration-container .registration-content{
+  margin-left: 80px;
 }
