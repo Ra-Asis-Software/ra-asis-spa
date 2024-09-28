@@ -93,39 +93,42 @@ const Register = () => {
                 <form onSubmit={onSubmit}>
                 <div className='user-category'>
                     <div className='user-category-heading'>
-                    <h3>Please select a user category</h3>
+                        <p>Please select a user category</p>
                     </div>
                     <div className='user-category-choices'>
-                    <label>
-                        <input
-                        type="radio"
-                        name="role"
-                        value="student"
-                        checked={role === 'student'}
-                        onChange={onChange}
-                        />
-                        Student
-                    </label>
-                    <label>
-                        <input
-                        type="radio"
-                        name="role"
-                        value="teacher"
-                        checked={role === 'teacher'}
-                        onChange={onChange}
-                        />
-                        Teacher
-                    </label>
-                    <label>
-                        <input
-                        type="radio"
-                        name="role"
-                        value="parent"
-                        checked={role === 'parent'}
-                        onChange={onChange}
-                        />
-                        Parent
-                    </label>
+                        <label className='radio-restyle'>
+                            <input
+                            type="radio"
+                            className='radio-restyle'
+                            name="role"
+                            value="student"
+                            checked={role === 'student'}
+                            onChange={onChange}
+                            />
+                            <span>Student</span>
+                        </label>
+                        <label className='radio-restyle'>
+                            <input
+                            type="radio"
+                            className='radio-restyle'
+                            name="role"
+                            value="teacher"
+                            checked={role === 'teacher'}
+                            onChange={onChange}
+                            />
+                            <span>Teacher</span>
+                        </label>
+                        <label className='radio-restyle'>
+                            <input
+                            type="radio"
+                            className='radio-restyle'
+                            name="role"
+                            value="parent"
+                            checked={role === 'parent'}
+                            onChange={onChange}
+                            />
+                            <span>Parent</span>
+                        </label>
                     </div>
                 </div>
                 <div className='personal-details'>
