@@ -90,102 +90,138 @@ const Register = () => {
                 <h2>Register</h2>
             </div>
             <div className='registration-form'>
-                <form onSubmit={onSubmit}>
-                <div className='user-category'>
-                    <div className='user-category-heading'>
-                        <p>Please select a user category</p>
+                <form onSubmit={onSubmit} noValidate>
+                    <div className='user-category'>
+                        <div className='user-category-heading'>
+                            <p>Please select a user category</p>
+                        </div>
+                        <div className='user-category-choices'>
+                            <label className='radio-restyle'>
+                                <input
+                                type="radio"
+                                className='radio-restyle'
+                                name="role"
+                                value="student"
+                                checked={role === 'student'}
+                                onChange={onChange}
+                                />
+                                <span>Student</span>
+                            </label>
+                            <label className='radio-restyle'>
+                                <input
+                                type="radio"
+                                className='radio-restyle'
+                                name="role"
+                                value="teacher"
+                                checked={role === 'teacher'}
+                                onChange={onChange}
+                                />
+                                <span>Teacher</span>
+                            </label>
+                            <label className='radio-restyle'>
+                                <input
+                                type="radio"
+                                className='radio-restyle'
+                                name="role"
+                                value="parent"
+                                checked={role === 'parent'}
+                                onChange={onChange}
+                                />
+                                <span>Parent</span>
+                            </label>
+                        </div>
                     </div>
-                    <div className='user-category-choices'>
-                        <label className='radio-restyle'>
-                            <input
-                            type="radio"
-                            className='radio-restyle'
-                            name="role"
-                            value="student"
-                            checked={role === 'student'}
-                            onChange={onChange}
-                            />
-                            <span>Student</span>
-                        </label>
-                        <label className='radio-restyle'>
-                            <input
-                            type="radio"
-                            className='radio-restyle'
-                            name="role"
-                            value="teacher"
-                            checked={role === 'teacher'}
-                            onChange={onChange}
-                            />
-                            <span>Teacher</span>
-                        </label>
-                        <label className='radio-restyle'>
-                            <input
-                            type="radio"
-                            className='radio-restyle'
-                            name="role"
-                            value="parent"
-                            checked={role === 'parent'}
-                            onChange={onChange}
-                            />
-                            <span>Parent</span>
-                        </label>
+                    <div className='details'>
+                        <div className='personal-details'>
+                            <div className='details-heading personal-details-heading'>
+                                <h4>Personal Details</h4>
+                            </div>
+                            <div className='personal-details-inputs'>
+                                <div className='input-container'>
+                                    <label>First Name<span className='required-star'>*</span></label>
+                                    <input
+                                    type="text"
+                                    name="firstName"
+                                    value={firstName}
+                                    size="30"
+                                    placeholder="enter your first name"
+                                    onChange={onChange}
+                                    />
+                                    {errors.firstName && <small className="error">{errors.firstName}</small>}
+                                </div>
+                                <div className='input-container'>
+                                    <label>Last Name<span className='required-star'>*</span></label>
+                                    <input
+                                    type="text"
+                                    name="lastName"
+                                    value={lastName}
+                                    size="30"
+                                    placeholder="enter your last name"
+                                    onChange={onChange}
+                                    />
+                                    {errors.lastName && <small className="error">{errors.lastName}</small>}  
+                                </div>
+                                <div className='input-container'>
+                                    <label>Phone Number<span className='required-star'>*</span></label>
+                                    <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    value={phoneNumber}
+                                    size="30"
+                                    placeholder="enter your phone number"
+                                    onChange={onChange}
+                                    />
+                                    {errors.phoneNumber && <small className="error">{errors.phoneNumber}</small>}
+                                </div>
+                            </div>
+                        </div>
+                        <div className='credential-details'>
+                            <div className='details-heading credential-details-heading'>
+                                <h4>Credential Details</h4>
+                            </div>
+                            <div className='credential-details-inputs'>
+                                <div className='input-container'>
+                                    <label>Email Address<span className='required-star'>*</span></label>
+                                    <input
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    size="30"
+                                    placeholder="enter your email address"
+                                    onChange={onChange}
+                                    />
+                                    {errors.email && <small className="error">{errors.email}</small>}
+                                </div>
+                                <div className='input-container'>
+                                    <label>Username<span className='required-star'>*</span></label>
+                                    <input
+                                    type="text"
+                                    name="username"
+                                    value={username}
+                                    size="30"
+                                    placeholder="enter your preferred username"
+                                    onChange={onChange}
+                                    />
+                                    {errors.username && <small className="error">{errors.username}</small>}
+                                </div>
+                                <div className='input-container'>
+                                    <label>Password<span className='required-star'>*</span></label>
+                                    <input
+                                    type="password"
+                                    name="password"
+                                    value={password}
+                                    size="30"
+                                    placeholder="enter your preferred password"
+                                    onChange={onChange}
+                                    />
+                                    {errors.password && <small className="error">{errors.password}</small>}
+                                </div>
+                            </div>
+                        </div>
+                        <div className='submit-button'>
+                            <button type="submit">Submit</button>
+                        </div>
                     </div>
-                </div>
-                <div className='personal-details'>
-                    <input
-                    type="text"
-                    name="firstName"
-                    value={firstName}
-                    placeholder="First Name"
-                    onChange={onChange}
-                    />
-                    {errors.firstName && <small className="error">{errors.firstName}</small>}
-                    <input
-                    type="text"
-                    name="lastName"
-                    value={lastName}
-                    placeholder="Last Name"
-                    onChange={onChange}
-                    />
-                    {errors.lastName && <small className="error">{errors.lastName}</small>}
-                    <input
-                    type="text"
-                    name="phoneNumber"
-                    value={phoneNumber}
-                    placeholder="Phone Number"
-                    onChange={onChange}
-                    />
-                    {errors.phoneNumber && <small className="error">{errors.phoneNumber}</small>}
-                </div>
-                <div className='credential-details'>
-                    <input
-                    type="email"
-                    name="email"
-                    value={email}
-                    placeholder="Email"
-                    onChange={onChange}
-                    />
-                    {errors.email && <small className="error">{errors.email}</small>}
-                    <input
-                    type="text"
-                    name="username"
-                    value={username}
-                    placeholder="Username"
-                    onChange={onChange}
-                    />
-                    {errors.username && <small className="error">{errors.username}</small>}
-                    <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    placeholder="Password"
-                    onChange={onChange}
-                    />
-                    {errors.password && <small className="error">{errors.password}</small>}
-                </div>
-                <div className='submit-button'>
-                    <button type="submit">Submit</button>
-                </div>
                 </form>
             </div>
             <div className='login-prompt'>
