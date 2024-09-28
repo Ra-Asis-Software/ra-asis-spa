@@ -75,8 +75,65 @@ header.sticky {
   background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
   padding-top: 1px;
   padding-bottom: 200px;
+  color: var(--black-pearl-color);
 }
 
 .registration-container .registration-content{
+  display: flex;
+  flex-direction: column;
   margin-left: 80px;
+}
+
+.registration-container .registration-content .registration-form form{
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices{
+  margin-bottom: 20px;
+  margin-left: -10px;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices input.radio-restyle{
+  display: none;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle{
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+  position: relative;
+  margin-right: 40px;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before,
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::after{
+  content: '';
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before {
+  border: 1px solid var(--black-pearl-color);
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::after {
+  background: var(--black-pearl-color);
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  transition: 300ms;
+  opacity: 0;
+}
+
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle input:checked+span:after {
+  opacity: 1;
 }
