@@ -73,8 +73,6 @@ header.sticky {
 
 .registration-container{
   background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
-  padding-top: 1px;
-  padding-bottom: 200px;
   color: var(--black-pearl-color);
 }
 
@@ -82,6 +80,7 @@ header.sticky {
   display: flex;
   flex-direction: column;
   margin-left: 80px;
+  padding-bottom: 50px;
 }
 
 .registration-container .registration-content .registration-form form{
@@ -91,7 +90,7 @@ header.sticky {
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices{
   margin-bottom: 20px;
-  margin-left: -10px;
+  margin-left: -5px;
 }
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices input.radio-restyle{
@@ -106,7 +105,7 @@ header.sticky {
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
   position: relative;
-  margin-right: 40px;
+  margin-right: 270px;
 }
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before,
@@ -130,10 +129,113 @@ header.sticky {
   position: absolute;
   top: 2px;
   left: 4px;
-  transition: 300ms;
+  transition: all 400ms ease-in-out;
   opacity: 0;
 }
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle input:checked+span:after {
   opacity: 1;
+}
+
+.registration-container .registration-content .registration-form .details{
+  background: var(--black-pearl-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1000px;
+  padding: 0 40px 40px 10px;
+  border-radius: 15px;
+}
+
+.registration-container .registration-content .registration-form .details .details-heading h4{
+  color: var(--alizarin-crimson-color);
+}
+
+.registration-container .registration-content .registration-form .details .personal-details,
+.registration-container .registration-content .registration-form .details .credential-details{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registration-container .registration-content .registration-form .details .credential-details{
+  margin-bottom: 40px;
+}
+
+.registration-container .registration-content .registration-form .details .personal-details .personal-details-inputs,
+.registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.registration-container .registration-content .registration-form .details .input-container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registration-container .registration-content .registration-form .details .input-container label{
+  color: var(--foam-color);
+}
+
+.registration-container .registration-content .registration-form .details .input-container label .required-star{
+  color: var(--alizarin-crimson-color);
+}
+
+.registration-container .registration-content .registration-form .details .input-container input{
+  background: var(--black-pearl-color);
+  color: var(--foam-color);
+  border: none;
+  outline: none;
+  border-bottom: 2px solid var(--foam-color);
+}
+
+.registration-container .registration-content .registration-form .details .input-container input::placeholder{
+  color: var(--foam-color);
+  font-style: italic;
+}
+
+.registration-container .registration-content .registration-form .details .input-container .error{
+  color: var(--alizarin-crimson-color);
+  font-size: 10px;
+}
+
+.registration-container .registration-content .registration-form .details .submit-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registration-container .registration-content .registration-form .details .submit-button button{
+  background: var(--foam-color);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 5px 300px;
+  font-family: Poppins;
+  font-size: 17px;
+  transition: all 400ms ease-in-out;
+}
+
+.registration-container .registration-content .registration-form .details .submit-button button:hover{
+  background: var(--alizarin-crimson-color);
+  cursor: pointer;
+}
+
+.registration-container .registration-content .login-prompt{
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.registration-container .registration-content .login-prompt p a{
+  color: var(--alizarin-crimson-color);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 400ms ease-in-out;
+}
+
+.registration-container .registration-content .login-prompt p a:hover{
+  color: var(--black-pearl-color);
 }
