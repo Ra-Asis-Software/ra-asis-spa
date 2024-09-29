@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Register from './components/Register';
+import VerifyEmail from './components/VerifyEmail';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/verify-email/:token' element={ <VerifyEmail /> } />
         </Routes>
       </div>
     </Router>
