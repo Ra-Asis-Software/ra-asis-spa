@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,8 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});  // State for tracking validation errors
-
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const { firstName, lastName, phoneNumber, email, username, password, role } = formData;
 
   // Handle input change
@@ -70,18 +71,43 @@ const Register = () => {
     const newErrors = validateFields();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);  // Set validation errors if any
+      setErrorMessage(''); // Clear error message on validation error
       return;
     }
 
     try {
-      const res = await axios.post('/api/auth/register', formData);
-      console.log(res.data); // For testing
-      alert('You registration was successful. Check your inbox to verify your email');
-    } catch (err) {
-      console.error(err.response.data);
-      alert('Something went wrong, please try again');
+        await axios.post('/api/auth/register', formData);
+        
+        // If registration is successful
+        setSuccessMessage('Your registration was successful. Check your email inbox to verify your email.');
+        setErrorMessage(''); // Clear any previous error message
+        setErrors(''); // Clear all field error messages
+        // Reset form fields
+        setFormData({
+          firstName: '',
+          lastName: '',
+          phoneNumber: '',
+          email: '',
+          username: '',
+          password: '',
+          role: 'student',
+        });
+      }
+    catch (err) {
+        setErrorMessage('Something went wrong. Please try again!');
+        setSuccessMessage(''); // Clear any previous success message
     }
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(''); // Clear success message after 10 seconds
+      }, 10000);
+  
+      return () => clearTimeout(timer); // Cleanup the timer on component unmount or successMessage change
+    }
+  }, [successMessage]);
 
   return (
     <div className='registration-container'>
@@ -220,6 +246,10 @@ const Register = () => {
                         </div>
                         <div className='submit-button'>
                             <button type="submit">Submit</button>
+                        </div>
+                        <div className='form-message'>
+                            {successMessage && <small className="success-message">{successMessage}</small>}
+                            {errorMessage && <small className="error-message">{errorMessage}</small>}
                         </div>
                     </div>
                 </form>
