@@ -99,4 +99,37 @@ const verifyEmail = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, validateRegister, verifyEmail };
+
+// @desc    Login a registered and verified user
+// @route   POST /api/auth/login
+// @access  Public
+const loginUser = asyncHandler(async (req, res) => {
+  const { emailOrUsername, password } = req.body;
+
+  // Check if the user exists
+  const user = await User.findOne({ 
+    $or: [{ email: emailOrUsername }, { username: emailOrUsername }] 
+  });
+
+  if (user && (await user.matchPassword(password))) {
+
+    if (!user.isVerified) {
+      return res.status(401).json({ message: 'Please verify your email before logging in.' });
+    }
+
+    res.json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401).json({ message: 'Invalid email/username or password' });
+  }
+});
+
+
+module.exports = { registerUser, validateRegister, verifyEmail, loginUser };
