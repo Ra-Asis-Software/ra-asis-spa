@@ -21,7 +21,7 @@ const validateRegister = [
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, phoneNumber, email, username, password, role } = req.body;
+  const { firstName, lastName, phoneNumber, email, username, password, role, frontendUrl } = req.body;
 
   // Check if the user already exists
   const userExists = await User.findOne({ email });
@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
       });
 
       // Create email verification URL
-      const verifyUrl = `${req.protocol}://${req.get('host')}/api/auth/verify-email/${emailToken}`;
+      const verifyUrl = `${frontendUrl}/verify-email/${emailToken}`;
 
       // Prepare email message
       const message = `
