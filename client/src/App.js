@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Register from './components/Register';
 import VerifyEmail from './components/VerifyEmail';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
           <Route path='/verify-email/:token' element={ <VerifyEmail /> } />
+          <Route path='/login' element={ <Login /> } />
+          <Route path='/dashboard' element={ <Dashboard /> } />
         </Routes>
       </div>
     </Router>
