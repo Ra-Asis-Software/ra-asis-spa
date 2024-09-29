@@ -2,6 +2,8 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const generateToken = require('../utils/generateToken');
+const sendMail = require('../utils/sendMail');
+const jwt = require('jsonwebtoken');
 
 
 // Validation Middleware for registerUser route
@@ -19,14 +21,14 @@ const validateRegister = [
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { firstName, lastName, phoneNumber, email, username, password, role } = req.body;
+  const { firstName, lastName, phoneNumber, email, username, password, role } = req.body;
 
-    // Check if the user already exists
+  // Check if the user already exists
   const userExists = await User.findOne({ email });
 
   if (userExists) {
     res.status(400);
-    return res.status(400).json({ message: 'This user already exists. Try another email address' });
+    return res.json({ message: 'This user already exists. Try another email address' });
   }
 
   // Create a new user
@@ -41,19 +43,60 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.status(201).json({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phoneNumber: user.phoneNumber,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-      token: generateToken(user._id),
-    });
+      // Generate email verification token (valid for 1 hour)
+      const emailToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: '1h', // Set token to expire in 1 hour
+      });
+
+      // Create email verification URL
+      const verifyUrl = `${req.protocol}://${req.get('host')}/api/auth/verify-email/${emailToken}`;
+
+      // Prepare email message
+      const message = `
+          <p>Hello ${user.firstName},</p>
+          <h1>Welcome to Ra'Asis SPA. Just One More Step... Verify Your Email</h1>
+          <p>Please verify your email by clicking the link below:</p>
+          <a href="${verifyUrl}">Verify Email</a>
+      `;
+
+      // Send verification email
+      await sendMail({
+          email: user.email,
+          subject: 'Ra\'Asis Student Progress Analytics - Email Verification',
+          message,
+      });
+
+      res.status(201).json({
+          message: 'Registration successful! Please check your email to verify your account.',
+      });
   } else {
-    res.status(400).json({ message: 'Invalid user data' });
+      res.status(400).json({ message: 'Invalid user data' });
   }
 });
 
-module.exports = { registerUser, validateRegister };
+// @desc    Verify email
+// @route   GET /api/auth/verify-email/:token
+// @access  Public
+const verifyEmail = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+
+  try {
+      // Verify the token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id);
+
+      if (!user) {
+          return res.status(400).json({ message: 'Invalid token or user not found' });
+      }
+
+      // Update user as verified
+      user.isVerified = true;
+      await user.save();
+
+      res.status(200).json({ message: 'Email verified successfully!' });
+  } catch (error) {
+      res.status(400).json({ message: 'Invalid or expired token' });
+  }
+});
+
+module.exports = { registerUser, validateRegister, verifyEmail };
