@@ -11,6 +11,7 @@ const Register = () => {
     username: '',
     password: '',
     role: 'student', // default role
+    frontendUrl: window.location.origin,
   });
 
   const [errors, setErrors] = useState({});  // State for tracking validation errors
