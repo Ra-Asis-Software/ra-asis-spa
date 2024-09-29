@@ -36,7 +36,7 @@ button, a{
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* Header Styling */
+/*Header Styling*/
 
 header {
   background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
@@ -56,7 +56,7 @@ header.sticky {
   width: 100%;
 }
 
-/* Logo Styling */
+/*Logo Styling*/
 
 .app-logo {
   position: relative;
@@ -214,7 +214,7 @@ header.sticky {
   outline: none;
   border-radius: 10px;
   padding: 5px 300px;
-  font-family: Poppins;
+  font-family: Poppins, Lato, "Trebuchet MS", sans-serif;
   font-size: 17px;
   transition: all 400ms ease-in-out;
 }
@@ -238,4 +238,90 @@ header.sticky {
 
 .registration-container .registration-content .login-prompt p a:hover{
   color: var(--black-pearl-color);
+}
+
+
+/*RESPONSIVE BREAKPOINTS*/
+
+/*Devices Max. Screen Width 1200px*/
+
+@media(max-width: 1200px){
+  
+  /*Registration Page Responsive Styling*/
+
+  .registration-container .registration-content{
+    max-width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 80px;
+  }
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices{
+    margin-left: 0;
+  }
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle{
+    padding: 2px 7px;
+  }
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+    margin-right: 250px;
+  }
+
+  .registration-container .registration-content .registration-form .details{
+    max-width: 100%;
+  }
+
+  .registration-container .registration-content .registration-form .details .personal-details .personal-details-inputs,
+  .registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs{
+    gap: 20px;
+  }
+}
+
+
+/*Devices Max. Screen Width 991px*/
+
+@media (max-width: 991px) {
+  
+  /*Registration Page Responsive Styling*/
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+    margin-right: 100px;
+  }
+
+  .registration-container .registration-content .registration-form .details .submit-button button{
+    padding: 5px 200px;
+  }
+}
+
+
+/*Devices Max. Screen Width 768px*/
+
+@media (max-width: 768px) {
+  
+  /*Registration Page Responsive Styling*/
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+    margin-right: 50px;
+  }
+
+  .registration-container .registration-content .registration-form .details{
+    padding: 20px;
+  }
+}
+
+
+/*Devices Max. Screen Width 520px*/
+
+@media (max-width: 520px) {
+  
+  /*Registration Page Responsive Styling*/
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+    margin-right: 10px;
+  }
+
+  .registration-container .registration-content .registration-form .details .submit-button button{
+    padding: 5px 100px;
+  }
 }
