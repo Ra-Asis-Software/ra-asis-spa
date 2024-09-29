@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const VerifyEmail = () => {
@@ -23,7 +23,8 @@ const VerifyEmail = () => {
   return (
     <div className='email-verification'>
       <h2>Email Verification</h2>
-      <p>✅{message}</p>
+      <p><span>✅</span>{message}</p>
+      <Link to='/login' target='_blank' rel='noopener noreferrer'>Login To Your Account</Link>
     </div>
   );
 };
