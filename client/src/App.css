@@ -224,6 +224,24 @@ header.sticky {
   cursor: pointer;
 }
 
+.registration-container .registration-content .registration-form .details .form-message{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registration-container .registration-content .registration-form .details .form-message small{
+  font-size: 12px;
+}
+
+.registration-container .registration-content .registration-form .details .form-message small.success-message{
+  color: var(--aqua-color);
+}
+
+.registration-container .registration-content .registration-form .details .form-message small.error-message{
+  color: var(--alizarin-crimson-color);
+}
+
 .registration-container .registration-content .login-prompt{
   margin-left: 10px;
   font-size: 14px;
