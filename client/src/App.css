@@ -314,14 +314,41 @@ header.sticky {
 /*Devices Max. Screen Width 520px*/
 
 @media (max-width: 520px) {
+
+  /*Header Responsive Styling*/
+
+  header{
+    background: var(--aqua-color);
+  }
   
   /*Registration Page Responsive Styling*/
+
+  .registration-container{
+    background-image: linear-gradient(var(--aqua-color), var(--foam-color));
+  }
 
   .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
     margin-right: 10px;
   }
 
+  .registration-container .registration-content .registration-form .details .input-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
   .registration-container .registration-content .registration-form .details .submit-button button{
     padding: 5px 100px;
+  }
+}
+
+
+/*Devices Max. Screen Width 391px*/
+
+@media (max-width: 391px){
+  .registration-container .registration-content .registration-form .details .input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
