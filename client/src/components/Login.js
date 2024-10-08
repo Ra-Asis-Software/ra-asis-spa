@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -33,30 +33,57 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Have An Account?</h2>
-      {errorMessage && <small>{errorMessage}</small>}
-      {successMessage && <small>{successMessage}</small>}
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email or Username</label>
-          <input
-            type="text"
-            value={emailOrUsername}
-            onChange={(e) => setEmailOrUsername(e.target.value)}
-            required
-          />
+      <div className="login-content">
+        <div className="login-form">
+          <div className="login-intro">
+            <h2>Have An Account?</h2>
+          </div>
+          <form onSubmit={handleLogin} noValidate>
+            <div className="login-inputs">
+              <div className="email-user-input">
+                <input
+                  type="text"
+                  value={emailOrUsername}
+                  placeholder="Username/Email Address"
+                  onChange={(e) => setEmailOrUsername(e.target.value)}
+                />
+              </div>
+              <div className="password-input">
+                <input
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="submit-btn">
+              <button type="submit">SIGN IN</button>
+            </div>
+            <div className='form-message'>
+              {errorMessage && <small>{errorMessage}</small>}
+              {successMessage && <small>{successMessage}</small>}
+            </div>
+            <div className="remember-forgot">
+              <div className="remember">
+                <form>
+                  <input type="checkbox"/>
+                  <label>Remember Me</label>
+                </form>
+              </div>
+              <div className="forgot">
+                <Link to="/password-reset">Forgot Password</Link>
+              </div>
+            </div>
+            <div className="register-prompt">
+              <p>Don't Have An Account? <Link to="/register">Sign Up</Link></p>
+            </div>
+          </form>
         </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="login-image">
+          <img src="" alt="" />
         </div>
-        <button type="submit">Login</button>
-      </form>
+      </div>
     </div>
   );
 };
