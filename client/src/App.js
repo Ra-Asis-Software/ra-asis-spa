@@ -11,7 +11,6 @@ const App = () => {
   return (
     <Router>
       <div className='App'>
-        <Header />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
@@ -28,6 +27,7 @@ const Home = () => {
 
   return(
     <>
+      <Header />
       <div className='home-introduction'>
         <h1>Why Hustle ? Forget About Tiresome Manual Academic Progress Analysis. Ra'Asis SPA Does It For You!</h1>
         <Link to='/register'>Sign Up Now</Link>
