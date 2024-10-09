@@ -77,10 +77,10 @@ const Login = () => {
                 <Link to="/password-reset">Forgot Password</Link>
               </div>
             </div>
-            <div className="register-prompt">
-              <p>Don't Have An Account? <Link to="/register">Sign Up</Link></p>
-            </div>
           </form>
+          <div className="register-prompt">
+              <p>Don't Have An Account? <Link to="/register">Sign Up</Link></p>
+          </div>
         </div>
         <div className="login-image">
           <img src="/assets/login_image.webp" alt="an illustration of a young boy analysing statistics on his academic progress" />
