@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
 /*ROOT Variables*/
-:root{
+:root {
   --foam-color: #edfdfd;
   --black-pearl-color: #04061f;
   --aqua-color: #5ae0d7;
@@ -19,19 +19,19 @@
 
 /*General Styles*/
 
-html, body{
+html, body {
   max-width: 100%;
   overflow-x: hidden;
   font-family: Poppins, Lato, "Trebuchet MS", sans-serif;
 }
 
-body{
+body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
 }
 
-button, a{
+button, a {
   -webkit-tap-highlight-color: transparent;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -71,39 +71,39 @@ header.sticky {
 
 /*Registration Page Styling*/
 
-.registration-container{
+.registration-container {
   background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
   color: var(--black-pearl-color);
 }
 
-.registration-container .registration-content{
+.registration-container .registration-content {
   display: flex;
   flex-direction: column;
   margin-left: 80px;
   padding-bottom: 50px;
 }
 
-.registration-container .registration-content .registration-form form{
+.registration-container .registration-content .registration-form form {
   display: flex;
   flex-direction: column;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices{
+.registration-container .registration-content .registration-form .user-category .user-category-choices {
   margin-bottom: 20px;
   margin-left: -5px;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices input.radio-restyle{
+.registration-container .registration-content .registration-form .user-category .user-category-choices input.radio-restyle {
   display: none;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle{
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle {
   display: inline-block;
   padding: 5px 10px;
   cursor: pointer;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span {
   position: relative;
   margin-right: 270px;
 }
@@ -137,7 +137,7 @@ header.sticky {
   opacity: 1;
 }
 
-.registration-container .registration-content .registration-form .details{
+.registration-container .registration-content .registration-form .details {
   background: var(--black-pearl-color);
   display: flex;
   flex-direction: column;
@@ -147,44 +147,44 @@ header.sticky {
   border-radius: 15px;
 }
 
-.registration-container .registration-content .registration-form .details .details-heading h4{
+.registration-container .registration-content .registration-form .details .details-heading h4 {
   color: var(--alizarin-crimson-color);
 }
 
 .registration-container .registration-content .registration-form .details .personal-details,
-.registration-container .registration-content .registration-form .details .credential-details{
+.registration-container .registration-content .registration-form .details .credential-details {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.registration-container .registration-content .registration-form .details .credential-details{
+.registration-container .registration-content .registration-form .details .credential-details {
   margin-bottom: 40px;
 }
 
 .registration-container .registration-content .registration-form .details .personal-details .personal-details-inputs,
-.registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs{
+.registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 40px;
 }
 
-.registration-container .registration-content .registration-form .details .input-container{
+.registration-container .registration-content .registration-form .details .input-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.registration-container .registration-content .registration-form .details .input-container label{
+.registration-container .registration-content .registration-form .details .input-container label {
   color: var(--foam-color);
 }
 
-.registration-container .registration-content .registration-form .details .input-container label .required-star{
+.registration-container .registration-content .registration-form .details .input-container label .required-star {
   color: var(--alizarin-crimson-color);
 }
 
-.registration-container .registration-content .registration-form .details .input-container input{
+.registration-container .registration-content .registration-form .details .input-container input {
   background: var(--black-pearl-color);
   color: var(--foam-color);
   border: none;
@@ -192,23 +192,23 @@ header.sticky {
   border-bottom: 2px solid var(--foam-color);
 }
 
-.registration-container .registration-content .registration-form .details .input-container input::placeholder{
+.registration-container .registration-content .registration-form .details .input-container input::placeholder {
   color: var(--foam-color);
   font-style: italic;
 }
 
-.registration-container .registration-content .registration-form .details .input-container .error{
+.registration-container .registration-content .registration-form .details .input-container .error {
   color: var(--alizarin-crimson-color);
   font-size: 10px;
 }
 
-.registration-container .registration-content .registration-form .details .submit-button{
+.registration-container .registration-content .registration-form .details .submit-button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.registration-container .registration-content .registration-form .details .submit-button button{
+.registration-container .registration-content .registration-form .details .submit-button button {
   background: var(--foam-color);
   border: none;
   outline: none;
@@ -219,66 +219,66 @@ header.sticky {
   transition: all 400ms ease-in-out;
 }
 
-.registration-container .registration-content .registration-form .details .submit-button button:hover{
+.registration-container .registration-content .registration-form .details .submit-button button:hover {
   background: var(--alizarin-crimson-color);
   cursor: pointer;
 }
 
-.registration-container .registration-content .registration-form .details .form-message{
+.registration-container .registration-content .registration-form .details .form-message {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.registration-container .registration-content .registration-form .details .form-message small{
+.registration-container .registration-content .registration-form .details .form-message small {
   font-size: 12px;
 }
 
-.registration-container .registration-content .registration-form .details .form-message small.success-message{
+.registration-container .registration-content .registration-form .details .form-message small.success-message {
   color: var(--aqua-color);
 }
 
-.registration-container .registration-content .registration-form .details .form-message small.error-message{
+.registration-container .registration-content .registration-form .details .form-message small.error-message {
   color: var(--alizarin-crimson-color);
 }
 
-.registration-container .registration-content .login-prompt{
+.registration-container .registration-content .login-prompt {
   margin-left: 10px;
   font-size: 14px;
 }
 
-.registration-container .registration-content .login-prompt p a{
+.registration-container .registration-content .login-prompt p a {
   color: var(--alizarin-crimson-color);
   text-decoration: none;
   font-weight: 700;
   transition: all 400ms ease-in-out;
 }
 
-.registration-container .registration-content .login-prompt p a:hover{
+.registration-container .registration-content .login-prompt p a:hover {
   color: var(--black-pearl-color);
 }
 
 
 /*Email Verification Page Styling*/
 
-.email-verification{
+.email-verification {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.email-verification p{
+.email-verification p {
   margin-bottom: 70px;
 }
 
-.email-verification p span{
+.email-verification p span {
   position: relative;
   top: 15px;
   font-size: 70px;
 }
 
-.email-verification a{
+.email-verification a {
   background: var(--aqua-color);
   color: var(--black-pearl-color);
   padding: 20px;
@@ -287,8 +287,117 @@ header.sticky {
   transition: all 400ms ease-in-out;
 }
 
-.email-verification a:hover{
+.email-verification a:hover {
   background: var(--cerulean-color);
+}
+
+
+/*Login Page Styling*/
+
+.login-container {
+  background: var(--cerulean-color);
+  border-bottom: 10px solid var(--pine-green-color);
+  padding-top: 10px;
+}
+
+.login-container .login-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-left: 50px;
+}
+
+.login-container .login-content .login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-container .login-content .login-form .login-intro h2 {
+  font-weight: 500;
+  font-size: 28px;
+  text-align: center;
+}
+
+.login-container .login-content .login-form form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container .login-content .login-form form .login-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.login-container .login-content .login-form form .login-inputs input {
+  background: var(--aqua-color);
+  padding: 10px 100px;
+  font-family: Poppins;
+  border: none;
+  outline: none;
+  text-align: center;
+  border-radius: 7px;
+}
+
+.login-container .login-content .login-form form .login-inputs input::placeholder {
+  color: var(--black-pearl-color);
+  font-family: Poppins;
+  font-size: 14px;
+}
+
+.login-container .login-content .login-form form .submit-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.login-container .login-content .login-form form .submit-btn button {
+  background: var(--black-pearl-color);
+  color: var(--aqua-color);
+  padding: 10px 257px;
+  font-family: Poppins;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+
+.login-container .login-content .login-form form .submit-btn button:hover {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+}
+
+.login-container .login-content .login-form form .form-message {
+  margin-bottom: 20px;
+}
+
+.login-container .login-content .login-form form .form-message small {
+  font-size: 12px;
+}
+
+.login-container .login-content .login-form form .form-message small.error-message {
+  color: var(--alizarin-crimson-color);
+}
+
+.login-container .login-content .login-form form .form-message small.success-message {
+  color: var(--pine-green-color);
+}
+
+.login-container .login-content .login-image {
+  position: relative;
+  bottom: 0;
+}
+
+.login-container .login-content .login-image img {
+  width: 500px;
+  height: 500px;
 }
 
 
