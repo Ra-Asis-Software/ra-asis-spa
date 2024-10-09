@@ -322,7 +322,6 @@ header.sticky {
 .login-container .login-content .login-form form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -390,9 +389,79 @@ header.sticky {
   color: var(--pine-green-color);
 }
 
+.login-container .login-content .login-form form .remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  gap: 350px;
+}
+
+.login-container .login-content .login-form form .remember-forgot .remember form label {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: relative;
+  left: 5px;
+  font-size: 12px;
+}
+
+.login-container .login-content .login-form form .remember-forgot .remember form label input {
+  display: none;
+}
+
+.login-container .login-content .login-form form .remember-forgot .remember form label span {
+  background: var(--black-pearl-color);
+  color: var(--aqua-color);
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+
+.login-container .login-content .login-form form .remember-forgot .remember form label [type=checkbox]:checked + span:before {
+  content: '\2714';
+  position: absolute;
+  font-size: 16px;
+  top: -3px;
+  left: 3px;
+}
+
+.login-container .login-content .login-form form .remember-forgot .forgot a {
+  color: var(--black-pearl-color);
+  font-size: 12px;
+  transition: all 400ms ease-in-out;
+}
+
+.login-container .login-content .login-form form .remember-forgot .forgot a:hover {
+  color: var(--alizarin-crimson-color);
+}
+
+.login-container .login-content .login-form .register-prompt {
+  position: relative;
+  left: 27px;
+}
+
+.login-container .login-content .login-form .register-prompt p {
+  font-size: 12px;
+}
+
+.login-container .login-content .login-form .register-prompt p a {
+  color: var(--alizarin-crimson-color);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 400ms ease-in-out;
+}
+
+.login-container .login-content .login-form .register-prompt p a:hover {
+  color: var(--black-pearl-color);
+}
+
 .login-container .login-content .login-image {
   position: relative;
   bottom: 0;
+  margin-top: 130px;
 }
 
 .login-container .login-content .login-image img {
