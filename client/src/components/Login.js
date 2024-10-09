@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   
   const navigate = useNavigate();
+
+  // Load saved credentials if "Remember Me" was checked
+  useEffect(() => {
+    const savedEmailOrUsername = localStorage.getItem('savedEmailOrUsername');
+    const savedPassword = localStorage.getItem('savedPassword');
+
+    if (savedEmailOrUsername && savedPassword) {
+      setEmailOrUsername(savedEmailOrUsername);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,6 +33,15 @@ const Login = () => {
         setSuccessMessage('Login successful!');
         // Save the token in local storage
         localStorage.setItem('authToken', response.data.token);
+
+        // Store credentials if "Remember Me" is checked
+        if (rememberMe) {
+          localStorage.setItem('savedEmailOrUsername', emailOrUsername);
+          localStorage.setItem('savedPassword', password);
+        } else {
+          localStorage.removeItem('savedEmailOrUsername');
+          localStorage.removeItem('savedPassword');
+        }
         
         // Redirect to the dashboard or home page
         navigate('/dashboard');
@@ -78,7 +100,11 @@ const Login = () => {
                 <div className="remember">
                   <form>
                     <label>
-                      <input type="checkbox"/>
+                      <input 
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      />
                       <span></span>
                       Remember Me
                     </label>
