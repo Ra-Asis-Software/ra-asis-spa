@@ -509,6 +509,40 @@ header.sticky {
   .registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs{
     gap: 20px;
   }
+
+
+  /*Login Page Responsive Styling*/
+
+  .login-container .login-content {
+    gap: 5px;
+    margin-left: 30px;
+  }
+
+  .login-container .login-content .login-form form .submit-btn button {
+    font-size: 12px;
+  }
+
+  .login-container .login-content .login-form form .form-message small {
+    font-size: 11px;
+  }
+
+  .login-container .login-content .login-form form .remember-forgot {
+    gap: 330px;
+  }
+
+  .login-container .login-content .login-form form .remember-forgot .remember form label {
+    gap: 5px;
+    left: 3px;
+  }
+
+  .login-container .login-content .login-form .register-prompt {
+    left: 10px;
+  }
+
+  .login-container .login-content .login-image img {
+    width: 400px;
+    height: 400px;
+  }
 }
 
 
@@ -524,6 +558,17 @@ header.sticky {
 
   .registration-container .registration-content .registration-form .details .submit-button button{
     padding: 5px 200px;
+  }
+
+
+  /*Login Page Responsive Styling*/
+
+  .login-container .login-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }
 
