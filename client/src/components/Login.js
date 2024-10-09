@@ -45,6 +45,7 @@ const Login = () => {
                   type="text"
                   value={emailOrUsername}
                   placeholder="Username/Email Address"
+                  size="30"
                   onChange={(e) => setEmailOrUsername(e.target.value)}
                 />
               </div>
@@ -53,6 +54,7 @@ const Login = () => {
                   type="password"
                   value={password}
                   placeholder="Password"
+                  size="30"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -61,8 +63,8 @@ const Login = () => {
               <button type="submit">SIGN IN</button>
             </div>
             <div className='form-message'>
-              {errorMessage && <small>{errorMessage}</small>}
-              {successMessage && <small>{successMessage}</small>}
+              {errorMessage && <small className="error-message">{errorMessage}</small>}
+              {successMessage && <small className="success-message">{successMessage}</small>}
             </div>
             <div className="remember-forgot">
               <div className="remember">
@@ -81,7 +83,7 @@ const Login = () => {
           </form>
         </div>
         <div className="login-image">
-          <img src="" alt="" />
+          <img src="/assets/login_image.webp" alt="an illustration of a young boy analysing statistics on his academic progress" />
         </div>
       </div>
     </div>
