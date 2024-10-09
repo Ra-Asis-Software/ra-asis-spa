@@ -294,6 +294,10 @@ header.sticky {
 
 /*Login Page Styling*/
 
+#login_header {
+  background: var(--cerulean-color);
+}
+
 .login-container {
   background: var(--cerulean-color);
   border-bottom: 10px solid var(--pine-green-color);
