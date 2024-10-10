@@ -11,7 +11,10 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      await axios.post('/api/auth/reset-password', { email });
+      await axios.post('/api/auth/reset-password', { 
+        email,
+        frontendUrl: window.location.origin
+     });
       setStatus('success');
     } catch (error) {
       setStatus('error');
