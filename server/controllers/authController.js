@@ -169,5 +169,31 @@ const requestPasswordReset = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Password reset link sent! Check your email.' });
 });
 
+// @desc    Reset password using token
+// @route   POST /api/auth/reset-password/:token
+// @access  Public
+const resetPassword = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
 
-module.exports = { registerUser, validateRegister, verifyEmail, loginUser, requestPasswordReset };
+  try {
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    // Update user's password and save
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Password reset successfully!' });
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid or expired token' });
+  }
+});
+
+
+module.exports = { registerUser, validateRegister, verifyEmail, loginUser, requestPasswordReset, resetPassword };
