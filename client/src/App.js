@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Register from './components/Register';
 import VerifyEmail from './components/VerifyEmail';
 import Login from './components/Login';
+import ResetPassword from './components/ResetPassword';
 import Dashboard from './components/Dashboard';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route path='/register' element={<Register />} />
           <Route path='/verify-email/:token' element={ <VerifyEmail /> } />
           <Route path='/login' element={ <Login /> } />
+          <Route path='/reset-password' element={ <ResetPassword /> } />
           <Route path='/dashboard' element={ <Dashboard /> } />
         </Routes>
       </div>
