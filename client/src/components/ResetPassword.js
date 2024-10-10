@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
@@ -26,10 +27,22 @@ const ResetPassword = () => {
   return (
     <div className="reset-password">
       {status === 'success' ? (
-        <div>
-          <i className="success-icon"></i>
-          <h2>Check Your Mail</h2>
-          <p>We have sent password recovery instructions to your email.</p>
+        <div className="request-success">
+            <div className="success-icon">
+                <i className="bx bx-mail-send"></i>
+            </div>
+            <div className="success-text">
+                <h2>Check Your Mail</h2>
+                <p>We have sent password recovery instructions to your email</p>
+            </div>
+            <div className="mail-app-btn">
+                <button>Open the mail app</button>
+            </div>
+            <div className="try-again-text">
+                <p>
+                Did not receive the email? Check your spam folder or <Link to="/reset-password">try another email address</Link>
+                </p>
+            </div>
         </div>
       ) : (
         <>
