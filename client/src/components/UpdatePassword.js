@@ -34,31 +34,38 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div>
-      <h2>Reset Password</h2>
-      <form onSubmit={handlePasswordUpdate}>
-        <div>
-          <label>New Password:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
+    <div className="update-password-container">
+        <div className="update-password-intro">
+            <h2>Create New Password</h2>
+            <p>Your new password must be different from previously used passwords</p>
         </div>
-        <div>
-          <label>Confirm New Password:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+        <div className="update-password-form">
+            <form onSubmit={handlePasswordUpdate} noValidate>
+                <div className="new-password-input">
+                    <label>New Password:</label>
+                    <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                </div>
+                <div className="confirm-password-input">
+                    <label>Confirm New Password:</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </div>
+                <div className="reset-password-btn">
+                    <button type="submit">Reset Password</button>
+                </div>
+                <div className="form-message">
+                    {message && <small className="success-message">{message}</small>}
+                    {error && <small className="error-message">{error}</small>}
+                </div>
+            </form>
         </div>
-        <button type="submit">Reset Password</button>
-      </form>
-      {message && <small className="success-message">{message}</small>}
-      {error && <small className="error-message">{error}</small>}
     </div>
   );
 };
