@@ -53,7 +53,7 @@ const ResetPassword = () => {
                 </div>
             </div>
         ) : (
-            <>
+            <div className="request-container">
                 <div className="reset-password-intro">
                     <p>
                         Enter the email address associated with your account, and we will send you a link to reset your password
@@ -82,7 +82,7 @@ const ResetPassword = () => {
                 <div className="reset-password-img">
                     <img src="/assets/password_reset.webp" alt="" />
                 </div>
-            </>
+            </div>
         )}
         </div>
     </>
