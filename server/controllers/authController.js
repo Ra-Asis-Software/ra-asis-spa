@@ -132,4 +132,42 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = { registerUser, validateRegister, verifyEmail, loginUser };
+
+// @desc    Request a password reset link
+// @route   POST /api/auth/reset-password
+// @access  Public
+const requestPasswordReset = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  // Find user by email
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: 'No user found with this email address' });
+  }
+
+  // Generate a reset token valid for 15 minutes
+  const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '15m',
+  });
+
+  // Reset link with the token
+  const resetUrl = `${req.body.frontendUrl}/reset-password/${resetToken}`;
+  const message = `
+    <p>Hello ${user.firstName},</p>
+    <p>You requested a password reset. Click the link below to reset your password:</p>
+    <a href="${resetUrl}">Reset Password</a>
+    <p>This link is valid for 15 minutes.</p>
+  `;
+
+  // Send the email
+  await sendMail({
+    email: user.email,
+    subject: 'Ra\'Asis SPA - Password Reset',
+    message,
+  });
+
+  res.status(200).json({ message: 'Password reset link sent! Check your email.' });
+});
+
+
+module.exports = { registerUser, validateRegister, verifyEmail, loginUser, requestPasswordReset };
