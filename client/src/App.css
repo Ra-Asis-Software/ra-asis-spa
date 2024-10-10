@@ -570,6 +570,38 @@ header.sticky {
     margin-left: 20px;
     margin-right: 20px;
   }
+  
+  .login-container .login-content .login-form .login-intro h2 {
+    font-size: 26px;
+  }
+  
+  .login-container .login-content .login-form form .login-inputs input {
+    padding: 10px 200px;
+  }
+  
+  .login-container .login-content .login-form form .submit-btn button {
+    padding: 10px 357px;
+  }
+  
+  .login-container .login-content .login-form form .remember-forgot {
+    gap: 530px;
+  }
+  
+  .login-container .login-content .login-form .register-prompt {
+    left: 7px;
+  }
+
+  .login-container .login-content .login-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+  }
+  
+  .login-container .login-content .login-image img {
+    width: 500px;
+    height: 500px;
+  }
 }
 
 
@@ -585,6 +617,32 @@ header.sticky {
 
   .registration-container .registration-content .registration-form .details{
     padding: 20px;
+  }
+
+  /*Login Page Responsive Styling*/
+  
+  .login-container .login-content .login-form .login-intro h2 {
+    font-size: 24px;
+  }
+  
+  .login-container .login-content .login-form form .login-inputs input {
+    padding: 10px 70px;
+  }
+  
+  .login-container .login-content .login-form form .submit-btn button {
+    padding: 10px 227px;
+  }
+  
+  .login-container .login-content .login-form form .remember-forgot {
+    gap: 300px;
+  }
+  
+  .login-container .login-content .login-form .register-prompt {
+    left: 50px;
+  }
+
+  .login-container .login-content .login-image {
+    margin-top: -30px;
   }
 }
 
@@ -618,6 +676,63 @@ header.sticky {
   .registration-container .registration-content .registration-form .details .submit-button button{
     padding: 5px 100px;
   }
+
+  /*Login Page Responsive Styling*/
+  
+  .login-container .login-content .login-form form .login-inputs input {
+    padding: 10px 20px;
+  }
+  
+  .login-container .login-content .login-form form .submit-btn button {
+    padding: 10px 177px;
+  }
+  
+  .login-container .login-content .login-form form .remember-forgot {
+    gap: 170px;
+  }
+  
+  .login-container .login-content .login-form .register-prompt {
+    left: 30px;
+  }
+  
+  .login-container .login-content .login-image img {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+
+/*Devices Max. Screen Width 462px*/
+
+@media (max-width: 462px) {
+
+  /*Login Page Responsive Styling*/
+    
+  .login-container .login-content .login-form form .login-inputs input {
+    padding: 10px;
+  }
+
+  .login-container .login-content .login-form form .submit-btn button {
+    padding: 10px 100px;
+  }
+
+  .login-container .login-content .login-form form .remember-forgot {
+    gap: 100px;
+  }
+
+  .login-container .login-content .login-form form .remember-forgot .remember form label {
+    font-size: 11px;
+  }
+
+  .login-container .login-content .login-form form .remember-forgot .forgot a {
+    font-size: 11px;
+  }
+
+  .login-container .login-content .login-image img {
+    width: 300px;
+    height: 300px;
+  }
+
 }
 
 
