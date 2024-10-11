@@ -565,6 +565,79 @@ header.sticky {
   height: 500px;
 }
 
+  /*Request Success Styling*/
+
+  .request-success {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .success-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: fit-content;
+  }
+
+  .success-icon img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .success-text h2,
+  .success-text p {
+    text-align: center;
+  }
+
+  .success-text h2 {
+    color: var(--bright-sun-color);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .success-text p {
+    font-size: 12px;
+  }
+
+  .mail-app-btn button {
+    background: var(--black-pearl-color);
+    color: var(--bright-sun-color);
+    font-family: Poppins;
+    padding: 10px  40px;
+    border: none;
+    outline: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 400ms ease-in-out;
+  }
+
+  .mail-app-btn button:hover {
+    background: var(--bright-sun-color);
+    color: var(--black-pearl-color);
+  }
+
+  .try-again-text {
+    position: relative;
+    bottom: 20px;
+    margin-top: 200px;
+  }
+
+  .try-again-text p {
+    font-size: 12px;
+  }
+
+  .try-again-text p a {
+    color: var(--alizarin-crimson-color);
+    transition: all 400ms ease-in-out;
+  }
+
+  .try-again-text p a:hover {
+    color: var(--bright-sun-color);
+  }
+
 
 /*RESPONSIVE BREAKPOINTS*/
 
