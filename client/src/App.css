@@ -779,6 +779,27 @@ header.sticky {
     width: 300px;
     height: 300px;
   }
+
+  /*Password Reset Page(s) Responsive Styling*/
+
+  .request-container {
+    max-width: 330px;
+    padding-top: 60px;
+  }
+
+  .request-reset-form form .email-input input {
+    padding: 10px 50px;
+  }
+
+  .request-reset-form form .get-link-btn button {
+    padding: 10px 140px;
+    font-size: 12px;
+  }
+
+  .reset-password-img img {
+    width: 340px;
+    height: 340px;
+  }
 }
 
 
