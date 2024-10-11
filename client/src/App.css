@@ -982,6 +982,23 @@ header.sticky {
     width: 340px;
     height: 340px;
   }
+
+
+  /*Update Password Page Styling*/
+
+
+  .update-password-intro h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .update-password-form form input {
+    padding: 10px 30px;
+  }
+
+  .reset-password-btn button {
+    padding: 10px 100px;
+  }
 }
 
 
@@ -1026,5 +1043,9 @@ header.sticky {
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .update-password-intro {
+    margin-left: 20px;
   }
 }
