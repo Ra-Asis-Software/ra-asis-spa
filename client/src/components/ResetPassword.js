@@ -37,7 +37,7 @@ const ResetPassword = () => {
         {status === 'success' ? (
             <div className="request-success">
                 <div className="success-icon">
-                    <i className="bx bx-mail-send"></i>
+                    <img src="/assets/email_icon.webp" alt="Envelope icon with an @ symbol to show sending mail was successfull" />
                 </div>
                 <div className="success-text">
                     <h2>Check Your Mail</h2>
@@ -80,7 +80,7 @@ const ResetPassword = () => {
                     </form>
                 </div>
                 <div className="reset-password-img">
-                    <img src="/assets/password_reset.webp" alt="" />
+                    <img src="/assets/password_reset.webp" alt="a boy holding a broken key which is stuck on the padlock in the background. An analogy of a lost password." />
                 </div>
             </div>
         )}
