@@ -542,6 +542,18 @@ header.sticky {
   color: var(--black-pearl-color);
 }
 
+.request-reset-form form .form-message small {
+  font-size: 12px;
+}
+
+.request-reset-form form .form-message small.success-message {
+  color: var(--pine-green-color);
+}
+
+.request-reset-form form .form-message small.error-message {
+  color: var(--alizarin-crimson-color);
+}
+
 .reset-password-img {
   display: flex;
   justify-content: center;
