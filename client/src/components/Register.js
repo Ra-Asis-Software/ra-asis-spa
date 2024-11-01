@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    username: '',
-    password: '',
-    role: 'student', // default role
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    username: "",
+    password: "",
+    role: "student", // default role
     frontendUrl: window.location.origin,
   });
 
   const [errors, setErrors] = useState({});  // State for tracking validation errors
-  const [successMessage, setSuccessMessage] = useState(''); // State for success message
-  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const [successMessage, setSuccessMessage] = useState(""); // State for success message
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const { firstName, lastName, phoneNumber, email, username, password, role } = formData;
 
   // Handle input change
@@ -32,35 +32,35 @@ const Register = () => {
     const newErrors = {};
 
     // First Name Validation (ensure only letters and at least 2 characters)
-    if (!firstName) newErrors.firstName = 'You did not enter your first name!';
-    else if (!/^[A-Za-z]+$/.test(firstName)) newErrors.firstName = 'Your first name should contain only letters!';
-    else if (firstName.length < 2) newErrors.firstName = 'Your first name should be at least 2 characters long!';
+    if (!firstName) newErrors.firstName = "You did not enter your first name!";
+    else if (!/^[A-Za-z]+$/.test(firstName)) newErrors.firstName = "Your first name should contain only letters!";
+    else if (firstName.length < 2) newErrors.firstName = "Your first name should be at least 2 characters long!";
 
     // Last Name Validation (ensure only letters and at least 2 characters)
-    if (!lastName) newErrors.lastName = 'Please enter your last name!';
-    else if (!/^[A-Za-z]+$/.test(lastName)) newErrors.lastName = 'Your last name should contain only letters!';
-    else if (lastName.length < 2) newErrors.lastName = 'Your last name should be at least 2 characters long!';
+    if (!lastName) newErrors.lastName = "Please enter your last name!";
+    else if (!/^[A-Za-z]+$/.test(lastName)) newErrors.lastName = "Your last name should contain only letters!";
+    else if (lastName.length < 2) newErrors.lastName = "Your last name should be at least 2 characters long!";
 
     // Phone Number Validation (digits only, length 10)
-    if (!phoneNumber) newErrors.phoneNumber = 'Please enter your phone number!';
-    else if (!/^\d{10}$/.test(phoneNumber)) newErrors.phoneNumber = 'The phone number you provided is invalid!';
+    if (!phoneNumber) newErrors.phoneNumber = "Please enter your phone number!";
+    else if (!/^\d{10}$/.test(phoneNumber)) newErrors.phoneNumber = "The phone number you provided is invalid!";
 
     // Email Validation (basic email format check)
-    if (!email) newErrors.email = 'Please enter your email address!';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Please enter a valid email address!';
+    if (!email) newErrors.email = "Please enter your email address!";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = "Please enter a valid email address!";
 
     // Username Validation (lowercase letters, at least 3 characters)
-    if (!username) newErrors.username = 'Please enter your preferred username!';
-    else if (!/^[a-z]+$/.test(username)) newErrors.username = 'Username should contain only lowercase letters, no special characters!';
-    else if (username.length < 3) newErrors.username = 'Username should be at least 3 characters long!';
+    if (!username) newErrors.username = "Please enter your preferred username!";
+    else if (!/^[a-z]+$/.test(username)) newErrors.username = "Username should contain only lowercase letters, no special characters!";
+    else if (username.length < 3) newErrors.username = "Username should be at least 3 characters long!";
 
     // Password Validation (at least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character)
-    if (!password) newErrors.password = 'Please enter your preferred password!';
-    else if (password.length < 8) newErrors.password = 'Password should be at least 8 characters long!';
-    else if (!/[A-Z]/.test(password)) newErrors.password = 'Password should contain at least one uppercase letter!';
-    else if (!/[a-z]/.test(password)) newErrors.password = 'Password should contain at least one lowercase letter!';
-    else if (!/[0-9]/.test(password)) newErrors.password = 'Password should contain at least one number!';
-    else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) newErrors.password = 'Password should contain at least one special character!';
+    if (!password) newErrors.password = "Please enter your preferred password!";
+    else if (password.length < 8) newErrors.password = "Password should be at least 8 characters long!";
+    else if (!/[A-Z]/.test(password)) newErrors.password = "Password should contain at least one uppercase letter!";
+    else if (!/[a-z]/.test(password)) newErrors.password = "Password should contain at least one lowercase letter!";
+    else if (!/[0-9]/.test(password)) newErrors.password = "Password should contain at least one number!";
+    else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) newErrors.password = "Password should contain at least one special character!";
 
     return newErrors;
   };
@@ -72,38 +72,38 @@ const Register = () => {
     const newErrors = validateFields();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);  // Set validation errors if any
-      setErrorMessage(''); // Clear error message on validation error
+      setErrorMessage(""); // Clear error message on validation error
       return;
     }
 
     try {
-        await axios.post('/api/auth/register', formData);
+        await axios.post("/api/auth/register", formData);
         
         // If registration is successful
-        setSuccessMessage('Your registration was successful. Check your email inbox to verify your email.');
-        setErrorMessage(''); // Clear any previous error message
-        setErrors(''); // Clear all field error messages
+        setSuccessMessage("Your registration was successful. Check your email inbox to verify your email.");
+        setErrorMessage(""); // Clear any previous error message
+        setErrors(""); // Clear all field error messages
         // Reset form fields
         setFormData({
-          firstName: '',
-          lastName: '',
-          phoneNumber: '',
-          email: '',
-          username: '',
-          password: '',
-          role: 'student',
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          email: "",
+          username: "",
+          password: "",
+          role: "student",
         });
       }
     catch (err) {
-        setErrorMessage('Something went wrong. Please try again!');
-        setSuccessMessage(''); // Clear any previous success message
+        setErrorMessage("Something went wrong. Please try again!");
+        setSuccessMessage(""); // Clear any previous success message
     }
   };
 
   useEffect(() => {
     if (successMessage) {
       const timer = setTimeout(() => {
-        setSuccessMessage(''); // Clear success message after 10 seconds
+        setSuccessMessage(""); // Clear success message after 10 seconds
       }, 10000);
   
       return () => clearTimeout(timer); // Cleanup the timer on component unmount or successMessage change
@@ -113,67 +113,67 @@ const Register = () => {
   return (
     <>
         <header id="register_header">
-            <div className='app-logo'>
+            <div className="app-logo">
                 <Link to="/">
                     <img src="/assets/spa_logo.svg" alt="SPA logo" />
                 </Link>
             </div>
         </header>
-        <div className='registration-container'>
-            <div className='registration-content'>
-                <div className='registration-intro'>
+        <div className="registration-container">
+            <div className="registration-content">
+                <div className="registration-intro">
                     <h2>Register</h2>
                 </div>
-                <div className='registration-form'>
+                <div className="registration-form">
                     <form onSubmit={onSubmit} noValidate>
-                        <div className='user-category'>
-                            <div className='user-category-heading'>
+                        <div className="user-category">
+                            <div className="user-category-heading">
                                 <p>Please select a user category</p>
                             </div>
-                            <div className='user-category-choices'>
-                                <label className='radio-restyle'>
+                            <div className="user-category-choices">
+                                <label className="radio-restyle">
                                     <input
                                     type="radio"
-                                    className='radio-restyle'
+                                    className="radio-restyle"
                                     name="role"
                                     value="student"
-                                    checked={role === 'student'}
+                                    checked={role === "student"}
                                     onChange={onChange}
                                     />
                                     <span>Student</span>
                                 </label>
-                                <label className='radio-restyle'>
+                                <label className="radio-restyle">
                                     <input
                                     type="radio"
-                                    className='radio-restyle'
+                                    className="radio-restyle"
                                     name="role"
                                     value="teacher"
-                                    checked={role === 'teacher'}
+                                    checked={role === "teacher"}
                                     onChange={onChange}
                                     />
                                     <span>Teacher</span>
                                 </label>
-                                <label className='radio-restyle'>
+                                <label className="radio-restyle">
                                     <input
                                     type="radio"
-                                    className='radio-restyle'
+                                    className="radio-restyle"
                                     name="role"
                                     value="parent"
-                                    checked={role === 'parent'}
+                                    checked={role === "parent"}
                                     onChange={onChange}
                                     />
                                     <span>Parent</span>
                                 </label>
                             </div>
                         </div>
-                        <div className='details'>
-                            <div className='personal-details'>
-                                <div className='details-heading personal-details-heading'>
+                        <div className="details">
+                            <div className="personal-details">
+                                <div className="details-heading personal-details-heading">
                                     <h4>Personal Details</h4>
                                 </div>
-                                <div className='personal-details-inputs'>
-                                    <div className='input-container'>
-                                        <label>First Name<span className='required-star'>*</span></label>
+                                <div className="personal-details-inputs">
+                                    <div className="input-container">
+                                        <label>First Name<span className="required-star">*</span></label>
                                         <input
                                         type="text"
                                         name="firstName"
@@ -184,8 +184,8 @@ const Register = () => {
                                         />
                                         {errors.firstName && <small className="error">{errors.firstName}</small>}
                                     </div>
-                                    <div className='input-container'>
-                                        <label>Last Name<span className='required-star'>*</span></label>
+                                    <div className="input-container">
+                                        <label>Last Name<span className="required-star">*</span></label>
                                         <input
                                         type="text"
                                         name="lastName"
@@ -196,8 +196,8 @@ const Register = () => {
                                         />
                                         {errors.lastName && <small className="error">{errors.lastName}</small>}  
                                     </div>
-                                    <div className='input-container'>
-                                        <label>Phone Number<span className='required-star'>*</span></label>
+                                    <div className="input-container">
+                                        <label>Phone Number<span className="required-star">*</span></label>
                                         <input
                                         type="text"
                                         name="phoneNumber"
@@ -210,13 +210,13 @@ const Register = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='credential-details'>
-                                <div className='details-heading credential-details-heading'>
+                            <div className="credential-details">
+                                <div className="details-heading credential-details-heading">
                                     <h4>Credential Details</h4>
                                 </div>
-                                <div className='credential-details-inputs'>
-                                    <div className='input-container'>
-                                        <label>Email Address<span className='required-star'>*</span></label>
+                                <div className="credential-details-inputs">
+                                    <div className="input-container">
+                                        <label>Email Address<span className="required-star">*</span></label>
                                         <input
                                         type="email"
                                         name="email"
@@ -227,8 +227,8 @@ const Register = () => {
                                         />
                                         {errors.email && <small className="error">{errors.email}</small>}
                                     </div>
-                                    <div className='input-container'>
-                                        <label>Username<span className='required-star'>*</span></label>
+                                    <div className="input-container">
+                                        <label>Username<span className="required-star">*</span></label>
                                         <input
                                         type="text"
                                         name="username"
@@ -239,8 +239,8 @@ const Register = () => {
                                         />
                                         {errors.username && <small className="error">{errors.username}</small>}
                                     </div>
-                                    <div className='input-container'>
-                                        <label>Password<span className='required-star'>*</span></label>
+                                    <div className="input-container">
+                                        <label>Password<span className="required-star">*</span></label>
                                         <input
                                         type="password"
                                         name="password"
@@ -253,18 +253,18 @@ const Register = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='submit-button'>
+                            <div className="submit-button">
                                 <button type="submit">Submit</button>
                             </div>
-                            <div className='form-message'>
+                            <div className="form-message">
                                 {successMessage && <small className="success-message">{successMessage}</small>}
                                 {errorMessage && <small className="error-message">{errorMessage}</small>}
                             </div>
                         </div>
                     </form>
                 </div>
-                <div className='login-prompt'>
-                    <p>Already have an account ? <Link to='/login'>Login</Link></p>
+                <div className="login-prompt">
+                    <p>Already have an account ? <Link to="/login">Login</Link></p>
                 </div>
             </div>
         </div>

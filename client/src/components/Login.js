@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   
   const navigate = useNavigate();
 
   // Load saved credentials if "Remember Me" was checked
   useEffect(() => {
-    const savedEmailOrUsername = localStorage.getItem('savedEmailOrUsername');
-    const savedPassword = localStorage.getItem('savedPassword');
+    const savedEmailOrUsername = localStorage.getItem("savedEmailOrUsername");
+    const savedPassword = localStorage.getItem("savedPassword");
 
     if (savedEmailOrUsername && savedPassword) {
       setEmailOrUsername(savedEmailOrUsername);
@@ -27,36 +27,36 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/login', { emailOrUsername, password });
+      const response = await axios.post("/api/auth/login", { emailOrUsername, password });
       
       if (response.data) {
-        setSuccessMessage('Login successful!');
+        setSuccessMessage("Login successful!");
         // Save the token in local storage
-        localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem("authToken", response.data.token);
 
         // Store credentials if "Remember Me" is checked
         if (rememberMe) {
-          localStorage.setItem('savedEmailOrUsername', emailOrUsername);
-          localStorage.setItem('savedPassword', password);
+          localStorage.setItem("savedEmailOrUsername", emailOrUsername);
+          localStorage.setItem("savedPassword", password);
         } else {
-          localStorage.removeItem('savedEmailOrUsername');
-          localStorage.removeItem('savedPassword');
+          localStorage.removeItem("savedEmailOrUsername");
+          localStorage.removeItem("savedPassword");
         }
         
         // Redirect to the dashboard or home page
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (error) {
       setErrorMessage(error.response && error.response.data.message
         ? error.response.data.message
-        : 'Invalid email/username or password!');
+        : "Invalid email/username or password!");
     }
   };
 
   return (
     <>
       <header id="login_header">
-        <div className='app-logo'>
+        <div className="app-logo">
             <Link to="/">
                 <img src="/assets/spa_logo.svg" alt="SPA logo" />
             </Link>
@@ -92,7 +92,7 @@ const Login = () => {
               <div className="submit-btn">
                 <button type="submit">SIGN IN</button>
               </div>
-              <div className='form-message'>
+              <div className="form-message">
                 {errorMessage && <small className="error-message">{errorMessage}</small>}
                 {successMessage && <small className="success-message">{successMessage}</small>}
               </div>
@@ -116,7 +116,7 @@ const Login = () => {
               </div>
             </form>
             <div className="register-prompt">
-                <p>Don't Have An Account? <Link to="/register">Sign Up</Link></p>
+                <p>Don"t Have An Account? <Link to="/register">Sign Up</Link></p>
             </div>
           </div>
           <div className="login-image">

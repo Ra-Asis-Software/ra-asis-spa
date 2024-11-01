@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const UpdatePassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     try {
       const response = await axios.post(`/api/auth/reset-password/${token}`, { newPassword });
       setMessage(response.data.message);
-      setError('');
+      setError("");
 
       // Redirect after successful reset
       setTimeout(() => {
-        navigate('/login');
+        navigate("/login");
       }, 3000); // Redirect after 3 seconds
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong! Please try again.');
-      setMessage('');
+      setError(err.response?.data?.message || "Something went wrong! Please try again.");
+      setMessage("");
     }
   };
 
   return (
     <>
         <header id="reset_password_header">
-            <div className='app-logo'>
+            <div className="app-logo">
                 <Link to="/">
                     <img src="/assets/spa_logo.svg" alt="SPA logo" />
                 </Link>

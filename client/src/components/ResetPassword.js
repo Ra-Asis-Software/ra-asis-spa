@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ResetPassword = () => {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('');
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -12,13 +12,13 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      await axios.post('/api/auth/reset-password', { 
+      await axios.post("/api/auth/reset-password", { 
         email,
         frontendUrl: window.location.origin
      });
-      setStatus('success');
+      setStatus("success");
     } catch (error) {
-      setStatus('error');
+      setStatus("error");
     } finally {
       setLoading(false);
     }
@@ -27,14 +27,14 @@ const ResetPassword = () => {
   return (
     <>
         <header id="reset_password_header">
-            <div className='app-logo'>
+            <div className="app-logo">
                 <Link to="/">
                     <img src="/assets/spa_logo.svg" alt="SPA logo" />
                 </Link>
             </div>
         </header>
         <div className="reset-password">
-        {status === 'success' ? (
+        {status === "success" ? (
             <div className="request-success">
                 <div className="success-icon">
                     <img src="/assets/email_icon.webp" alt="Envelope icon with an @ symbol to show sending mail was successfull" />
@@ -71,11 +71,11 @@ const ResetPassword = () => {
                         </div>
                         <div className="get-link-btn">
                             <button type="submit" disabled={loading}>
-                                {loading ? 'Preparing Link...' : 'Get Link'}
+                                {loading ? "Preparing Link..." : "Get Link"}
                             </button>
                         </div>
                         <div className="form-message">
-                            {status === 'error' && <small className="error-message">Something went wrong when sending reset link. Please try again.</small>}
+                            {status === "error" && <small className="error-message">Something went wrong when sending reset link. Please try again.</small>}
                         </div>
                     </form>
                 </div>

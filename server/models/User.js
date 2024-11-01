@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['administrator', 'teacher', 'student', 'parent'],
+    enum: ["administrator", "teacher", "student", "parent"],
     required: true,
   },
 
@@ -45,8 +45,8 @@ const userSchema = new mongoose.Schema({
 
 
 // Password encryption before saving the user
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
       next();
     }
   
@@ -62,6 +62,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 
 // Create the user model
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

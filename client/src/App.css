@@ -1,7 +1,7 @@
 /*Imports*/
 
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Lato");
 
 /*ROOT Variables*/
 :root {
@@ -110,7 +110,7 @@ header.sticky {
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before,
 .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::after{
-  content: '';
+  content: "";
 }
 
 .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before {
@@ -425,7 +425,7 @@ header.sticky {
 }
 
 .login-container .login-content .login-form form .remember-forgot .remember form label [type=checkbox]:checked + span:before {
-  content: '\2714';
+  content: "\2714";
   position: absolute;
   font-size: 16px;
   top: -3px;
