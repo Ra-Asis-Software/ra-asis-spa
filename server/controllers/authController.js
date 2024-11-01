@@ -54,7 +54,7 @@ const registerUser = asyncHandler(async (req, res) => {
       // Prepare email message
       const message = `
           <p>Hello ${user.firstName},</p>
-          <h1>Welcome to Ra"Asis SPA. Just One More Step... Verify Your Email</h1>
+          <h1>Welcome to Ra'Asis SPA. Just One More Step... Verify Your Email</h1>
           <p>Please verify your email by clicking the link below:</p>
           <a href="${verifyUrl}">Verify Email</a>
       `;
@@ -162,7 +162,7 @@ const requestPasswordReset = asyncHandler(async (req, res) => {
   // Send the email
   await sendMail({
     email: user.email,
-    subject: "Ra\"Asis SPA - Password Reset",
+    subject: "Ra\'Asis SPA - Password Reset",
     message,
   });
 
