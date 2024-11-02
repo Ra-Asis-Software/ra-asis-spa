@@ -1,3 +1,10 @@
+# Ra'Asis Student Progress Analytics Web Application
+
+## Project Overview
+
+### Product Goal:
+The goal of this project is to develop a comprehensive Student Progress Analytics web application that enhances the learning experience by providing real-time insights, personalized feedback, and efficient management of student activities. The platform ensures that all stakeholders (students, teachers, parents/guardians, and administrators) are well-informed and actively engaged.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
