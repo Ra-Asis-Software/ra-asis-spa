@@ -197,6 +197,14 @@ header.sticky {
   font-style: italic;
 }
 
+.registration-container .registration-content .registration-form .details .input-container .password-input-container i {
+  color: var(--alizarin-crimson-color);
+  cursor: pointer;
+  font-size: inherit;
+  position: relative;
+  right: 14px;
+}
+
 .registration-container .registration-content .registration-form .details .input-container .error {
   color: var(--alizarin-crimson-color);
   font-size: 10px;
@@ -935,6 +943,10 @@ header.sticky {
     gap: 10px;
   }
 
+  .registration-container .registration-content .registration-form .details .input-container .password-input-container i {
+    right: 0;
+  }
+
   .registration-container .registration-content .registration-form .details .submit-button button{
     padding: 5px 100px;
   }
@@ -1043,6 +1055,11 @@ header.sticky {
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .registration-container .registration-content .registration-form .details .input-container .password-input-container i {
+    position: relative;
+    right: 14px;
   }
 
   .update-password-intro {

@@ -14,10 +14,13 @@ const Register = () => {
     frontendUrl: window.location.origin,
   });
 
+  const [showPassword, setShowPassword] = useState(false); // State for password visibiliy status
   const [errors, setErrors] = useState({});  // State for tracking validation errors
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const { firstName, lastName, phoneNumber, email, username, password, role } = formData;
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   // Handle input change
   const onChange = (e) => {
@@ -241,14 +244,19 @@ const Register = () => {
                                     </div>
                                     <div className="input-container">
                                         <label>Password<span className="required-star">*</span></label>
-                                        <input
-                                        type="password"
-                                        name="password"
-                                        value={password}
-                                        size="30"
-                                        placeholder="enter your preferred password"
-                                        onChange={onChange}
-                                        />
+                                        <div className="password-input-container">
+                                            <input
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                value={formData.password}
+                                                size="30"
+                                                placeholder="enter your preferred password"
+                                                onChange={onChange}
+                                            />
+                                            <i onClick={togglePasswordVisibility} className="material-symbols-sharp">
+                                                {showPassword ? "visibility_off" : "visibility"}
+                                            </i>
+                                        </div>
                                         {errors.password && <small className="error">{errors.password}</small>}
                                     </div>
                                 </div>
