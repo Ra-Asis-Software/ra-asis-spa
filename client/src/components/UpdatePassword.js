@@ -7,8 +7,11 @@ const UpdatePassword = () => {
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  const toggleNewPasswordVisibility = () => setShowNewPassword(!showNewPassword);
 
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
@@ -52,11 +55,16 @@ const UpdatePassword = () => {
                     <form onSubmit={handlePasswordUpdate} noValidate>
                         <div className="new-password-input">
                             <label>New Password</label>
-                            <input
-                                type="password"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                            />
+                            <div className="input-icon">
+                                <input
+                                    type={showNewPassword ? "text" : "password"}
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                />
+                                <i onClick={toggleNewPasswordVisibility} className="material-symbols-sharp">
+                                    {showNewPassword ? "visibility_off" : "visibility"}
+                                </i>
+                            </div>
                         </div>
                         <div className="confirm-password-input">
                             <label>Confirm New Password</label>

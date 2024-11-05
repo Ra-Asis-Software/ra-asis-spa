@@ -5,11 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State for password visibiliy status
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   
   const navigate = useNavigate();
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   // Load saved credentials if "Remember Me" was checked
   useEffect(() => {
@@ -81,12 +83,15 @@ const Login = () => {
                 </div>
                 <div className="password-input">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     placeholder="Password"
                     size="30"
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  <i onClick={togglePasswordVisibility} className="material-symbols-sharp">
+                    {showPassword ? "visibility_off" : "visibility"}
+                  </i>
                 </div>
               </div>
               <div className="submit-btn">

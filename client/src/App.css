@@ -359,6 +359,19 @@ header.sticky {
   font-size: 14px;
 }
 
+.login-container .login-content .login-form form .login-inputs .password-input {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.login-container .login-content .login-form form .login-inputs .password-input i {
+  font-size: inherit;
+  cursor: pointer;
+  position: relative;
+  top: 10px;
+  right: 24px;
+}
+
 .login-container .login-content .login-form form .submit-btn {
   display: flex;
   justify-content: center;
@@ -684,6 +697,20 @@ header.sticky {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.update-password-form form .new-password-input .input-icon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.update-password-form form .new-password-input .input-icon i {
+  font-size: inherit;
+  position: relative;
+  top: 12px;
+  right: 24px;
+  cursor: pointer;
 }
 
 .update-password-form form label {
