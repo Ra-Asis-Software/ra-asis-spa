@@ -205,6 +205,10 @@ header.sticky {
   right: 14px;
 }
 
+.registration-container .registration-content .registration-form .details .input-container .password-input-container input:focus + i {
+  animation: pulse 500ms ease-in-out 3;
+}
+
 .registration-container .registration-content .registration-form .details .input-container .error {
   color: var(--alizarin-crimson-color);
   font-size: 10px;
@@ -370,6 +374,10 @@ header.sticky {
   position: relative;
   top: 10px;
   right: 24px;
+}
+
+.login-container .login-content .login-form form .login-inputs .password-input input:focus + i {
+  animation: pulse 500ms ease-in-out 3;
 }
 
 .login-container .login-content .login-form form .submit-btn {
@@ -711,6 +719,10 @@ header.sticky {
   top: 12px;
   right: 24px;
   cursor: pointer;
+}
+
+.update-password-form form .new-password-input .input-icon input:focus + i {
+  animation: pulse 500ms ease-in-out 3;
 }
 
 .update-password-form form label {
@@ -1091,5 +1103,17 @@ header.sticky {
 
   .update-password-intro {
     margin-left: 20px;
+  }
+}
+
+
+/*Animations*/
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
   }
 }
