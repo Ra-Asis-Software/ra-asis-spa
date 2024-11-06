@@ -24,6 +24,25 @@ const ResetPassword = () => {
     }
   };
 
+  const handleOpenMailApp = () => {
+    const emailDomain = email.split("@")[1];
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Mapping of email domains to app inboxes. Not sure if this works correctly. Tutaconfirm in prod.
+    const mailAppLinks = {
+      "gmail.com": isMobile ? "googlegmail://inbox" : "mailto:",
+      "yahoo.com": isMobile ? "ymail://inbox" : "mailto:",
+      "outlook.com": isMobile ? "ms-outlook://inbox" : "mailto:",
+      "icloud.com": isMobile ? "message://" : "mailto:",
+    };
+
+    // Determine the app URL or fallback to mailto
+    const emailURL = mailAppLinks[emailDomain] || "mailto:";
+
+    // Attempt to open the app
+    window.location.href = emailURL + email;
+  };
+
   return (
     <>
         <header id="reset_password_header">
@@ -44,7 +63,7 @@ const ResetPassword = () => {
                     <p>We have sent password recovery instructions to your email</p>
                 </div>
                 <div className="mail-app-btn">
-                    <button>Open the mail app</button>
+                    <button onClick={handleOpenMailApp}>Open the mail app</button>
                 </div>
                 <div className="try-again-text">
                     <p>
