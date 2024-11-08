@@ -156,7 +156,7 @@ const requestPasswordReset = asyncHandler(async (req, res) => {
     <p>Hello ${user.firstName},</p>
     <p>You requested a password reset. Click the link below to reset your password:</p>
     <a href="${resetUrl}">Reset Password</a>
-    <p>This link is valid for 15 minutes.</p>
+    <p>This link is valid for 15 minutes. If you did not request this change, ignore this email.</p>
   `;
 
   // Send the email
@@ -185,7 +185,7 @@ const resetPassword = asyncHandler(async (req, res) => {
       return res.status(400).json({ message: "Invalid or expired token" });
     }
 
-    // Update user"s password and save
+    // Update user's password and save
     user.password = newPassword;
     await user.save();
 
