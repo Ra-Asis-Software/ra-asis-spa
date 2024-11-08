@@ -149,6 +149,14 @@ const loginUser = asyncHandler(async (req, res) => {
     // Lock account if login attempts reach or exceed 5
     if (user.loginAttempts >= 5) {
       user.lockUntil = Date.now() + 24 * 60 * 60 * 1000; // Lock for 24 hrs, Tutaadjust with change in sec policy
+
+      // Send an email notifying the user of the account lock
+      await sendMail({
+        email: user.email,
+        subject: "Your SPA Account Is Locked!",
+        message: `<p>Attention ${user.firstName},</p>
+        <p>Your Ra'Asis SPA Account has been locked due to multiple failed attempts to login. For security reasons, you won't be able to access your account for 24 hours. If this was not you, contact us immediately. Thank you for your patience.</p>`,
+      });
     }
 
     await user.save();
