@@ -27,6 +27,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); // Reset error message before each new login attempt
 
     try {
       const response = await axios.post("/api/auth/login", { emailOrUsername, password });
@@ -49,9 +50,18 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      setErrorMessage(error.response && error.response.data.message
-        ? error.response.data.message
-        : "Invalid email/username or password!");
+      if (error.response) {
+        const message = error.response.data.message;
+
+        // Check for account lockout message
+        if (message === "Your account is locked! Try again later.") {
+          setErrorMessage("Your account has been locked due to too many failed login attempts. Please try again after 24 hours.");
+        } else {
+          setErrorMessage(message || "Invalid email/username or password!");
+        }
+      } else {
+        setErrorMessage("Something went wrong. Please try again later.");
+      }
     }
   };
 
