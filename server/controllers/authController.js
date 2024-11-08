@@ -107,15 +107,31 @@ const loginUser = asyncHandler(async (req, res) => {
   const { emailOrUsername, password } = req.body;
 
   // Check if the user exists
-  const user = await User.findOne({ 
-    $or: [{ email: emailOrUsername }, { username: emailOrUsername }] 
+  const user = await User.findOne({
+    $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
   });
 
-  if (user && (await user.matchPassword(password))) {
+  if (!user) {
+    return res.status(401).json({ message: "Invalid email/username or password" });
+  }
 
+  // Check if the account is locked
+  if (user.lockUntil && user.lockUntil > Date.now()) {
+    return res.status(403).json({ message: "Your account is locked! Try again later." });
+  }
+
+  // Check if the password matches
+  const isMatch = await user.matchPassword(password);
+
+  if (isMatch) {
     if (!user.isVerified) {
       return res.status(401).json({ message: "Please verify your email before logging in." });
     }
+
+    // Reset login attempts and lock status on successful login
+    user.loginAttempts = 0;
+    user.lockUntil = undefined;
+    await user.save();
 
     res.json({
       _id: user._id,
@@ -127,6 +143,15 @@ const loginUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
+    // Increment login attempts if password is incorrect
+    user.loginAttempts += 1;
+
+    // Lock account if login attempts reach or exceed 5
+    if (user.loginAttempts >= 5) {
+      user.lockUntil = Date.now() + 24 * 60 * 60 * 1000; // Lock for 24 hrs, Tutaadjust with change in sec policy
+    }
+
+    await user.save();
     res.status(401).json({ message: "Invalid email/username or password" });
   }
 });
