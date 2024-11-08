@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 //Main route
-app.get("/", (req, res) => res.send("API is running..."));
+app.get("/", (req, res) => res.send("API is running, try outrunning it, your breath will run out..."));
 
 // User routes
 app.use("/api/auth", authRoutes); // Use user routes for handling user-related requests
