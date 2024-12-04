@@ -10,13 +10,14 @@ dotenv.config();
 // Connect to MongoDB
 connectDB();
 
+// Initialize express application instance
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-//Main route
+// Main route
 app.get("/", (req, res) => res.send("API is running, try outrunning it, your breath will run out..."));
 
 // User routes
