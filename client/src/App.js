@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import ResetPassword from "./components/ResetPassword";
 import UpdatePassword from "./components/UpdatePassword";
 import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const Home = () => {
         <h1>Why Hustle ? Forget About Tiresome Manual Academic Progress Analysis. Ra'Asis SPA Does It For You!</h1>
         <Link to="/register">Sign Up Now</Link>
       </div>
+      <Footer />
     </>
   );
 }
