@@ -84,6 +84,46 @@ header.landing-header .main-navigation a i {
   max-height: 100px;
 }
 
+/*Landing Page Styling*/
+
+  /*Introduction*/
+
+.landing-intro {
+  background: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-intro h1 {
+  text-align: center;
+}
+
+.landing-intro video {
+  background-image: linear-gradient(var(--pine-green-color), var(--pine-green-color), var(--aqua-color));
+  max-width: 1000px;
+  padding: 40px;
+  border-radius: 7px;
+}
+
+.landing-intro a {
+  background: var(--black-pearl-color);
+  color: var(--aqua-color);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 15px 75px;
+  border-radius: 7px;
+  transition: all 400ms ease-in-out;
+}
+
+.landing-intro a:hover {
+  background: var(--aqua-color);
+  color: var(--black-pearl-color);
+}
 
 /*Registration Page Styling*/
 

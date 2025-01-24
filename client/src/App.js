@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Register from "./components/Register";
 import VerifyEmail from "./components/VerifyEmail";
@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import ResetPassword from "./components/ResetPassword";
 import UpdatePassword from "./components/UpdatePassword";
 import Dashboard from "./components/Dashboard";
+import Introduction from "./components/Introduction";
 import Footer from "./components/Footer";
 
 const App = () => {
@@ -33,10 +34,7 @@ const Home = () => {
   return(
     <>
       <Header />
-      <div className="home-introduction">
-        <h1>Why Hustle ? Forget About Tiresome Manual Academic Progress Analysis. Ra'Asis SPA Does It For You!</h1>
-        <Link to="/register">Sign Up Now</Link>
-      </div>
+      <Introduction />
       <Footer />
     </>
   );
