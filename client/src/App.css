@@ -1,9 +1,9 @@
-/*Imports*/
+/* Imports */
 
 @import url("https://fonts.googleapis.com/css?family=Poppins");
 @import url("https://fonts.googleapis.com/css?family=Lato");
 
-/*ROOT Variables*/
+/* ROOT Variables */
 :root {
   --foam-color: #edfdfd;
   --black-pearl-color: #04061f;
@@ -17,7 +17,7 @@
   --west-coast-color: #5c421c;
 }
 
-/*General Styles*/
+/* General Styles */
 
 html, body {
   max-width: 100%;
@@ -37,7 +37,7 @@ button, a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/*Header Styling*/
+/* Header Styling */
 
 header {
   background: var(--foam-color);
@@ -73,7 +73,7 @@ header.landing-header .main-navigation a i {
   font-size: 1.2em;
 }
 
-/*Logo Styling*/
+/* Logo Styling */
 
 .app-logo {
   position: relative;
@@ -85,9 +85,9 @@ header.landing-header .main-navigation a i {
   max-height: 100px;
 }
 
-/*Landing Page Styling*/
+/* Landing Page Styling */
 
-  /*Introduction*/
+  /* Introduction */
 
 .landing-intro {
   background: var(--foam-color);
@@ -193,6 +193,67 @@ header.landing-header .main-navigation a i {
 .features-cta-buttons a:hover {
   background: var(--aqua-color);
   color: var(--alizarin-crimson-color);
+}
+
+  /* WhyChoose */
+
+.why-choose {
+  background: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.why-choose-heading {
+  margin-left: 70px;
+}
+
+.why-choose-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.why-choose-reasons .reason-box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 5px 20px;
+}
+
+.why-choose-reasons .accessibility-reason {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+}
+
+.why-choose-reasons .setup-reason {
+  background: var(--cerulean-color);
+  color: var(--black-pearl-color);
+}
+
+.why-choose-reasons .training-reason {
+  background: var(--aqua-color);
+  color: var(--cerulean-color);
+}
+
+.why-choose-reasons .support-reason {
+  background: var(--black-pearl-color);
+  color: var(--foam-color);
+}
+
+.why-choose-reasons .secure-reason {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+  margin-bottom: 50px;
+}
+
+.why-choose-reasons .reason-box .reason-image img {
+  width: 120px;
+  height: 120px;
+}
+
+.why-choose-reasons .reason-box .reason-texts p {
+  font-size: 0.9em;
 }
 
 /* Registration Page Styling */

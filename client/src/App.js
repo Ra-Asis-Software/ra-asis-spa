@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import Introduction from "./components/Introduction";
 import Footer from "./components/Footer";
 import FeaturesOverview from "./components/FeaturesOverview";
+import WhyChoose from "./components/WhyChoose";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const Home = () => {
       <Header />
       <Introduction />
       <FeaturesOverview />
+      <WhyChoose />
       <Footer />
     </>
   );
