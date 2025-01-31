@@ -21,6 +21,7 @@
 
 html, body {
   max-width: 100%;
+  font-size: 100%;
   overflow-x: hidden;
   font-family: Poppins, Lato, "Trebuchet MS", sans-serif;
 }
@@ -125,7 +126,76 @@ header.landing-header .main-navigation a i {
   color: var(--black-pearl-color);
 }
 
-/*Registration Page Styling*/
+  /* Features Overview */
+
+.features-overview {
+  background: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.features-heading {
+  margin-left: 70px;
+}
+
+.features-descriptions {
+  background-image: linear-gradient(to bottom right, var(--black-pearl-color), var(--black-pearl-color), var(--pine-green-color), var(--aqua-color));
+  display: grid;
+  grid-template-columns: repeat(4, 3fr);
+  gap: 20px;
+  padding: 50px 20px;
+}
+
+.features-descriptions .feature-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.features-descriptions .feature-box img {
+  width: 120px;
+  height: 120px;
+}
+
+.features-descriptions .feature-box h3 {
+  color: var(--bright-sun-color);
+}
+
+.features-descriptions .feature-box p {
+  color: var(--foam-color);
+  font-size: 0.9em;
+  text-align: left;
+}
+
+.features-cta-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.features-cta-buttons a {
+  background: var(--alizarin-crimson-color);
+  color: var(--aqua-color);
+  padding: 15px 75px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 400ms ease-in-out;
+}
+
+.features-cta-buttons a:first-child {
+  padding: 15px 112px;
+}
+
+.features-cta-buttons a:hover {
+  background: var(--aqua-color);
+  color: var(--alizarin-crimson-color);
+}
+
+/* Registration Page Styling */
 
 #register_header {
   background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));

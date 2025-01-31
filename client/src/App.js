@@ -10,6 +10,7 @@ import UpdatePassword from "./components/UpdatePassword";
 import Dashboard from "./components/Dashboard";
 import Introduction from "./components/Introduction";
 import Footer from "./components/Footer";
+import FeaturesOverview from "./components/FeaturesOverview";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const Home = () => {
     <>
       <Header />
       <Introduction />
+      <FeaturesOverview />
       <Footer />
     </>
   );
