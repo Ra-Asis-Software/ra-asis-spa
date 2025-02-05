@@ -9,9 +9,10 @@ import ResetPassword from "./components/ResetPassword";
 import UpdatePassword from "./components/UpdatePassword";
 import Dashboard from "./components/Dashboard";
 import Introduction from "./components/Introduction";
-import Footer from "./components/Footer";
 import FeaturesOverview from "./components/FeaturesOverview";
 import WhyChoose from "./components/WhyChoose";
+import Footer from "./components/Footer";
+import Testimonials from "./components/Testimonials";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const Home = () => {
       <Introduction />
       <FeaturesOverview />
       <WhyChoose />
+      <Testimonials />
       <Footer />
     </>
   );
