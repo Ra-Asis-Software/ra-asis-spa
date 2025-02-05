@@ -271,7 +271,6 @@ header.landing-header .main-navigation a i {
   justify-content: center;
   align-items: center;
   padding: 100px;
-  margin-bottom: 100px;
 }
 
 .testimonials > div p {
@@ -312,7 +311,6 @@ header.landing-header .main-navigation a i {
   max-height: 350px;
 }
 
-
 .testimonials .user-testimonials .testimonial-buttons {
   display: flex;
   gap: 5px;
@@ -339,6 +337,58 @@ header.landing-header .main-navigation a i {
   border-color: var(--black-pearl-color);
 }
 
+  /* Lead Generation */
+
+.lead-generation {
+  background: var(--foam-color);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.lead-generation-image {
+  display: flex;
+  justify-content: center;
+}
+
+.lead-generation-image img {
+  width: 500px;
+  height: 500px;
+}
+
+.lead-generation-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.lead-generation-links a {
+  color: var(--aqua-color);
+  text-decoration: none;
+  border-radius: 7px;
+  font-weight: 700;
+  padding: 10px 100px;
+  transition: all 400ms ease-in-out;
+}
+
+.lead-generation-links a:first-child {
+  background: var(--alizarin-crimson-color);
+}
+
+.lead-generation-links a:first-child:hover {
+  background: var(--aqua-color);
+  color: var(--alizarin-crimson-color);
+}
+
+.lead-generation-links a:last-child {
+  background: var(--black-pearl-color);
+}
+
+.lead-generation-links a:last-child:hover {
+  background: var(--aqua-color);
+  color: var(--black-pearl-color);
+}
 
 /* Registration Page Styling */
 

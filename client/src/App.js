@@ -11,8 +11,9 @@ import Dashboard from "./components/Dashboard";
 import Introduction from "./components/Introduction";
 import FeaturesOverview from "./components/FeaturesOverview";
 import WhyChoose from "./components/WhyChoose";
-import Footer from "./components/Footer";
 import Testimonials from "./components/Testimonials";
+import LeadGeneration from "./components/LeadGeneration";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const Home = () => {
       <FeaturesOverview />
       <WhyChoose />
       <Testimonials />
+      <LeadGeneration />
       <Footer />
     </>
   );
