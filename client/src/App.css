@@ -1,6 +1,6 @@
 /* Imports */
 
-@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Lato");
 
 /* ROOT Variables */
@@ -23,7 +23,7 @@ html, body {
   max-width: 100%;
   font-size: 100%;
   overflow-x: hidden;
-  font-family: Poppins, Lato, "Trebuchet MS", sans-serif;
+  font-family: Poppins, Lato, Inter, "Trebuchet MS", sans-serif;
 }
 
 body {
