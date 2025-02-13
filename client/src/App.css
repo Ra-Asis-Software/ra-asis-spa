@@ -390,6 +390,98 @@ header.landing-header .main-navigation a i {
   color: var(--black-pearl-color);
 }
 
+  /* Contact Form */
+
+.contact-form {
+  background-image: linear-gradient(var(--cerulean-color), var(--cerulean-color), var(--pine-green-color));
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form-intro {
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.contact-form-fields {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.contact-form-fields form {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  gap: 20px;
+}
+
+.form-section {
+  display: flex;
+  gap: 400px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container label {
+  color: var(--aqua-color);
+}
+
+.input-container input {
+  background: inherit;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid var(--aqua-color);
+}
+
+.contact-message .input-container {
+  width: 870px;
+}
+
+.contact-message .input-container textarea {
+  background: inherit;
+  resize: none;
+  height: 100px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  border: 2px solid var(--black-pearl-color);
+  border-radius: 7px;
+}
+
+.contact-message .input-container textarea::placeholder {
+  color: var(--aqua-color);
+}
+
+.contact-message .input-container textarea:focus {
+  outline: none;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.submit-button button {
+  background: var(--black-pearl-color);
+  color: var(--foam-color);
+  border: none;
+  outline: none;
+  border-radius: 7px;
+  font-weight: 700;
+  padding: 15px 100px;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+
+.submit-button button:hover {
+  background: var(--foam-color);
+  color: var(--black-pearl-color);
+}
+
 /* Registration Page Styling */
 
 #register_header {

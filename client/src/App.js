@@ -13,6 +13,7 @@ import FeaturesOverview from "./components/FeaturesOverview";
 import WhyChoose from "./components/WhyChoose";
 import Testimonials from "./components/Testimonials";
 import LeadGeneration from "./components/LeadGeneration";
+import ContactForm from "./components/ContactForm";
 import Footer from "./components/Footer";
 
 const App = () => {
@@ -43,6 +44,7 @@ const Home = () => {
       <WhyChoose />
       <Testimonials />
       <LeadGeneration />
+      <ContactForm />
       <Footer />
     </>
   );
