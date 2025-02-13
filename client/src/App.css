@@ -32,6 +32,20 @@ body {
   scroll-behavior: smooth;
 }
 
+h1 {
+  font-size: 2.1875em;
+}
+
+h2 {
+  font-size: 1.75em;
+  font-weight: 600;
+}
+
+h5 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
 button, a {
   -webkit-tap-highlight-color: transparent;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -1410,6 +1424,24 @@ footer.landing-footer {
 /*Devices Max. Screen Width 768px*/
 
 @media (max-width: 768px) {
+
+  /* General Responsive Styling */
+
+  body {
+    font-size: 87.5%;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+  
+  h2 {
+    font-size: 1.625em;
+  }
+  
+  h5 {
+    font-size: 0.875em;
+  }
   
   /*Registration Page Responsive Styling*/
 
@@ -1452,6 +1484,24 @@ footer.landing-footer {
 /*Devices Max. Screen Width 520px*/
 
 @media (max-width: 520px) {
+
+  /* General Responsive Styling */
+
+  body {
+    font-size: 75%;
+  }
+
+  h1 {
+    font-size: 1.875em;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+  }
+  
+  h5 {
+    font-size: 0.75em;
+  }
   
   /*Registration Page Responsive Styling*/
 
