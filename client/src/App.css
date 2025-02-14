@@ -21,7 +21,6 @@
 
 html, body {
   max-width: 100%;
-  font-size: 100%;
   overflow-x: hidden;
   font-family: Poppins, Lato, Inter, "Trebuchet MS", sans-serif;
 }
@@ -29,6 +28,7 @@ html, body {
 body {
   margin: 0;
   padding: 0;
+  font-size: 100%;
   scroll-behavior: smooth;
 }
 
@@ -266,10 +266,6 @@ header.landing-header .main-navigation a i {
   height: 120px;
 }
 
-.why-choose-reasons .reason-box .reason-texts p {
-  font-size: 0.9em;
-}
-
   /* Testimonials */
 
 .testimonials {
@@ -285,10 +281,6 @@ header.landing-header .main-navigation a i {
   justify-content: center;
   align-items: center;
   padding: 100px;
-}
-
-.testimonials > div p {
-  font-size: 0.9em;
 }
 
 .testimonials .user-details {
@@ -472,14 +464,14 @@ header.landing-header .main-navigation a i {
   outline: none;
 }
 
-.submit-button {
+#landing_contact_form .submit-button {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
 }
 
-.submit-button button {
+#landing_contact_form .submit-button button {
   background: var(--black-pearl-color);
   color: var(--foam-color);
   border: none;
@@ -491,7 +483,7 @@ header.landing-header .main-navigation a i {
   transition: all 400ms ease-in-out;
 }
 
-.submit-button button:hover {
+#landing_contact_form .submit-button button:hover {
   background: var(--foam-color);
   color: var(--black-pearl-color);
 }
@@ -642,7 +634,7 @@ header.landing-header .main-navigation a i {
 
 .registration-container .registration-content .registration-form .details .input-container .error {
   color: var(--alizarin-crimson-color);
-  font-size: 10px;
+  font-size: 0.625em;
 }
 
 .registration-container .registration-content .registration-form .details .submit-button {
@@ -658,7 +650,8 @@ header.landing-header .main-navigation a i {
   border-radius: 10px;
   padding: 5px 300px;
   font-family: Poppins, Lato, "Trebuchet MS", sans-serif;
-  font-size: 17px;
+  font-size: 1.125em;
+  font-weight: 600;
   transition: all 400ms ease-in-out;
 }
 
@@ -674,7 +667,7 @@ header.landing-header .main-navigation a i {
 }
 
 .registration-container .registration-content .registration-form .details .form-message small {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .registration-container .registration-content .registration-form .details .form-message small.success-message {
@@ -687,7 +680,6 @@ header.landing-header .main-navigation a i {
 
 .registration-container .registration-content .login-prompt {
   margin-left: 10px;
-  font-size: 14px;
 }
 
 .registration-container .registration-content .login-prompt p a {
@@ -718,7 +710,7 @@ header.landing-header .main-navigation a i {
 .email-verification p span {
   position: relative;
   top: 15px;
-  font-size: 70px;
+  font-size: 4.375em;
 }
 
 .email-verification a {
@@ -761,8 +753,6 @@ header.landing-header .main-navigation a i {
 }
 
 .login-container .login-content .login-form .login-intro h2 {
-  font-weight: 500;
-  font-size: 28px;
   text-align: center;
 }
 
@@ -791,7 +781,7 @@ header.landing-header .main-navigation a i {
 .login-container .login-content .login-form form .login-inputs input::placeholder {
   color: var(--black-pearl-color);
   font-family: Poppins;
-  font-size: 14px;
+  font-size: 0.875em;
 }
 
 .login-container .login-content .login-form form .login-inputs .password-input {
@@ -842,7 +832,7 @@ header.landing-header .main-navigation a i {
 }
 
 .login-container .login-content .login-form form .form-message small {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .login-container .login-content .login-form form .form-message small.error-message {
@@ -865,7 +855,7 @@ header.landing-header .main-navigation a i {
   gap: 10px;
   position: relative;
   left: 5px;
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .login-container .login-content .login-form form .remember-forgot .remember form label input {
@@ -894,7 +884,7 @@ header.landing-header .main-navigation a i {
 
 .login-container .login-content .login-form form .remember-forgot .forgot a {
   color: var(--black-pearl-color);
-  font-size: 12px;
+  font-size: 0.75em;
   transition: all 400ms ease-in-out;
 }
 
@@ -908,7 +898,7 @@ header.landing-header .main-navigation a i {
 }
 
 .login-container .login-content .login-form .register-prompt p {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .login-container .login-content .login-form .register-prompt p a {
@@ -962,10 +952,6 @@ header.landing-header .main-navigation a i {
   max-width: 500px;
 }
 
-.reset-password-intro p {
-  font-size: 12px;
-}
-
 .request-reset-form form {
   display: flex;
   flex-direction: column;
@@ -1003,7 +989,7 @@ header.landing-header .main-navigation a i {
 }
 
 .request-reset-form form .form-message small {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .request-reset-form form .form-message small.success-message {
@@ -1055,7 +1041,7 @@ header.landing-header .main-navigation a i {
 
   .success-text h2 {
     color: var(--bright-sun-color);
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 700;
   }
 
@@ -1087,7 +1073,7 @@ header.landing-header .main-navigation a i {
   }
 
   .try-again-text p {
-    font-size: 12px;
+    font-size: 0.75em;
     text-align: center;
   }
 
@@ -1115,13 +1101,7 @@ header.landing-header .main-navigation a i {
   padding-bottom: 100px;
 }
 
-.update-password-intro h2 {
-  font-size: 20px;
-  font-weight: 800;
-}
-
 .update-password-intro p {
-  font-size: 12px;
   margin-bottom: 30px;
 }
 
@@ -1157,7 +1137,7 @@ header.landing-header .main-navigation a i {
 }
 
 .update-password-form form label {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .update-password-form form input {
@@ -1203,7 +1183,7 @@ header.landing-header .main-navigation a i {
 }
 
 .update-password-form form .form-message small {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .update-password-form form .form-message small.success-message {
@@ -1328,12 +1308,8 @@ footer.landing-footer {
     margin-left: 30px;
   }
 
-  .login-container .login-content .login-form form .submit-btn button {
-    font-size: 12px;
-  }
-
   .login-container .login-content .login-form form .form-message small {
-    font-size: 11px;
+    font-size: 0.6875em;
   }
 
   .login-container .login-content .login-form form .remember-forgot {
@@ -1385,10 +1361,6 @@ footer.landing-footer {
     gap: 10px;
     margin-left: 20px;
     margin-right: 20px;
-  }
-  
-  .login-container .login-content .login-form .login-intro h2 {
-    font-size: 26px;
   }
   
   .login-container .login-content .login-form form .login-inputs input {
@@ -1454,10 +1426,6 @@ footer.landing-footer {
   }
 
   /*Login Page Responsive Styling*/
-  
-  .login-container .login-content .login-form .login-intro h2 {
-    font-size: 24px;
-  }
   
   .login-container .login-content .login-form form .login-inputs input {
     padding: 10px 70px;
@@ -1567,7 +1535,6 @@ footer.landing-footer {
 
   .request-reset-form form .get-link-btn button {
     padding: 10px 140px;
-    font-size: 12px;
   }
 
   .reset-password-img img {
@@ -1577,12 +1544,6 @@ footer.landing-footer {
 
 
   /*Update Password Page Styling*/
-
-
-  .update-password-intro h2 {
-    font-size: 18px;
-    font-weight: 700;
-  }
 
   .update-password-form form input {
     padding: 10px 30px;
@@ -1613,11 +1574,11 @@ footer.landing-footer {
   }
 
   .login-container .login-content .login-form form .remember-forgot .remember form label {
-    font-size: 11px;
+    font-size: 0.6875em;
   }
 
   .login-container .login-content .login-form form .remember-forgot .forgot a {
-    font-size: 11px;
+    font-size: 0.6875em;
   }
 
   .login-container .login-content .login-image img {
