@@ -1357,6 +1357,12 @@ footer.landing-footer {
   .features-heading {
     margin-left: 30px;
   }
+
+  /* WhyChoose */
+
+  .why-choose-heading {
+    margin-left: 30px;
+  }
   
 /* Registration Page Responsive Styling */
 
@@ -1449,6 +1455,12 @@ footer.landing-footer {
     margin-top: 30px;
     margin-bottom: 30px;
   }
+
+    /* WhyChoose */
+
+  .why-choose-heading {
+    margin-left: 20px;
+  }
   
   /* Registration Page Responsive Styling */
 
@@ -1529,6 +1541,22 @@ footer.landing-footer {
 
   .features-descriptions .feature-box .descriptions-texts {
     margin-top: 10px;
+  }
+
+    /* WhyChoose */
+
+  .why-choose-heading {
+    margin-right: 20px;
+  }
+
+  .why-choose-reasons {
+    gap: 20px;
+  }
+
+  .why-choose-reasons .reason-box {
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 7px;
   }
   
   /*Registration Page Responsive Styling*/
@@ -1625,6 +1653,17 @@ footer.landing-footer {
 
   .features-descriptions {
     padding: 10px;
+  }
+
+    /* WhyChoose */
+
+  .why-choose-reasons .reason-box {
+    padding: 5px;
+  }
+
+  .why-choose-reasons .reason-box .reason-image img {
+    width: 100px;
+    height: 100px;
   }
 
   /*Login Page Responsive Styling*/
