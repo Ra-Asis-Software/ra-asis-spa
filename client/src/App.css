@@ -1338,7 +1338,8 @@ footer.landing-footer {
   /*Footer Responsive Styling*/
 
   footer.landing-footer {
-    gap: 80px;
+    column-gap: 80px;
+    row-gap: 20px;
   }
 }
 
@@ -1898,6 +1899,11 @@ footer.landing-footer {
     height: 300px;
   }
 
+  /*Footer Responsive Styling*/
+
+  footer.landing-footer {
+    justify-content: center;
+  }
 }
 
 
