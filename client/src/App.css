@@ -118,8 +118,9 @@ header.landing-header .main-navigation a i {
 
 .landing-intro video {
   background-image: linear-gradient(var(--pine-green-color), var(--pine-green-color), var(--aqua-color));
-  max-width: 1000px;
+  max-width: 1100px;
   padding: 40px;
+  box-sizing: border-box;
   border-radius: 7px;
 }
 
@@ -1341,19 +1342,28 @@ footer.landing-footer {
 /*Devices Max. Screen Width 991px*/
 
 @media (max-width: 991px) {
-  
-  /*Registration Page Responsive Styling*/
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+/* Landing Page Styling */
+
+  /* Introduction */
+
+  .landing-intro video {
+    max-width: 100%;
+    padding: 20px;
+  }
+  
+/* Registration Page Responsive Styling */
+
+  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span {
     margin-right: 100px;
   }
 
-  .registration-container .registration-content .registration-form .details .submit-button button{
+  .registration-container .registration-content .registration-form .details .submit-button button {
     padding: 5px 200px;
   }
 
 
-  /*Login Page Responsive Styling*/
+/*Login Page Responsive Styling*/
 
   .login-container .login-content {
     display: flex;
