@@ -48,6 +48,10 @@ const Testimonials = () => {
                     ))}
                 </div>
             </div>
+            <div className="user-details user-details-mobile">
+                <h2>{selectedUser.name}</h2>
+                <p>{selectedUser.title}</p>
+            </div>
         </div>
     );
 };
