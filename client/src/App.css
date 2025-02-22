@@ -1382,6 +1382,13 @@ footer.landing-footer {
   .testimonials .user-testimonials .testimonial-buttons {
     top: 20px;
   }
+
+    /* Lead Generation */
+
+  .lead-generation-image img {
+    width: 400px;
+    height: 400px;
+  }
   
 /* Registration Page Responsive Styling */
 
@@ -1518,6 +1525,29 @@ footer.landing-footer {
     left: 0;
     bottom: 20px;
   }
+
+    /* Lead Generation */
+
+  .lead-generation {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .lead-generation-image img {
+    width: 500px;
+    height: 500px;
+  }
+
+  .lead-generation-links {
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .lead-generation-links a {
+    padding: 10px 65px;
+  }
   
   /* Registration Page Responsive Styling */
 
@@ -1614,6 +1644,21 @@ footer.landing-footer {
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 7px;
+  }
+
+    /* Lead Generation */
+
+  .lead-generation-image img {
+    width: 400px;
+    height: 400px;
+  }
+
+  .lead-generation-links {
+    gap: 10px;
+  }
+
+  .lead-generation-links a {
+    padding: 10px 50px;
   }
   
   /*Registration Page Responsive Styling*/
@@ -1721,6 +1766,17 @@ footer.landing-footer {
   .why-choose-reasons .reason-box .reason-image img {
     width: 100px;
     height: 100px;
+  }
+
+    /* Lead Generation */
+
+  .lead-generation-image img {
+    width: 340px;
+    height: 340px;
+  }
+
+  .lead-generation-links a {
+    padding: 10px 30px;
   }
 
   /*Login Page Responsive Styling*/
