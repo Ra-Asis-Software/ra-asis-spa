@@ -1343,13 +1343,19 @@ footer.landing-footer {
 
 @media (max-width: 991px) {
 
-/* Landing Page Styling */
+/* Landing Page Responsive Styling */
 
   /* Introduction */
 
   .landing-intro video {
     max-width: 100%;
     padding: 20px;
+  }
+
+  /* Features Overview */
+
+  .features-heading {
+    margin-left: 30px;
   }
   
 /* Registration Page Responsive Styling */
@@ -1425,7 +1431,26 @@ footer.landing-footer {
     font-size: 0.875em;
   }
   
-  /*Registration Page Responsive Styling*/
+  /* Landing Page Responsive Styling */
+    
+    /* Features Overview */
+
+  .features-heading {
+    margin-left: 20px;
+  }
+
+  .features-descriptions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-cta-buttons {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  /* Registration Page Responsive Styling */
 
   .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
     margin-right: 50px;
@@ -1479,6 +1504,31 @@ footer.landing-footer {
   
   h5 {
     font-size: 0.75em;
+  }
+
+  /* Landing Page Responsive Styling */
+    
+    /* Features Overview */
+
+  .features-heading {
+    margin-right: 20px;
+  }
+
+  .features-descriptions {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 7px;
+  }
+
+  .features-descriptions .feature-box {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .features-descriptions .feature-box .descriptions-texts {
+    margin-top: 10px;
   }
   
   /*Registration Page Responsive Styling*/
@@ -1568,6 +1618,14 @@ footer.landing-footer {
 /*Devices Max. Screen Width 462px*/
 
 @media (max-width: 462px) {
+
+  /* Landing Page Responsive Styling */
+    
+    /* Features Overview */
+
+  .features-descriptions {
+    padding: 10px;
+  }
 
   /*Login Page Responsive Styling*/
     
