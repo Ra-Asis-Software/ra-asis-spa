@@ -361,6 +361,10 @@ header.landing-header .main-navigation a i {
   justify-content: center;
 }
 
+.lead-generation-image img.mobile-responsive {
+  display: none;
+}
+
 .lead-generation-image img {
   width: 500px;
   height: 500px;
@@ -371,7 +375,7 @@ header.landing-header .main-navigation a i {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 140px;
 }
 
 .lead-generation-links a {
@@ -1391,6 +1395,10 @@ footer.landing-footer {
     height: 400px;
   }
 
+  .lead-generation-links {
+    gap: 100px;
+  }
+
     /* Contact Form */
 
   .contact-form-intro {
@@ -1578,8 +1586,11 @@ footer.landing-footer {
   }
 
   .lead-generation-image img {
-    width: 500px;
-    height: 500px;
+    display: none;
+  }
+
+  .lead-generation-image img.mobile-responsive {
+    display: block;
   }
 
   .lead-generation-links {

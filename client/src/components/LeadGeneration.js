@@ -5,7 +5,8 @@ const LeadGeneration = () => {
     return (
         <div className="lead-generation">
             <div className="lead-generation-image">
-                <img src="/assets/login_image.webp" alt="" />
+                <img src="/assets/think_want_get.webp" alt="Think it want it get it graphic" />
+                <img src="/assets/think_want_get_res.webp" alt="Think it want it get it graphic" className="mobile-responsive" />
             </div>
             <div className="lead-generation-links">
                 <Link to="">REQUEST A DEMO</Link>

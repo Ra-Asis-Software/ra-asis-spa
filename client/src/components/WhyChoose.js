@@ -9,7 +9,7 @@ const WhyChoose = () => {
             <div className="why-choose-reasons">
                 <div className="reason-box accessibility-reason">
                     <div className="reason-image">
-                        <img src="/assets/password_reset.webp" alt="" />
+                        <img src="/assets/anytime_anywhere.webp" alt="Access, Anytime, Anywhere" />
                     </div>
                     <div className="reason-texts">
                         <h3>Access, Anytime, Anywhere</h3>
@@ -18,7 +18,7 @@ const WhyChoose = () => {
                 </div>
                 <div className="reason-box setup-reason">
                     <div className="reason-image">
-                        <img src="/assets/password_reset.webp" alt="" />
+                        <img src="/assets/easy.webp" alt="Effortless Setup and Use" />
                     </div>
                     <div className="reason-texts">
                         <h3>Effortless Setup & Use</h3>
@@ -27,7 +27,7 @@ const WhyChoose = () => {
                 </div>
                 <div className="reason-box training-reason">
                     <div className="reason-image">
-                        <img src="/assets/password_reset.webp" alt="" />
+                        <img src="/assets/expert_training.webp" alt="Expert-Led On-Site Training" />
                     </div>
                     <div className="reason-texts">
                         <h3>Expert-Led On-Site Training</h3>
@@ -36,7 +36,7 @@ const WhyChoose = () => {
                 </div>
                 <div className="reason-box support-reason">
                     <div className="reason-image">
-                        <img src="/assets/password_reset.webp" alt="" />
+                        <img src="/assets/expert_support.webp" alt="24/7 Well Equiped Support" />
                     </div>
                     <div className="reason-texts">
                         <h3>24/7 Well Equiped Support</h3>
@@ -45,7 +45,7 @@ const WhyChoose = () => {
                 </div>
                 <div className="reason-box secure-reason">
                     <div className="reason-image">
-                        <img src="/assets/password_reset.webp" alt="" />
+                        <img src="/assets/secure_hosting.webp" alt="Secure Cloud Hosting" />
                     </div>
                     <div className="reason-texts">
                         <h3>Secure Cloud Hosting</h3>
