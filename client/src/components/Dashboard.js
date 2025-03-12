@@ -36,6 +36,12 @@ const Dashboard = () => {
         fetchUserData();
     }, [navigate]);
 
+    // Logout function
+    const handleLogout = () => {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+    };
+
     // Either display loading or error state
     if (loading) {
         return <div className="loading-container">Loading...</div>;
@@ -64,6 +70,7 @@ const Dashboard = () => {
             <h2>Dashboard</h2>
             <h3>Hello {user?.lastName} or should I call you {user?.firstName} ?</h3>
             {renderRoleSpecificContent()}
+            <button onClick={handleLogout}>Logout</button>
         </div>
     );
 };
