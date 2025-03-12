@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "30d", // Token will expire in 30 days (Mnaeza Adjust accordingly baadae as needed)
+const generateToken = (id, firstName, lastName, role) => {
+  return jwt.sign({ id, firstName, lastName, role }, process.env.JWT_SECRET, {
+    expiresIn: "1d", // Token will expire in 1 day (Mnaeza Adjust accordingly baadae as needed)
   });
 };
 

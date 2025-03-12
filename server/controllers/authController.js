@@ -62,7 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
       // Send verification email
       await sendMail({
           email: user.email,
-          subject: "Ra\"Asis Student Progress Analytics - Email Verification",
+          subject: "Ra\'Asis Student Progress Analytics - Email Verification",
           message,
       });
 
@@ -140,7 +140,7 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       username: user.username,
       role: user.role,
-      token: generateToken(user._id),
+      token: generateToken(user._id, user.firstName, user.lastName, user.role),
     });
   } else {
     // Increment login attempts if password is incorrect

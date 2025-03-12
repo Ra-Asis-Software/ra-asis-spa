@@ -15,6 +15,7 @@ import Testimonials from "./components/Testimonials";
 import LeadGeneration from "./components/LeadGeneration";
 import ContactForm from "./components/ContactForm";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -27,7 +28,9 @@ const App = () => {
           <Route path="/login" element={ <Login /> } />
           <Route path="/reset-password" element={ <ResetPassword /> } />
           <Route path="/reset-password/:token" element={<UpdatePassword />} />
-          <Route path="/dashboard" element={ <Dashboard /> } />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
         </Routes>
       </div>
     </Router>
