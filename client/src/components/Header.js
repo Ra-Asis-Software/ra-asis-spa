@@ -20,7 +20,7 @@ const Header = () => {
         <header className="landing-header" id="landing_header">
             <div className="app-logo">
                 <Link to="/">
-                    <img src="/assets/spa_logo.svg" alt="SPA logo" />
+                    <img src="/assets/spa_logo.webp" alt="SPA logo" />
                 </Link>
             </div>
 

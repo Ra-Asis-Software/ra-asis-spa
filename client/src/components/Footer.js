@@ -6,7 +6,7 @@ const Footer = () => {
         <footer className="landing-footer" id="landing">
             <div className="logo-name-socials">
                 <div className="logo-name">
-                    <Link to="/"><img src="/assets/spa_logo.svg" alt="SPA logo" /></Link>
+                    <Link to="/"><img src="/assets/spa_site_icon.webp" alt="SPA logo" /></Link>
                     <h3>Ra'Asis Analytica</h3>
                 </div>
                 <div className="socials">
