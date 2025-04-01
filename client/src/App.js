@@ -1,21 +1,14 @@
-import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Register from "./components/Register";
-import VerifyEmail from "./components/VerifyEmail";
-import Login from "./components/Login";
-import ResetPassword from "./components/ResetPassword";
-import UpdatePassword from "./components/UpdatePassword";
-import Dashboard from "./components/Dashboard";
-import Introduction from "./components/Introduction";
-import FeaturesOverview from "./components/FeaturesOverview";
-import WhyChoose from "./components/WhyChoose";
-import Testimonials from "./components/Testimonials";
-import LeadGeneration from "./components/LeadGeneration";
-import ContactForm from "./components/ContactForm";
-import Footer from "./components/Footer";
-import ProtectedRoute from "./components/ProtectedRoute";
+import "./App.css";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import VerifyEmail from "./pages/VerifyEmail";
+import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
+import UpdatePassword from "./pages/UpdatePassword";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
 
 const App = () => {
   return (
@@ -34,22 +27,6 @@ const App = () => {
         </Routes>
       </div>
     </Router>
-  );
-}
-
-const Home = () => {
-
-  return(
-    <>
-      <Header />
-      <Introduction />
-      <FeaturesOverview />
-      <WhyChoose />
-      <Testimonials />
-      <LeadGeneration />
-      <ContactForm />
-      <Footer />
-    </>
   );
 }
 
