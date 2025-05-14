@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  
+
   const navigate = useNavigate();
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -30,8 +30,11 @@ const Login = () => {
     setErrorMessage(""); // Reset error message before each new login attempt
 
     try {
-      const response = await axios.post("/api/auth/login", { emailOrUsername, password });
-      
+      const response = await axios.post("/api/auth/login", {
+        emailOrUsername,
+        password,
+      });
+
       if (response.data) {
         setSuccessMessage("Login successful!");
         // Save the token in local storage
@@ -45,7 +48,7 @@ const Login = () => {
           localStorage.removeItem("savedEmailOrUsername");
           localStorage.removeItem("savedPassword");
         }
-        
+
         // Redirect to the dashboard or home page
         navigate("/dashboard");
       }
@@ -55,7 +58,9 @@ const Login = () => {
 
         // Check for account lockout message
         if (message === "Your account is locked! Try again later.") {
-          setErrorMessage("Your account has been locked due to too many failed login attempts. Please try again after 24 hours.");
+          setErrorMessage(
+            "Your account has been locked due to too many failed login attempts. Please try again after 24 hours."
+          );
         } else {
           setErrorMessage(message || "Invalid email/username or password!");
         }
@@ -69,9 +74,9 @@ const Login = () => {
     <>
       <header id="login_header">
         <div className="app-logo">
-            <Link to="/">
-                <img src="/assets/spa_logo.webp" alt="SPA logo" />
-            </Link>
+          <Link to="/">
+            <img src="/assets/spa_logo.webp" alt="SPA logo" />
+          </Link>
         </div>
       </header>
       <div className="login-container">
@@ -99,7 +104,10 @@ const Login = () => {
                     size="30"
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <i onClick={togglePasswordVisibility} className="material-symbols-sharp">
+                  <i
+                    onClick={togglePasswordVisibility}
+                    className="material-symbols-sharp"
+                  >
                     {showPassword ? "visibility_off" : "visibility"}
                   </i>
                 </div>
@@ -108,17 +116,21 @@ const Login = () => {
                 <button type="submit">SIGN IN</button>
               </div>
               <div className="form-message">
-                {errorMessage && <small className="error-message">{errorMessage}</small>}
-                {successMessage && <small className="success-message">{successMessage}</small>}
+                {errorMessage && (
+                  <small className="error-message">{errorMessage}</small>
+                )}
+                {successMessage && (
+                  <small className="success-message">{successMessage}</small>
+                )}
               </div>
               <div className="remember-forgot">
                 <div className="remember">
                   <form>
                     <label>
-                      <input 
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
                       />
                       <span></span>
                       Remember Me
@@ -131,11 +143,16 @@ const Login = () => {
               </div>
             </form>
             <div className="register-prompt">
-                <p>Don"t Have An Account? <Link to="/register">Sign Up</Link></p>
+              <p>
+                Don"t Have An Account? <Link to="/register">Sign Up</Link>
+              </p>
             </div>
           </div>
           <div className="login-image">
-            <img src="/assets/login_image.webp" alt="an illustration of a young boy analysing statistics on his academic progress" />
+            <img
+              src="/assets/login_image.webp"
+              alt="an illustration of a young boy analysing statistics on his academic progress"
+            />
           </div>
         </div>
       </div>

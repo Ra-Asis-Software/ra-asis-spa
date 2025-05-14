@@ -1,13 +1,148 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+/* Imports */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --foam-color: #edfdfd;
+  --black-pearl-color: #04061f;
+  --aqua-color: #5ae0d7;
+  --bright-sun-color: #fdd142;
+  --pale-sky-color: #6c707b;
+  --french-gray-color: #bcbcbd;
+  --cerulean-color: #01a0e2;
+  --pine-green-color: #027a79;
+  --alizarin-crimson-color: #e41c2a;
+  --west-coast-color: #5c421c;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body,
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Poppins, Lato, Inter, "Trebuchet MS", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-size: 100%;
+  font-family: Poppins, Lato, Inter, "Trebuchet MS", sans-serif;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 2.1875em;
+}
+
+h2 {
+  font-size: 1.75em;
+  font-weight: 600;
+}
+
+h5 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a {
+  font-weight: 500;
+  color: var(--black-pearl-color);
+  text-decoration: inherit;
+  transition: all 400ms ease-in-out;
+}
+
+a:hover {
+  color: var(--alizarin-crimson-color);
+}
+
+button {
+  border-radius: 20px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--black-pearl-color);
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+button:hover {
+  border-color: var(--alizarin-crimson-color);
+}
+
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@media (max-width: 768px) {
+  /* General Responsive Styling */
+
+  body {
+    font-size: 87.5%;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2 {
+    font-size: 1.625em;
+  }
+
+  h5 {
+    font-size: 0.875em;
+  }
+}
+
+@media (max-width: 520px) {
+  /* General Responsive Styling */
+
+  body {
+    font-size: 75%;
+  }
+
+  h1 {
+    font-size: 1.875em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  h5 {
+    font-size: 0.75em;
+  }
 }
