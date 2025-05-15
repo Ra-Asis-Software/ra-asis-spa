@@ -16,13 +16,13 @@ const App = () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/verify-email/:token" element={ <VerifyEmail /> } />
-        <Route path="/login" element={ <Login /> } />
-        <Route path="/reset-password" element={ <ResetPassword /> } />
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/reset-password/:token" element={<UpdatePassword />} />
         <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -18,6 +18,7 @@ const Register = () => {
   const [errors, setErrors] = useState({}); // State for tracking validation errors
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [isLoading, setIsLoading] = useState(false);
   const { firstName, lastName, phoneNumber, email, username, password, role } =
     formData;
 
@@ -98,6 +99,8 @@ const Register = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       await axios.post("/api/auth/register", formData);
 
@@ -120,6 +123,8 @@ const Register = () => {
     } catch (err) {
       setErrorMessage("Something went wrong. Please try again!");
       setSuccessMessage(""); // Clear any previous success message
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -309,7 +314,9 @@ const Register = () => {
                   </div>
                 </div>
                 <div className="submit-button">
-                  <button type="submit">Submit</button>
+                  <button type="submit" disabled={isLoading}>
+                    {isLoading ? "Processing..." : "Submit"}
+                  </button>
                 </div>
                 <div className="form-message">
                   {successMessage && (

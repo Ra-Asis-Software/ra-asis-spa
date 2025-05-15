@@ -9,6 +9,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // State for submit button loading
 
   const navigate = useNavigate();
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -28,6 +29,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage(""); // Reset error message before each new login attempt
+    setIsLoading(true);
 
     try {
       const response = await axios.post("/api/auth/login", {
@@ -36,7 +38,7 @@ const Login = () => {
       });
 
       if (response.data) {
-        setSuccessMessage("Login successful!");
+        setSuccessMessage("Sign in successful!");
         // Save the token in local storage
         localStorage.setItem("authToken", response.data.token);
 
@@ -49,8 +51,11 @@ const Login = () => {
           localStorage.removeItem("savedPassword");
         }
 
-        // Redirect to the dashboard or home page
-        navigate("/dashboard");
+        // On redirect, clear success message to avoid flash messages
+        setTimeout(() => {
+          setSuccessMessage("");
+          navigate("/dashboard");
+        }, 2000);
       }
     } catch (error) {
       if (error.response) {
@@ -67,6 +72,8 @@ const Login = () => {
       } else {
         setErrorMessage("Something went wrong. Please try again later.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -113,7 +120,9 @@ const Login = () => {
                 </div>
               </div>
               <div className="submit-btn">
-                <button type="submit">SIGN IN</button>
+                <button type="submit" disabled={isLoading}>
+                  {isLoading ? "SIGNING IN..." : "SIGN IN"}
+                </button>
               </div>
               <div className="form-message">
                 {errorMessage && (
