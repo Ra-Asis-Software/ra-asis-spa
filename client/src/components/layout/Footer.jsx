@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { footerLinkContainers } from "../../data/footerLinksData";
+import { footerSocials } from "../../data/footerSocialsData";
 
 const Footer = () => {
   return (
@@ -11,57 +13,29 @@ const Footer = () => {
           <h3>Ra'Asis Analytica</h3>
         </div>
         <div className="socials">
-          <Link
-            to="https://web.facebook.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fa-brands fa-facebook"></i>
-          </Link>
-          <Link
-            to="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fa-brands fa-instagram"></i>
-          </Link>
-          <Link to="#" target="_blank" rel="noopener noreferrer">
-            <i className="fa-brands fa-linkedin"></i>
-          </Link>
-          <Link to="#" target="_blank" rel="noopener noreferrer">
-            <i className="fa-brands fa-x-twitter"></i>
-          </Link>
-          <Link
-            to="https://api.whatsapp.com/send?phone=254742807455"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fa-brands fa-whatsapp"></i>
-          </Link>
+          {footerSocials.map((footerSocial) => (
+            <Link
+              key={footerSocial.id}
+              to={footerSocial.linkTo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className={`fa-brands ${footerSocial.socialIcon}`}></i>
+            </Link>
+          ))}
         </div>
       </div>
-      <div className="what-we-offer footer-links">
-        <h3>What We Offer</h3>
-        <Link to="/#">Intuitive Dashboards</Link>
-        <Link to="/#">Student Analytics</Link>
-        <Link to="/#">Progress Reports</Link>
-        <Link to="/#">Notifications</Link>
-        <Link to="/#">Reminders</Link>
-      </div>
-      <div className="company footer-links">
-        <h3>Company</h3>
-        <Link to="/#">Why Ra'Asis Analytica</Link>
-        <Link to="/#">Become a Partner</Link>
-        <Link to="/#">Our Partners</Link>
-        <Link to="/#">About Us</Link>
-      </div>
-      <div className="popular-links footer-links">
-        <h3>Popular Links</h3>
-        <Link to="/#">Contact Us</Link>
-        <Link to="/#">Resources</Link>
-        <Link to="/register">Register</Link>
-        <Link to="/login">Login</Link>
-      </div>
+      {footerLinkContainers.map((footerLinkContainer) => (
+        <div
+          key={footerLinkContainer.id}
+          className={`${footerLinkContainer.className} footer-links`}
+        >
+          <h3>{footerLinkContainer.containerHeading}</h3>
+          {footerLinkContainer.containerLinks.map((containerLink) => (
+            <Link to={containerLink.linkTo}>{containerLink.linkText}</Link>
+          ))}
+        </div>
+      ))}
     </footer>
   );
 };

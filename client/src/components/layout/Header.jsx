@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { navItems } from "../../data/headerNavData";
 
 const Header = () => {
   // State to track opening and closing of responsive menu
@@ -30,55 +31,19 @@ const Header = () => {
       </div>
 
       <nav className={`main-navigation ${isMenuOpen ? "active" : ""}`}>
-        <Link
-          to="#"
-          className={location.pathname === "#" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          WHAT WE OFFER<i className="fa-solid fa-chevron-down"></i>
-        </Link>
-        <Link
-          to="#"
-          className={location.pathname === "#" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          SUPPORT
-        </Link>
-        <Link
-          to="#"
-          className={location.pathname === "#" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          COMPANY
-        </Link>
-        <Link
-          to="#"
-          className={location.pathname === "#" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          RESOURCES
-        </Link>
-        <Link
-          to="#"
-          className={location.pathname === "#" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          SEARCH
-        </Link>
-        <Link
-          to="/register"
-          className={location.pathname === "/register" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          REGISTER
-        </Link>
-        <Link
-          to="/login"
-          className={location.pathname === "/login" ? "active" : ""}
-          onClick={closeMenu}
-        >
-          LOGIN
-        </Link>
+        {navItems.map((navItem) => (
+          <Link
+            key={navItem.id}
+            to={navItem.linkTo}
+            className={location.pathname === navItem.linkTo ? "active" : ""}
+            onClick={closeMenu}
+          >
+            {navItem.linkText}
+            {navItem.hasDropdownMenu && (
+              <i className="fa-solid fa-chevron-down"></i>
+            )}
+          </Link>
+        ))}
       </nav>
     </header>
   );

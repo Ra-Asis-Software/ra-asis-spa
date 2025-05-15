@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { featuresContent } from "../../data/featuresOverviewData";
 
 const FeaturesOverview = () => {
   return (
@@ -7,56 +8,15 @@ const FeaturesOverview = () => {
         <h2>Features Overview</h2>
       </div>
       <div className="features-descriptions">
-        <div className="feature-box">
-          <img src="/assets/dashboards.webp" alt="User-Friendly Dashboards" />
-          <div className="descriptions-texts">
-            <h3>User-Friendly Dashboards</h3>
-            <p>
-              Get real-time updates and personalised insights, as you navigate
-              an intuitive dashboard tailored for you to easily track your
-              academic progress.
-            </p>
+        {featuresContent.map((featureContent) => (
+          <div key={featureContent.id} className="feature-box">
+            <img src={featureContent.image} alt={featureContent.title} />
+            <div className="descriptions-texts">
+              <h3>{featureContent.title}</h3>
+              <p>{featureContent.description}</p>
+            </div>
           </div>
-        </div>
-        <div className="feature-box">
-          <img
-            src="/assets/analytics_reports.webp"
-            alt="Student Progress Reports"
-          />
-          <div className="descriptions-texts">
-            <h3>Student Progress Reports</h3>
-            <p>
-              Gain actionable insights with detailed performance metrics, trends
-              and customisable reports designed to monitor outcomes for future
-              planning.
-            </p>
-          </div>
-        </div>
-        <div className="feature-box">
-          <img
-            src="/assets/notifications.webp"
-            alt="Reminders and Notifications"
-          />
-          <div className="descriptions-texts">
-            <h3>Reminders & Notifications</h3>
-            <p>
-              Never miss a task with smart reminders and seamless calendar
-              integration, keeping students, teachers and parents organized and
-              informed.
-            </p>
-          </div>
-        </div>
-        <div className="feature-box">
-          <img src="/assets/collaborative.webp" alt="Collaborative Tools" />
-          <div className="descriptions-texts">
-            <h3>Collaborative Tools</h3>
-            <p>
-              Enhanced teamwork with intuitive group chats, shared documents and
-              collective performance tracking for an enriched learning
-              experience.
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
       <div className="features-cta-buttons">
         <Link to="/register">SIGN UP</Link>
