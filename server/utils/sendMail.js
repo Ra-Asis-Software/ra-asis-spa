@@ -4,8 +4,8 @@ const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL_USERNAME, // Sender email address (We will have to setup email ya SPA for this)
-      pass: process.env.EMAIL_PASSWORD, // Email App password (using my Gmail App Password for testing)
+      user: process.env.EMAIL_USERNAME, // Sender email address (We will have to setup an SPA email in prod)
+      pass: process.env.EMAIL_PASSWORD, // Gmail App Password (Replace with SPA email App Pass in prod)
     },
   });
 
