@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const unitRoutes = require("./routes/unitRoutes")
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +25,7 @@ app.get("/", (req, res) =>
 
 // User auth routes
 app.use("/api/auth", authRoutes); // Use user routes for handling user-related requests
+app.use("/api/unit", unitRoutes)
 
 //Global error handling
 app.use((err, req, res, next) => {
