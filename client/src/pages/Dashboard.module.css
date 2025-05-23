@@ -1,0 +1,45 @@
+.dashboardContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+p.userSpecific {
+  font-weight: 700;
+  padding: 20px;
+}
+
+p.adminSpecific {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+}
+
+p.teacherSpecific {
+  background: var(--black-pearl-color);
+  color: var(--aqua-color);
+}
+
+p.studentSpecific {
+  background: var(--west-coast-color);
+  color: var(--bright-sun-color);
+}
+
+p.parentSpecific {
+  background: var(--pale-sky-color);
+  color: var(--black-pearl-color);
+}
+
+.logoutButton {
+  background: var(--black-pearl-color);
+  color: var(--alizarin-crimson-color);
+  max-width: fit-content;
+  border: none;
+  outline: none;
+}
+
+.logoutButton:hover {
+  background: var(--alizarin-crimson-color);
+  color: var(--black-pearl-colorr);
+  max-width: fit-content;
+}

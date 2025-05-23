@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import RoleRestricted from "../components/ui/RoleRestricted";
+import styles from "./Dashboard.module.css";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -21,6 +23,13 @@ const Dashboard = () => {
       try {
         // Decode token to obtain user's data
         const decoded = jwtDecode(token);
+
+        // Check if token is expired and logout if so
+        if (decoded.exp * 1000 < Date.now()) {
+          localStorage.removeItem("authToken");
+          navigate("/login");
+        }
+
         const { firstName, lastName, role } = decoded;
 
         // Set the user's data in state
@@ -88,13 +97,41 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard">
+    <div className={styles.dashboardContainer}>
       <h2>Dashboard</h2>
       <h3>
         Hello {user?.lastName} or should I call you {user?.firstName} ?
       </h3>
       {renderRoleSpecificContent()}
-      <button onClick={handleLogout}>Logout</button>
+      <RoleRestricted allowedRoles={["administrator"]}>
+        <p className={`${styles.userSpecific} ${styles.adminSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <RoleRestricted allowedRoles={["teacher"]}>
+        <p className={`${styles.userSpecific} ${styles.teacherSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <RoleRestricted allowedRoles={["student"]}>
+        <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <RoleRestricted allowedRoles={["parent"]}>
+        <p className={`${styles.userSpecific} ${styles.parentSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
     </div>
   );
 };

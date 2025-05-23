@@ -1,14 +1,34 @@
-import { Navigate, Outlet } from "react-router-dom";
+import React from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ allowedRoles, children }) => {
   const token = localStorage.getItem("authToken");
+  const navigate = useNavigate();
 
-  // Redirect to login if no token is found
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />; // Render the protected component
+  try {
+    const decoded = jwtDecode(token);
+
+    // Check if token is expired and logout if so
+    if (decoded.exp * 1000 < Date.now()) {
+      localStorage.removeItem("authToken");
+      navigate("/login");
+    }
+
+    // Check if user has one of the allowed roles
+    if (allowedRoles && !allowedRoles.includes(decoded.role)) {
+      return <Navigate to="/unauthorized" replace />;
+    }
+
+    return children ? children : <Outlet />;
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return <Navigate to="/login" replace />;
+  }
 };
 
 export default ProtectedRoute;

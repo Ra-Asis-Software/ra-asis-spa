@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.link {
+  background: var(--alizarin-crimson-color);
+  color: var(--foam-color);
+  border-radius: 0;
+  padding: 20px;
+}
+
+.link:hover {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+}
