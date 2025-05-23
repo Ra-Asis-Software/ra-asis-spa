@@ -14,8 +14,6 @@ const Register = () => {
     frontendUrl: window.location.origin,
   });
 
-  console.log(window.location.origin)
-
   const [showPassword, setShowPassword] = useState(false); // State for password visibiliy status
   const [errors, setErrors] = useState({}); // State for tracking validation errors
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
