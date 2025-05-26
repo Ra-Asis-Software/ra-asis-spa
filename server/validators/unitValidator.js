@@ -1,6 +1,6 @@
-const { body } = require('express-validator')
+import { body } from "express-validator";
 
-const validateNewUnit = [
+export const validateNewUnit = [
     body("unitCode")
     .exists().withMessage("Unit Code missing")
     .trim().isLength({ min: 4, max: 10 }).withMessage("Unit code must be between 4 and 10 characters")
@@ -14,7 +14,7 @@ const validateNewUnit = [
     .escape()
 ]
 
-const validateAssignUnit = [
+export const validateAssignUnit = [
     body("email")
     .exists().withMessage("Teacher mail is missing")
     .trim().normalizeEmail().isEmail().withMessage("Invalid email format"),
@@ -26,5 +26,3 @@ const validateAssignUnit = [
     .escape()
     .toLowerCase()
 ]
-
-module.exports = { validateNewUnit, validateAssignUnit }

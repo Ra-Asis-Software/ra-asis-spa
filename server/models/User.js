@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import mongoose from "mongoose";
+import bcryptjs from "bcryptjs";
+const { genSalt, hash, compare } = bcryptjs;
 
 // Define the user schema
 const userSchema = new mongoose.Schema(
@@ -72,8 +73,8 @@ userSchema.pre("save", async function (next) {
   }
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    const salt = await genSalt(10);
+    this.password = await hash(this.password, salt);
     next();
   } catch (error) {
     next(error);
@@ -82,10 +83,10 @@ userSchema.pre("save", async function (next) {
 
 // Method to compare user-entered password with stored password
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return await compare(enteredPassword, this.password);
 };
 
 // Create the user model
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+export default User;

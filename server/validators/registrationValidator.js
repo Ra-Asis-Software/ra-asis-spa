@@ -1,7 +1,7 @@
-const { body } = require("express-validator");
+import { body } from "express-validator";
 
 // Validation Middleware for registerUser route
-const validateRegister = [
+export const validateRegister = [
   body("firstName")
     .notEmpty()
     .withMessage("You did not enter your first name!")
@@ -54,5 +54,3 @@ const validateRegister = [
       "You must select your user category: student, teacher, or parent!"
     ),
 ];
-
-module.exports = { validateRegister };

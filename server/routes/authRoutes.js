@@ -1,14 +1,14 @@
-const express = require("express");
-const { validateRegister } = require("../validators/registrationValidator");
-const {
+import { Router } from "express";
+import { validateRegister } from "../validators/registrationValidator.js";
+import {
   registerUser,
   verifyEmail,
   loginUser,
   requestPasswordReset,
   resetPassword,
-} = require("../controllers/authController");
+} from "../controllers/authController.js";
 
-const router = express.Router();
+const router = Router();
 
 // Route for user registration
 router.post("/register", validateRegister, registerUser);
@@ -25,4 +25,4 @@ router.post("/reset-password", requestPasswordReset);
 // Route for resetting password
 router.post("/reset-password/:token", resetPassword);
 
-module.exports = router;
+export default router;
