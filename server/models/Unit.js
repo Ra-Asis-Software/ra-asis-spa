@@ -5,6 +5,8 @@ const unitSchema = new mongoose.Schema({
     unitName: { type: String, require: true }
 })
 
+unitSchema.index({ unitCode: 1, unique: true })
+
 const Unit = mongoose.model('Unit', unitSchema)
 
 module.exports = Unit
