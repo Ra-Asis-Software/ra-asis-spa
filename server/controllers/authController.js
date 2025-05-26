@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Teacher = require("../models/Teacher")
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const sendMail = require("../utils/sendMail");
@@ -32,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Create a new user
-  const user = await User.create({
+  const user = new User({
     firstName,
     lastName,
     phoneNumber,
@@ -41,6 +42,19 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     role,
   });
+
+  // Assigning the user to the model that fits their role
+  if(role.toLowerCase() === 'teacher') {
+    const teacher = new Teacher({
+      bio: user._id
+    })
+
+    //save user last to ensure the user exists only if their profile is already set
+    await teacher.save()
+    await user.save()
+  }
+
+
 
   if (user) {
     // Generate email verification token (valid for 1 hour)
