@@ -1,12 +1,12 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
-const unitRoutes = require("./routes/unitRoutes")
+import express, { json } from "express";
+import { config } from "dotenv";
+import cors from "cors";
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import unitRoutes from "./routes/unitRoutes.js";
 
 // Load environment variables
-dotenv.config();
+config();
 
 // Connect to MongoDB
 connectDB();
@@ -15,7 +15,7 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(json());
 app.use(cors());
 
 // Main test route
@@ -25,7 +25,9 @@ app.get("/", (req, res) =>
 
 // User auth routes
 app.use("/api/auth", authRoutes); // Use user routes for handling user-related requests
-app.use("/api/unit", unitRoutes)
+
+// Unit routes
+app.use("/api/unit", unitRoutes);
 
 //Global error handling
 app.use((err, req, res, next) => {

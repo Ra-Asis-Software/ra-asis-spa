@@ -1,9 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const { addUnit } = require('../controllers/unitController')
-const { validateNewUnit } = require('../validators/unitValidator')
-const { hasPermission } = require('../middleware/checkUserRole')
+import { Router } from "express";
+import { addUnit } from "../controllers/unitController.js";
+import { validateNewUnit } from "../validators/unitValidator.js";
+import { hasPermission } from "../middleware/checkUserRole.js";
 
-router.post('/add-unit', hasPermission("create:unit"), validateNewUnit, addUnit)
+const router = Router();
 
-module.exports = router
+router.post(
+  "/add-unit",
+  hasPermission("create:unit"),
+  validateNewUnit,
+  addUnit
+);
+
+export default router;

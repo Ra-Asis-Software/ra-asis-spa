@@ -61,7 +61,7 @@ export const ROLES = {
       "view:attendance-report",
       "view:dashboard",
       "customize:dashboard",
-      "create:unit"
+      "create:unit",
     ],
     description: "Full system access",
   },

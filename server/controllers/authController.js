@@ -1,13 +1,13 @@
-const User = require("../models/User");
-const asyncHandler = require("express-async-handler");
-const generateToken = require("../utils/generateToken");
-const sendMail = require("../utils/sendMail");
-const jwt = require("jsonwebtoken");
+import User from "../models/User.js";
+import asyncHandler from "express-async-handler";
+import generateToken from "../utils/generateToken.js";
+import sendMail from "../utils/sendMail.js";
+import jwt from "jsonwebtoken";
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
-const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const {
     firstName,
     lastName,
@@ -27,7 +27,8 @@ const registerUser = asyncHandler(async (req, res) => {
   if (userExists) {
     res.status(400);
     return res.json({
-      message: "This user already exists. Try another email address, username, or number",
+      message:
+        "This user already exists. Try another email address, username, or number",
     });
   }
 
@@ -78,7 +79,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @desc    Verify email
 // @route   GET /api/auth/verify-email/:token
 // @access  Public
-const verifyEmail = asyncHandler(async (req, res) => {
+export const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.params;
 
   try {
@@ -105,7 +106,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 // @desc    Login a registered and verified user
 // @route   POST /api/auth/login
 // @access  Public
-const loginUser = asyncHandler(async (req, res) => {
+export const loginUser = asyncHandler(async (req, res) => {
   const { emailOrUsername, password } = req.body;
 
   // Check if the user exists
@@ -168,18 +169,16 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     await user.save();
-    res
-      .status(401)
-      .json({
-        message: "Invalid email/username or password. Match your credentials!",
-      });
+    res.status(401).json({
+      message: "Invalid email/username or password. Match your credentials!",
+    });
   }
 });
 
 // @desc    Request a password reset link
 // @route   POST /api/auth/reset-password
 // @access  Public
-const requestPasswordReset = asyncHandler(async (req, res) => {
+export const requestPasswordReset = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
   // Find user by email
@@ -219,7 +218,7 @@ const requestPasswordReset = asyncHandler(async (req, res) => {
 // @desc    Reset password using token
 // @route   POST /api/auth/reset-password/:token
 // @access  Public
-const resetPassword = asyncHandler(async (req, res) => {
+export const resetPassword = asyncHandler(async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
 
@@ -243,11 +242,3 @@ const resetPassword = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "Invalid or expired token" });
   }
 });
-
-module.exports = {
-  registerUser,
-  verifyEmail,
-  loginUser,
-  requestPasswordReset,
-  resetPassword,
-};

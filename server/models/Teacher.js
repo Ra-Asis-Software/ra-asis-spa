@@ -1,11 +1,11 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
 const teacherSchema = new mongoose.Schema({
-    bio: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    units: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Unit' }],
-    calender: [{ title: String, description: String, date: Date }]
-})
+  bio: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  units: [{ type: mongoose.Schema.Types.ObjectId, ref: "Unit" }],
+  calender: [{ title: String, description: String, date: Date }],
+});
 
-const Teacher = mongoose.model('Teacher', teacherSchema)
+const Teacher = mongoose.model("Teacher", teacherSchema);
 
-module.exports = Teacher
+export default Teacher;
