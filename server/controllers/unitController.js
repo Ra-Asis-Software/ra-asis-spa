@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Unit from "../models/Unit.js";
+import Teacher from '../models/Teacher.js'
+import User from '../models/User.js'
 import { validationResult, matchedData } from "express-validator";
 import validator from "validator";
 
@@ -11,7 +13,7 @@ export const addUnit = asyncHandler(async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-    //get the data that has been validated from unitValidator
+    //get sanitized data that has been validated from unitValidator
     const { unitCode, unitName } = matchedData(req)
 
     //check if unit exists, regardless of case
@@ -41,9 +43,14 @@ export const assignUnit = asyncHandler( async (req, res) => {
 
     if(!unitExists) return res.status(404).json({ message: 'The requested unit could not be found' });
 
-    const isTeacher = await Teacher.findOne({ email })
+    //use email and role to identify the teacher
+    const isTeacher = await User.findOne({ email, role: 'teacher' })
 
     if(!isTeacher) return res.status(404).json({ message: 'Invalid Teacher credentials' });
 
-    
+    //use the _id of the current User to update their Teacher document
+    //add the unit to the units array in the teacher's document
+    await Teacher.updateOne( { bio: isTeacher._id }, { $addToSet: { units: unitExists._id } } )
+
+    return res.status(201).json({ message: "Unit has been successfully Assigned"})
 })

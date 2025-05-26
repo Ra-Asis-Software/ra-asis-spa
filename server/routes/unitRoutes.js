@@ -5,5 +5,7 @@ import { hasPermission } from "../middleware/checkUserRole.js";
 
 const router = Router();
 
-router.post('/add-unit', validateNewUnit, addUnit)
-router.post('/assign-unit', validateAssignUnit, assignUnit)
+router.post('/add-unit', hasPermission("create:unit"), validateNewUnit, addUnit)
+router.post('/assign-unit', hasPermission("assign:unit"), validateAssignUnit, assignUnit)
+
+export default router
