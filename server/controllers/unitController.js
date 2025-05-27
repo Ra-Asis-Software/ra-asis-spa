@@ -49,8 +49,9 @@ export const assignUnit = asyncHandler( async (req, res) => {
     if(!isTeacher) return res.status(404).json({ message: 'Invalid Teacher credentials' });
 
     //use the _id of the current User to update their Teacher document
-    //add the unit to the units array in the teacher's document
-    await Teacher.updateOne( { bio: isTeacher._id }, { $addToSet: { units: unitExists._id } } )
+    //add the unit to the units array if it doesn't exist in the teacher's document
+    // upsert creates a new document if no document matches the criteria
+    await Teacher.updateOne( { bio: isTeacher._id }, { $addToSet: { units: unitExists._id } }, { upsert: true } )
 
     return res.status(201).json({ message: "Unit has been successfully Assigned"})
 })
