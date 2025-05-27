@@ -1,7 +1,4 @@
 import User from "../models/User.js";
-import Teacher from "../models/Teacher.js"
-import Student from '../models/Student.js'
-import Parent from '../models/Parent.js'
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import sendMail from "../utils/sendMail.js";
@@ -36,7 +33,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Create a new user
-  const user = new User({
+  const user = await User.create({
     firstName,
     lastName,
     phoneNumber,
@@ -45,33 +42,6 @@ export const registerUser = asyncHandler(async (req, res) => {
     password,
     role,
   });
-
-  // Assigning the user to the model that fits their role
-  if(role.toLowerCase() === 'teacher') {
-
-    const teacher = new Teacher({
-      bio: user._id
-    })
-
-    await teacher.save() 
-  } else if(role.toLowerCase() === 'student') {
-
-    const student = new Student({
-      bio: user._id
-    })
-
-    await student.save()
-  } else if(role.toLowerCase() === 'parent') {
-
-    const parent = new Parent({
-      bio: user._id
-    })
-
-    await parent.save()
-  }
-
-  //save user last to ensure the user exists only if their profile is already set
-  await user.save()
 
   if (user) {
     // Generate email verification token (valid for 1 hour)
