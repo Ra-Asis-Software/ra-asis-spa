@@ -26,3 +26,12 @@ export const validateAssignUnit = [
     .escape()
     .toLowerCase()
 ]
+
+export const validateDeleteUnit = [
+    body("unitCode")
+    .exists().withMessage("Missing Unit Code entry")
+    .isLength({ min: 4, max: 10 }).withMessage("Unit code must be between 4 and 10 characters")
+    .matches(/^[a-zA-Z0-9 ]+$/).withMessage("Unit code cannot contain symbols")
+    .escape()
+    .toLowerCase()
+]

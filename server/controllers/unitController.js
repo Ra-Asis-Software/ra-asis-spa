@@ -55,3 +55,15 @@ export const assignUnit = asyncHandler( async (req, res) => {
 
     return res.status(201).json({ message: "Unit has been successfully Assigned"})
 })
+
+export const deleteUnit = asyncHandler( async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { unitCode } = matchedData(req)
+
+    
+})
