@@ -58,7 +58,6 @@ export const assignUnit = asyncHandler( async (req, res) => {
 })
 
 export const deleteUnit = asyncHandler( async (req, res) => {
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -74,6 +73,40 @@ export const deleteUnit = asyncHandler( async (req, res) => {
 
     await unit.deleteOne()
     return res.status(200).json({ message: `Unit ${unitCode} has successfully been deleted` })
+})
 
-    
+export const getStudents = asyncHandler( async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { unitCode } = matchedData(req)
+    const unit = await Unit.findOne({ unitCode })
+
+    if(!unit) {
+      return res.status(404).json({ message: "The specified unit does not exist" })
+    }
+
+    const students = await Student.find({ units: unit._id })
+
+    return res.status(200).json({ message: "success", data: students })
+})
+
+export const getTeachers = asyncHandler( async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { unitCode } = matchedData(req)
+    const unit = await Unit.findOne({ unitCode })
+
+    if(!unit) {
+      return res.status(404).json({ message: "The specified unit does not exist" })
+    }
+
+    const teachers = await Teacher.find({ units: unit._id })
+
+    return res.status(200).json({ message: "success", data: teachers })
 })

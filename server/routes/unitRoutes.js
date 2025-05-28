@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { addUnit, assignUnit, deleteUnit } from "../controllers/unitController.js";
-import { validateNewUnit, validateAssignUnit, validateDeleteUnit } from "../validators/unitValidator.js";
-import { hasPermission } from "../middleware/checkUserRole.js";
+import { addUnit, assignUnit, deleteUnit, getStudents, getTeachers } from "../controllers/unitController.js";
+import { validateNewUnit, validateAssignUnit, validateUnitCode } from "../validators/unitValidator.js";
+import { hasPermission, hasRole } from "../middleware/checkUserRole.js";
 
 const router = Router();
 
 router.post('/add-unit', hasPermission("create:unit"), validateNewUnit, addUnit)
 router.post('/assign-unit', hasPermission("assign:unit"), validateAssignUnit, assignUnit)
-router.post('/delete-unit', hasPermission("delete:unit"), validateDeleteUnit, deleteUnit)
+router.post('/delete-unit', hasPermission("delete:unit"), validateUnitCode, deleteUnit)
+router.post('/get-students', hasRole("administrator", "teacher", "student"), validateUnitCode, getStudents)
+router.post('/get-teachers', hasRole("administrator", "teacher", "student"), validateUnitCode, getTeachers)
 
 export default router

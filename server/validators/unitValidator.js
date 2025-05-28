@@ -27,7 +27,7 @@ export const validateAssignUnit = [
     .toLowerCase()
 ]
 
-export const validateDeleteUnit = [
+export const validateUnitCode = [
     body("unitCode")
     .exists().withMessage("Missing Unit Code entry")
     .isLength({ min: 4, max: 10 }).withMessage("Unit code must be between 4 and 10 characters")
