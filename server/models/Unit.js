@@ -9,11 +9,15 @@ const unitSchema = new mongoose.Schema({
 
 unitSchema.index({ unitCode: 1, unique: true });
 
-unitSchema.pre("findOneAndDelete", async () => {
+//a pre method to clean a unit's references on other models before deleting it
+unitSchema.pre('deleteOne', async function(next) {
   const unit = await this.model.findOne(this.getQuery())
-
-  if(unit) {
-
+  try {
+    await Teacher.updateMany({}, { $pull: { units: unit._id } })
+    await Student.updateMany({}, { $pull: { units: unit._id } })
+    next()
+  }catch(error) {
+    next(error)
   }
 })
 

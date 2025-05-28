@@ -4,6 +4,7 @@ import Teacher from '../models/Teacher.js'
 import User from '../models/User.js'
 import { validationResult, matchedData } from "express-validator";
 import validator from "validator";
+import Student from "../models/Student.js";
 
 export const addUnit = asyncHandler(async (req, res) => {
 
@@ -64,6 +65,15 @@ export const deleteUnit = asyncHandler( async (req, res) => {
     }
 
     const { unitCode } = matchedData(req)
+
+    const unit = await Unit.findOne({ unitCode })
+
+    if(!unit) {
+      return res.status(404).json({ message: "The specified unit does not exist" })
+    }
+
+    await unit.deleteOne()
+    return res.status(200).json({ message: `Unit ${unitCode} has successfully been deleted` })
 
     
 })

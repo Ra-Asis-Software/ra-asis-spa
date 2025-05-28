@@ -7,6 +7,6 @@ const router = Router();
 
 router.post('/add-unit', hasPermission("create:unit"), validateNewUnit, addUnit)
 router.post('/assign-unit', hasPermission("assign:unit"), validateAssignUnit, assignUnit)
-router.post('/delete-unit', validateDeleteUnit, deleteUnit)
+router.post('/delete-unit', hasPermission("delete:unit"), validateDeleteUnit, deleteUnit)
 
 export default router
