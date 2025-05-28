@@ -1,0 +1,207 @@
+/*student dashboard sidebar Styling*/
+
+.student-dashboard {
+  background-color: #EDFDFD;
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 150px;
+  height: 100vh;
+  background-color: #04061F;
+  border-radius: 10px;
+  color: white;
+  padding: 20px;
+  margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.sidebar-list {
+  font-size: 14px;
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-list li {
+  /* display: flex; */
+  padding: 16px 10px;
+  cursor: pointer;
+  width: fit-content; 
+  margin: 0 auto;  
+  list-style: none;
+}
+
+.sidebar-list li:hover {
+  font-weight: bold;
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.sidebar-item:hover .dashboard-icon {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+/* .dashboard-icon{
+  padding-right: 30px;
+} */
+
+.spa-logo {
+  display: block;
+  width: 60px;          
+  height: 60px;         
+  object-fit: contain;      
+  /* margin-left: 46px;    */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  transition: transform 0.3s ease; 
+  cursor: pointer;       
+}
+
+.spa-logo:hover {
+  transform: scale(1.1);  
+}
+
+.main-content {
+  color: #000000;
+  font-size: 12px;
+  padding: 25px;
+  flex-grow: 1;
+}
+
+.assignment-section h2 {
+  font-size: medium;
+}
+
+.first-assignment {
+  width: 200px;
+  height: 68px;
+  background-color: rgba(90, 224, 215, 0.3);
+  border-radius: 10px;
+  font-size: small;
+  font-weight: bold;
+  padding: 12px 16px;
+}
+
+.first-assignment span {
+  display: block;
+  color: rgba(4, 6, 31, 0.3);
+  font-weight: normal;
+}
+
+.viewbutton {
+  display: flex;
+  background-color: #04061F;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 80px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.button{
+  padding-top: 6px;
+}
+
+.assignmentsContainer {
+  display: flex;
+  gap: 25px; 
+  flex-wrap: wrap;
+}
+
+.summary-section {
+  padding-top: 20px;
+}
+
+.summary-section h2 {
+  font-size:medium;
+}
+
+.progressBars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.progressRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 1px;
+}
+
+.progressLine {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.progressTrack {
+  width: 200px;
+  height: 12px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+
+.progressFillCompleted {
+  height: 100%;
+  background-color: #4CAF50;
+  border-radius: 8px 0 0 8px;
+  width: 0;
+  transition: width 5s ease-in-out;
+}
+
+.progressFillPending {
+  height: 100%;
+  background-color: #FFB300;
+  border-radius: 8px 0 0 8px;
+}
+
+.progressFillOverdue {
+  height: 100%;
+  background-color: #CCCCCC;
+  border-radius: 8px 0 0 8px;
+}
+
+.sectionRow {
+  display: flex;
+  gap: 140px; 
+  margin-top: 20px;
+}
+
+.deadlines-section {
+  padding-top: 20px;
+}
+
+.deadlines-section h2 {
+  font-size:medium;
+}
+
+.deadlineContainer {
+  width: 320px;
+  height: 200px;
+  background-color: rgba(90, 224, 215, 0.3);
+  border-radius: 10px;
+  font-size: small;
+  font-weight: bold;
+  padding: 12px 16px;
+}

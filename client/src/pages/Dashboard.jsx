@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
+import StudentDashboard from "../components/dashboard/StudentDashboard";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -67,10 +68,11 @@ const Dashboard = () => {
     switch (user.role) {
       case "student":
         return (
-          <p>
-            Welcome to your student dashboard! Here you can track your progress
-            and access resources.
-          </p>
+          // <p>
+          //   Welcome to your student dashboard! Here you can track your progress
+          //   and access resources.
+          // </p>
+          <StudentDashboard />
         );
       case "teacher":
         return (
@@ -98,10 +100,10 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboardContainer}>
-      <h2>Dashboard</h2>
+      {/* <h2>Dashboard</h2>
       <h3>
         Hello {user?.lastName} or should I call you {user?.firstName} ?
-      </h3>
+      </h3> */}
       {renderRoleSpecificContent()}
       <RoleRestricted allowedRoles={["administrator"]}>
         <p className={`${styles.userSpecific} ${styles.adminSpecific}`}>
@@ -118,11 +120,11 @@ const Dashboard = () => {
         </p>
       </RoleRestricted>
       <RoleRestricted allowedRoles={["student"]}>
-        <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
+        {/* <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
           You are a {user?.role}. We are building this exciting new
           feature tailored specifically for you. Come back in a few days to
           explore and enjoy it!
-        </p>
+        </p> */}
       </RoleRestricted>
       <RoleRestricted allowedRoles={["parent"]}>
         <p className={`${styles.userSpecific} ${styles.parentSpecific}`}>
@@ -131,7 +133,7 @@ const Dashboard = () => {
           explore and enjoy it!
         </p>
       </RoleRestricted>
-      <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+      {/* <button className={styles.logoutButton} onClick={handleLogout}>Logout</button> */}
     </div>
   );
 };
