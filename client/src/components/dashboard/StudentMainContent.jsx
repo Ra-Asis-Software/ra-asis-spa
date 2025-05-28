@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { Bell } from 'lucide-react';
 import styles from './StudentDashboard.module.css';
 
 const assignments = [
-  { subject: 'Mathematics Assignment 1', teacher: 'Mrs. hijijijlkn' },
-  { subject: 'Chemistry Assignment 1', teacher: 'Mrs. jijijlkn' },
-  { subject: 'Biology Assignment 1', teacher: 'Mrs. kjijlkn' },
+  {
+    subject: 'Mathematics Assignment 1',
+    teacher: 'Mrs. hijijijlkn',
+    deadline: 'June 10, 2025',
+  },
+  {
+    subject: 'Chemistry Assignment 1',
+    teacher: 'Mrs. jijijlkn',
+    deadline: 'June 12, 2025',
+  },
+  {
+    subject: 'Biology Assignment 1',
+    teacher: 'Mrs. kjijlkn',
+    deadline: 'June 15, 2025',
+  },
 ];
+
 
 const progressData = [
   { label: 'Completed', percent: 80, class: styles.completed },
@@ -25,8 +39,24 @@ const StudentMainContent = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+  const studentName = 'Abebe Chala';
+  const studentRole = 'Student';
+  const initial = studentName.charAt(0).toUpperCase();
+
   return (
     <div className={styles['main-content']}>
+
+      <div className={styles.headerRow}>
+        <div className={styles.profileHeader}>
+          <div className={styles.avatar}>{initial}</div>
+          <div className={styles.profileInfo}>
+            <span className={styles.profileName}>{studentName}</span>
+            <span className={styles.profileRole}>{studentRole}</span>
+          </div>
+          <Bell className={styles.notificationIcon} />
+        </div>
+      </div>
+
       <h2>Activity Dashboard</h2>
 
       <div className={styles['assignment-section']}>
@@ -71,8 +101,11 @@ const StudentMainContent = () => {
           <div className={styles.deadlineContainer}>
             {assignments.map((assignment, index) => (
               <div key={index} className={styles['deadlines']}>
-                {assignment.subject}
-                <span>{assignment.teacher}</span>
+                <div className={styles.subjectRow}>
+                  <span className={styles.subjectText}>{assignment.subject}</span>
+                  <span className={styles.deadlineDate}>{assignment.deadline}</span>
+                </div>
+                <span className={styles.teacherText}>{assignment.teacher}</span>
               </div>
             ))}
           </div>
