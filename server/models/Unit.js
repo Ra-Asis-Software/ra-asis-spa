@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Teacher from "./Teacher.js";
 import Student from './Student.js'
-import Assignment from "./Assignment.js";
 
 const unitSchema = new mongoose.Schema({
   unitCode: { type: String, unique: true, required: true },

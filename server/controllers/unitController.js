@@ -110,3 +110,9 @@ export const getTeachers = asyncHandler( async(req, res) => {
 
     return res.status(200).json({ message: "success", data: teachers })
 })
+
+export const getAllUnits = asyncHandler( async(req, res) => {
+    const units = await Unit.find({}, 'unitCode unitName')
+
+    return res.status(200).json({success: "Unit retrieval successful", data: units})
+})
