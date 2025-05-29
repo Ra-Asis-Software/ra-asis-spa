@@ -14,6 +14,8 @@ unitSchema.index({ unitCode: 1, unique: true });
 //a pre method to clean a unit's references on other models before deleting it
 //query:true to ensure it is carried out on a query operation
 unitSchema.pre('deleteOne', {document: false, query: true}, async function(next) {
+
+  //transaction to ensure both Student and Teacher rid off a Unit before deletion
   const session = await mongoose.startSession()
   session.startTransaction()
   try {
