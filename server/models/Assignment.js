@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const assignmentSchema = new mongoose.Schema({
-  unit: { type: mongoose.Schema.Types.ObjectId, ref: "Unit" },
   submissionType: { type: String, enum: ["text", "file"] },
   content: { type: String, required: true },
   gradingCriteria: [{ type: String }],

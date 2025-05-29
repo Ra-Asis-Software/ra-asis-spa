@@ -106,7 +106,7 @@ export const getTeachers = asyncHandler( async(req, res) => {
       return res.status(404).json({ message: "The specified unit does not exist" })
     }
 
-    const teachers = await Teacher.find({ units: unit._id })
+    const teachers = await Teacher.find({ units: unit._id }).populate("bio")
 
     return res.status(200).json({ message: "success", data: teachers })
 })

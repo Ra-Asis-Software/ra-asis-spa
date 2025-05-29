@@ -7,7 +7,7 @@ const router = Router();
 
 router.post('/add-unit', hasPermission("create:unit"), validateNewUnit, addUnit)
 router.post('/assign-unit', hasPermission("assign:unit"), validateAssignUnit, assignUnit)
-router.post('/delete-unit', hasPermission("delete:unit"), validateUnitCode, deleteUnit)
+router.post('/delete-unit', validateUnitCode, deleteUnit)
 router.post('/get-students', hasRole("administrator", "teacher", "student"), validateUnitCode, getStudents)
 router.post('/get-teachers', hasRole("administrator", "teacher", "student"), validateUnitCode, getTeachers)
 
