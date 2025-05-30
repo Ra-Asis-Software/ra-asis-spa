@@ -1,38 +1,118 @@
 import asyncHandler from "express-async-handler";
 import Unit from "../models/Unit.js";
-import { validationResult } from "express-validator";
+import Teacher from '../models/Teacher.js'
+import User from '../models/User.js'
+import { validationResult, matchedData } from "express-validator";
 import validator from "validator";
+import Student from "../models/Student.js";
 
 export const addUnit = asyncHandler(async (req, res) => {
+
   //check and return any errors caught during validation of the fields in the request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { unitCode, unitName } = req.body;
+    //get sanitized data that has been validated from unitValidator
+    const { unitCode, unitName } = matchedData(req)
 
-  //normalize unit code and convert to lowercase to ensure case insensitivity when comparing with database value
-  const normalizedUnitCode = unitCode.trim().toLowerCase();
+    //check if unit exists, regardless of case
+    const unitExists = await Unit.findOne({ unitCode: { $regex: `^${unitCode}$`, $options: 'i' } })
 
-  //sanitize unit name to prevent script injection and remove any whitespaces
-  const sanitizedUnitName = validator.escape(unitName.trim());
+    if(unitExists) {
+        return res.status(409).json({ message: `Unit Code ${unitCode} already Exists`, conflict: 'unitCode' })
+    }
 
-  //check if unit exists, regardless of case
-  const unitExists = await Unit.findOne({
-    unitCode: { $regex: `^${normalizedUnitCode}$`, $options: "i" },
-  });
+    await Unit.create({ unitCode, unitName })
 
-  if (unitExists) {
-    return res
-      .status(409)
-      .json({
-        message: `Unit Code ${unitCode} already Exists`,
-        conflict: "unitCode",
-      });
-  }
+    return res.status(201).json({ message: `Unit successfully created` })
+})
 
-  await Unit.create({ unitCode, unitName: sanitizedUnitName });
+export const assignUnit = asyncHandler( async (req, res) => {
 
-  return res.status(201).json({ message: `Unit successfully created` });
-});
+  //errors caught during validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    //get validated data from unitValidator
+    const { email, unitCode } = matchedData(req)
+
+    const unitExists = await Unit.findOne({ unitCode: { $regex: `^${unitCode}$`, $options: 'i' } })
+
+    if(!unitExists) return res.status(404).json({ message: 'The requested unit could not be found' });
+
+    //use email and role to identify the teacher
+    const isTeacher = await User.findOne({ email, role: 'teacher' })
+
+    if(!isTeacher) return res.status(404).json({ message: 'Invalid Teacher credentials' });
+
+    //use the _id of the current User to update their Teacher document
+    //add the unit to the units array if it doesn't exist in the teacher's document
+    // upsert creates a new document if no document matches the criteria
+    await Teacher.updateOne( { bio: isTeacher._id }, { $addToSet: { units: unitExists._id } }, { upsert: true } )
+
+    return res.status(201).json({ message: "Unit has been successfully Assigned"})
+})
+
+export const deleteUnit = asyncHandler( async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { unitCode } = matchedData(req)
+
+    const unit = await Unit.findOne({ unitCode })
+
+    if(!unit) {
+      return res.status(404).json({ message: "The specified unit does not exist" })
+    }
+
+    await unit.deleteOne()
+    return res.status(200).json({ message: `Unit ${unitCode} has successfully been deleted` })
+})
+
+export const getStudents = asyncHandler( async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { unitCode } = matchedData(req)
+    const unit = await Unit.findOne({ unitCode })
+
+    if(!unit) {
+      return res.status(404).json({ message: "The specified unit does not exist" })
+    }
+
+    const students = await Student.find({ units: unit._id })
+
+    return res.status(200).json({ message: "success", data: students })
+})
+
+export const getTeachers = asyncHandler( async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { unitCode } = matchedData(req)
+    const unit = await Unit.findOne({ unitCode })
+
+    if(!unit) {
+      return res.status(404).json({ message: "The specified unit does not exist" })
+    }
+
+    const teachers = await Teacher.find({ units: unit._id }).populate("bio")
+
+    return res.status(200).json({ message: "success", data: teachers })
+})
+
+export const getAllUnits = asyncHandler( async(req, res) => {
+    const units = await Unit.find({}, 'unitCode unitName')
+
+    return res.status(200).json({success: "Unit retrieval successful", data: units})
+})

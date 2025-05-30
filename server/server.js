@@ -25,9 +25,7 @@ app.get("/", (req, res) =>
 
 // User auth routes
 app.use("/api/auth", authRoutes); // Use user routes for handling user-related requests
-
-// Unit routes
-app.use("/api/unit", unitRoutes);
+app.use("/api/unit", unitRoutes) // unit routes: handles all unit-related requests
 
 //Global error handling
 app.use((err, req, res, next) => {
