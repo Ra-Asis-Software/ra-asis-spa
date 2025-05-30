@@ -274,5 +274,132 @@
 .notificationIcon {
   cursor: pointer;
   color: #333;
-  padding-left: 20px;
+  padding-left: 40px;
+  padding-right: 30px;
+  fill: black;
+}
+
+.notificationWrapper {
+  position: relative;
+}
+
+.notificationDropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.unitDropdown {
+  position: relative;
+  margin-right: 1rem;
+}
+
+.unitButton {
+  color: rgba(0, 0, 0, 0.3);
+  background-color: #01A0E2;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #01A0E2;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.unitDropdown:hover .dropdownMenu {
+  display: block;
+}
+
+.dropdownMenu div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdownMenu div:hover {
+  background-color: #f9f9f9;
+}
+
+/* .calendarSection {
+  margin-left: 2rem;
+}
+
+.deadlineMarker {
+  background-color: #ffe3e3 !important;
+  border-radius: 50%;
+} */
+
+.container {
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 280px;
+}
+
+.calendar :global(.react-calendar) {
+  width: 100%;
+  border: none;
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.5;
+}
+
+.calendar :global(.react-calendar__tile) {
+  padding: 0.75rem 0.5rem;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.calendar :global(.react-calendar__tile--active) {
+  background: #027A79;
+  color: white;
+}
+
+.calendar :global(.react-calendar__tile:hover) {
+  background: #e0e7ff;
+  color: #111827;
+}
+
+.calendar :global(.calendar-deadline) {
+  background-color: #facc15 !important;
+  color: #1f2937 !important;
+  font-weight: bold;
+}
+
+.assignmentAndCalendarRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 1rem;
+  align-items: flex-start;
+  flex-wrap: nowrap; /* prevent wrapping */
+}
+
+.calendarWrapper {
+  flex: 1;
+  max-width: 350px;
+  width: 350px;
+  flex-shrink: 0;
+}
+
+.assignmentColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
