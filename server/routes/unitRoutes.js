@@ -3,6 +3,7 @@ import {
   addUnit,
   assignUnit,
   deleteUnit,
+  enrollUnit,
   getAllUnits,
   getStudents,
   getTeachers,
@@ -24,13 +25,21 @@ router.post(
   addUnit
 );
 
-// Route for assigning a unit
+// Route for assigning a unit to a teacher
 router.patch(
   "/assign-unit",
   hasPermission("assign:unit"),
   validateAssignUnit,
   assignUnit
 );
+
+//Route for enrolling for a unit (student)
+router.patch(
+  "/enroll-unit",
+  hasRole("student"),
+  validateUnitCode,
+  enrollUnit
+)
 
 // Route for deleting a unit
 router.delete(
@@ -57,6 +66,9 @@ router.get(
 );
 
 // Route for getting all units
-router.get("/get-all-units", getAllUnits);
+router.get(
+  "/get-all-units", 
+  getAllUnits
+);
 
 export default router;
