@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getStudent } from "../controllers/userController.js";
+import { getStudent, getTeacher } from "../controllers/userController.js";
 import { hasRole } from "../middleware/checkUserRole.js";
 
 const router = Router()
@@ -8,6 +8,13 @@ const router = Router()
 router.get(
     '/student/:id', 
     hasRole("administrator", "student"),
-    getStudent)
+    getStudent
+)
+
+router.get(
+    '/teacher/:id',
+    hasRole("administrator", "teacher"),
+    getTeacher
+)
 
 export default router
