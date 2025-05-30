@@ -1,15 +1,62 @@
 import { Router } from "express";
-import { addUnit, assignUnit, deleteUnit, getAllUnits, getStudents, getTeachers } from "../controllers/unitController.js";
-import { validateNewUnit, validateAssignUnit, validateUnitCode } from "../validators/unitValidator.js";
+import {
+  addUnit,
+  assignUnit,
+  deleteUnit,
+  getAllUnits,
+  getStudents,
+  getTeachers,
+} from "../controllers/unitController.js";
+import {
+  validateNewUnit,
+  validateAssignUnit,
+  validateUnitCode,
+} from "../validators/unitValidator.js";
 import { hasPermission, hasRole } from "../middleware/checkUserRole.js";
 
 const router = Router();
 
-router.post('/add-unit', hasPermission("create:unit"), validateNewUnit, addUnit)
-router.post('/assign-unit', hasPermission("assign:unit"), validateAssignUnit, assignUnit)
-router.post('/delete-unit', hasPermission("delete:unit"), validateUnitCode, deleteUnit)
-router.post('/get-students-by-unit', hasRole("administrator", "teacher", "student"), validateUnitCode, getStudents)
-router.post('/get-teachers-by-unit', hasRole("administrator", "teacher", "student"), validateUnitCode, getTeachers)
-router.get('/get-all-units', getAllUnits)
+// Route for creating a new unit
+router.post(
+  "/add-unit",
+  hasPermission("create:unit"),
+  validateNewUnit,
+  addUnit
+);
 
-export default router
+// Route for assigning a unit
+router.patch(
+  "/assign-unit",
+  hasPermission("assign:unit"),
+  validateAssignUnit,
+  assignUnit
+);
+
+// Route for deleting a unit
+router.delete(
+  "/delete-unit",
+  hasPermission("delete:unit"),
+  validateUnitCode,
+  deleteUnit
+);
+
+// Route for retrieving students by unit
+router.get(
+  "/get-students-by-unit",
+  hasRole("administrator", "teacher", "student"),
+  validateUnitCode,
+  getStudents
+);
+
+// Route for retrieving teachers by unit
+router.get(
+  "/get-teachers-by-unit",
+  hasRole("administrator", "teacher", "student"),
+  validateUnitCode,
+  getTeachers
+);
+
+// Route for getting all units
+router.get("/get-all-units", getAllUnits);
+
+export default router;
