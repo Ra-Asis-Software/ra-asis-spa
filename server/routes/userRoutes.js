@@ -11,6 +11,7 @@ router.get(
     getStudent
 )
 
+//get teacher details
 router.get(
     '/teacher/:id',
     hasRole("administrator", "teacher"),

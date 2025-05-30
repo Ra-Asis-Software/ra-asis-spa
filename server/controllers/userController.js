@@ -12,7 +12,10 @@ export const getStudent = asyncHandler( async(req, res) => {
     const { id } = req.params
 
     const student = await Student.findOne({ bio: id })
-    .populate('bio')
+    .populate({
+        path: 'bio',
+        select: '-password -isVerified -loginAttempts'
+    })
     .populate({
         path: 'units',
         populate: { path: 'assignments' }
@@ -21,7 +24,7 @@ export const getStudent = asyncHandler( async(req, res) => {
 
     if(!student) {
         //get profile only if the specific user model has not been instantiated
-        const userProfile = await User.findById(id)
+        const userProfile = await User.findById(id).select('-password -isVerified -loginAttempts')
 
         if(!userProfile) return res.status(404).json({ message: "User details not found" })
         
@@ -58,7 +61,10 @@ export const getTeacher = asyncHandler( async(req, res) => {
     const { id } = req.params
 
     const teacher = await Teacher.findOne({ bio: id })
-    .populate('bio')
+    .populate({
+        path: 'bio',
+        select: '-password -isVerified -loginAttempts'
+    })
     .populate({
         path: 'units',
         populate: { path: 'assignments' }
@@ -66,7 +72,7 @@ export const getTeacher = asyncHandler( async(req, res) => {
 
     if(!teacher) {
         //get profile only if the specific user model has not been instantiated
-        const userProfile = await User.findById(id)
+        const userProfile = await User.findById(id).select('-password -isVerified -loginAttempts')
 
         if(!userProfile) return res.status(404).json({ message: "User details not found" })
         
