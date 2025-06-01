@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import unitRoutes from "./routes/unitRoutes.js";
+import userRoutes from "./routes/userRoutes.js"
 
 // Load environment variables
 config();
@@ -24,7 +25,10 @@ app.get("/", (req, res) =>
 );
 
 // User auth routes
-app.use("/api/auth", authRoutes); // Use user routes for handling user-related requests
+app.use("/api/auth", authRoutes); //handle user auth-related requests
+
+//User functionality routes
+app.use('/api/users', userRoutes) // Use users routes for handling user-related requests
 
 // Unit routes
 app.use("/api/unit", unitRoutes) // Unit routes: handles all unit-related requests

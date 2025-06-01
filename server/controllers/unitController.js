@@ -159,3 +159,39 @@ export const getAllUnits = asyncHandler(async (req, res) => {
     .status(200)
     .json({ success: "Unit retrieval successful", data: units });
 });
+
+//@desc Enroll for a unit
+//@route PATCH /api/unit/enroll-unit
+//@access Private (Student)
+export const enrollUnit = asyncHandler( async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+    
+  //get student id and validated unitCode
+  const { id } = req.user
+  const { unitCode } = matchedData(req)
+
+  const unitExists = await Unit.findOne({
+    unitCode: { $regex: `^${unitCode}$`, $options: "i" },
+  });
+
+  if (!unitExists)
+    return res
+      .status(404)
+      .json({ message: "The requested unit could not be found" });
+
+  //use id and role to identify the student
+  const isStudent = await User.findOne({ _id : id, role: "student" });
+
+  if (!isStudent) return res.status(404).json({ message: "Invalid Student credentials" });
+
+  await Student.updateOne(
+    { bio: isStudent._id },
+    { $addToSet: { units: unitExists._id } },
+    { upsert: true }
+  );
+
+  return res.status(201).json({ message: `Successfully enrolled to ${unitCode}` })
+})
