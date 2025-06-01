@@ -2,9 +2,10 @@ import express, { json } from "express";
 import { config } from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import unitRoutes from "./routes/unitRoutes.js";
-import userRoutes from "./routes/userRoutes.js"
+import userRoutes from "./routes/userRoutes.js";
 
 // Load environment variables
 config();
@@ -24,14 +25,17 @@ app.get("/", (req, res) =>
   res.send("API is running, try outrunning it, your breath will run out...")
 );
 
-// User auth routes
-app.use("/api/auth", authRoutes); //handle user auth-related requests
+// Admin actions routes
+app.use("/api/admin", adminRoutes);
 
-//User functionality routes
-app.use('/api/users', userRoutes) // Use users routes for handling user-related requests
+// User auth routes
+app.use("/api/auth", authRoutes); // handle user auth-related requests
+
+// User functionality routes
+app.use("/api/users", userRoutes); // Use users routes for handling user-related requests
 
 // Unit routes
-app.use("/api/unit", unitRoutes) // Unit routes: handles all unit-related requests
+app.use("/api/unit", unitRoutes); // Unit routes: handles all unit-related requests
 
 //Global error handling
 app.use((err, req, res, next) => {
