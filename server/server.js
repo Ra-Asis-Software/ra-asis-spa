@@ -1,14 +1,20 @@
 import express, { json } from "express";
 import { config } from "dotenv";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import unitRoutes from "./routes/unitRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import assignmentRoutes from "./routes/assignmentRoutes.js";
 
 // Load environment variables
 config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Connect to MongoDB
 connectDB();
@@ -19,6 +25,8 @@ const app = express();
 // Middleware
 app.use(json());
 app.use(cors());
+// This serves static files from 'uploads'
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Main test route
 app.get("/", (req, res) =>
@@ -36,6 +44,9 @@ app.use("/api/users", userRoutes); // Use users routes for handling user-related
 
 // Unit routes
 app.use("/api/unit", unitRoutes); // Unit routes: handles all unit-related requests
+
+// Assignment/Submission routes
+app.use("/api/assignments", assignmentRoutes);
 
 //Global error handling
 app.use((err, req, res, next) => {
