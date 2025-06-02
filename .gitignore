@@ -117,3 +117,5 @@ dist/
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# Multer file uploads
+server/uploads/
