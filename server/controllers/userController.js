@@ -18,7 +18,19 @@ export const getStudent = asyncHandler( async(req, res) => {
     })
     .populate({
         path: 'units',
-        populate: { path: 'assignments' }
+        populate: {
+            path: 'assignments',
+            populate: [
+                {
+                    path: 'unit',
+                    select: 'unitCode unitName _id'
+                },
+                {
+                    path: 'createdBy',
+                    select: '_id firstName lastName'
+                }
+            ]
+        }
     })
     .populate('submissions')
 
@@ -34,6 +46,7 @@ export const getStudent = asyncHandler( async(req, res) => {
                 profile: userProfile, 
                 units: [],
                 assignments: [],
+                submissions: [],
                 events: []
             }})
     }

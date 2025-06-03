@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Submission from "../models/Submission.js";
 import Assignment from "../models/Assignment.js";
+import Student from "../models/Student.js";
 
 // @desc    Submit an assignment
 // @route   POST /api/assignments/:assignmentId/submit
@@ -23,6 +24,15 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "File submission requires upload" });
   }
 
+  const student = await Student.findOne({ bio: req.user._id })
+
+  if(!student) return res.status(404).json({message: "Your student profile could not be found"});
+
+  //check if the student already submitted this assignment
+  const submissionExists = await Submission.findOne({ assignment: assignment._id, student: req.user._id })
+
+  if(submissionExists) return res.status(409).json({ message: "A submission already Exists for this assignment" })
+
   const submission = await Submission.create({
     assignment: assignmentId,
     student: req.user._id,
@@ -30,6 +40,10 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     files: req.files?.map(file => file.path),
     status: new Date() > assignment.deadLine ? "overdue" : "submitted"
   });
+
+  //save the submission to the Student model to be used when retrieving student details
+  student.submissions.push(submission._id)
+  await student.save()
 
   res.status(201).json(submission);
 });
