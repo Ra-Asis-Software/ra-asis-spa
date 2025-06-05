@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './css/StudentMain.module.css';
-import Title from './Title';
-import AssignmentCard from './AssignmentCard';
-import CustomCalendar from './CustomCalendar';
+import styles from '../css/StudentMain.module.css';
+import Title from '../Title';
+import AssignmentCard from '../AssignmentCard';
+import CustomCalendar from '../CustomCalendar';
 import DeadlineCard from './DeadlineCard';
 import Summary from './Summary';
-import Progress from './Progress';
-import RecentActivities from './RecentActivities';
+import Progress from '../Progress';
+import RecentActivities from '../RecentActivities';
 
 const assignmentsData = {
   Mathematics: [

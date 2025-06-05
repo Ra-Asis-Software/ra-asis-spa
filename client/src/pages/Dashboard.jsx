@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
-import StudentDashboard from "../components/dashboard/StudentDashboard";
+import StudentDashboard from "../components/dashboard/student/StudentDashboard";
+import TeacherDashboard from "../components/dashboard/teacher/TeacherDashboard"
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -115,11 +116,12 @@ const Dashboard = () => {
         </p>
       </RoleRestricted>
       <RoleRestricted allowedRoles={["teacher"]}>
-        <p className={`${styles.userSpecific} ${styles.teacherSpecific}`}>
+        {/* <p className={`${styles.userSpecific} ${styles.teacherSpecific}`}>
           You are a {user?.role}. We are building this exciting new
           feature tailored specifically for you. Come back in a few days to
           explore and enjoy it!
-        </p>
+        </p> */}
+        <TeacherDashboard />
       </RoleRestricted>
       <RoleRestricted allowedRoles={["student"]}>
         {/* <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './sidebar.module.css';
+import styles from './css/sidebar.module.css';
 import { Link } from 'react-router-dom';
 import RoleRestricted from '../ui/RoleRestricted';
 
@@ -8,7 +8,7 @@ const studentName = 'Abebe Chala';
 const studentRole = 'Student';
 const initial = studentName.charAt(0).toUpperCase();
 
-const StudentSidebar = ({show}) => {
+const Sidebar = ({show}) => {
   return (
     <div className={show ? `${styles.sidebar} ${styles.sidebarActive}` : `${styles.sidebar}`}>
         <Link to='/'>
@@ -25,23 +25,23 @@ const StudentSidebar = ({show}) => {
              <a href='/'><i class={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}></i>
             Profile</a>
            </li>
-            <RoleRestricted allowedRoles={['student']}>
+            <RoleRestricted allowedRoles={['administrator']}>
               <li>
                 <a href='/'><i className={`${styles.sideBarIcon} ${styles.usericon} fas fa-user`}></i>
                   Users</a>
               </li>
             </RoleRestricted>
 
-            <RoleRestricted allowedRoles={['student']}>
+            <RoleRestricted allowedRoles={['student', 'teacher']}>
               <li>
                 <a href='/'>
                   <i className={` ${styles.sideBarIcon} fa-solid fa-book`}></i>
-                  Units
+                  Subjects
                 </a>
               </li>
             </RoleRestricted>
 
-            <RoleRestricted allowedRoles={['student']}>
+            <RoleRestricted allowedRoles={['student', 'teacher']}>
               <li>
                 <a href='/'>
                   <i className={`${styles.sideBarIcon} fa-solid fa-file-pen`}></i>
@@ -62,4 +62,4 @@ const StudentSidebar = ({show}) => {
   )
 }
 
-export default StudentSidebar;
+export default Sidebar;

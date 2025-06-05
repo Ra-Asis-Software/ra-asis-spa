@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './css/DeadlineCard.module.css';
+import styles from '../css/DeadlineCard.module.css';
 
 const DeadlineCard = ({ subject, deadlines = [] }) => {
   if (!subject) {
