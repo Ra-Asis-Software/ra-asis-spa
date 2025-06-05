@@ -1,0 +1,144 @@
+.progressSection {
+  flex: 1;
+  max-width: 750px;
+  min-width: 350px;
+  padding: 1rem;
+  /* background-color: white; */
+  /* border-radius: 12px; */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+}
+
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.progressSection h2 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.viewReport {
+  background: #4A90E2;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: small;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chartContainer {
+  position: relative;
+}
+
+.performanceIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 600;
+  padding: 0.1rem 0.75rem;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.up {
+  color: #16a34a;
+}
+
+.down {
+  color: #dc2626;
+}
+
+
+.toggleButton {
+  background: transparent;
+  border: 1px solid #4A90E2;
+  color: #4A90E2;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.toggleButton.active {
+  background: #4A90E2;
+  color: white;
+}
+
+.progressInfo {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.toggleOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  position: relative;
+}
+
+.toggleOption input[type='radio'] {
+  display: none;
+}
+
+.customCircle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.toggleOption input[type='radio']:checked + .customCircle {
+  border-color: #facc15; /* Yellow border when checked */
+}
+
+.toggleOption input[type='radio']:checked + .customCircle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  background-color: #facc15; /* Yellow fill */
+  border-radius: 50%;
+}
+
+.performanceChange {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  gap: 0.3rem;
+}
+
+.improved {
+  color: #10b981; /* Green */
+}
+
+.declined {
+  color: #ef4444; /* Red */
+}
+
+
