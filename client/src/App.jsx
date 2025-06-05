@@ -10,6 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const App = () => {
   return (

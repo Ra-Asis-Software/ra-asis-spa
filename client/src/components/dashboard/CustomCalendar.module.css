@@ -1,0 +1,37 @@
+.container {
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 280px;
+}
+
+.calendar :global(.react-calendar) {
+  width: 100%;
+  border: none;
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.2;
+}
+
+.calendar :global(.react-calendar__tile) {
+  padding: 0.75rem 0.5rem;
+  border-radius: 60%;
+  transition: background 0.3s;
+}
+
+.calendar :global(.react-calendar__tile--active) {
+  background: #027A79;
+  color: white;
+}
+
+.calendar :global(.react-calendar__tile:hover) {
+  background: #e0e7ff;
+  color: #111827;
+}
+
+.calendar :global(.calendar-deadline) {
+  background-color: #facc15 !important;
+  color: #1f2937 !important;
+  font-weight: bold;
+}

@@ -1,0 +1,98 @@
+import React from 'react';
+import styles from './StudentMain.module.css';
+import Title from './Title';
+import AssignmentCard from './AssignmentCard';
+import CustomCalendar from './CustomCalendar';
+import DeadlineCard from './DeadlineCard';
+import Summary from './Summary';
+import Progress from './Progress';
+import RecentActivities from './RecentActivities';
+
+const assignmentsData = {
+  Mathematics: [
+    { title: 'Algebra Homework', teacher: 'Mr. Bekele', status: 'Completed', mark: 29 },
+    { title: 'Geometry Worksheet', teacher: 'Mr. Bekele', status: 'Pending' },
+    { title: 'Geometry Worksheet', teacher: 'Mr. Bekele', status: 'Not Started' },
+  ],
+  Chemistry: [
+    { title: 'Lab Report', teacher: 'Dr. Smith', status: 'Not Started' },
+  ],
+};
+
+const deadlinesData = {
+  Mathematics: [
+    { title: 'Algebra Assignment', dueDate: '2025-06-10', note: 'Chapter 1–3' },
+    { title: 'Geometry Project', dueDate: '2025-06-14' },
+  ],
+  Chemistry: [
+    { title: 'Lab Report', dueDate: '2025-06-08', note: 'Submit on LMS' },
+  ],
+};
+
+const recentActivitiesData = {
+  Mathematics: [
+    { type: 'Submitted', item: 'Algebra Homework', date: '2025-06-03', time: '10:00 AM' },
+    { type: 'Marked', item: 'Geometry Worksheet', date: '2025-06-02', time: '2:30 PM' },
+  ],
+  Chemistry: [
+    { type: 'Feedback', item: 'Lab Report', date: '2025-06-01', time: '11:00 AM' },
+  ],
+};
+
+const StudentMain = ({ showNav, subject }) => {
+  const assignments = assignmentsData[subject] || [];
+  const activities = recentActivitiesData[subject] || [];
+
+  const handleView = (title) => {
+    alert(`Viewing: ${title}`);
+  };
+
+
+  return (
+    <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ''}`}>
+      <Title page = "Dashboard" />
+      <h2 className={styles.heading}>
+        {subject ? `${subject} Assignments` : 'Please select a subject'}
+      </h2>
+  
+      <div className={styles.assignmentAndCalendarRow}>
+          <div className={styles.leftColumn}>
+            <div className={styles.cardContainer}>
+              {assignments.map((assignment, idx) => (
+                <AssignmentCard
+                  key={idx}
+                  {...assignment}
+                  onView={() => handleView(assignment.title)}
+                />
+              ))}
+            </div>
+
+            <div className={styles.summaryAndDeadline}>
+              <div className={styles.sectionRow}>
+                <Summary />
+                <DeadlineCard subject={subject} deadlines={deadlinesData[subject] || []} />
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.calendarWrapper}>
+            <CustomCalendar deadlines={['2025-07-10', '2025-08-12', '2025-08-15']} />
+          </div>
+      </div>
+
+      
+      <div className={styles.progressAndActivitiesRow}>
+        <Progress />
+        
+          <RecentActivities subject={subject} activities={activities} />
+        
+      </div>
+
+
+
+    </main>
+    
+  );
+};
+
+export default StudentMain;

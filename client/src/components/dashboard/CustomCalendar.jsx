@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import styles from './StudentDashboard.module.css';
+import styles from './CustomCalendar.module.css';
 
 const CustomCalendar = ({ deadlines = [] }) => {
   const [value, setValue] = useState(new Date());
@@ -9,7 +9,7 @@ const CustomCalendar = ({ deadlines = [] }) => {
 
   const tileClassName = ({ date, view }) => {
     if (view === 'month' && deadlineDates.includes(date.toDateString())) {
-      return 'calendar-deadline'; // applied through :global()
+      return 'calendar-deadline';
     }
   };
 

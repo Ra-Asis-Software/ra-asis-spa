@@ -1,0 +1,69 @@
+.card {
+  background-color: rgba(90, 224, 215, 0.3);
+  padding: 16px;
+  width: 220px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center;    */
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.teacher {
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+  margin-top: 0;
+  color: #333;
+}
+
+.viewButton {
+  width: fit-content;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+  /* margin-top: auto; */
+  margin-top: 10px;
+  bottom: 20px;
+}
+
+.mark {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.status {
+  position: absolute;
+  bottom: 20px;
+  right: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.completed {
+  color: green;
+}
+
+.pending {
+  color: orange;
+}
+
+.notstarted {
+  color: red;
+}

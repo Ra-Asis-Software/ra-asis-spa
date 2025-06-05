@@ -1,0 +1,59 @@
+.summary-section {
+  width: 35%;
+  padding-top: 1px;
+}
+
+.summary-section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.progressBars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* padding: 1rem 0; */
+}
+
+.progressTrack {
+  width: 100%;
+  height: 12px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progressRow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.progressFill {
+  height: 100%;
+  transition: width 0.8s ease;
+  border-radius: 6px;
+}
+
+.completed {
+  background-color: #4CAF50;
+}
+
+.pending {
+  background-color: #FFC107;
+}
+
+.overdue {
+  background-color: #BDBDBD;
+}
+
+

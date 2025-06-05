@@ -68,13 +68,13 @@ const Dashboard = () => {
     switch (user.role) {
       case "student":
         return (
-          // <p>
-          //   Welcome to your student dashboard! Here you can track your progress
-          //   and access resources.
-          // </p>
-           <RoleRestricted allowedRoles={["student"]}>
-              <StudentDashboard />
-           </RoleRestricted>
+          <p className={`${styles.UserSpecific} ${styles.StudentSpecific}`}>
+            Welcome to your student dashboard! Here you can track your progress
+            and access resources.
+          </p>
+          //  <RoleRestricted allowedRoles={["student"]}>
+          //     <StudentDashboard />
+          //  </RoleRestricted>
         );
       case "teacher":
         return (
@@ -121,15 +121,15 @@ const Dashboard = () => {
           explore and enjoy it!
         </p>
       </RoleRestricted>
-      {/* <RoleRestricted allowedRoles={["student"]}>
-        <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
+      <RoleRestricted allowedRoles={["student"]}>
+        {/* <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
           You are a {user?.role}. We are building this exciting new
           feature tailored specifically for you. Come back in a few days to
           explore and enjoy it!
-        </p>
+        </p> */}
         <StudentDashboard />
         
-      </RoleRestricted> */}
+      </RoleRestricted>
       <RoleRestricted allowedRoles={["parent"]}>
         <p className={`${styles.userSpecific} ${styles.parentSpecific}`}>
           You are a {user?.role}. We are building this exciting new
