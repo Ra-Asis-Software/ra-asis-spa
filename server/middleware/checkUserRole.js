@@ -21,7 +21,10 @@ export const hasPermission = (requiredPermission) => {
       }
 
       // Attach user to request
-      req.user = decoded;
+      req.user = {
+        _id: decoded.id,
+        role: decoded.role
+      };
       next();
     } catch (error) {
       return res.status(401).json({ message: "Invalid token" });
