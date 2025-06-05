@@ -7,7 +7,7 @@ import Unit from "../models/Unit.js";
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
 export const createAssignment = asyncHandler(async (req, res) => {
-  const { title, unitId, submissionType, deadLine, maxMarks } = req.body;
+  const { title, unitId, submissionType, deadLine, maxMarks, content } = req.body;
 
   // Validate the requested unit exists
   const unit = await Unit.findById(unitId);
@@ -22,6 +22,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
+    content,
     createdBy: req.user._id,
     files: req.files?.map((file) => file.path), // Multer saves files to "uploads/"
   });

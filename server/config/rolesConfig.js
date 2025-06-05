@@ -71,6 +71,7 @@ export const ROLES = {
     permissions: [
       "edit:own-profile",
       "create:assignment",
+      "view:assignment",
       "upload:assignment",
       "download:assignment",
       "edit:assignment",
@@ -128,7 +129,7 @@ export const ROLES = {
       "view:self-stats",
       "view:assignment",
       "download:assignment",
-      "upload:assignment",
+      "upload:assignment-submission",
       "view:assessment",
       "download:assessment",
       "upload:assessment",
