@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './title.module.css';
+import styles from './css/title.module.css';
 
 const Title = ({page}) => {
   return (

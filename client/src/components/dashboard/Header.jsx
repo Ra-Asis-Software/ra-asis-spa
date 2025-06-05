@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './Header.module.css';
+import styles from './css/Header.module.css';
 
 const Header = ({ setShowNav, showNav, selectedSubject, setSelectedSubject }) => {
 

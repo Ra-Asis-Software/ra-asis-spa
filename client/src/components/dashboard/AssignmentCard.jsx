@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './AssignmentCard.module.css';
+import styles from './css/AssignmentCard.module.css';
 
 const AssignmentCard = ({ title, teacher, status, mark, onView }) => {
   return (

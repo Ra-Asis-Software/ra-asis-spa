@@ -3,7 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
-import styles from './Progress.module.css';
+import styles from './css/Progress.module.css';
 
 const weeklyData = [
   { name: 'Mon', progress: 40 },

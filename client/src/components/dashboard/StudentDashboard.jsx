@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import StudentSidebar from './StudentSidebar';
 import Header from './Header';
 import StudentMain from './StudentMain';
-import styles from './Dashboard.module.css';
+import styles from './css/Dashboard.module.css';
 
 const StudentDashboard = () => {
   const [showNav, setShowNav] = useState(false);

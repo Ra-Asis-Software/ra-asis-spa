@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import styles from './CustomCalendar.module.css';
+import styles from './css/CustomCalendar.module.css';
 
 const CustomCalendar = ({ deadlines = [] }) => {
   const [value, setValue] = useState(new Date());

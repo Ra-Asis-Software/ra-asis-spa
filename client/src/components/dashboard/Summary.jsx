@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Summary.module.css';
+import styles from './css/Summary.module.css';
 
 const progressData = [
   { label: 'Completed', percent: 80, class: styles.completed },

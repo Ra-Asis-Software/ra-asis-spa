@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './StudentMain.module.css';
+import styles from './css/StudentMain.module.css';
 import Title from './Title';
 import AssignmentCard from './AssignmentCard';
 import CustomCalendar from './CustomCalendar';

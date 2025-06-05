@@ -106,7 +106,7 @@ const Dashboard = () => {
       <h3>
         Hello {user?.lastName} or should I call you {user?.firstName} ?
       </h3> */}
-      {renderRoleSpecificContent()}
+      {/* {renderRoleSpecificContent()} */}
       <RoleRestricted allowedRoles={["administrator"]}>
         <p className={`${styles.userSpecific} ${styles.adminSpecific}`}>
           You are a {user?.role}. We are building this exciting new
