@@ -1,0 +1,119 @@
+.main {
+  flex: 1;
+  padding: 10px 15px;
+  transition: margin-left 0.3s ease-in-out, padding 0.3s ease-in-out;
+  overflow-y: auto;
+  height: calc(100vh - 30px);
+  margin-left: 190px;
+  box-sizing: border-box;
+}
+
+.mainCollapsed {
+  margin-left: 0;
+
+}
+
+.heading {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.assignmentAndCalendarRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.2rem;
+  margin-top: 1rem;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.calendarWrapper {
+  /* padding-top: 3px; */
+  margin-left: 10px;
+  flex: 1;
+  max-width: 350px;
+  flex-shrink: 0;
+}
+
+.sectionRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.summaryAndDeadline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sectionRow {
+  display: flex;
+  gap: 1rem; 
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.calendarWrapper {
+  flex-shrink: 0;
+  width: 320px;
+  max-width: 100%;
+  /* margin-top: 1rem; */
+  margin-left: 20px;
+}
+
+.progressAndActivitiesRow {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.progressAndActivitiesRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap; 
+}
+
+.progressAndActivitiesRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.progressSection {
+  width: 50%;
+  max-width: 420px;
+}
+
+.recentActivities {
+  width: 45%;
+  max-width: 400px;
+}
+
+
+@media (max-width: 1199px) {
+  .main {
+    padding: 20px;
+  }
+}
