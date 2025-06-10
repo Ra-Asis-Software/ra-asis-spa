@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '../css/StudentMain.module.css';
 import Title from '../Title';
 import AssignmentCard from '../AssignmentCard';
@@ -7,6 +7,7 @@ import DeadlineCard from './DeadlineCard';
 import Summary from './Summary';
 import Progress from '../Progress';
 import RecentActivities from '../RecentActivities';
+import { getUserDetails } from '../../../services/user';
 
 const assignmentsData = {
   Mathematics: [
@@ -39,9 +40,17 @@ const recentActivitiesData = {
   ],
 };
 
-const StudentMain = ({ showNav, subject }) => {
+const StudentMain = ({ showNav, subject, profile}) => {
   const assignments = assignmentsData[subject] || [];
   const activities = recentActivitiesData[subject] || [];
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const studentData = await getUserDetails(profile.role, profile.id)
+      console.log(studentData)
+    }
+    fetchData()
+  }, [])
 
   const handleView = (title) => {
     alert(`Viewing: ${title}`);

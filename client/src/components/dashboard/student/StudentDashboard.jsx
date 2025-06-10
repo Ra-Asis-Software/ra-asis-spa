@@ -4,13 +4,14 @@ import Header from '../Header';
 import StudentMain from './StudentMain';
 import styles from '../css/Dashboard.module.css';
 
-const StudentDashboard = () => {
+const StudentDashboard = ({profile}) => {
   const [showNav, setShowNav] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState('Mathematics');
 
   return (
     <div className={styles.dashboardContainer}>
       <Header
+        {...{profile}}
         setShowNav={setShowNav}
         showNav={showNav}
         selectedSubject={selectedSubject}
@@ -18,7 +19,7 @@ const StudentDashboard = () => {
       />
       <div className={styles.contentWrapper}>
         <Sidebar show={showNav} />
-        <StudentMain showNav={showNav} subject={selectedSubject}/>
+        <StudentMain showNav={showNav} subject={selectedSubject} profile={profile} />
       </div>
     </div>
   );

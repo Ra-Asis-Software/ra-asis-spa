@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import Header from '../Header'
 import styles from '../css/Dashboard.module.css'
 import Sidebar from '../SideBar';
+import TeacherMain from './TeacherMain';
 
-function TeacherDashboard() {
+function TeacherDashboard({profile}) {
     const [showNav, setShowNav] = useState(false);
     const [selectedSubject, setSelectedSubject] = useState('Mathematics');
     return (
         <div className={styles.dashboardContainer}>
            <Header
+            {...{profile}}
             setShowNav={setShowNav}
             showNav={showNav}
             selectedSubject={selectedSubject}
@@ -16,6 +18,7 @@ function TeacherDashboard() {
 
             <div className={styles.contentWrapper}>
                 <Sidebar show={showNav} />
+                <TeacherMain showNav={showNav} profile={profile} />
             </div>
         </div>
     )
