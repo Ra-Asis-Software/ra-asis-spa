@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './css/Header.module.css';
 
-const Header = ({ setShowNav, showNav, selectedSubject, setSelectedSubject }) => {
+const Header = ({ setShowNav, showNav, selectedSubject, setSelectedSubject, profile }) => {
 
 const [showDropdown, setShowDropdown] = useState(false);
 const [showNotifications, setShowNotifications] = useState(false);
@@ -102,8 +102,8 @@ const notificationRef = useRef(null);
                 
                     <div className={styles.avatar}>{initial}</div>
                     <div className={styles.profileInfo}>
-                        <span className={styles.profileName}>{studentName}</span>
-                        <span className={styles.profileRole}>{studentRole}</span>
+                        <span className={styles.profileName}>{profile.firstName} {profile.lastName}</span>
+                        <span className={styles.profileRole}>{profile.role}</span>
                     </div>
                 
             </ul>

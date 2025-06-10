@@ -32,10 +32,10 @@ const Dashboard = () => {
           navigate("/login");
         }
 
-        const { firstName, lastName, role } = decoded;
+        const { firstName, lastName, role, id } = decoded;
 
         // Set the user's data in state
-        setUser({ firstName, lastName, role });
+        setUser({ firstName, lastName, role, id});
         setLoading(false);
       } catch (error) {
         setError(
@@ -121,7 +121,7 @@ const Dashboard = () => {
           feature tailored specifically for you. Come back in a few days to
           explore and enjoy it!
         </p> */}
-        <TeacherDashboard />
+        <TeacherDashboard profile={user} />
       </RoleRestricted>
       <RoleRestricted allowedRoles={["student"]}>
         {/* <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
@@ -129,7 +129,7 @@ const Dashboard = () => {
           feature tailored specifically for you. Come back in a few days to
           explore and enjoy it!
         </p> */}
-        <StudentDashboard />
+        <StudentDashboard profile={user} />
         
       </RoleRestricted>
       <RoleRestricted allowedRoles={["parent"]}>
