@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './css/Header.module.css';
 
-const Header = ({ setShowNav, showNav, selectedSubject, setSelectedSubject }) => {
+const Header = ({ selectedSubject, setSelectedSubject, setShowNav, showNav }) => {
 
 const [showDropdown, setShowDropdown] = useState(false);
 const [showNotifications, setShowNotifications] = useState(false);
@@ -41,75 +41,67 @@ const notificationRef = useRef(null);
 
   return (
     <div className={styles.navigation}>
-      <header>
-        <div className={styles.headerTitle}>
-          Activity Dashboard
-        </div>
-        <i className={`fas fa-bars ${styles.burgerIcon}`} onClick={() => setShowNav(!showNav)}></i>
-        
-        <div className={styles.unitDropdown}>
-          <button className={styles.unitButton} onClick={() => setShowDropdown(prev => !prev)}>
-            {selectedSubject || 'Select Subject'} ▾
-          </button>
-          {showDropdown && (
-            <div className={styles.dropdownMenu}>
-              {subjects.map(subject => (
-                <div key={subject} onClick={() => {
-                  setSelectedSubject(subject);
-                  setShowDropdown(false);
-                }}>
-                  {subject}
-                </div>
-              ))}
+          <header className={styles.headerWrapper}>
+            <div className={styles.leftSection}>
+              <div className={styles.headerTitle}>Activity Dashboard</div>
+
+              <i className={`fas fa-bars ${styles.burgerIcon}`} onClick={() => setShowNav(!showNav)}></i>
+
+              <div className={styles.unitDropdown}>
+                <button className={styles.unitButton} onClick={() => setShowDropdown(prev => !prev)}>
+                  {selectedSubject || 'Select Subject'} ▾
+                </button>
+                {showDropdown && (
+                  <div className={styles.dropdownMenu}>
+                    {subjects.map(subject => (
+                      <div key={subject} onClick={() => {
+                        setSelectedSubject(subject);
+                        setShowDropdown(false);
+                      }}>
+                        {subject}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-        <nav className={styles.headerRight}>
-            <ul>
-                    <div className={styles.headerIcons}>
-                        <div className={styles.notificationWrapper} ref={notificationRef}>
-                            <i className={`fas fa-bell ${styles.notificationIcon}`} onClick={() => setShowNotifications(prev => !prev)}></i>
-                            
-                            {hasNew && <span className={styles.notifierDot}></span>}
 
-                            {showNotifications && (
-                            <div className={styles.notificationDropdown}>
-                                <div className={styles.notificationHeader}>
-                                <span>You have 2 new notifications</span>
-                                {/* <button className={styles.viewAllButton}>View All</button> */}
-                                </div>
+            <div className={styles.rightSection}>
+              <div className={styles.notificationWrapper} ref={notificationRef}>
+                <i className={`fas fa-bell ${styles.notificationIcon}`} onClick={() => setShowNotifications(prev => !prev)}></i>
+                {hasNew && <span className={styles.notifierDot}></span>}
 
-                                {(showAllNotifications ? notifications : notifications.slice(0, 2)).map((note, idx) => (
-                                <div key={idx} className={styles.notificationItem}>
-                                    {note.icon}
-                                    {note.message}
-                                </div>
-                                ))}
-
-                                {!showAllNotifications && (
-                                <div
-                                    className={styles.seeAll}
-                                    onClick={() => setShowAllNotifications(true)}
-                                >
-                                    See all notifications
-                                </div>
-                                )}
-                            </div>
-                            )}
-
-                        </div>
+                {showNotifications && (
+                  <div className={styles.notificationDropdown}>
+                    <div className={styles.notificationHeader}>
+                      <span>You have 2 new notifications</span>
                     </div>
-                
-                    <div className={styles.avatar}>{initial}</div>
-                    <div className={styles.profileInfo}>
-                        <span className={styles.profileName}>{studentName}</span>
-                        <span className={styles.profileRole}>{studentRole}</span>
-                    </div>
-                
-            </ul>
-        </nav>
-      </header>
-    </div>
+
+                    {(showAllNotifications ? notifications : notifications.slice(0, 2)).map((note, idx) => (
+                      <div key={idx} className={styles.notificationItem}>
+                        {note.icon}
+                        {note.message}
+                      </div>
+                    ))}
+
+                    {!showAllNotifications && (
+                      <div className={styles.seeAll} onClick={() => setShowAllNotifications(true)}>
+                        See all notifications
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.avatar}>{initial}</div>
+              <div className={styles.profileInfo}>
+                <span className={styles.profileName}>{studentName}</span>
+                <span className={styles.profileRole}>{studentRole}</span>
+              </div>
+            </div>
+          </header>
+  </div>
+
   );
 };
 

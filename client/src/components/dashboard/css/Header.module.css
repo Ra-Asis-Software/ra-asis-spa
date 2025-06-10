@@ -2,7 +2,7 @@ header {
     transition: all 0.5s;
     z-index: 997;
     background: #FFFFFF;
-    height: 30px;
+    height: 40px;
     box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
 }
 
@@ -97,8 +97,8 @@ header svg {
   position: absolute;
   top: -2px;
   right: -2px;
-  height: 10px;
-  width: 10px;
+  height: 8px;
+  width: 8px;
   background-color: green;
   border-radius: 50%;
   border: 2px solid white;
@@ -181,7 +181,7 @@ header svg {
   justify-content: center;
   text-transform: uppercase;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .profileInfo {
@@ -194,6 +194,7 @@ header svg {
   font-weight: 600;
   font-size: 0.8rem;
   color: #333;
+  margin-right: 40px;
 }
 
 .profileRole {
@@ -214,3 +215,82 @@ header svg {
   margin-right: 30px; 
 }
 
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0.4rem 1rem;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
+  gap: 1rem;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+/* Hide "Activity Dashboard" on small screens */
+@media (max-width: 768px) {
+  .headerTitle {
+    display: none;
+  }
+
+  .unitButton {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+
+  .notificationIcon {
+    font-size: 1.2rem;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.75rem;
+  }
+
+  .profileName {
+    font-size: 0.75rem;
+  }
+
+  .profileRole {
+    font-size: 0.65rem;
+  }
+
+  .rightSection {
+    gap: 0.5rem;
+  }
+
+  .leftSection {
+    gap: 0.5rem;
+  }
+
+  .headerWrapper {
+    gap: 0.5rem;
+  }
+}
+
+.burgerIcon {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 1rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .burgerIcon {
+    display: block;
+  }
+}
