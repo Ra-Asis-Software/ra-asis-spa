@@ -11,12 +11,12 @@ import { getUserDetails } from '../../../services/user';
 
 const assignmentsData = {
   Mathematics: [
-    { title: 'Algebra Homework', teacher: 'Mr. Bekele', status: 'Completed', mark: 29 },
-    { title: 'Geometry Worksheet', teacher: 'Mr. Bekele', status: 'Pending' },
-    { title: 'Geometry Worksheet', teacher: 'Mr. Bekele', status: 'Not Started' },
+    { title: 'Algebra Homework', unit: 'Science', status: 'Completed'},
+    { title: 'Geometry Worksheet', unit: 'English', status: 'Pending' },
+    { title: 'Geometry Worksheet', unit: 'Kiswahili', status: 'Not Started' },
   ],
   Chemistry: [
-    { title: 'Lab Report', teacher: 'Dr. Smith', status: 'Not Started' },
+    { title: 'Lab Report', unit: 'Mathematics', status: 'Graded' },
   ],
 };
 
@@ -47,7 +47,7 @@ const StudentMain = ({ showNav, subject, profile}) => {
   useEffect(() => {
     const fetchData = async() => {
       const studentData = await getUserDetails(profile.role, profile.id)
-      console.log(studentData)
+    
     }
     fetchData()
   }, [])

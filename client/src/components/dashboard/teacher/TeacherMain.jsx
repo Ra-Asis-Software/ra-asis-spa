@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../css/TeacherMain.module.css'
+import '../css/TeacherMain.module.css'
 import { getUserDetails } from '../../../services/user'
 import Title from '../Title'
 import UnitCard from '../UnitCard'
 import AssignmentCard from '../AssignmentCard'
+import CustomCalendar from '../CustomCalendar'
+
+
 
 function TeacherMain({showNav, profile}) {
+    const deadlines = [
+    { date: '2025-07-01', event: 'Attachemnent' },
+    { date: '2025-07-01', event: 'Attachemnent' },
+    { date: '2025-07-01', event: 'Attachemnent' },
+    { date: '2025-07-01', event: 'Attachemnent' }
+    ]
+
     const[assignments, setAssignments] = useState([])
     const[units, setUnits] = useState([])
 
@@ -15,7 +26,8 @@ function TeacherMain({showNav, profile}) {
             
             console.log(teacherData)
             if(teacherData.data.message) {
-                // setAssignments(teacherData.data.data.assignments)
+                setAssignments(teacherData.data.data.assignments)
+                setUnits(teacherData.data.data.units)
             }
         }
         fetchData()
@@ -23,28 +35,81 @@ function TeacherMain({showNav, profile}) {
 
     return (
         <div className={ `${styles.hero} ${showNav ? '' : styles.marginCollapsed}` }>
-            <Title />
-            <div className={ styles.assignmentsOverview }>
-            {
-                units.length === 0 ? 
-                <div className={ styles.noUnits }>
-                    <h4>NO UNITS</h4>
-                    <div className={ styles.message }>
-                        <p>You don't have any units assigned to you</p>
-                        <p>The admin is yet to assign them to you</p>
+            <div className={ styles.heroLeft }>
+                <Title />
+                <div className={ styles.assignmentsOverview }>
+                {
+                    units.length === 0 ? 
+                    <div className={ styles.noUnits }>
+                        <h4>NO UNITS</h4>
+                        <div className={ styles.message }>
+                            <p>You don't have any units assigned to you</p>
+                            <p>The admin is yet to assign them to you</p>
+                        </div>
+                    </div> : 
+                    <div className={ styles.unitsBox }>
+                        <div className={ styles.assignmentsTitle }>
+                            <h4>Assignments</h4>
+                            <button className={ styles.addAssignment }>
+                                    <i className="fa-solid fa-plus"></i>
+                                    <p>Create</p>
+                            </button>
+                        </div>
+                        <div className={ styles.units }>
+                            {
+                                assignments.map(assignment => {
+                                    return <AssignmentCard key={assignment._id} unitName={assignment.unit.unitName} title={assignment.title} />
+                                })
+                            }
+                        </div>
                     </div>
-                </div> : 
-                <div className={ styles.unitsBox }>
-                    <h4>Assignments</h4>
-                    <div className={ styles.units }>
+                }
+                </div>
+                
+                <div className={ styles.submissions }>
+                    <h3>Submissions</h3>
+                    <div className={ styles.submissionsBox }>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Assignment title</td>
+                                    <td>Sumission status</td>
+                                    <td>Evaluation status</td>
+                                    <td>Date assigned</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    assignments.map(assignment => {
+                                        return <tr key={assignment._id}>
+                                            <td>{assignment.title}</td>
+                                            <td>40/60</td>
+                                            <td>Completed</td>
+                                            <td>01/01/2024</td>
+                                        </tr>
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div className={ styles.deadlines }>
+                    <h3>Deadlines</h3>
+                    <div className={ styles.deadlineBox }>
                         {
-                            assignments.map(assignment => {
-                                return <AssignmentCard />
+                            deadlines.map((item, index) => {
+                                return <div className={ styles.deadlineEvent } key={index}>
+                                    <h5>{item.date}</h5>
+                                    <p>{item.event}</p>
+                                </div>
                             })
                         }
                     </div>
                 </div>
-            }
+            </div>
+            <div className={ styles.heroRight }>
+                <CustomCalendar />
             </div>
         </div>
     )
