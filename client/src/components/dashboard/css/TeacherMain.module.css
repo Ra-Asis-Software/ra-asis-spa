@@ -1,0 +1,164 @@
+.hero {
+    margin-left: 190px;
+    transition: margin-left 0.3s ease-in-out, padding 0.3s ease-in-out;
+    width: 100%;
+    max-width: 100vw;
+    display: flex;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px 10px;
+    justify-content: space-between;
+}
+.heroLeft {
+    height: 150vh;
+    width: 60vw;
+    transition: width 0.3s ease-in-out;
+}
+.heroRight {
+    width: calc(40vw - 190px);
+    transition: width 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.marginCollapsed {
+    margin: 0
+}
+.marginCollapsed .heroRight {
+    width: 35vw;
+    transition: width 0.3s ease-in-out;
+}
+.marginCollapsed .heroLeft {
+    width: 65vw;
+    transition: width 0.3s ease-in-out;
+}
+.assignmentsOverview {
+    height: 28vh;
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.noUnits {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+ h4, h3, p {
+    margin: 0;
+}
+.noUnits .message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 20vh;
+    background-color: rgba(90, 224, 215, 0.3);
+}
+.unitsBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.units {
+    height: 25vh;
+    width: 800px;
+    padding-left: 10px;
+    overflow: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding-right: 20px;
+}
+.units {
+  scrollbar-color: rgb(207, 226, 222) #d9eff1;
+}
+.assignmentsTitle {
+    height: 5vh;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+.addAssignment {
+    height: 4vh;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: rgba(90, 224, 215, 0.3);
+    border-radius: 6px;
+}
+
+.submissions {
+    height: 40vh;
+    width: 750px;
+    padding: 10px;
+    overflow: auto;
+    margin-bottom: 20px;
+}
+.submissionsBox {
+    height: 36vh;
+    width: 100%;
+}
+table {
+    width: 100%;
+}
+thead {
+    background-color: rgba(90, 224, 215, 0.3);
+    height: 6vh;
+}
+thead tr, td {
+    border: none;
+}
+td {
+    width: 20%;
+    padding: 5px;
+    font-size: .9rem;
+}
+tbody td:first-of-type {
+    width: 40%
+}
+.deadlines {
+    height: 40vh;
+    width: 750px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.deadlineBox {
+    height: 35vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-items: flex-start;
+    gap: 10px;
+    overflow: hidden;
+}
+.deadlineEvent {
+    justify-content: space-between;
+    align-items: center;
+    height: 6vh;
+    display: flex;
+    width: 300px;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+/* ::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}*/
+
+::-webkit-scrollbar-track {
+    display: none;
+} 
+::-webkit-scrollbar-button {
+    display: none;
+} 
