@@ -36,7 +36,6 @@ router.get(
   getAssignments
 );
 
-// Add new route
 router.get(
   '/:id/details',
   hasPermission('view:assignment'),
