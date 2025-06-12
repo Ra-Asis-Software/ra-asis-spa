@@ -4,14 +4,13 @@
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 300px;
-  border: 1px solid;
+  max-width: 280px;
 }
 
 .calendar :global(.react-calendar) {
   width: 100%;
   border: none;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   line-height: 1.2;
 }
 
@@ -22,7 +21,7 @@
 }
 
 .calendar :global(.react-calendar__tile--active) {
-  background: #027A79;
+  background: #027a79;
   color: white;
 }
 
@@ -37,23 +36,16 @@
   font-weight: bold;
 }
 .specialDay {
-  width: 5px;
-  height: 5px;
-  background-color: black;
-  border-radius: 50%;
-  margin: 0 auto;
-  margin-top: 2px;
+  background: rgba(76, 201, 153, 0.438);
+  height: 36px;
+  width: 36px;
+  border-radius: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .specialDayPassed {
-  width: 5px;
-  height: 5px;
-  background-color: red;
-  border-radius: 50%;
-  margin: auto;
-  margin-top: 2px;
-}
-/* .highlightPassed {
-  background: rgba(223, 19, 19, 0.281);
+  background: rgba(206, 11, 11, 0.801);
   height: 36px;
   width: 36px;
   border-radius: 60%;
@@ -61,14 +53,3 @@
   justify-content: center;
   align-items: center;
 }
-
-.highlightDay {
-  background: rgba(121, 219, 236, 0.322);
-  height: 36px;
-  width: 36px;
-  border-radius: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
