@@ -65,7 +65,7 @@ ul li a.active {
   padding-top: 1rem;
   /* color: red; */
   border-top: 1px solid #525151;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 
 .logout a {
@@ -73,7 +73,7 @@ ul li a.active {
     margin: 230px 30px;
 }
 
-.logout a svg {
+.logout a i {
     margin-right: 8px;
 }
 
@@ -92,6 +92,7 @@ ul li a svg {
 .profileicon {
     margin-right: 10px;
 }
+
 .sideBarIcon {
     margin-right: 10px;
 }
@@ -102,7 +103,7 @@ ul li a svg {
 }
 
 
-.sidebar {
+/* .sidebar {
   position: relative;
   height: 100vh;
   width: 160px;
@@ -114,7 +115,7 @@ ul li a svg {
   justify-content: space-between;
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
-}
+} */
 
 .sidebarActive {
   transform: translateX(0);

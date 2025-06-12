@@ -11,6 +11,61 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
+/* @media (max-width: 900px) {
+  .card {
+    width: 180px !important;
+    height: 80px !important;
+    padding: 10px !important;
+  }
+  .title {
+    font-size: 0.9rem !important;
+  }
+  .teacher {
+    font-size: 0.7rem !important;
+  }
+  .viewButton {
+    font-size: 0.7rem !important;
+    padding: 5px 10px !important;
+  }
+  .mark {
+    font-size: 0.7rem !important;
+  }
+  .status {
+    font-size: 0.7rem !important;
+    padding: 3px 6px !important;
+    bottom: 15px !important;
+    right: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 140px !important;
+    height: 70px !important;
+    padding: 10px !important;
+  }
+  .title {
+    font-size: 0.8rem !important;
+  }
+  .teacher {
+    font-size: 0.6rem !important;
+  }
+  .viewButton {
+    font-size: 0.6rem !important;
+    padding: 4px 8px !important;
+  }
+  .mark {
+    font-size: 0.6rem !important;
+  }
+  .status {
+    font-size: 0.6rem !important;
+    padding: 2px 5px !important;
+    bottom: 12px !important;
+    right: 8px !important;
+  }
+}
+ */
+
 
 .title {
   font-size: 1rem;
@@ -67,3 +122,73 @@
 .notstarted {
   color: red;
 }
+
+
+.card {
+  background-color: rgba(90, 224, 215, 0.3);
+  padding: clamp(8px, 1vw, 16px);
+  width: clamp(140px, 20vw, 220px);
+  height: clamp(70px, 8vw, 90px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.teacher {
+  font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+  margin-bottom: 2px;
+  margin-top: 0;
+  color: #333;
+}
+
+.viewButton {
+  width: fit-content;
+  padding: clamp(4px, 0.8vw, 6px) clamp(8px, 1.5vw, 12px);
+  background-color: #007bff;
+  color: white;
+  font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+  border: none;
+  cursor: pointer;
+  margin-top: clamp(6px, 1vw, 10px);
+  bottom: 20px;
+}
+
+.mark {
+  margin-top: clamp(6px, 1vw, 10px);
+  font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.status {
+  position: absolute;
+  bottom: clamp(12px, 1.2vw, 20px);
+  right: clamp(8px, 1vw, 12px);
+  font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+  font-weight: 600;
+  padding: clamp(3px, 0.7vw, 8px) clamp(6px, 1vw, 12px);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.completed {
+  color: green;
+}
+
+.pending {
+  color: orange;
+}
+
+.notstarted {
+  color: red;
+}
+
+

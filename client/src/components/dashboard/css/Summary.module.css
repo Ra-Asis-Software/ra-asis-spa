@@ -3,6 +3,17 @@
   padding-top: 1px;
 }
 
+/* .summary-section {
+  transition: width 0.3s ease;
+  width: 100%;
+  max-width: 500px;
+}
+
+.expanded {
+  max-width: 520px;
+} */
+
+
 .summary-section h2 {
   font-size: 1rem;
   font-weight: 600;
