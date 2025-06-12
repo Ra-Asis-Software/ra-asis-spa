@@ -41,57 +41,58 @@ const recentActivitiesData = {
 
 const StudentMain = ({ showNav, subject }) => {
   const assignments = assignmentsData[subject] || [];
+  const deadlines = deadlinesData[subject] || [];
   const activities = recentActivitiesData[subject] || [];
+
+  // Dynamically get all deadlines for the calendar
+  const allDeadlineDates = Object.values(deadlinesData).flat().map(d => d.dueDate);
 
   const handleView = (title) => {
     alert(`Viewing: ${title}`);
   };
 
-
   return (
     <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ''}`}>
-      <Title page = "Dashboard" />
+      <Title page="Dashboard" />
       <h2 className={styles.heading}>
         {subject ? `${subject} Assignments` : 'Please select a subject'}
       </h2>
   
-      <div className={styles.assignmentAndCalendarRow}>
-          <div className={styles.leftColumn}>
-            <div className={styles.cardContainer}>
-              {assignments.map((assignment, idx) => (
+      <div className={styles.topRow}>
+        <div className={styles.leftColumn}>
+          {/* Assignment Cards */}
+          <div className={styles.cardContainer}>
+            {assignments.length > 0 ? (
+              assignments.map((assignment, idx) => (
                 <AssignmentCard
                   key={idx}
                   {...assignment}
                   onView={() => handleView(assignment.title)}
                 />
-              ))}
-            </div>
-
-            <div className={styles.summaryAndDeadline}>
-              <div className={styles.sectionRow}>
-                <Summary />
-                <DeadlineCard subject={subject} deadlines={deadlinesData[subject] || []} />
-              </div>
-            </div>
+              ))
+            ) : (
+              <p>No assignments for this subject.</p>
+            )}
           </div>
 
-          <div className={styles.calendarWrapper}>
-            <CustomCalendar deadlines={['2025-07-10', '2025-08-12', '2025-08-15']} />
+          {/* Summary and Deadlines */}
+          <div className={styles.summaryAndDeadlineRow}>
+            <Summary />
+            <DeadlineCard subject={subject} deadlines={deadlines} />
           </div>
+        </div>
+
+        <div className={styles.rightColumn}>
+          <CustomCalendar deadlines={allDeadlineDates} />
+        </div>
       </div>
 
-      
-      <div className={styles.progressAndActivitiesRow}>
+      {/* Bottom Row */}
+      <div className={styles.bottomRow}>
         <Progress />
-        
-          <RecentActivities subject={subject} activities={activities} />
-        
+        <RecentActivities subject={subject} activities={activities} />
       </div>
-
-
-
     </main>
-    
   );
 };
 

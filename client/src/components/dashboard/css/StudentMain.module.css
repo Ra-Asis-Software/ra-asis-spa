@@ -1,119 +1,212 @@
 .main {
   flex: 1;
-  padding: 10px 15px;
-  transition: margin-left 0.3s ease-in-out, padding 0.3s ease-in-out;
+  padding: 1rem;
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease-in-out;
   overflow-y: auto;
   height: calc(100vh - 30px);
-  margin-left: 190px;
-  box-sizing: border-box;
-}
-
-.mainCollapsed {
-  margin-left: 0;
-
 }
 
 .heading {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
   font-weight: 600;
+  text-align: center; 
 }
 
+/* --- Mobile-First Layout (< 768px) --- */
+
+.main {
+  margin-left: 60px;
+}
+.mainCollapsed {
+  margin-left: 0;
+}
+
+.topRow,
+.bottomRow,
+.leftColumn,
+.summaryAndDeadlineRow,
 .cardContainer {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.assignmentAndCalendarRow {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.2rem;
-  margin-top: 1rem;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-}
-
-.calendarWrapper {
-  /* padding-top: 3px; */
-  margin-left: 10px;
-  flex: 1;
-  max-width: 350px;
-  flex-shrink: 0;
-}
-
-.sectionRow {
-  display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center; 
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .bottomRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.summaryAndDeadline {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.sectionRow {
-  display: flex;
-  gap: 1rem; 
-  flex-wrap: wrap;
-  margin-top: 2rem;
-}
-
-.calendarWrapper {
-  flex-shrink: 0;
-  width: 320px;
-  max-width: 100%;
-  /* margin-top: 1rem; */
-  margin-left: 20px;
-}
-
-.progressAndActivitiesRow {
-  display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-
-.progressAndActivitiesRow {
-  display: flex;
-  gap: 1rem;
   margin-top: 1.5rem;
-  flex-wrap: wrap; 
 }
 
-.progressAndActivitiesRow {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: space-between;
+/* --- STYLING FOR CONTENT BLOCKS ON MOBILE --- */
+
+.rightColumn,
+.bottomRow > *, 
+.summaryAndDeadlineRow > :last-child  {
+  width: 95%;
+  max-width: 450px; 
 }
 
-.progressSection {
-  width: 50%;
-  max-width: 420px;
-}
-
-.recentActivities {
-  width: 45%;
-  max-width: 400px;
+/* 2. EXCEPTION: Summary and Assignment Cards are made full-width */
+.summaryAndDeadlineRow > :first-child, 
+.cardContainer > *  {
+  width: 100%;
+  max-width: none; 
 }
 
 
-@media (max-width: 1199px) {
+/* --- Tablet and Medium Screens (>= 768px) --- */
+@media (min-width: 768px) {
   .main {
-    padding: 20px;
+    margin-left: 60px;
+  }
+  .mainCollapsed {
+    margin-left: 5px;
+  }
+  
+  .heading {
+    text-align: left; 
+  }
+  
+  /* Revert to row layout and left-align items */
+  .topRow,
+  .bottomRow,
+  .summaryAndDeadlineRow {
+    flex-direction: row;
+    align-items: flex-start; 
+    gap: 1.5rem;
+    width: 55%;
+  }
+  
+  .summaryAndDeadlineRow {
+    flex-direction: row;
+    align-items: flex-start; 
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .leftColumn {
+    flex: 2; 
+    align-items: stretch; 
+  }
+
+  .rightColumn {
+    flex: 1; 
+    position: sticky; 
+    top: 1rem;
+  }
+
+  .cardContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  /* Reset all mobile width overrides for larger screens */
+  .rightColumn,
+  .bottomRow > *,
+  .summaryAndDeadlineRow > *,
+  .cardContainer > * {
+    width: auto;
+    max-width: none;
+  }
+
+
+  .cardContainer > * {
+    flex: 1 1 20%;
+    min-width: 280px;
+  }
+
+  .bottomRow > *,
+  .summaryAndDeadlineRow > * {
+    flex: 2; 
+    margin-right: -0.5rem;
+  }
+}
+
+/* --- Tablet and Medium Screens (>= 768px) --- */
+@media (min-width: 768px) {
+  .main {
+    margin-left: 60px;
+  }
+  .mainCollapsed {
+    margin-left: 5px;
+  }
+  
+  .heading {
+    text-align: left;
+  }
+  
+  /* --- CHANGE #1: Ensure top-level rows are full width --- */
+  .topRow,
+  .bottomRow,
+  .summaryAndDeadlineRow {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%; 
+  }
+  
+  /* --- CHANGE #2: Make the column layout more flexible --- */
+  .leftColumn {
+    flex: 1 1 auto; 
+    min-width: 0;   
+  }
+
+  .rightColumn {
+    flex: 0 0 300px; 
+    position: sticky; 
+    top: 1rem;
+  }
+
+  .cardContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  /* Reset all mobile width overrides for larger screens */
+  .rightColumn,
+  .bottomRow > *,
+  .summaryAndDeadlineRow > *,
+  .cardContainer > * {
+    width: auto;
+    max-width: none;
+  }
+
+  .cardContainer > * {
+    flex: 1 1 48%;
+    min-width: 280px;
+  }
+  
+  .summaryAndDeadlineRow > * {
+    flex: 1; 
+  }
+
+  .bottomRow > * {
+    flex: 1;
+  }
+}
+
+/* --- Large Desktop Screens (>= 1200px) --- */
+@media (min-width: 1200px) {
+  .main {
+    padding: 1.5rem 2rem;
+    margin-left: 180px;
+  }
+
+  .mainCollapsed {
+    margin-left: 2px;
+  }
+  
+  .cardContainer > * {
+    flex: 1 1 31%;
+  }
+  
+  .bottomRow > :first-child { 
+    flex: 1.5;
+  }
+  
+  .bottomRow > :last-child { 
+    flex: 1;
   }
 }
