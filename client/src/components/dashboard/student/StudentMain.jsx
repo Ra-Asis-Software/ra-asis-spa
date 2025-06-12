@@ -85,7 +85,7 @@ const StudentMain = ({ showNav, subject, profile}) => {
           </div>
 
           <div className={styles.calendarWrapper}>
-            <CustomCalendar deadlines={['2025-07-10', '2025-08-12', '2025-08-15']} />
+            <CustomCalendar deadlines={[{date: '2025-06-10'}, {date: '2025-06-12'}, {date: '2025-08-15'}]} />
           </div>
       </div>
 
