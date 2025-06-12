@@ -2,17 +2,33 @@ import asyncHandler from "express-async-handler";
 import fs from "fs/promises";
 import Assignment from "../models/Assignment.js";
 import Unit from "../models/Unit.js";
+import Teacher from "../models/Teacher.js";
 
 // @desc    Create an assignment
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
 export const createAssignment = asyncHandler(async (req, res) => {
-  const { title, unitId, submissionType, deadLine, maxMarks, content } = req.body;
+  const { title, unitId, submissionType, deadLine, maxMarks, content } =
+    req.body;
 
   // Validate the requested unit exists
   const unit = await Unit.findById(unitId);
   if (!unit) {
     return res.status(404).json({ message: "Unit not found" });
+  }
+
+  // If the user is a teacher, here I confirm they are assigned to the unit first
+  if (req.user.role === "teacher") {
+    const teacherAssigned = await Teacher.findOne({
+      bio: req.user._id,
+      units: unitId,
+    });
+
+    if (!teacherAssigned) {
+      return res
+        .status(403)
+        .json({ message: "You are not assigned to this unit" });
+    }
   }
 
   // Create assignment
@@ -35,11 +51,49 @@ export const createAssignment = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get assignments for a unit
-// @route   GET /api/unit/:unitId/assignments
+// @route   GET /api/:unitId/assignments
 // @access  Private (Students/Teachers/Admins)
 export const getAssignments = asyncHandler(async (req, res) => {
-  const assignments = await Assignment.find({ unit: req.params.unitId });
+  const assignments = await Assignment.find({ unit: req.params.unitId })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName",
+    })
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    });
+
   res.status(200).json(assignments);
+});
+
+// @desc    Get details for a single assignment with counts
+// @route   GET /api/assignments/:id/details
+// @access  Private
+export const getAssignmentDetails = asyncHandler(async (req, res) => {
+  const assignment = await Assignment.findById(req.params.id)
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    });
+
+  if (!assignment) {
+    return res.status(404).json({ message: "Assignment not found" });
+  }
+
+  res.status(200).json({
+    ...assignment.toObject(),
+    submissionCount: assignment.submissionCount?.length || 0,
+    enrolledStudentsCount: assignment.enrolledStudentsCount?.length || 0,
+  });
 });
 
 // @desc    Delete an assignment (Admin only)
