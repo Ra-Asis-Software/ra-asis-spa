@@ -11,10 +11,10 @@ import CustomCalendar from '../CustomCalendar'
 
 function TeacherMain({showNav, profile}) {
     const deadlines = [
-    { date: '2025-07-01', event: 'Attachemnent' },
-    { date: '2025-07-01', event: 'Attachemnent' },
-    { date: '2025-07-01', event: 'Attachemnent' },
-    { date: '2025-07-01', event: 'Attachemnent' }
+    { date: '2025-06-01', event: 'Attachemnent', time: '08:30' },
+    { date: '2025-06-15', event: 'Attachemnent', time: '10:52' },
+    { date: '2025-07-11', event: 'Attachemnent', time: '14:52' },
+    { date: '2025-06-22', event: 'Attachemnent', time: '23:00' }
     ]
 
     const[assignments, setAssignments] = useState([])
@@ -109,7 +109,7 @@ function TeacherMain({showNav, profile}) {
                 </div>
             </div>
             <div className={ styles.heroRight }>
-                <CustomCalendar />
+                <CustomCalendar deadlines={deadlines} />
             </div>
         </div>
     )
