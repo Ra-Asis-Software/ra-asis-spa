@@ -11,12 +11,12 @@ import { getUserDetails } from '../../../services/user';
 
 const assignmentsData = {
   Mathematics: [
-    { title: 'Algebra Homework', teacher: 'Mr. Bekele', status: 'Completed', mark: 29 },
-    { title: 'Geometry Worksheet', teacher: 'Mr. Bekele', status: 'Pending' },
-    { title: 'Geometry Worksheet', teacher: 'Mr. Bekele', status: 'Not Started' },
+    { title: 'Algebra Homework', unit: 'Science', status: 'Completed'},
+    { title: 'Geometry Worksheet', unit: 'English', status: 'Pending' },
+    { title: 'Geometry Worksheet', unit: 'Kiswahili', status: 'Not Started' },
   ],
   Chemistry: [
-    { title: 'Lab Report', teacher: 'Dr. Smith', status: 'Not Started' },
+    { title: 'Lab Report', unit: 'Mathematics', status: 'Graded' },
   ],
 };
 
@@ -44,6 +44,14 @@ const StudentMain = ({ showNav, subject, profile}) => {
   const assignments = assignmentsData[subject] || [];
   const deadlines = deadlinesData[subject] || [];
   const activities = recentActivitiesData[subject] || [];
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const studentData = await getUserDetails(profile.role, profile.id)
+    
+    }
+    fetchData()
+  }, [])
 
   const handleView = (title) => {
     alert(`Viewing: ${title}`);
@@ -81,7 +89,7 @@ const StudentMain = ({ showNav, subject, profile}) => {
         </div>
 
         <div className={styles.rightColumn}>
-          <CustomCalendar deadlines={allDeadlineDates} />
+          <CustomCalendar deadlines={[{date: '2025-06-10'}, {date: '2025-06-12'}, {date: '2025-08-15'}]} />
         </div>
       </div>
 

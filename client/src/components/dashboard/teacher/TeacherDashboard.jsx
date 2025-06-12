@@ -3,10 +3,12 @@ import Header from '../Header'
 import styles from '../css/Dashboard.module.css'
 import Sidebar from '../SideBar';
 import TeacherMain from './TeacherMain';
+import ViewAssignment from '../ViewAssignment';
 
 function TeacherDashboard({profile}) {
     const [showNav, setShowNav] = useState(false);
     const [selectedSubject, setSelectedSubject] = useState('Mathematics');
+    const[showAssignments, setShowAssignments] = useState(false)
     return (
         <div className={styles.dashboardContainer}>
            <Header
@@ -18,7 +20,12 @@ function TeacherDashboard({profile}) {
 
             <div className={styles.contentWrapper}>
                 <Sidebar show={showNav} />
-                <TeacherMain showNav={showNav} profile={profile} />
+                {
+                    !showAssignments ?
+                    <TeacherMain {...{showNav, profile, setShowAssignments}} /> :
+                    <ViewAssignment />
+                }
+                
             </div>
         </div>
     )

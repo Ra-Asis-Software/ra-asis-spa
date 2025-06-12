@@ -35,3 +35,39 @@
   color: #1f2937 !important;
   font-weight: bold;
 }
+.specialDay {
+  width: 5px;
+  height: 5px;
+  background-color: black;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 2px;
+}
+.specialDayPassed {
+  width: 5px;
+  height: 5px;
+  background-color: red;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 2px;
+}
+/* .highlightPassed {
+  background: rgba(223, 19, 19, 0.281);
+  height: 36px;
+  width: 36px;
+  border-radius: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.highlightDay {
+  background: rgba(121, 219, 236, 0.322);
+  height: 36px;
+  width: 36px;
+  border-radius: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
