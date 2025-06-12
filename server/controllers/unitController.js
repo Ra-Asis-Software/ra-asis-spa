@@ -30,7 +30,7 @@ export const addUnit = asyncHandler(async (req, res) => {
     });
   }
 
-  await Unit.create({ unitCode, unitName });
+  await Unit.create({ unitCode, unitName, createdBy: req.user._id });
 
   return res.status(201).json({ message: `Unit successfully created` });
 });
@@ -123,7 +123,9 @@ export const getStudents = asyncHandler(async (req, res) => {
 
   const students = await Student.find({ units: unit._id });
 
-  return res.status(200).json({ message: "success", data: students });
+  return res
+    .status(200)
+    .json({ message: "Students fetched successfully", students });
 });
 
 // @desc    Get teachers by unit
@@ -144,9 +146,23 @@ export const getTeachers = asyncHandler(async (req, res) => {
       .json({ message: "The specified unit does not exist" });
   }
 
-  const teachers = await Teacher.find({ units: unit._id }).populate("bio");
+  const teachers = await Teacher.find({ units: unit._id })
+    .populate("bio")
+    .populate({
+      path: "units",
+      match: { _id: unit._id },
+      populate: {
+        path: "assignments",
+        populate: {
+          path: "unit",
+          select: "unitCode unitName _id",
+        },
+      },
+    });
 
-  return res.status(200).json({ message: "success", data: teachers });
+  return res
+    .status(200)
+    .json({ message: "Teachers fetched successfully", teachers });
 });
 
 // @desc    Get all units
@@ -163,15 +179,15 @@ export const getAllUnits = asyncHandler(async (req, res) => {
 //@desc Enroll for a unit
 //@route PATCH /api/unit/enroll-unit
 //@access Private (Student)
-export const enrollUnit = asyncHandler( async (req, res) => {
+export const enrollUnit = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-    
+
   //get student id and validated unitCode
-  const { id } = req.user
-  const { unitCode } = matchedData(req)
+  const { id } = req.user;
+  const { unitCode } = matchedData(req);
 
   const unitExists = await Unit.findOne({
     unitCode: { $regex: `^${unitCode}$`, $options: "i" },
@@ -183,9 +199,10 @@ export const enrollUnit = asyncHandler( async (req, res) => {
       .json({ message: "The requested unit could not be found" });
 
   //use id and role to identify the student
-  const isStudent = await User.findOne({ _id : id, role: "student" });
+  const isStudent = await User.findOne({ _id: id, role: "student" });
 
-  if (!isStudent) return res.status(404).json({ message: "Invalid Student credentials" });
+  if (!isStudent)
+    return res.status(404).json({ message: "Invalid Student credentials" });
 
   await Student.updateOne(
     { bio: isStudent._id },
@@ -193,5 +210,7 @@ export const enrollUnit = asyncHandler( async (req, res) => {
     { upsert: true }
   );
 
-  return res.status(201).json({ message: `Successfully enrolled to ${unitCode}` })
-})
+  return res
+    .status(201)
+    .json({ message: `Successfully enrolled to ${unitCode}` });
+});

@@ -4,6 +4,7 @@ import {
   createAssignment,
   getAssignments,
   deleteAssignment,
+  getAssignmentDetails,
 } from "../controllers/assignmentController.js";
 import {
   submitAssignment,
@@ -33,6 +34,13 @@ router.get(
   "/:unitId/assignments",
   hasPermission("view:assignment"),
   getAssignments
+);
+
+// Add new route
+router.get(
+  '/:id/details',
+  hasPermission('view:assignment'),
+  getAssignmentDetails
 );
 
 router.delete(
