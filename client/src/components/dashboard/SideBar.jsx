@@ -10,7 +10,7 @@ const initial = studentName.charAt(0).toUpperCase();
 
 const Sidebar = ({show}) => {
   return (
-    <div className={show ? `${styles.sidebar} ${styles.sidebarActive}` : `${styles.sidebar}`}>
+    <div className={show ? ` ${styles.sidebar} ${styles.sidebarActive}` : `${styles.sidebar} ${styles.sidebarHidden}`}>
         <Link to='/'>
          <img src="/assets/spa_site_icon.webp" alt="Dashboard" className={styles['spa-logo']} />
         </Link>

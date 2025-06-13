@@ -2,7 +2,7 @@ header {
     transition: all 0.5s;
     z-index: 997;
     background: #FFFFFF;
-    height: 40px;
+    height: 8vh;
     box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
 }
 

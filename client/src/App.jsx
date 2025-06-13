@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -12,6 +12,11 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+const DashboardLayout = () => {
+  return <Dashboard>
+    <Outlet />
+  </Dashboard>
+}
 const App = () => {
   return (
     <Router>
@@ -24,7 +29,9 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/reset-password/:token" element={<UpdatePassword />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/*" element={<DashboardLayout />} >
+            <Route index element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

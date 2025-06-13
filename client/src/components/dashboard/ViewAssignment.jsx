@@ -1,9 +1,9 @@
 import styles from './css/ViewAssignment.module.css'
 
-function ViewAssignment() {
+function ViewAssignment({showNav}) {
     return (
-        <div className={ styles.hero }>
-            
+        <div className={ `${styles.hero} ${showNav ? '' : styles.marginCollapsed}` }>
+            Jimmmy
         </div>
     )
 }

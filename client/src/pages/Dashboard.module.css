@@ -1,9 +1,28 @@
-/* .dashboardContainer {
-  padding: 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.dashboardContainer {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-} */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+.content {
+  width: 100%;
+  height: 92vh;
+  display: flex;
+  /* border: 1px solid; */
+  /* margin-left: 190px; */
+  transition: width 0.3s ease-in-out;
+}
+.dashboards {
+  flex: 1;
+  transition: width 0.3s ease-in-out;
+  display: flex;
+}
 
 p.userSpecific {
   font-weight: 500;
