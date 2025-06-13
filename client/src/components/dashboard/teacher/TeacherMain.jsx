@@ -10,6 +10,8 @@ import CustomCalendar from '../CustomCalendar'
 
 
 function TeacherMain({showNav, profile}) {
+    const[units, setUnits] = useState([])
+    const[assignments, setAssignments] = useState([])
     const deadlines = [
     { date: '2025-06-01', event: 'Attachemnent', time: '08:30' },
     { date: '2025-06-15', event: 'Attachemnent', time: '10:52' },
@@ -17,14 +19,12 @@ function TeacherMain({showNav, profile}) {
     { date: '2025-06-22', event: 'Attachemnent', time: '23:00' }
     ]
 
-    const[assignments, setAssignments] = useState([])
-    const[units, setUnits] = useState([])
+    
 
     useEffect(() => {
         const fetchData = async() => {
             const teacherData = await getUserDetails(profile.role, profile.id)
             
-            console.log(teacherData)
             if(teacherData.data.message) {
                 setAssignments(teacherData.data.data.assignments)
                 setUnits(teacherData.data.data.units)

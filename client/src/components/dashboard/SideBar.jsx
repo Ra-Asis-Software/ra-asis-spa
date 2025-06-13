@@ -22,33 +22,33 @@ const Sidebar = ({show}) => {
              </Link>
            </li>
            <li>
-             <a href='/'><i className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}></i>
+             <Link to='/'><i className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}></i>
              <span className={styles.linkLabel}>Profile</span>
-            </a>
+            </Link>
            </li>
             <RoleRestricted allowedRoles={['administrator']}>
               <li>
-                <a href='/'><i className={`${styles.sideBarIcon} ${styles.usericon} fas fa-user`}></i>
+                <Link to='/'><i className={`${styles.sideBarIcon} ${styles.usericon} fas fa-user`}></i>
                   <span className={styles.linkLabel}>Users</span>
-                  </a>
+                  </Link>
               </li>
             </RoleRestricted>
 
             <RoleRestricted allowedRoles={['student', 'teacher']}>
               <li>
-                <a href='/'>
+                <Link to='/'>
                   <i className={` ${styles.sideBarIcon} fa-solid fa-book`}></i>
                   <span className={styles.linkLabel}>Unit</span>
-                </a>
+                </Link>
               </li>
             </RoleRestricted>
 
             <RoleRestricted allowedRoles={['student', 'teacher']}>
               <li>
-                <a href='/'>
+                <Link to='/dashboard/assignments'>
                   <i className={`${styles.sideBarIcon} fa-solid fa-file-pen`}></i>
                   <span className={styles.linkLabel}>Assignments</span>
-                </a>
+                </Link>
               </li>
             </RoleRestricted>
           </ul>
