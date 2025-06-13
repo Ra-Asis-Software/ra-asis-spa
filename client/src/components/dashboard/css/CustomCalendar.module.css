@@ -4,7 +4,8 @@
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
+  border: 1px solid;
 }
 
 .calendar :global(.react-calendar) {
