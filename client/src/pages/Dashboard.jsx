@@ -7,7 +7,7 @@ import Sidebar from "../components/dashboard/SideBar";
 import Header from "../components/dashboard/Header";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
-import ViewAssignment from "../components/dashboard/ViewAssignment";
+import Assignments from "../components/dashboard/Assignments";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -120,7 +120,10 @@ const Dashboard = () => {
 
             <Route
             path="/assignments"
-            element={ <ViewAssignment {...{user}} /> } />
+            element={ <Assignments {...{user}} /> } />
+
+            <Route
+            path="/assignments/:id" />
           </Routes>
         </div>
       </div>
