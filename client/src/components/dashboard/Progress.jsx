@@ -1,53 +1,50 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import {  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
-} from 'recharts';
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
-import styles from './css/Progress.module.css';
-import axios from 'axios';
+import React, { useState, useMemo, useEffect } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import axios from "axios";
+import styles from "./css/Progress.module.css";
 
 const Progress = () => {
-  const [view, setView] = useState('weekly');
-  const [progressData, setProgressData] = useState({
-    weekly: [],
-    lastWeek: [],
-    monthly: [],
-    lastMonth: [],
-  });
+  const [view, setView] = useState("weekly");
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchProgress = async () => {
+    const fetchData = async () => {
       try {
-        const token = localStorage.getItem('authToken'); 
-        // console.log('Token:', token);
-        const response = await axios.get('http://localhost:5000/api/progress', {
-          headers: {            Authorization: `Bearer ${token}`
-          }
+        const token = localStorage.getItem("token");
+        const res = await axios.get("http://localhost:5000/api/progress", {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        setProgressData(response.data);
-      } catch (error) {
-        console.error("Failed to fetch progress data:", error);
+        setData(res.data);
+      } catch (err) {
+        console.error("Failed to load progress data", err);
       }
     };
-
-    fetchProgress();
+    fetchData();
   }, []);
 
-  const current = view === 'weekly' ? progressData.weekly : progressData.monthly;
-  const previous = view === 'weekly' ? progressData.lastWeek : progressData.lastMonth;
+  const current = view === "weekly" ? data?.weekly || [] : data?.monthly || [];
+  const previous =
+    view === "weekly" ? data?.lastWeek || [] : data?.lastMonth || [];
 
-  const average = (arr = []) => {
-    if (!Array.isArray(arr) || arr.length === 0) return 0;
-    return arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
-  };
+  const average = (arr) =>
+    arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
 
   const currentAvg = useMemo(() => average(current), [current]);
   const previousAvg = useMemo(() => average(previous), [previous]);
   const difference = currentAvg - previousAvg;
 
-  const performanceChange = difference > 0 ? 'improved' : 'declined';
+  const performanceChange = difference > 0 ? "improved" : "declined";
   const changeColor = difference > 0 ? styles.improved : styles.declined;
   const ArrowIcon = difference > 0 ? ArrowUpRight : ArrowDownRight;
-  const period = view === 'weekly' ? 'last week' : 'last month';
+  const period = view === "weekly" ? "last week" : "last month";
 
   return (
     <div className={styles.progressSection}>
@@ -61,36 +58,26 @@ const Progress = () => {
       </div>
 
       <div className={styles.progressChart}>
-        {current.length > 0 ? (
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={current}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="progress"
-                stroke="#4A90E2"
-                strokeWidth={3}
-                dot={{ r: 5 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        )  : (
-      <div className={styles.noData}>
-        <p>No progress data available for this period.</p>
-        <p>This may be due to:</p>
-        <ul>
-          <li>No assignments were due.</li>
-          <li>No submissions were made by you.</li>
-        </ul>
-      </div>
-    )}
-
+        <ResponsiveContainer width="100%" height={250}>
+          <LineChart data={current}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="progress"
+              stroke="#4A90E2"
+              strokeWidth={3}
+              dot={{ r: 5 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
       <p className={styles.progressInfo}>
-        Progress from {view === 'weekly' ? 'last 7 days' : 'last 4 months'}
+        {view === "weekly"
+          ? "Progress from this week"
+          : "Monthly progress summary"}
       </p>
 
       <div className={styles.toggleGroup}>
@@ -99,8 +86,8 @@ const Progress = () => {
             type="radio"
             name="progressView"
             value="weekly"
-            checked={view === 'weekly'}
-            onChange={() => setView('weekly')}
+            checked={view === "weekly"}
+            onChange={() => setView("weekly")}
           />
           <span className={styles.customCircle}></span>
           Weekly Progress
@@ -110,8 +97,8 @@ const Progress = () => {
             type="radio"
             name="progressView"
             value="monthly"
-            checked={view === 'monthly'}
-            onChange={() => setView('monthly')}
+            checked={view === "monthly"}
+            onChange={() => setView("monthly")}
           />
           <span className={styles.customCircle}></span>
           Monthly Progress
