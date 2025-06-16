@@ -1,49 +1,32 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import axios from 'axios';
 import styles from './css/Progress.module.css';
-
-const weeklyData = [
-  { name: 'Mon', progress: 40 },
-  { name: 'Tue', progress: 60 },
-  { name: 'Wed', progress: 55 },
-  { name: 'Thu', progress: 70 },
-  { name: 'Fri', progress: 65 },
-  { name: 'Sat', progress: 80 },
-  { name: 'Sun', progress: 75 },
-];
-
-const lastWeekData = [
-  { name: 'Mon', progress: 30 },
-  { name: 'Tue', progress: 50 },
-  { name: 'Wed', progress: 45 },
-  { name: 'Thu', progress: 60 },
-  { name: 'Fri', progress: 55 },
-  { name: 'Sat', progress: 70 },
-  { name: 'Sun', progress: 65 },
-];
-
-const monthlyData = [
-  { name: 'Jan', progress: 50 },
-  { name: 'Feb', progress: 60 },
-  { name: 'Mar', progress: 70 },
-  { name: 'Apr', progress: 80 },
-];
-
-const lastMonthData = [
-  { name: 'Sep', progress: 40 },
-  { name: 'Oct', progress: 50 },
-  { name: 'Nov', progress: 55 },
-  { name: 'Dec', progress: 60 },
-];
 
 const Progress = () => {
   const [view, setView] = useState('weekly');
+  const [data, setData] = useState(null);
 
-  const current = view === 'weekly' ? weeklyData : monthlyData;
-  const previous = view === 'weekly' ? lastWeekData : lastMonthData;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:5000/api/progress', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setData(res.data);
+      } catch (err) {
+        console.error('Failed to load progress data', err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const current = view === 'weekly' ? data?.weekly || [] : data?.monthly || [];
+  const previous = view === 'weekly' ? data?.lastWeek || [] : data?.lastMonth || [];
 
   const average = (arr) => arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
 
@@ -64,7 +47,6 @@ const Progress = () => {
           <ArrowIcon size={18} />
           {Math.abs(difference).toFixed(1)}% {performanceChange} vs {period}
         </span>
-        
         <button className={styles.viewReport}>View Report</button>
       </div>
 
@@ -85,7 +67,9 @@ const Progress = () => {
         </ResponsiveContainer>
       </div>
 
-      <p className={styles.progressInfo}>Progress from 12–18 May, 2025</p>
+      <p className={styles.progressInfo}>
+        {view === 'weekly' ? 'Progress from this week' : 'Monthly progress summary'}
+      </p>
 
       <div className={styles.toggleGroup}>
         <label className={styles.toggleOption}>
