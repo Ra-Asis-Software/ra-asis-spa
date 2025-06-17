@@ -6,12 +6,13 @@ import Title from '../Title'
 import UnitCard from '../UnitCard'
 import AssignmentCard from '../AssignmentCard'
 import CustomCalendar from '../CustomCalendar'
-
+import { useNavigate } from 'react-router-dom'
 
 
 function TeacherMain({showNav, profile}) {
     const[units, setUnits] = useState([])
     const[assignments, setAssignments] = useState([])
+    const navigate = useNavigate()
     const deadlines = [
     { date: '2025-06-01', event: 'Attachemnent', time: '08:30' },
     { date: '2025-06-15', event: 'Attachemnent', time: '10:52' },
@@ -50,7 +51,7 @@ function TeacherMain({showNav, profile}) {
                     <div className={ styles.unitsBox }>
                         <div className={ styles.assignmentsTitle }>
                             <h4>Assignments</h4>
-                            <button className={ styles.addAssignment }>
+                            <button className={ styles.addAssignment } onClick={() => navigate('/dashboard/assignments?new=true')} >
                                     <i className="fa-solid fa-plus"></i>
                                     <p>Create</p>
                             </button>

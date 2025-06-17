@@ -122,8 +122,6 @@ const Dashboard = () => {
             path="/assignments"
             element={ <Assignments {...{user}} /> } />
 
-            <Route
-            path="/assignments/:id" />
           </Routes>
         </div>
       </div>
