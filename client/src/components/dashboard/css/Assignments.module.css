@@ -1,0 +1,104 @@
+.hero {
+    transition: flex 0.3s ease-in-out;
+    flex: 1;
+    display: flex;
+    padding: 10px;
+}
+.assignmentsBox {
+    flex: .7;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.assignmentsHeader {
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+select {
+    height: 6vh;
+    width: 160px;
+    background-color: rgba(90, 224, 215, 0.3);
+    border: none;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+.addAssignment {
+    height: 6vh;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: rgba(90, 224, 215, 0.3);
+    border-radius: 6px;
+}
+.assignmentsBody {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+.assignment {
+    height: 7vh;
+    width: 80%;
+    border-radius: 10px;
+    background-color: rgba(90, 224, 215, 0.3);
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    justify-content: space-between;
+}
+.assignmentDetails {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.instruction {
+    font-size: .9rem;
+    color: red;
+}
+.newAssignmentContent {
+    background-color:rgba(90, 224, 215, 0.3);
+    padding: 10px;
+}
+.textContent {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.extras {
+    flex: .4;
+    border: 1px solid;
+}
+.tools {
+    height: 100%;
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.tools h3 {
+    text-align: center;
+    height: 8vh;
+}
+.toolsArea {
+    border: 1px solid;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.textInstruction {
+    color: red;
+    font-size: .8rem;
+}
+.editable {
+    padding: 5px;
+    border: 1px solid gray;
+    white-space: pre-wrap;
+}

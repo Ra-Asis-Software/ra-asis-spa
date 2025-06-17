@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
+import Sidebar from "../components/dashboard/SideBar";
+import Header from "../components/dashboard/Header";
+import TeacherMain from "../components/dashboard/teacher/TeacherMain";
+import StudentMain from "../components/dashboard/student/StudentMain";
+import Assignments from "../components/dashboard/Assignments";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState(""); // State for error handling
+  const [showNav, setShowNav] = useState(false);
   const navigate = useNavigate();
 
   // Fetch the user's data from the token
@@ -30,10 +36,10 @@ const Dashboard = () => {
           navigate("/login");
         }
 
-        const { firstName, lastName, role } = decoded;
+        const { firstName, lastName, role, id } = decoded;
 
         // Set the user's data in state
-        setUser({ firstName, lastName, role });
+        setUser({ firstName, lastName, role, id });
         setLoading(false);
       } catch (error) {
         setError(
@@ -67,24 +73,21 @@ const Dashboard = () => {
     switch (user.role) {
       case "student":
         return (
-          <p>
-            Welcome to your student dashboard! Here you can track your progress
-            and access resources.
-          </p>
+          <RoleRestricted allowedRoles={["student"]}>
+            <StudentMain subject={"Mathematics"} profile={user} />
+          </RoleRestricted>
         );
       case "teacher":
         return (
-          <p>
-            Welcome to your teacher dashboard! Manage your classes and monitor
-            student performance.
-          </p>
+          <RoleRestricted allowedRoles={["teacher"]}>
+            <TeacherMain {...{ showNav }} profile={user} />
+          </RoleRestricted>
         );
       case "parent":
         return (
-          <p>
-            Welcome to your parent dashboard! Stay updated on your child's
-            progress and activities.
-          </p>
+          <RoleRestricted allowedRoles={["teacher"]}>
+            {/* <ParentDashboard /> */}
+          </RoleRestricted>
         );
       default:
         return (
@@ -98,40 +101,27 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboardContainer}>
-      <h2>Dashboard</h2>
-      <h3>
-        Hello {user?.lastName} or should I call you {user?.firstName} ?
-      </h3>
-      {renderRoleSpecificContent()}
-      <RoleRestricted allowedRoles={["administrator"]}>
-        <p className={`${styles.userSpecific} ${styles.adminSpecific}`}>
-          You are a {user?.role}. We are building this exciting new
-          feature tailored specifically for you. Come back in a few days to
-          explore and enjoy it!
-        </p>
-      </RoleRestricted>
-      <RoleRestricted allowedRoles={["teacher"]}>
-        <p className={`${styles.userSpecific} ${styles.teacherSpecific}`}>
-          You are a {user?.role}. We are building this exciting new
-          feature tailored specifically for you. Come back in a few days to
-          explore and enjoy it!
-        </p>
-      </RoleRestricted>
-      <RoleRestricted allowedRoles={["student"]}>
-        <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
-          You are a {user?.role}. We are building this exciting new
-          feature tailored specifically for you. Come back in a few days to
-          explore and enjoy it!
-        </p>
-      </RoleRestricted>
-      <RoleRestricted allowedRoles={["parent"]}>
-        <p className={`${styles.userSpecific} ${styles.parentSpecific}`}>
-          You are a {user?.role}. We are building this exciting new
-          feature tailored specifically for you. Come back in a few days to
-          explore and enjoy it!
-        </p>
-      </RoleRestricted>
-      <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+      <Header
+        profile={user}
+        setShowNav={setShowNav}
+        showNav={showNav}
+        // selectedSubject={selectedSubject}
+        // setSelectedSubject={setSelectedSubject}
+      />
+
+      <div className={styles.content}>
+        <Sidebar show={showNav} />
+        <div className={styles.dashboards}>
+          <Routes>
+            <Route path="/" element={renderRoleSpecificContent()} />
+
+            <Route
+              path="/assignments"
+              element={<Assignments {...{ user }} />}
+            />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 };
