@@ -1,41 +1,35 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from 'react';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
-import axios from "axios";
-import styles from "./css/Progress.module.css";
+  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
+} from 'recharts';
+import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import axios from 'axios';
+import styles from './css/Progress.module.css';
 
 const Progress = () => {
-  const [view, setView] = useState("weekly");
+  const [view, setView] = useState('weekly');
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProgress = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/progress", {
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:5000/api/progress', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setData(res.data);
       } catch (err) {
-        console.error("Failed to load progress data", err);
+        console.error('Failed to load progress data', err);
       }
     };
-    fetchData();
+
+    fetchProgress();
   }, []);
 
-  const current = view === "weekly" ? data?.weekly || [] : data?.monthly || [];
-  const previous =
-    view === "weekly" ? data?.lastWeek || [] : data?.lastMonth || [];
+  const current = view === 'weekly' ? data?.weekly || [] : data?.monthly || [];
+  const previous = view === 'weekly' ? data?.lastWeek || [] : data?.lastMonth || [];
 
-  const average = (arr) =>
-    arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
+  const average = (arr) => arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
 
   const currentAvg = useMemo(() => average(current), [current]);
   const previousAvg = useMemo(() => average(previous), [previous]);
@@ -58,26 +52,28 @@ const Progress = () => {
       </div>
 
       <div className={styles.progressChart}>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={current}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="progress"
-              stroke="#4A90E2"
-              strokeWidth={3}
-              dot={{ r: 5 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {current.length > 0 ? (
+          <ResponsiveContainer width="100%" height={250}>
+            <LineChart data={current}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="progress"
+                stroke="#4A90E2"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <p>No data available</p>
+        )}
       </div>
 
       <p className={styles.progressInfo}>
-        {view === "weekly"
-          ? "Progress from this week"
-          : "Monthly progress summary"}
+        {view === 'weekly' ? 'Progress from this week' : 'Monthly progress summary'}
       </p>
 
       <div className={styles.toggleGroup}>
