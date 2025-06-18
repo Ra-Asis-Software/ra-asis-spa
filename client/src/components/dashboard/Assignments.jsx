@@ -15,11 +15,13 @@ function Assignments({showNav, user}) {
     const[content, setContent] = useState([]) //array for holding all assignment content
     const[sectionData, setSectionData] = useState({
         instruction: '',
-        question: []
+        question: '',
+        answer: ''
     })
     const[showButton, setShowButton] = useState({
         instruction: false,
-        question: false
+        question: false,
+        answer: false
     })
     const[assignmentUnit, setAssignmentUnit] = useState('')
     const navigate = useNavigate()
@@ -71,7 +73,44 @@ function Assignments({showNav, user}) {
         setShowButton({...showButton, instruction: false})// hide the add instruction area
     }
 
-    //handles adding question section
+    //handles adding a question section to the assignment
+    const handleQuestion = (e) => {
+        const input = e.target
+
+        input.style.height = 'auto'
+        input.style.height = `${input.scrollHeight}px`
+        setSectionData({...sectionData, question: input.value})
+    }
+
+    const handleAddQuestion = () => {
+        const tempArray = [sectionData.question, 'question', []]
+
+        setContent(prev => [...prev, tempArray]) // add the instruction to the contents array
+
+        setSectionData({...sectionData, question: ''}) //return instruction to empty
+        setShowButton({...showButton, question: false})// hide the add instruction area
+    }
+
+    //adding an answer to a question
+    const handleChangeAnswer = (e) => {
+        const input = e.target
+
+        input.style.width = 'auto';
+        input.style.height = '4vh'
+        input.style.width = `${input.scrollWidth}px`;
+
+        setSectionData({...sectionData, answer: input.value})
+    }
+
+    const handleAddAnswer = (index) => {
+        let tempArray = [...content]
+        tempArray[index][2].push(sectionData.answer)
+
+        setContent(tempArray)
+
+        setSectionData({...sectionData, answer: ''}) //return answer to empty
+        setShowButton({...showButton, answer: false})// hide the add answer input
+    }
 
     //make changes to an already added section
     const handleChangeText = (e, index) => {
@@ -118,9 +157,38 @@ function Assignments({showNav, user}) {
                                 content.length > 0 && content.map((item, index) => {
                                     return <>
                                     {
-                                        item[1] === 'instruction' && 
+                                        item[1] === 'instruction' ?
                                         <p key={index} className={ `${styles.textInstruction} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
                                         onInput={(e) => handleChangeText(e, index)} >NOTE: { stripHTML(item[0]) }</p>
+                                        :
+                                        item[1] === 'question' && 
+                                        <div className={ styles.questionContainer }>
+                                            <p key={index} className={ `${styles.textQuestion} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
+                                            onInput={(e) => handleChangeText(e, index)} >{stripHTML(item[0])}</p>
+
+                                            {
+                                                item[2].map((ans, index1) => {
+                                                    return <p key={index1}>{ans}</p>
+                                                })
+                                            }
+
+                                            {
+                                                showButton.answer === index && 
+                                                    <div className={ styles.showAnswer }>
+                                                        <input
+                                                        className={ styles.answerInput }
+                                                        placeholder='Enter answer here'
+                                                        type='text'
+                                                        onInput={(e) => handleChangeAnswer(e)} />
+                                                        <i onClick={() => handleAddAnswer(index)} className={`fa-solid fa-plus ${styles.faPlus}`}></i>
+                                                    </div>
+                                            }
+
+                                            <button className={ styles.addAnswer } onClick={() => setShowButton({...showButton, answer: index})}>
+                                                <i className={`fa-solid fa-plus ${styles.faPlus}`}></i> 
+                                                answer
+                                            </button>
+                                        </div>
                                     }
                                     </>
                                 })
@@ -141,17 +209,17 @@ function Assignments({showNav, user}) {
                             }
 
                             {/* display area for adding a question */}
-                            {/* {
+                            {
                                 showButton.question === true && 
                                 <div style={{ height: 'max-content', display: 'flex', gap: '10px', flexDirection: 'column' }}>
 
-                                    <textarea onChange={(e) => handleInstruction(e)} placeholder='Enter Instruction here...' style={{ fontSize: '1.0rem', padding: '8px', width: '650px', backgroundColor: '#F0F8FF', border: 'none', borderBottom: '1px solid #C0C0C0' }} />
+                                    <textarea onChange={(e) => handleQuestion(e)} placeholder='Enter Question here...' style={{ fontSize: '1.0rem', padding: '8px', width: '650px', backgroundColor: '#F0F8FF', border: 'none', borderBottom: '1px solid #C0C0C0' }} />
 
-                                    <button onClick={handleAddInstruction}  style={{ width: '120px', height: '5vh', padding: '0 10px' }}>
+                                    <button onClick={handleAddQuestion}  style={{ width: 'max-content', height: '5vh', padding: '0 10px' }}>
                                         ADD Question
                                     </button>
                                 </div>
-                            } */}
+                            }
                             </div>
                         </div>
                     </div>
