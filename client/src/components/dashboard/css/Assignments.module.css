@@ -102,3 +102,36 @@ select {
   border: 1px solid gray;
   white-space: pre-wrap;
 }
+.questionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px 0;
+}
+.addAnswer {
+  width: max-content;
+  height: max-content;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  padding: 3px;
+  background-color: #27df36bb;
+  align-self: flex-end;
+  margin-right: 10px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.showAnswer {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+.answerInput {
+  height: 4vh;
+  background-color: #f0f8ff;
+  border: none;
+  border-bottom: 1px solid #c0c0c0;
+  padding-left: 5px;
+}
