@@ -141,4 +141,17 @@
   color: #ef4444; /* Red */
 }
 
+.noData {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+  color: #666;
+}
+.noData ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
 

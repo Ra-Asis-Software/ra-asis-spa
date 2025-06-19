@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
+import {  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import styles from './css/Progress.module.css';
@@ -21,8 +20,7 @@ const Progress = () => {
         const token = localStorage.getItem('authToken'); 
         // console.log('Token:', token);
         const response = await axios.get('http://localhost:5000/api/progress', {
-          headers: {
-            Authorization: `Bearer ${token}`
+          headers: {            Authorization: `Bearer ${token}`
           }
         });
         setProgressData(response.data);
@@ -78,9 +76,17 @@ const Progress = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-        ) : (
-          <p>No data available</p>
-        )}
+        )  : (
+      <div className={styles.noData}>
+        <p>No progress data available for this period.</p>
+        <p>This may be due to:</p>
+        <ul>
+          <li>No assignments were due.</li>
+          <li>No submissions were made by you.</li>
+        </ul>
+      </div>
+    )}
+
       </div>
 
       <p className={styles.progressInfo}>
