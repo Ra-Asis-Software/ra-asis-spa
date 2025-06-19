@@ -80,8 +80,6 @@ select {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   gap: 10px;
   padding: 20px;
 }
@@ -94,10 +92,6 @@ select {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
-}
-.toolsArea button {
-  width: 100%;
 }
 .textInstruction {
   color: red;
@@ -171,27 +165,4 @@ select {
 }
 .faTrash {
   color: rgb(238, 36, 36);
-}
-.submitAssignment {
-  width: 250px;
-  background-color: var(--cerulean-color);
-}
-.extraTools {
-  width: 100%;
-}
-.deadline {
-  height: 5vh;
-  display: flex;
-  padding: 2px 20px;
-  align-items: center;
-  gap: 10px;
-}
-.deadline p {
-  width: 100px;
-}
-.deadline input {
-  border-radius: 5px;
-  height: 4vh;
-  width: 120px;
-  padding-left: 10px;
 }

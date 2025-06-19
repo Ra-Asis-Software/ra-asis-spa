@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
 import Sidebar from "../components/dashboard/SideBar";
-import Header from "../components/dashboard/Header";
+import Header from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
@@ -68,37 +68,6 @@ const Dashboard = () => {
     return <div className="loading-error">{error}</div>;
   }
 
-  // Create role specific content
-  const renderRoleSpecificContent = () => {
-    switch (user.role) {
-      case "student":
-        return (
-          <RoleRestricted allowedRoles={["student"]}>
-            <StudentMain subject={"Mathematics"} profile={user} />
-          </RoleRestricted>
-        );
-      case "teacher":
-        return (
-          <RoleRestricted allowedRoles={["teacher"]}>
-            <TeacherMain {...{ showNav }} profile={user} />
-          </RoleRestricted>
-        );
-      case "parent":
-        return (
-          <RoleRestricted allowedRoles={["teacher"]}>
-            {/* <ParentDashboard /> */}
-          </RoleRestricted>
-        );
-      default:
-        return (
-          <p>
-            Welcome to your dashboard! That's strange...You do not have a
-            specific role assigned on the system. Checking your details...
-          </p>
-        );
-    }
-  };
-
   return (
     <div className={styles.dashboardContainer}>
       <Header
@@ -110,17 +79,36 @@ const Dashboard = () => {
       />
 
       <div className={styles.content}>
-        <Sidebar show={showNav} />
+        <Sidebar show={showNav} logout={handleLogout} />
         <div className={styles.dashboards}>
           <Routes>
-            <Route path="/" element={renderRoleSpecificContent()} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <RoleRestricted allowedRoles={["student"]}>
+                    <StudentMain subject={"Mathematics"} profile={user} />
+                  </RoleRestricted>
+
+                  <RoleRestricted allowedRoles={["teacher"]}>
+                    <TeacherMain {...{ showNav }} profile={user} />
+                  </RoleRestricted>
+
+                  <RoleRestricted allowedRoles={["parent"]}>
+                    {/* <ParentDashboard /> */}
+                  </RoleRestricted>
+
+                  <RoleRestricted allowedRoles={["administrator"]}>
+                    {/* <ParentDashboard /> */}
+                  </RoleRestricted>
+                </>
+              }
+            />
 
             <Route
               path="/assignments"
               element={<Assignments {...{ user }} />}
             />
-
-            <Route path="/assignments/:id" />
           </Routes>
         </div>
       </div>
