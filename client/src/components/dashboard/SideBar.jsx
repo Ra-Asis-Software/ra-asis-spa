@@ -1,12 +1,7 @@
 import React from 'react';
-import styles from './css/sidebar.module.css';
+import styles from './css/SideBar.module.css';
 import { Link } from 'react-router-dom';
 import RoleRestricted from '../ui/RoleRestricted';
-
-
-const studentName = 'Abebe Chala';
-const studentRole = 'Student';
-const initial = studentName.charAt(0).toUpperCase();
 
 const Sidebar = ({show}) => {
   return (
