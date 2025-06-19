@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import styles from './css/Progress.module.css';
 
 const weeklyData = [
@@ -53,7 +52,6 @@ const Progress = () => {
 
   const performanceChange = difference > 0 ? 'improved' : 'declined';
   const changeColor = difference > 0 ? styles.improved : styles.declined;
-  const ArrowIcon = difference > 0 ? ArrowUpRight : ArrowDownRight;
   const period = view === 'weekly' ? 'last week' : 'last month';
 
   return (
@@ -61,7 +59,6 @@ const Progress = () => {
       <h2>Progress</h2>
       <div className={styles.progressHeader}>
         <span className={`${styles.performanceChange} ${changeColor}`}>
-          <ArrowIcon size={18} />
           {Math.abs(difference).toFixed(1)}% {performanceChange} vs {period}
         </span>
         

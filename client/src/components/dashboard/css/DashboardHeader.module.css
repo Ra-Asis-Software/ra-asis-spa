@@ -282,7 +282,7 @@ header svg {
 }
 
 .burgerIcon {
-  display: none;
+  /* display: none; */
   font-size: 1.5rem;
   cursor: pointer;
   margin-right: 1rem;

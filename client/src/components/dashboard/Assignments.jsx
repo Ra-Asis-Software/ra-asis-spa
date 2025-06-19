@@ -16,14 +16,17 @@ function Assignments({showNav, user}) {
     const[sectionData, setSectionData] = useState({
         instruction: '',
         question: '',
-        answer: ''
+        answer: '',
+        textArea: ''
     })
     const[showButton, setShowButton] = useState({
         instruction: false,
         question: false,
-        answer: false
+        answer: false,
+        textArea: false
     })
     const[assignmentUnit, setAssignmentUnit] = useState('')
+    const[trigger, setTrigger] = useState(false)
     const navigate = useNavigate()
 
     //check if a new assignment is being created
@@ -43,6 +46,11 @@ function Assignments({showNav, user}) {
         }
         fetchData()
     }, [])
+
+    useEffect(() => {
+        setTrigger(prev => prev)
+    }, [trigger])
+
 
     const handleFilterUnit = (e) => {
         const unitId = e.target.value
@@ -91,6 +99,24 @@ function Assignments({showNav, user}) {
         setShowButton({...showButton, question: false})// hide the add instruction area
     }
 
+    //handles adding textarea to the assignment
+    const handleTextArea = (e) => {
+        const input = e.target
+
+        input.style.height = 'auto'
+        input.style.height = `${input.scrollHeight}px`
+        setSectionData({...sectionData, textArea: input.value})
+    }
+
+    const handleAddTextArea = () => {
+        const tempArray = [sectionData.textArea, 'textArea']
+
+        setContent(prev => [...prev, tempArray]) // add the instruction to the contents array
+
+        setSectionData({...sectionData, textArea: ''}) //return textArea to empty
+        setShowButton({...showButton, textArea: false})// hide the add textArea area
+    }
+
     //adding an answer to a question
     const handleChangeAnswer = (e) => {
         const input = e.target
@@ -112,6 +138,13 @@ function Assignments({showNav, user}) {
         setShowButton({...showButton, answer: false})// hide the add answer input
     }
 
+    const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
+        const tempArray = content
+        tempArray[questionIndex][2][answerIndex] = e.target.innerHTML
+
+        setContent(tempArray)
+    }
+
     //make changes to an already added section
     const handleChangeText = (e, index) => {
         const tempArray = content
@@ -125,6 +158,40 @@ function Assignments({showNav, user}) {
         return html
             .replace(/<br\s*\/?>/gi, "\n") 
             .replace(/<[^>]*>/g, "");  
+    }
+
+    //move an item in the assignment either up or down
+    const handleMoveItemUp = (index) => {
+        const tempArray = content
+        const itemClicked = tempArray[index]
+        const itemToSwap = index-1 > -1 ? tempArray[index-1] : tempArray[index]
+
+        if(index - 1 > -1){
+            tempArray[index -1] = itemClicked
+            tempArray[index] = itemToSwap
+        }
+            setContent(tempArray) 
+            setTrigger(!trigger) //trigger a rerender of the page
+    }
+
+    const handleMoveItemDown = (index) => {
+        const tempArray = content
+        const itemClicked = tempArray[index]
+        const itemToSwap = index+1 < tempArray.length ? tempArray[index+ 1] : tempArray[index]
+
+        if(index+1 < tempArray.length){
+            tempArray[index + 1] = itemClicked
+            tempArray[index] = itemToSwap
+        }
+            setContent(tempArray) 
+            setTrigger(!trigger) //trigger a rerender of the page
+    }
+
+    const handleDeleteNoteItem = (index) => {
+        const tempArray = content
+        tempArray.splice(index, 1)
+        setContent(tempArray) 
+        setTrigger(!trigger) //trigger a rerender of the page
     }
 
     return (
@@ -141,7 +208,9 @@ function Assignments({showNav, user}) {
                                 <option value={''}>select unit</option>
                                 {
                                     units.map(unit => {
-                                        return <option key={unit.id} value={unit.name} >{ unit.name }</option>
+                                        return (
+                                            <option key={unit.id} value={unit.name} >{ unit.name }</option>
+                                        )
                                     })
                                 }
                             </select>
@@ -151,24 +220,26 @@ function Assignments({showNav, user}) {
                             <div className={ styles.textContent }>
                             <h4>{assignmentUnit}</h4>
                             {
-                                content.length === 0 && <p>Use the tools on the left to add content</p>
+                                content.length === 0 && <p>Use the tools on the right to add content</p>
                             }
                             {
                                 content.length > 0 && content.map((item, index) => {
-                                    return <>
+                                    return ( <div key={index} className={ styles.edDiv }>
                                     {
                                         item[1] === 'instruction' ?
-                                        <p key={index} className={ `${styles.textInstruction} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
+                                        <p className={ `${styles.textInstruction} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
                                         onInput={(e) => handleChangeText(e, index)} >NOTE: { stripHTML(item[0]) }</p>
                                         :
-                                        item[1] === 'question' && 
+                                        item[1] === 'question' ?
                                         <div className={ styles.questionContainer }>
-                                            <p key={index} className={ `${styles.textQuestion} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
+                                            <p className={ `${styles.textQuestion} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
                                             onInput={(e) => handleChangeText(e, index)} >{stripHTML(item[0])}</p>
 
                                             {
                                                 item[2].map((ans, index1) => {
-                                                    return <p key={index1}>{ans}</p>
+                                                    return <div className={ `${styles.answerBox}` } key={index1}>
+                                                        <p className={ styles.editable } contentEditable suppressContentEditableWarning onInput={(e) => handleChangeAnswerExists(e, index, index1)}>{ans}</p>
+                                                    </div>
                                                 })
                                             }
 
@@ -184,13 +255,25 @@ function Assignments({showNav, user}) {
                                                     </div>
                                             }
 
-                                            <button className={ styles.addAnswer } onClick={() => setShowButton({...showButton, answer: index})}>
-                                                <i className={`fa-solid fa-plus ${styles.faPlus}`}></i> 
-                                                answer
-                                            </button>
+                                            {
+                                                showButton.answer !== index &&
+                                                <button className={ styles.addAnswer } onClick={() => setShowButton({...showButton, answer: index})}>
+                                                    <i className={`fa-solid fa-plus ${styles.faPlus}`}></i> 
+                                                    answer
+                                                </button>
+                                            }
+                                        </div>
+                                        : item[1] === 'textArea' && 
+                                        <div className={ `${styles.textLong} ${styles.editable}` } contentEditable   suppressContentEditableWarning 
+                                        onInput={(e) => handleChangeText(e, index)} >{ stripHTML(item[0]) }
                                         </div>
                                     }
-                                    </>
+                                        <div className={ styles.edBtns }>
+                                            <i className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`} onClick={() => handleMoveItemUp(index)} ></i>
+                                            <i className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`} onClick={() => handleMoveItemDown(index)} ></i>
+                                            <i class={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`} onClick={() => handleDeleteNoteItem(index)} ></i>
+                                        </div>
+                                    </div>)
                                 })
 
                             }
@@ -203,7 +286,7 @@ function Assignments({showNav, user}) {
                                     <textarea onChange={(e) => handleInstruction(e)} placeholder='Enter Instruction here...' style={{ fontSize: '1.0rem', padding: '8px', width: '650px', backgroundColor: '#F0F8FF', border: 'none', borderBottom: '1px solid #C0C0C0' }} />
 
                                     <button  onClick={handleAddInstruction}  style={{ width: 'max-content', height: '5vh', padding: '0 10px' }}>
-                                        Add Instruction
+                                        Add instruction
                                     </button>
                                 </div>
                             }
@@ -216,7 +299,20 @@ function Assignments({showNav, user}) {
                                     <textarea onChange={(e) => handleQuestion(e)} placeholder='Enter Question here...' style={{ fontSize: '1.0rem', padding: '8px', width: '650px', backgroundColor: '#F0F8FF', border: 'none', borderBottom: '1px solid #C0C0C0' }} />
 
                                     <button onClick={handleAddQuestion}  style={{ width: 'max-content', height: '5vh', padding: '0 10px' }}>
-                                        ADD Question
+                                        Add question
+                                    </button>
+                                </div>
+                            }
+
+                            {/* display area for adding a lot of text */}
+                            {
+                                showButton.textArea === true && 
+                                <div style={{ height: 'max-content', display: 'flex', gap: '10px', flexDirection: 'column' }}>
+
+                                    <textarea onChange={(e) => handleTextArea(e)} placeholder='Enter Text here...' style={{ fontSize: '1.0rem', padding: '8px', width: '650px', backgroundColor: '#F0F8FF', border: 'none', borderBottom: '1px solid #C0C0C0', minHeight: '30vh' }} />
+
+                                    <button onClick={handleAddTextArea}  style={{ width: 'max-content', height: '5vh', padding: '0 10px' }}>
+                                        ADD textArea
                                     </button>
                                 </div>
                             }
@@ -250,7 +346,9 @@ function Assignments({showNav, user}) {
                                 {
                                     units.map(unit => {
                                         //change backend response to populate unit names
-                                        return <option key={unit.id} value={unit.id}>{unit.name}</option>
+                                        return (
+                                            <option key={unit.id} value={unit.id}>{unit.name}</option>
+                                        )
                                     })
                                 }
                             </select>
@@ -265,11 +363,13 @@ function Assignments({showNav, user}) {
                         <div className={ styles.assignmentsBody }>
                             {
                                 assignments.map(assignment => {
-                                    return <button key={assignment._id} className={ styles.assignment } onClick={() => {setOpenAssignment(true); setCurrentAssignment(assignment)}}>
-                                        <p>{assignment.title}</p>
-                                        <p>{assignment.status}</p>
-                                        <p>Due in 2 days</p>
-                                    </button>
+                                    return (
+                                        <button key={assignment._id} className={ styles.assignment } onClick={() => {setOpenAssignment(true); setCurrentAssignment(assignment)}}>
+                                            <p>{assignment.title}</p>
+                                            <p>{assignment.status}</p>
+                                            <p>Due in 2 days</p>
+                                        </button>
+                                    )
                                 })
                             }
                             {
@@ -288,6 +388,12 @@ function Assignments({showNav, user}) {
                         <button className={ styles.addAssignment } onClick={() => setShowButton(prev => ({...prev, instruction: true}))}>Instruction</button>
 
                         <button className={ styles.addAssignment } onClick={() => setShowButton(prev => ({...prev, question: true}))}>Question</button>
+
+                        <button className={ styles.addAssignment } onClick={() => setShowButton(prev => ({...prev, textArea: true}))}>Text Area</button>
+
+                        <button className={ styles.addAssignment } >Title</button>
+
+                        <button className={ styles.addAssignment } >File</button>
                     </div>
                 </div>
             }

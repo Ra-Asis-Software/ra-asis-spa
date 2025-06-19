@@ -72,13 +72,17 @@ ul li a.active {
   border-top: 1px solid #525151;
   margin-bottom: 20px;
 }
+.logoutButton {
+  background-color: transparent;
+  color: red;
+}
 
 .logout a {
-    color: red;
+    
     margin: 230px 30px;
 }
 
-.logout a i {
+.logout i {
     margin-right: 8px;
 }
 

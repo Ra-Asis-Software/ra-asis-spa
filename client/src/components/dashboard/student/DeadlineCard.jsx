@@ -3,7 +3,9 @@ import styles from '../css/DeadlineCard.module.css';
 
 const DeadlineCard = ({ subject, deadlines = [] }) => {
   if (!subject) {
-    return <div className={styles.placeholder}>Please select a subject to view deadlines.</div>;
+    return (
+      <div className={styles.placeholder}>Please select a subject to view deadlines.</div>
+    )
   }
 
   return (

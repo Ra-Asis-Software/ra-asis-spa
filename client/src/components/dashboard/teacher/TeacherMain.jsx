@@ -59,7 +59,9 @@ function TeacherMain({showNav, profile}) {
                         <div className={ styles.units }>
                             {
                                 assignments.map(assignment => {
-                                    return <AssignmentCard key={assignment._id} unitName={assignment.unit.unitName} title={assignment.title} />
+                                    return (
+                                        <AssignmentCard key={assignment._id} unitName={assignment.unit.unitName} title={assignment.title} />
+                                    )
                                 })
                             }
                         </div>
@@ -82,12 +84,14 @@ function TeacherMain({showNav, profile}) {
                             <tbody>
                                 {
                                     assignments.map(assignment => {
-                                        return <tr key={assignment._id}>
-                                            <td>{assignment.title}</td>
-                                            <td>40/60</td>
-                                            <td>Completed</td>
-                                            <td>01/01/2024</td>
-                                        </tr>
+                                        return (
+                                            <tr key={assignment._id}>
+                                                <td>{assignment.title}</td>
+                                                <td>40/60</td>
+                                                <td>Completed</td>
+                                                <td>01/01/2024</td>
+                                            </tr>
+                                        )
                                     })
                                 }
                             </tbody>
@@ -100,10 +104,12 @@ function TeacherMain({showNav, profile}) {
                     <div className={ styles.deadlineBox }>
                         {
                             deadlines.map((item, index) => {
-                                return <div className={ styles.deadlineEvent } key={index}>
-                                    <h5>{item.date}</h5>
-                                    <p>{item.event}</p>
-                                </div>
+                                return (
+                                    <div className={ styles.deadlineEvent } key={index}>
+                                        <h5>{item.date}</h5>
+                                        <p>{item.event}</p>
+                                    </div>
+                                )
                             })
                         }
                     </div>

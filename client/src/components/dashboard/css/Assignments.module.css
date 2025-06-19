@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow-y: auto;
 }
 .assignmentsHeader {
     height: 8vh;
@@ -64,6 +65,7 @@ select {
 .newAssignmentContent {
     background-color:rgba(90, 224, 215, 0.3);
     padding: 10px;
+    padding-bottom: 20vh;
 }
 .textContent {
     height: max-content;
@@ -73,22 +75,20 @@ select {
 }
 .extras {
     flex: .4;
-    border: 1px solid;
 }
 .tools {
     height: 100%;
-    border: 1px solid;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 20px;
 }
 .tools h3 {
     text-align: center;
     height: 8vh;
 }
 .toolsArea {
-    border: 1px solid;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -97,9 +97,12 @@ select {
     color: red;
     font-size: .8rem;
 }
+.textLong {
+    
+}
 .editable {
     padding: 5px;
-    border: 1px solid gray;
+    border: 1px solid rgba(176, 224, 230, 0.767);
     white-space: pre-wrap;
 }
 .questionContainer {
@@ -132,6 +135,35 @@ select {
     height: 4vh; 
     background-color: #F0F8FF; 
     border: none; 
-    border-bottom: 1px solid #C0C0C0; 
     padding-left: 5px ;
+}
+.answerBox {
+    margin-left: 10px;
+    width: max-content;
+    min-width: 250px;
+}
+.answerBox p {
+    font-size: .9rem;
+}
+.edDiv {
+    border: 1px solid powderblue;
+}
+
+.edBtns {
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 150px;
+    border-top: 0;
+}
+.ed-btns .faSolid {
+    font-size: 20px;
+    cursor: pointer;
+}
+.faArrow {
+    color: #00B9E8;
+}
+.faTrash {
+    color: rgb(238, 36, 36);
 }
