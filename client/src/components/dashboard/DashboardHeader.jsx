@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './css/Header.module.css';
+import styles from './css/DashboardHeader.module.css';
 
 const Header = ({ setShowNav, showNav, selectedSubject, setSelectedSubject, profile }) => {
 
@@ -17,9 +17,7 @@ const notifications = [
   { icon: <i className={`fas fa-exclamation-circle ${styles.notificationIconLeft}`}></i>, message: "Upcoming Assignment 2 submission" },
 ];
 
-const studentName = 'Abebe Chala';
-const studentRole = 'Student';
-const initial = studentName.charAt(0).toUpperCase();
+const initial = profile.firstName.charAt(0).toUpperCase()
 
 
 const hasNew = notifications.length > 0;

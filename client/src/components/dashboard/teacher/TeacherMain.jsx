@@ -6,10 +6,13 @@ import Title from '../Title'
 import UnitCard from '../UnitCard'
 import AssignmentCard from '../AssignmentCard'
 import CustomCalendar from '../CustomCalendar'
-
+import { useNavigate } from 'react-router-dom'
 
 
 function TeacherMain({showNav, profile}) {
+    const[units, setUnits] = useState([])
+    const[assignments, setAssignments] = useState([])
+    const navigate = useNavigate()
     const deadlines = [
     { date: '2025-06-01', event: 'Attachemnent', time: '08:30' },
     { date: '2025-06-15', event: 'Attachemnent', time: '10:52' },
@@ -17,14 +20,12 @@ function TeacherMain({showNav, profile}) {
     { date: '2025-06-22', event: 'Attachemnent', time: '23:00' }
     ]
 
-    const[assignments, setAssignments] = useState([])
-    const[units, setUnits] = useState([])
+    
 
     useEffect(() => {
         const fetchData = async() => {
             const teacherData = await getUserDetails(profile.role, profile.id)
             
-            console.log(teacherData)
             if(teacherData.data.message) {
                 setAssignments(teacherData.data.data.assignments)
                 setUnits(teacherData.data.data.units)
@@ -50,7 +51,7 @@ function TeacherMain({showNav, profile}) {
                     <div className={ styles.unitsBox }>
                         <div className={ styles.assignmentsTitle }>
                             <h4>Assignments</h4>
-                            <button className={ styles.addAssignment }>
+                            <button className={ styles.addAssignment } onClick={() => navigate('/dashboard/assignments?new=true')} >
                                     <i className="fa-solid fa-plus"></i>
                                     <p>Create</p>
                             </button>
@@ -58,7 +59,9 @@ function TeacherMain({showNav, profile}) {
                         <div className={ styles.units }>
                             {
                                 assignments.map(assignment => {
-                                    return <AssignmentCard key={assignment._id} unitName={assignment.unit.unitName} title={assignment.title} />
+                                    return (
+                                        <AssignmentCard key={assignment._id} unitName={assignment.unit.unitName} title={assignment.title} />
+                                    )
                                 })
                             }
                         </div>
@@ -81,12 +84,14 @@ function TeacherMain({showNav, profile}) {
                             <tbody>
                                 {
                                     assignments.map(assignment => {
-                                        return <tr key={assignment._id}>
-                                            <td>{assignment.title}</td>
-                                            <td>40/60</td>
-                                            <td>Completed</td>
-                                            <td>01/01/2024</td>
-                                        </tr>
+                                        return (
+                                            <tr key={assignment._id}>
+                                                <td>{assignment.title}</td>
+                                                <td>40/60</td>
+                                                <td>Completed</td>
+                                                <td>01/01/2024</td>
+                                            </tr>
+                                        )
                                     })
                                 }
                             </tbody>
@@ -99,10 +104,12 @@ function TeacherMain({showNav, profile}) {
                     <div className={ styles.deadlineBox }>
                         {
                             deadlines.map((item, index) => {
-                                return <div className={ styles.deadlineEvent } key={index}>
-                                    <h5>{item.date}</h5>
-                                    <p>{item.event}</p>
-                                </div>
+                                return (
+                                    <div className={ styles.deadlineEvent } key={index}>
+                                        <h5>{item.date}</h5>
+                                        <p>{item.event}</p>
+                                    </div>
+                                )
                             })
                         }
                     </div>
