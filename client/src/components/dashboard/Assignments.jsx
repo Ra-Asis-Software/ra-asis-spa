@@ -5,6 +5,7 @@ import { getUserDetails } from '../../services/user'
 import RoleRestricted from '../ui/RoleRestricted'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
 
 function Assignments({showNav, user}) {
     const[assignments, setAssignments] = useState([])
@@ -27,12 +28,12 @@ function Assignments({showNav, user}) {
     })
     const[assignmentUnit, setAssignmentUnit] = useState('')
     const[trigger, setTrigger] = useState(false)
+    const assignmentContentRef = useRef(null)
     const navigate = useNavigate()
 
     //check if a new assignment is being created
     const location = useLocation()
     const params = new URLSearchParams(location.search)
-    const newAssignment = params.get('new') ? params.get('new') : false
 
     useEffect(() => {
         const fetchData = async() => {
@@ -194,10 +195,15 @@ function Assignments({showNav, user}) {
         setTrigger(!trigger) //trigger a rerender of the page
     }
 
+    //handles publishing assignment
+    const handlePublishAssignment = () => {
+        
+    }
+
     return (
         <div className={ `${styles.hero} ${showNav ? '' : styles.marginCollapsed}` }>
         {
-            params.get('new') ? 
+            params.get('new') ? //for teachers to create assignments
                 <RoleRestricted allowedRoles={['teacher']}>
                     <div className={ styles.assignmentsBox }>
                         <div className={ styles.assignmentsHeader }>
@@ -216,7 +222,7 @@ function Assignments({showNav, user}) {
                             </select>
 
                         </div>
-                        <div className={ styles.newAssignmentContent }>
+                        <div className={ styles.newAssignmentContent } ref={assignmentContentRef}>
                             <div className={ styles.textContent }>
                             <h4>{assignmentUnit}</h4>
                             {
@@ -383,8 +389,10 @@ function Assignments({showNav, user}) {
             {
                 params.get('new') && 
                 <div className={ styles.tools }>
-                    <h3>Tools</h3>
+                    
                     <div className={ styles.toolsArea }>
+                        <h3>Tools</h3>
+
                         <button className={ styles.addAssignment } onClick={() => setShowButton(prev => ({...prev, instruction: true}))}>Instruction</button>
 
                         <button className={ styles.addAssignment } onClick={() => setShowButton(prev => ({...prev, question: true}))}>Question</button>
@@ -395,6 +403,19 @@ function Assignments({showNav, user}) {
 
                         <button className={ styles.addAssignment } >File</button>
                     </div>
+                    <div className={ styles.extraTools }>
+                        <div className={ styles.deadline }>
+                            <p>Deadline</p>
+                            <input type='date' />
+                        </div>
+                        <div className={ styles.deadline }>
+                            <p>Max marks</p>
+                            <input type='number' max={100} />
+                        </div>
+                    </div>
+                    <button className={ styles.submitAssignment } onClick={handlePublishAssignment}>
+                        PUBLISH ASSIGNMENT
+                    </button>
                 </div>
             }
             </div>
