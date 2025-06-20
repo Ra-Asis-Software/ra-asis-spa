@@ -8,7 +8,6 @@ const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState(""); // State for error handling
-  const [showNav, setShowNav] = useState(false);
   const navigate = useNavigate();
 
   // Fetch the user's data from the token
@@ -34,7 +33,7 @@ const Dashboard = () => {
         const { firstName, lastName, role } = decoded;
 
         // Set the user's data in state
-        setUser({ firstName, lastName, role, id });
+        setUser({ firstName, lastName, role });
         setLoading(false);
       } catch (error) {
         setError(
@@ -63,50 +62,76 @@ const Dashboard = () => {
     return <div className="loading-error">{error}</div>;
   }
 
+  // Create role specific content
+  const renderRoleSpecificContent = () => {
+    switch (user.role) {
+      case "student":
+        return (
+          <p>
+            Welcome to your student dashboard! Here you can track your progress
+            and access resources.
+          </p>
+        );
+      case "teacher":
+        return (
+          <p>
+            Welcome to your teacher dashboard! Manage your classes and monitor
+            student performance.
+          </p>
+        );
+      case "parent":
+        return (
+          <p>
+            Welcome to your parent dashboard! Stay updated on your child's
+            progress and activities.
+          </p>
+        );
+      default:
+        return (
+          <p>
+            Welcome to your dashboard! That's strange...You do not have a
+            specific role assigned on the system. Checking your details...
+          </p>
+        );
+    }
+  };
+
   return (
     <div className={styles.dashboardContainer}>
-      <Header
-        profile={user}
-        setShowNav={setShowNav}
-        showNav={showNav}
-        // selectedSubject={selectedSubject}
-        // setSelectedSubject={setSelectedSubject}
-      />
-
-      <div className={styles.content}>
-        <Sidebar show={showNav} logout={handleLogout} />
-        <div className={styles.dashboards}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <RoleRestricted allowedRoles={["student"]}>
-                    <StudentMain subject={"Mathematics"} profile={user} />
-                  </RoleRestricted>
-
-                  <RoleRestricted allowedRoles={["teacher"]}>
-                    <TeacherMain {...{ showNav }} profile={user} />
-                  </RoleRestricted>
-
-                  <RoleRestricted allowedRoles={["parent"]}>
-                    {/* <ParentDashboard /> */}
-                  </RoleRestricted>
-
-                  <RoleRestricted allowedRoles={["administrator"]}>
-                    {/* <ParentDashboard /> */}
-                  </RoleRestricted>
-                </>
-              }
-            />
-
-            <Route
-              path="/assignments"
-              element={<Assignments {...{ user }} />}
-            />
-          </Routes>
-        </div>
-      </div>
+      <h2>Dashboard</h2>
+      <h3>
+        Hello {user?.lastName} or should I call you {user?.firstName} ?
+      </h3>
+      {renderRoleSpecificContent()}
+      <RoleRestricted allowedRoles={["administrator"]}>
+        <p className={`${styles.userSpecific} ${styles.adminSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <RoleRestricted allowedRoles={["teacher"]}>
+        <p className={`${styles.userSpecific} ${styles.teacherSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <RoleRestricted allowedRoles={["student"]}>
+        <p className={`${styles.userSpecific} ${styles.studentSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <RoleRestricted allowedRoles={["parent"]}>
+        <p className={`${styles.userSpecific} ${styles.parentSpecific}`}>
+          You are a {user?.role}. We are building this exciting new
+          feature tailored specifically for you. Come back in a few days to
+          explore and enjoy it!
+        </p>
+      </RoleRestricted>
+      <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
     </div>
   );
 };
