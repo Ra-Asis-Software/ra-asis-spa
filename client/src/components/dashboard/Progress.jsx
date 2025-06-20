@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -8,49 +8,43 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import styles from "./css/Progress.module.css";
-
-const weeklyData = [
-  { name: "Mon", progress: 40 },
-  { name: "Tue", progress: 60 },
-  { name: "Wed", progress: 55 },
-  { name: "Thu", progress: 70 },
-  { name: "Fri", progress: 65 },
-  { name: "Sat", progress: 80 },
-  { name: "Sun", progress: 75 },
-];
-
-const lastWeekData = [
-  { name: "Mon", progress: 30 },
-  { name: "Tue", progress: 50 },
-  { name: "Wed", progress: 45 },
-  { name: "Thu", progress: 60 },
-  { name: "Fri", progress: 55 },
-  { name: "Sat", progress: 70 },
-  { name: "Sun", progress: 65 },
-];
-
-const monthlyData = [
-  { name: "Jan", progress: 50 },
-  { name: "Feb", progress: 60 },
-  { name: "Mar", progress: 70 },
-  { name: "Apr", progress: 80 },
-];
-
-const lastMonthData = [
-  { name: "Sep", progress: 40 },
-  { name: "Oct", progress: 50 },
-  { name: "Nov", progress: 55 },
-  { name: "Dec", progress: 60 },
-];
+import axios from "axios";
 
 const Progress = () => {
   const [view, setView] = useState("weekly");
+  const [progressData, setProgressData] = useState({
+    weekly: [],
+    lastWeek: [],
+    monthly: [],
+    lastMonth: [],
+  });
 
-  const current = view === "weekly" ? weeklyData : monthlyData;
-  const previous = view === "weekly" ? lastWeekData : lastMonthData;
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        // console.log('Token:', token);
+        const response = await axios.get("http://localhost:5000/api/progress", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setProgressData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch progress data:", error);
+      }
+    };
 
-  const average = (arr) =>
-    arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
+    fetchProgress();
+  }, []);
+
+  const current =
+    view === "weekly" ? progressData.weekly : progressData.monthly;
+  const previous =
+    view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
+
+  const average = (arr = []) => {
+    if (!Array.isArray(arr) || arr.length === 0) return 0;
+    return arr.reduce((sum, item) => sum + item.progress, 0) / arr.length;
+  };
 
   const currentAvg = useMemo(() => average(current), [current]);
   const previousAvg = useMemo(() => average(previous), [previous]);
@@ -67,28 +61,40 @@ const Progress = () => {
         <span className={`${styles.performanceChange} ${changeColor}`}>
           {Math.abs(difference).toFixed(1)}% {performanceChange} vs {period}
         </span>
-
         <button className={styles.viewReport}>View Report</button>
       </div>
 
       <div className={styles.progressChart}>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={current}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="progress"
-              stroke="#4A90E2"
-              strokeWidth={3}
-              dot={{ r: 5 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {current.length > 0 ? (
+          <ResponsiveContainer width="100%" height={250}>
+            <LineChart data={current}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="progress"
+                stroke="#4A90E2"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className={styles.noData}>
+            <p>No progress data available for this period.</p>
+            <p>This may be due to:</p>
+            <ul>
+              <li>No assignments were due.</li>
+              <li>No submissions were made by you.</li>
+            </ul>
+          </div>
+        )}
       </div>
 
-      <p className={styles.progressInfo}>Progress from 12–18 May, 2025</p>
+      <p className={styles.progressInfo}>
+        Progress from {view === "weekly" ? "last 7 days" : "last 4 months"}
+      </p>
 
       <div className={styles.toggleGroup}>
         <label className={styles.toggleOption}>
