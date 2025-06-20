@@ -11,7 +11,7 @@
 .calendar :global(.react-calendar) {
   width: 100%;
   border: none;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   line-height: 1.2;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .calendar :global(.react-calendar__tile--active) {
-  background: #027A79;
+  background: #027a79;
   color: white;
 }
 
@@ -71,4 +71,3 @@
   justify-content: center;
   align-items: center;
 } */
-

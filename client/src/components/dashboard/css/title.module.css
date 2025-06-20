@@ -1,12 +1,12 @@
 .Title {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .Title h1 {
-    font-size: 14px;
-    margin-bottom: 0;
-    font-weight: 500;
-    color: blue;
+  font-size: 14px;
+  margin-bottom: 0;
+  font-weight: 500;
+  color: blue;
 }
 
 .breadCrumb {

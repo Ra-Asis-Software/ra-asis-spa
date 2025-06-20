@@ -1,198 +1,197 @@
 .hero {
-    transition: flex 0.3s ease-in-out;
-    flex: 1;
-    display: flex;
-    padding: 10px;
+  transition: flex 0.3s ease-in-out;
+  flex: 1;
+  display: flex;
+  padding: 10px;
 }
 .assignmentsBox {
-    flex: .7;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
+  flex: 0.7;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
 }
 .assignmentsHeader {
-    height: 8vh;
-    display: flex;
-    align-items: center;
-    gap: 50px;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  gap: 50px;
 }
 select {
-    height: 6vh;
-    width: 160px;
-    background-color: rgba(90, 224, 215, 0.3);
-    border: none;
-    border-radius: 6px;
-    padding: 5px;
+  height: 6vh;
+  width: 160px;
+  background-color: rgba(90, 224, 215, 0.3);
+  border: none;
+  border-radius: 6px;
+  padding: 5px;
 }
 
 .addAssignment {
-    height: 6vh;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    background-color: rgba(90, 224, 215, 0.3);
-    border-radius: 6px;
+  height: 6vh;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background-color: rgba(90, 224, 215, 0.3);
+  border-radius: 6px;
 }
 .assignmentsBody {
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
 }
 .assignment {
-    height: 7vh;
-    width: 80%;
-    border-radius: 10px;
-    background-color: rgba(90, 224, 215, 0.3);
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    justify-content: space-between;
+  height: 7vh;
+  width: 80%;
+  border-radius: 10px;
+  background-color: rgba(90, 224, 215, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: space-between;
 }
 .assignmentDetails {
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 .instruction {
-    font-size: .9rem;
-    color: red;
+  font-size: 0.9rem;
+  color: red;
 }
 .newAssignmentContent {
-    background-color:rgba(90, 224, 215, 0.3);
-    padding: 10px;
-    padding-bottom: 20vh;
+  background-color: rgba(90, 224, 215, 0.3);
+  padding: 10px;
+  padding-bottom: 20vh;
 }
 .textContent {
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .extras {
-    flex: .4;
+  flex: 0.4;
 }
 .tools {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
 }
 .tools h3 {
-    text-align: center;
-    height: 8vh;
+  text-align: center;
+  height: 8vh;
 }
 .toolsArea {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 .toolsArea button {
-    width: 100%;
+  width: 100%;
 }
 .textInstruction {
-    color: red;
-    font-size: .8rem;
+  color: red;
+  font-size: 0.8rem;
 }
 .textLong {
-    
 }
 .editable {
-    padding: 5px;
-    border: 1px solid rgba(176, 224, 230, 0.767);
-    white-space: pre-wrap;
+  padding: 5px;
+  border: 1px solid rgba(176, 224, 230, 0.767);
+  white-space: pre-wrap;
 }
 .questionContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding:5px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px 0;
 }
 .addAnswer {
-    width: max-content;
-    height: max-content;
-    border-radius: 5px;
-    font-size: .7rem;
-    padding: 3px;
-    background-color: #27df36bb;
-    align-self: flex-end;
-    margin-right: 10px;
-    display: flex;
-    gap: 3px;
-    align-items: center;
+  width: max-content;
+  height: max-content;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  padding: 3px;
+  background-color: #27df36bb;
+  align-self: flex-end;
+  margin-right: 10px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
 }
 .showAnswer {
-    display: flex; 
-    width: max-content; 
-    align-items: center;
-    gap: 5px;
-    margin-left: 10px;
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
 }
-.answerInput { 
-    height: 4vh; 
-    background-color: #F0F8FF; 
-    border: none; 
-    padding-left: 5px ;
+.answerInput {
+  height: 4vh;
+  background-color: #f0f8ff;
+  border: none;
+  padding-left: 5px;
 }
 .answerBox {
-    margin-left: 10px;
-    width: max-content;
-    min-width: 250px;
+  margin-left: 10px;
+  width: max-content;
+  min-width: 250px;
 }
 .answerBox p {
-    font-size: .9rem;
+  font-size: 0.9rem;
 }
 .edDiv {
-    border: 1px solid powderblue;
+  border: 1px solid powderblue;
 }
 
 .edBtns {
-    height: 5vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 150px;
-    border-top: 0;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 150px;
+  border-top: 0;
 }
 .ed-btns .faSolid {
-    font-size: 20px;
-    cursor: pointer;
+  font-size: 20px;
+  cursor: pointer;
 }
 .faArrow {
-    color: #00B9E8;
+  color: #00b9e8;
 }
 .faTrash {
-    color: rgb(238, 36, 36);
+  color: rgb(238, 36, 36);
 }
 .submitAssignment {
-    width: 250px;
-    background-color: var(--cerulean-color);
+  width: 250px;
+  background-color: var(--cerulean-color);
 }
 .extraTools {
-    width: 100%;
+  width: 100%;
 }
 .deadline {
-    height: 5vh;
-    display: flex;
-    padding:2px 20px;
-    align-items: center;
-    gap: 10px;
+  height: 5vh;
+  display: flex;
+  padding: 2px 20px;
+  align-items: center;
+  gap: 10px;
 }
 .deadline p {
-    width: 100px;
+  width: 100px;
 }
 .deadline input {
-    border-radius: 5px;
-    height: 4vh;
-    width: 120px;
-    padding-left: 10px;
+  border-radius: 5px;
+  height: 4vh;
+  width: 120px;
+  padding-left: 10px;
 }

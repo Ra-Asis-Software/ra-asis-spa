@@ -13,7 +13,6 @@
   max-width: 520px;
 } */
 
-
 .summary-section h2 {
   font-size: 1rem;
   font-weight: 600;
@@ -56,15 +55,13 @@
 }
 
 .completed {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .pending {
-  background-color: #FFC107;
+  background-color: #ffc107;
 }
 
 .overdue {
-  background-color: #BDBDBD;
+  background-color: #bdbdbd;
 }
-
-

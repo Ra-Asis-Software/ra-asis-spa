@@ -11,7 +11,7 @@
   font-size: 1.25rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
-  text-align: center; 
+  text-align: center;
 }
 
 /* --- Mobile-First Layout (< 768px) --- */
@@ -30,7 +30,7 @@
 .cardContainer {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   gap: 1.5rem;
   width: 100%;
 }
@@ -42,19 +42,18 @@
 /* --- STYLING FOR CONTENT BLOCKS ON MOBILE --- */
 
 .rightColumn,
-.bottomRow > *, 
-.summaryAndDeadlineRow > :last-child  {
+.bottomRow > *,
+.summaryAndDeadlineRow > :last-child {
   width: 95%;
-  max-width: 450px; 
+  max-width: 450px;
 }
 
 /* 2. EXCEPTION: Summary and Assignment Cards are made full-width */
-.summaryAndDeadlineRow > :first-child, 
-.cardContainer > *  {
+.summaryAndDeadlineRow > :first-child,
+.cardContainer > * {
   width: 100%;
-  max-width: none; 
+  max-width: none;
 }
-
 
 /* --- Tablet and Medium Screens (>= 768px) --- */
 @media (min-width: 768px) {
@@ -64,36 +63,36 @@
   .mainCollapsed {
     margin-left: 5px;
   }
-  
+
   .heading {
-    text-align: left; 
+    text-align: left;
   }
-  
+
   /* Revert to row layout and left-align items */
   .topRow,
   .bottomRow,
   .summaryAndDeadlineRow {
     flex-direction: row;
-    align-items: flex-start; 
+    align-items: flex-start;
     gap: 1.5rem;
     width: 55%;
   }
-  
+
   .summaryAndDeadlineRow {
     flex-direction: row;
-    align-items: flex-start; 
+    align-items: flex-start;
     gap: 2rem;
     margin-top: 2rem;
   }
 
   .leftColumn {
-    flex: 2; 
-    align-items: stretch; 
+    flex: 2;
+    align-items: stretch;
   }
 
   .rightColumn {
-    flex: 1; 
-    position: sticky; 
+    flex: 1;
+    position: sticky;
     top: 1rem;
   }
 
@@ -111,7 +110,6 @@
     max-width: none;
   }
 
-
   .cardContainer > * {
     flex: 1 1 20%;
     min-width: 280px;
@@ -119,7 +117,7 @@
 
   .bottomRow > *,
   .summaryAndDeadlineRow > * {
-    flex: 2; 
+    flex: 2;
     margin-right: -0.5rem;
   }
 }
@@ -132,11 +130,11 @@
   .mainCollapsed {
     margin-left: 5px;
   }
-  
+
   .heading {
     text-align: left;
   }
-  
+
   /* --- CHANGE #1: Ensure top-level rows are full width --- */
   .topRow,
   .bottomRow,
@@ -144,18 +142,18 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 2rem;
-    width: 100%; 
+    width: 100%;
   }
-  
+
   /* --- CHANGE #2: Make the column layout more flexible --- */
   .leftColumn {
-    flex: 1 1 auto; 
-    min-width: 0;   
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .rightColumn {
-    flex: 0 0 300px; 
-    position: sticky; 
+    flex: 0 0 300px;
+    position: sticky;
     top: 1rem;
   }
 
@@ -177,9 +175,9 @@
     flex: 1 1 48%;
     min-width: 280px;
   }
-  
+
   .summaryAndDeadlineRow > * {
-    flex: 1; 
+    flex: 1;
   }
 
   .bottomRow > * {
@@ -197,16 +195,16 @@
   .mainCollapsed {
     margin-left: 2px;
   }
-  
+
   .cardContainer > * {
     flex: 1 1 31%;
   }
-  
-  .bottomRow > :first-child { 
+
+  .bottomRow > :first-child {
     flex: 1.5;
   }
-  
-  .bottomRow > :last-child { 
+
+  .bottomRow > :last-child {
     flex: 1;
   }
 }

@@ -9,12 +9,11 @@
   justify-content: space-between;
   border-radius: 5px;
   position: relative;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
-
 .unit {
-  font-size: .7rem;
+  font-size: 0.7rem;
   font-weight: 700;
   margin-bottom: 0;
   margin-top: 0;
@@ -70,5 +69,3 @@
 .notstarted {
   color: red;
 }
-
-

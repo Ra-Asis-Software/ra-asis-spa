@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState(""); // State for error handling
-  const[showNav, setShowNav] = useState(false)
+  const [showNav, setShowNav] = useState(false);
   const navigate = useNavigate();
 
   // Fetch the user's data from the token
@@ -39,7 +39,7 @@ const Dashboard = () => {
         const { firstName, lastName, role, id } = decoded;
 
         // Set the user's data in state
-        setUser({ firstName, lastName, role, id});
+        setUser({ firstName, lastName, role, id });
         setLoading(false);
       } catch (error) {
         setError(
@@ -68,7 +68,6 @@ const Dashboard = () => {
     return <div className="loading-error">{error}</div>;
   }
 
-  
   return (
     <div className={styles.dashboardContainer}>
       <Header
@@ -76,39 +75,40 @@ const Dashboard = () => {
         setShowNav={setShowNav}
         showNav={showNav}
         // selectedSubject={selectedSubject}
-        // setSelectedSubject={setSelectedSubject} 
+        // setSelectedSubject={setSelectedSubject}
       />
 
       <div className={styles.content}>
         <Sidebar show={showNav} logout={handleLogout} />
-        <div className={ styles.dashboards }>
+        <div className={styles.dashboards}>
           <Routes>
             <Route
-            path="/"
-            element = {
-              <>
-                <RoleRestricted allowedRoles={["student"]}>
-                  <StudentMain subject={'Mathematics'} profile={user} />
-                </RoleRestricted>
+              path="/"
+              element={
+                <>
+                  <RoleRestricted allowedRoles={["student"]}>
+                    <StudentMain subject={"Mathematics"} profile={user} />
+                  </RoleRestricted>
 
-                <RoleRestricted allowedRoles={["teacher"]}>
-                  <TeacherMain {...{showNav}} profile={user} />
-                </RoleRestricted>
+                  <RoleRestricted allowedRoles={["teacher"]}>
+                    <TeacherMain {...{ showNav }} profile={user} />
+                  </RoleRestricted>
 
-                <RoleRestricted allowedRoles={["parent"]}>
+                  <RoleRestricted allowedRoles={["parent"]}>
                     {/* <ParentDashboard /> */}
-                </RoleRestricted>
+                  </RoleRestricted>
 
-                <RoleRestricted allowedRoles={["administrator"]}>
+                  <RoleRestricted allowedRoles={["administrator"]}>
                     {/* <ParentDashboard /> */}
-                </RoleRestricted>
-              </>
-            } />
+                  </RoleRestricted>
+                </>
+              }
+            />
 
             <Route
-            path="/assignments"
-            element={ <Assignments {...{user}} /> } />
-
+              path="/assignments"
+              element={<Assignments {...{ user }} />}
+            />
           </Routes>
         </div>
       </div>

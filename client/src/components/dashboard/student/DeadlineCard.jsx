@@ -1,11 +1,13 @@
-import React from 'react';
-import styles from '../css/DeadlineCard.module.css';
+import React from "react";
+import styles from "../css/DeadlineCard.module.css";
 
 const DeadlineCard = ({ subject, deadlines = [] }) => {
   if (!subject) {
     return (
-      <div className={styles.placeholder}>Please select a subject to view deadlines.</div>
-    )
+      <div className={styles.placeholder}>
+        Please select a subject to view deadlines.
+      </div>
+    );
   }
 
   return (
@@ -19,7 +21,9 @@ const DeadlineCard = ({ subject, deadlines = [] }) => {
             <li key={idx} className={styles.deadlineItem}>
               <div className={styles.title}>{deadline.title}</div>
               {/* {deadline.note && <div className={styles.note}>{deadline.note}</div>} */}
-              <div className={styles.date}>Due: {new Date(deadline.dueDate).toLocaleDateString()}</div>
+              <div className={styles.date}>
+                Due: {new Date(deadline.dueDate).toLocaleDateString()}
+              </div>
             </li>
           ))}
         </ul>

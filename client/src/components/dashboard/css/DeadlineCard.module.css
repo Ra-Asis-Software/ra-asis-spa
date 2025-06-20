@@ -6,9 +6,8 @@
   max-width: 340px;
   margin-left: 6.5rem;
   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
-
 
 .deadlineItem {
   display: flex;
@@ -20,8 +19,6 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #ccc;
 }
-
-
 
 .date {
   margin-left: auto;
@@ -39,10 +36,6 @@
   font-size: 0.9rem;
 }
 
-
-
-
-
 .container h3 {
   margin-top: 4px;
 }
@@ -58,7 +51,6 @@
   padding: 0;
   margin: 0;
 }
-
 
 .title {
   font-size: 0.8rem;

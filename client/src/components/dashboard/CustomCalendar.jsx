@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import styles from './css/CustomCalendar.module.css';
+import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import styles from "./css/CustomCalendar.module.css";
 
 const CustomCalendar = ({ deadlines = [] }) => {
   const [value, setValue] = useState(new Date());
@@ -9,23 +9,29 @@ const CustomCalendar = ({ deadlines = [] }) => {
   // const deadlineDates = deadlines.map(date => new Date(date).toDateString());
 
   const tileContent = ({ date, view }) => {
-    if (view === 'month') {
-      const eventExists = deadlines.find(event => event.date === date.toISOString().slice(0, 10))
+    if (view === "month") {
+      const eventExists = deadlines.find(
+        (event) => event.date === date.toISOString().slice(0, 10)
+      );
 
-      if(eventExists) {
+      if (eventExists) {
         const today = new Date();
         today.setHours(23, 59, 59, 999);
         const timestamp = today.getTime();
 
-        const eventDate = new Date(eventExists.date)
-        eventDate.setHours(23, 59, 59, 999)
-        const eventTimeStamp = eventDate.getTime()
+        const eventDate = new Date(eventExists.date);
+        eventDate.setHours(23, 59, 59, 999);
+        const eventTimeStamp = eventDate.getTime();
 
-        const difference = eventTimeStamp - timestamp
+        const difference = eventTimeStamp - timestamp;
 
-        return difference < 0 ? <div className={styles.specialDayPassed} /> : <div className={styles.specialDay} />
+        return difference < 0 ? (
+          <div className={styles.specialDayPassed} />
+        ) : (
+          <div className={styles.specialDay} />
+        );
       }
-      return null
+      return null;
     }
   };
 

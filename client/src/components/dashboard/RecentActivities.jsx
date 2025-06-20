@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './css/RecentActivities.module.css';
+import React from "react";
+import styles from "./css/RecentActivities.module.css";
 
 const RecentActivities = ({ subject, activities }) => {
   if (!subject || activities.length === 0) return null;

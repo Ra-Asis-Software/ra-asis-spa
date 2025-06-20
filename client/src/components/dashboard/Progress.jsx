@@ -1,11 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import {  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
-} from 'recharts';
-import styles from './css/Progress.module.css';
-import axios from 'axios';
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import styles from "./css/Progress.module.css";
+import axios from "axios";
 
 const Progress = () => {
-  const [view, setView] = useState('weekly');
+  const [view, setView] = useState("weekly");
   const [progressData, setProgressData] = useState({
     weekly: [],
     lastWeek: [],
@@ -16,11 +22,10 @@ const Progress = () => {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const token = localStorage.getItem('authToken'); 
+        const token = localStorage.getItem("authToken");
         // console.log('Token:', token);
-        const response = await axios.get('http://localhost:5000/api/progress', {
-          headers: {            Authorization: `Bearer ${token}`
-          }
+        const response = await axios.get("http://localhost:5000/api/progress", {
+          headers: { Authorization: `Bearer ${token}` },
         });
         setProgressData(response.data);
       } catch (error) {
@@ -31,8 +36,10 @@ const Progress = () => {
     fetchProgress();
   }, []);
 
-  const current = view === 'weekly' ? progressData.weekly : progressData.monthly;
-  const previous = view === 'weekly' ? progressData.lastWeek : progressData.lastMonth;
+  const current =
+    view === "weekly" ? progressData.weekly : progressData.monthly;
+  const previous =
+    view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
 
   const average = (arr = []) => {
     if (!Array.isArray(arr) || arr.length === 0) return 0;
@@ -43,9 +50,9 @@ const Progress = () => {
   const previousAvg = useMemo(() => average(previous), [previous]);
   const difference = currentAvg - previousAvg;
 
-  const performanceChange = difference > 0 ? 'improved' : 'declined';
+  const performanceChange = difference > 0 ? "improved" : "declined";
   const changeColor = difference > 0 ? styles.improved : styles.declined;
-  const period = view === 'weekly' ? 'last week' : 'last month';
+  const period = view === "weekly" ? "last week" : "last month";
 
   return (
     <div className={styles.progressSection}>
@@ -73,21 +80,20 @@ const Progress = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-        )  : (
-      <div className={styles.noData}>
-        <p>No progress data available for this period.</p>
-        <p>This may be due to:</p>
-        <ul>
-          <li>No assignments were due.</li>
-          <li>No submissions were made by you.</li>
-        </ul>
-      </div>
-    )}
-
+        ) : (
+          <div className={styles.noData}>
+            <p>No progress data available for this period.</p>
+            <p>This may be due to:</p>
+            <ul>
+              <li>No assignments were due.</li>
+              <li>No submissions were made by you.</li>
+            </ul>
+          </div>
+        )}
       </div>
 
       <p className={styles.progressInfo}>
-        Progress from {view === 'weekly' ? 'last 7 days' : 'last 4 months'}
+        Progress from {view === "weekly" ? "last 7 days" : "last 4 months"}
       </p>
 
       <div className={styles.toggleGroup}>
@@ -96,8 +102,8 @@ const Progress = () => {
             type="radio"
             name="progressView"
             value="weekly"
-            checked={view === 'weekly'}
-            onChange={() => setView('weekly')}
+            checked={view === "weekly"}
+            onChange={() => setView("weekly")}
           />
           <span className={styles.customCircle}></span>
           Weekly Progress
@@ -107,8 +113,8 @@ const Progress = () => {
             type="radio"
             name="progressView"
             value="monthly"
-            checked={view === 'monthly'}
-            onChange={() => setView('monthly')}
+            checked={view === "monthly"}
+            onChange={() => setView("monthly")}
           />
           <span className={styles.customCircle}></span>
           Monthly Progress
