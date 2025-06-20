@@ -1,0 +1,12 @@
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+}

@@ -1,0 +1,296 @@
+.headerWrapper {
+  transition: all 0.5s;
+  z-index: 997;
+  background: #ffffff;
+  height: 8vh;
+  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+}
+
+.headerTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #04061f;
+}
+
+.burgerIcon {
+  cursor: pointer;
+}
+
+.navigation svg:hover {
+  cursor: pointer;
+}
+
+header svg {
+  font-size: 20px;
+}
+
+.unitDropdown {
+  position: relative;
+  margin-right: 1rem;
+}
+
+.unitButton {
+  color: rgba(0, 0, 0, 0.8);
+  /* background-color: #01A0E2; */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: small;
+  font-weight: 500;
+}
+
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: white;
+  /* border: 1px solid #01A0E2; */
+  font-size: small;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.unitDropdown:hover .dropdownMenu {
+  display: block;
+}
+
+.dropdownMenu div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdownMenu div:hover {
+  background-color: #f9f9f9;
+}
+
+.headerRight {
+  margin-inline-start: auto;
+  margin-right: 60px;
+}
+
+.headerRight ul {
+  display: flex;
+  align-items: center;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+}
+
+.notificationIcon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: black;
+}
+
+.notificationWrapper {
+  position: relative;
+}
+
+.notifierDot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  height: 8px;
+  width: 8px;
+  background-color: green;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.notificationDropdown {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  width: 320px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.notificationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-weight: medium;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eee;
+}
+
+.viewAllButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.notificationItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.notificationItem:hover {
+  background-color: #f5f5f5;
+}
+
+.notificationIconLeft {
+  margin-right: 8px;
+  font-size: 1rem;
+  flex-shrink: 0;
+  color: #666;
+}
+
+.seeAll {
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  color: #007bff;
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+.seeAll:hover {
+  background-color: #f0f0f0;
+}
+
+.avatar {
+  background-color: #0b20e6; /* Green background */
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin-right: 5px;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profileName {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #333;
+  margin-right: 40px;
+}
+
+.profileRole {
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.headerList {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.headerIcons {
+  margin-right: 30px;
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0.4rem 1rem;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
+  gap: 1rem;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+/* Hide "Activity Dashboard" on small screens */
+@media (max-width: 768px) {
+  .headerTitle {
+    display: none;
+  }
+
+  .unitButton {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+
+  .notificationIcon {
+    font-size: 1.2rem;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.75rem;
+  }
+
+  .profileName {
+    font-size: 0.75rem;
+  }
+
+  .profileRole {
+    font-size: 0.65rem;
+  }
+
+  .rightSection {
+    gap: 0.5rem;
+  }
+
+  .leftSection {
+    gap: 0.5rem;
+  }
+
+  .headerWrapper {
+    gap: 0.5rem;
+  }
+}
+
+.burgerIcon {
+  /* display: none; */
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 1rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .burgerIcon {
+    display: block;
+  }
+}

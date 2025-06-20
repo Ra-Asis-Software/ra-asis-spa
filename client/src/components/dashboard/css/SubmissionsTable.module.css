@@ -1,0 +1,34 @@
+.submissionsWrapper {
+  margin: 1rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.submissionsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.submissionsTable th,
+.submissionsTable td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.submissionsTable th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+  color: #333;
+}
+
+.submissionsTable td {
+  color: #444;
+}
+
+.submissionsTable tr:hover {
+  background-color: #f1f7ff;
+}
