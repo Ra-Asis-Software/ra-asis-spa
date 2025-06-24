@@ -107,6 +107,7 @@ const Dashboard = () => {
                         setUnits,
                         assignments,
                         setAssignments,
+                        selectedUnit,
                       }}
                       profile={user}
                     />

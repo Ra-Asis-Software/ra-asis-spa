@@ -14,6 +14,7 @@ const TeacherMain = ({
   setUnits,
   assignments,
   setAssignments,
+  selectedUnit,
 }) => {
   const navigate = useNavigate();
   const deadlines = [
@@ -34,7 +35,6 @@ const TeacherMain = ({
     };
     fetchData();
   }, []);
-  console.log(assignments);
 
   return (
     <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
@@ -52,7 +52,7 @@ const TeacherMain = ({
           ) : (
             <div className={styles.unitsBox}>
               <div className={styles.assignmentsTitle}>
-                <h4>Assignments</h4>
+                <h4>{selectedUnit.name} Assignments</h4>
                 <button
                   className={styles.addAssignment}
                   onClick={() => navigate("/dashboard/assignments?new=true")}
@@ -62,16 +62,25 @@ const TeacherMain = ({
                 </button>
               </div>
               <div className={styles.units}>
-                {assignments.map((assignment) => {
-                  return (
-                    <AssignmentCard
-                      key={assignment._id}
-                      unitName={assignment.unit.unitName}
-                      title={assignment.title}
-                    />
-                  );
-                })}
-                {assignments.length === 0 && (
+                {/* map assignments for the selected unit only */}
+                {assignments
+                  .filter(
+                    (assignment) => assignment.unit._id === selectedUnit.id
+                  )
+                  .map((assignment) => {
+                    return (
+                      <AssignmentCard
+                        key={assignment._id}
+                        unitName={assignment.unit.unitName}
+                        title={assignment.title}
+                      />
+                    );
+                  })}
+
+                {/* return a message if no assignment exists for the unit selected */}
+                {assignments.filter(
+                  (assignment) => assignment.unit._id === selectedUnit.id
+                ).length === 0 && (
                   <div className={styles.message}>
                     <p>You don't have any existing assignments for this unit</p>
                   </div>

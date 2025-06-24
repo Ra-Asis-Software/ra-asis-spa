@@ -88,16 +88,20 @@ const StudentMain = ({
 
       <div className={styles.topRow}>
         <div className={styles.leftColumn}>
-          {/* Assignment Cards */}
+          {/* Map assignments for the selected unit */}
           <div className={styles.cardContainer}>
-            {assignments.length > 0 ? (
-              assignments.map((assignment) => (
-                <AssignmentCard
-                  key={assignment._id}
-                  unitName={assignment.unit.unitName}
-                  title={assignment.title}
-                />
-              ))
+            {assignments.filter(
+              (assignment) => assignment.unit._id === selectedUnit.id
+            ).length > 0 ? (
+              assignments
+                .filter((assignment) => assignment.unit._id === selectedUnit.id)
+                .map((assignment) => (
+                  <AssignmentCard
+                    key={assignment._id}
+                    unitName={assignment.unit.unitName}
+                    title={assignment.title}
+                  />
+                ))
             ) : (
               <p>No assignments for this subject.</p>
             )}
