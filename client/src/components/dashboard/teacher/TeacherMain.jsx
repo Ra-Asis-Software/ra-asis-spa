@@ -18,11 +18,32 @@ const TeacherMain = ({
 }) => {
   const navigate = useNavigate();
   const deadlines = [
-    { date: "2025-06-01", event: "Attachemnent", time: "08:30" },
-    { date: "2025-06-15", event: "Attachemnent", time: "10:52" },
-    { date: "2025-07-11", event: "Attachemnent", time: "14:52" },
-    { date: "2025-06-22", event: "Attachemnent", time: "23:00" },
+    { date: "2025-03-01", event: "Go to space", time: "08:30" },
+    {
+      date: "2025-06-15",
+      event: "Eat all the food in the fridge",
+      time: "10:52",
+    },
+    {
+      date: "2025-07-11",
+      event: "Read the book River and the source",
+      time: "14:52",
+    },
+    { date: "2025-05-22", event: "Go to a parents' meeting", time: "16:00" },
+    {
+      date: "2025-06-12",
+      event: "Mark all Mathematics assignments",
+      time: "23:00",
+    },
+    { date: "2025-08-29", event: "Sleep for 7 hours", time: "10:00" },
+    { date: "2025-02-26", event: "Watch the series Foundation", time: "23:00" },
+    { date: "2025-09-22", event: "Check status of ...", time: "19:00" },
+    { date: "2025-06-10", event: "Do this that, that and that", time: "23:00" },
   ];
+
+  //get today at midnight
+  const today = new Date();
+  const todayTimeStamp = today.setHours(23, 59, 59, 999);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +56,12 @@ const TeacherMain = ({
     };
     fetchData();
   }, []);
+
+  const convertDateTime = (date, time) => {
+    const fullDateTimeStr = `${date}T${time}:00`;
+    const thatDate = new Date(fullDateTimeStr);
+    return thatDate.getTime();
+  };
 
   return (
     <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
@@ -121,19 +148,47 @@ const TeacherMain = ({
         <div className={styles.deadlines}>
           <h3>Deadlines</h3>
           <div className={styles.deadlineBox}>
-            {deadlines.map((item, index) => {
-              return (
-                <div className={styles.deadlineEvent} key={index}>
-                  <h5>{item.date}</h5>
-                  <p>{item.event}</p>
-                </div>
-              );
-            })}
+            {deadlines
+              .filter((event) => {
+                //filter only future dates
+                return convertDateTime(event.date, event.time) > todayTimeStamp;
+              })
+              .map((item, index) => {
+                return (
+                  <div className={styles.deadlineEvent} key={index}>
+                    <p>{item.event}</p>
+                    <p>{item.date}</p>
+                  </div>
+                );
+              })}
           </div>
+        </div>
+        <div className={styles.progress}>
+          <h3>Progress</h3>
         </div>
       </div>
       <div className={styles.heroRight}>
         <CustomCalendar deadlines={deadlines} />
+        <div className={styles.recentActivities}>
+          <h4>Recent Activities</h4>
+          <div className={styles.recentActivitiesBox}>
+            {deadlines
+              .filter((event) => {
+                //filter only past dates
+                return (
+                  convertDateTime(event.date, event.time) <= todayTimeStamp
+                );
+              })
+              .map((item, index) => {
+                return (
+                  <div className={styles.deadlineEventRecent} key={index}>
+                    <p>{item.event}</p>
+                    <p>{item.date}</p>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
       </div>
     </div>
   );

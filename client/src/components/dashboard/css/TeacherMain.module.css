@@ -18,6 +18,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: max-content;
+  gap: 80px;
 }
 .marginCollapsed {
   margin: 0;
@@ -31,7 +33,7 @@
   transition: width 0.3s ease-in-out;
 }
 .assignmentsOverview {
-  height: 28vh;
+  height: 30vh;
   width: 95%;
   padding: 10px;
   margin-bottom: 30px;
@@ -55,7 +57,7 @@ p {
   justify-content: center;
   gap: 10px;
   height: 20vh;
-  background-color: rgba(90, 224, 215, 0.3);
+  background-color: var(--aqua-color);
 }
 .unitsBox {
   height: 100%;
@@ -76,7 +78,7 @@ p {
   padding-right: 20px;
 }
 .units {
-  scrollbar-color: rgb(207, 226, 222) #d9eff1;
+  scrollbar-color: var(--foam-color);
 }
 .assignmentsTitle {
   height: 5vh;
@@ -89,7 +91,7 @@ p {
   display: flex;
   gap: 10px;
   align-items: center;
-  background-color: rgba(90, 224, 215, 0.3);
+  background-color: var(--aqua-color);
   border-radius: 6px;
 }
 
@@ -108,7 +110,7 @@ table {
   width: 100%;
 }
 thead {
-  background-color: rgba(90, 224, 215, 0.3);
+  background-color: var(--aqua-color);
   height: 6vh;
 }
 thead tr,
@@ -125,30 +127,80 @@ tbody td:first-of-type {
 }
 .deadlines {
   height: 40vh;
-  width: 750px;
+  /* width: 750px; */
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 10px;
+  overflow-y: scroll;
+  max-width: 750px;
 }
 .deadlineBox {
   height: 35vh;
   display: flex;
   flex-direction: column;
+  /* background-color: var(--french-gray-color); */
   flex-wrap: wrap;
   justify-items: flex-start;
   gap: 10px;
-  overflow: hidden;
+}
+.deadlineBox p {
+  height: max-content;
+  max-height: 10vh;
+}
+.deadlineBox p:last-of-type {
+  width: 90px;
+  font-size: 0.8rem;
+}
+.deadlineBox p:first-of-type {
+  flex: 1;
 }
 .deadlineEvent {
   justify-content: space-between;
   align-items: center;
-  height: 6vh;
+  height: 7vh;
   display: flex;
-  width: 300px;
+  width: 50%;
   padding: 5px;
   border-radius: 8px;
   background-color: #fff;
+}
+
+.recentActivities {
+  height: max-content;
+  min-height: 60vh;
+  padding-bottom: 20px;
+  width: 80%;
+  max-width: 400px;
+  /* background-color: var(--aqua-color); */
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 10px;
+  min-width: 320px;
+}
+.progress {
+  height: 40vh;
+  margin-bottom: 5vh;
+}
+.recentActivitiesBox {
+  display: flex;
+  height: max-content;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-top: 4vh;
+}
+.deadlineEventRecent {
+  display: flex;
+  justify-content: space-between;
+}
+.deadlineEventRecent p:first-of-type {
+  flex: 1;
+}
+.deadlineEventRecent p:last-of-type {
+  font-size: 0.8rem;
+  width: 90px;
 }
 
 /* ::-webkit-scrollbar {
