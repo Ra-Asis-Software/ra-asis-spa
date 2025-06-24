@@ -1,15 +1,9 @@
-import axios from "axios";
+import api from "./api";
 
-// const URL = '/api/'
-const token = localStorage.getItem("authToken");
-
+const USERS_PATH = "/users";
 const getUserDetails = async (role, id) => {
   try {
-    const response = await axios.get(`/api/users/${role}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get(`${USERS_PATH}/${role}/${id}`);
 
     return response;
   } catch (error) {

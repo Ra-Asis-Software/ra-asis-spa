@@ -7,7 +7,7 @@ import DeadlineCard from "./DeadlineCard";
 import Summary from "./Summary";
 import Progress from "../Progress";
 import RecentActivities from "../RecentActivities";
-import { getUserDetails } from "../../../services/user";
+import { getUserDetails } from "../../../services/userService";
 
 const assignmentsData = {
   Mathematics: [

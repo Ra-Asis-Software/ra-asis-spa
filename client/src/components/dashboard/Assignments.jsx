@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./css/Assignments.module.css";
 import Title from "./Title";
-import { getUserDetails } from "../../services/user";
+import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

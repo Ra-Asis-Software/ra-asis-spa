@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import "../css/TeacherMain.module.css";
-import { getUserDetails } from "../../../services/user";
+import { getUserDetails } from "../../../services/userService";
 import Title from "../Title";
 import UnitCard from "../UnitCard";
 import AssignmentCard from "../AssignmentCard";
