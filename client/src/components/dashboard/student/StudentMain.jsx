@@ -53,27 +53,37 @@ const recentActivitiesData = {
   ],
 };
 
-const StudentMain = ({ showNav, subject, profile }) => {
-  const assignments = assignmentsData[subject] || [];
-  const deadlines = deadlinesData[subject] || [];
-  const activities = recentActivitiesData[subject] || [];
+const StudentMain = ({
+  showNav,
+  units,
+  selectedUnit,
+  setUnits,
+  profile,
+  assignments,
+  setAssignments,
+}) => {
+  const deadlines = deadlinesData[selectedUnit.name] || [];
+  const activities = recentActivitiesData[selectedUnit.name] || [];
 
   useEffect(() => {
     const fetchData = async () => {
       const studentData = await getUserDetails(profile.role, profile.id);
+
+      if (studentData.data.message) {
+        setAssignments(studentData.data.data.assignments);
+        setUnits(studentData.data.data.units);
+      }
     };
     fetchData();
   }, []);
-
-  const handleView = (title) => {
-    alert(`Viewing: ${title}`);
-  };
 
   return (
     <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}>
       <Title page="Dashboard" />
       <h2 className={styles.heading}>
-        {subject ? `${subject} Assignments` : "Please select a subject"}
+        {selectedUnit.name
+          ? `${selectedUnit.name} Assignments`
+          : "Please select a subject"}
       </h2>
 
       <div className={styles.topRow}>
@@ -81,11 +91,11 @@ const StudentMain = ({ showNav, subject, profile }) => {
           {/* Assignment Cards */}
           <div className={styles.cardContainer}>
             {assignments.length > 0 ? (
-              assignments.map((assignment, idx) => (
+              assignments.map((assignment) => (
                 <AssignmentCard
-                  key={idx}
-                  {...assignment}
-                  onView={() => handleView(assignment.title)}
+                  key={assignment._id}
+                  unitName={assignment.unit.unitName}
+                  title={assignment.title}
                 />
               ))
             ) : (
@@ -96,7 +106,7 @@ const StudentMain = ({ showNav, subject, profile }) => {
           {/* Summary and Deadlines */}
           <div className={styles.summaryAndDeadlineRow}>
             <Summary />
-            <DeadlineCard subject={subject} deadlines={deadlines} />
+            <DeadlineCard subject={"Mathematics"} deadlines={deadlines} />
           </div>
         </div>
 
@@ -114,7 +124,7 @@ const StudentMain = ({ showNav, subject, profile }) => {
       {/* Bottom Row */}
       <div className={styles.bottomRow}>
         <Progress />
-        <RecentActivities subject={subject} activities={activities} />
+        <RecentActivities subject={selectedUnit.name} activities={activities} />
       </div>
     </main>
   );

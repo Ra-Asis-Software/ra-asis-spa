@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
 import Sidebar from "../components/dashboard/SideBar";
-import Header from "../components/dashboard/DashboardHeader";
+import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
@@ -15,6 +15,9 @@ const Dashboard = () => {
   const [error, setError] = useState(""); // State for error handling
   const [showNav, setShowNav] = useState(false);
   const navigate = useNavigate();
+  const [units, setUnits] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [selectedUnit, setSelectedUnit] = useState("");
 
   // Fetch the user's data from the token
   useEffect(() => {
@@ -70,12 +73,9 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboardContainer}>
-      <Header
+      <DashboardHeader
         profile={user}
-        setShowNav={setShowNav}
-        showNav={showNav}
-        // selectedSubject={selectedSubject}
-        // setSelectedSubject={setSelectedSubject}
+        {...{ units, showNav, setShowNav, selectedUnit, setSelectedUnit }}
       />
 
       <div className={styles.content}>
@@ -87,11 +87,29 @@ const Dashboard = () => {
               element={
                 <>
                   <RoleRestricted allowedRoles={["student"]}>
-                    <StudentMain subject={"Mathematics"} profile={user} />
+                    <StudentMain
+                      {...{
+                        units,
+                        selectedUnit,
+                        setUnits,
+                        assignments,
+                        setAssignments,
+                      }}
+                      profile={user}
+                    />
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["teacher"]}>
-                    <TeacherMain {...{ showNav }} profile={user} />
+                    <TeacherMain
+                      {...{
+                        showNav,
+                        units,
+                        setUnits,
+                        assignments,
+                        setAssignments,
+                      }}
+                      profile={user}
+                    />
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["parent"]}>

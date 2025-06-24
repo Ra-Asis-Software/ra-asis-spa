@@ -4,14 +4,14 @@ import styles from "./css/DashboardHeader.module.css";
 const DashboardHeader = ({
   setShowNav,
   showNav,
-  selectedSubject,
-  setSelectedSubject,
+  units,
+  selectedUnit,
+  setSelectedUnit,
   profile,
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
-  const subjects = ["Mathematics", "Chemistry", "Biology", "Physics"];
 
   const notifications = [
     {
@@ -86,19 +86,19 @@ const DashboardHeader = ({
               className={styles.unitButton}
               onClick={() => setShowDropdown((prev) => !prev)}
             >
-              {selectedSubject || "Select Subject"} ▾
+              {selectedUnit.name || "Select Subject"} ▾
             </button>
             {showDropdown && (
               <div className={styles.dropdownMenu}>
-                {subjects.map((subject) => (
+                {units.map((subject) => (
                   <div
-                    key={subject}
+                    key={subject.id}
                     onClick={() => {
-                      setSelectedSubject(subject);
+                      setSelectedUnit(subject);
                       setShowDropdown(false);
                     }}
                   >
-                    {subject}
+                    {subject.name}
                   </div>
                 ))}
               </div>

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "../css/TeacherMain.module.css";
 import "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
 import Title from "../Title";
-import UnitCard from "../UnitCard";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import { useNavigate } from "react-router-dom";
 
-const TeacherMain = ({ showNav, profile }) => {
-  const [units, setUnits] = useState([]);
-  const [assignments, setAssignments] = useState([]);
+const TeacherMain = ({
+  showNav,
+  profile,
+  units,
+  setUnits,
+  assignments,
+  setAssignments,
+}) => {
   const navigate = useNavigate();
   const deadlines = [
     { date: "2025-06-01", event: "Attachemnent", time: "08:30" },
@@ -30,6 +34,7 @@ const TeacherMain = ({ showNav, profile }) => {
     };
     fetchData();
   }, []);
+  console.log(assignments);
 
   return (
     <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
@@ -66,6 +71,11 @@ const TeacherMain = ({ showNav, profile }) => {
                     />
                   );
                 })}
+                {assignments.length === 0 && (
+                  <div className={styles.message}>
+                    <p>You don't have any existing assignments for this unit</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
