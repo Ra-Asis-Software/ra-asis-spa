@@ -126,7 +126,19 @@ const Dashboard = () => {
 
             <Route
               path="/assignments"
-              element={<Assignments {...{ user }} />}
+              element={
+                <Assignments
+                  {...{
+                    user,
+                    units,
+                    selectedUnit,
+                    setSelectedUnit,
+                    assignments,
+                    setAssignments,
+                    setUnits,
+                  }}
+                />
+              }
             />
           </Routes>
         </div>

@@ -7,10 +7,17 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
-const Assignments = ({ showNav, user }) => {
-  const [assignments, setAssignments] = useState([]);
+const Assignments = ({
+  showNav,
+  user,
+  units,
+  selectedUnit,
+  assignments,
+  setAssignments,
+  setUnits,
+}) => {
+  // const [assignments, setAssignments] = useState([]);
   const [allAssignments, setAllAssignments] = useState([]);
-  const [units, setUnits] = useState([]);
   const [openAssignment, setOpenAssignment] = useState(false);
   const [currentAssignment, setCurrentAssignment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
@@ -49,21 +56,24 @@ const Assignments = ({ showNav, user }) => {
   }, []);
 
   useEffect(() => {
+    const handleFilterUnit = () => {
+      const unitId = selectedUnit.id;
+      if (unitId === "") {
+        setAssignments(allAssignments);
+      } else {
+        setAssignments(() => {
+          return allAssignments.filter(
+            (assignment) => assignment.unit._id === unitId
+          );
+        });
+      }
+    };
+    handleFilterUnit();
+  }, [selectedUnit]);
+
+  useEffect(() => {
     setTrigger((prev) => prev);
   }, [trigger]);
-
-  const handleFilterUnit = (e) => {
-    const unitId = e.target.value;
-    if (unitId === "") {
-      setAssignments(allAssignments);
-    } else {
-      setAssignments(() => {
-        return allAssignments.filter(
-          (assignment) => assignment.unit === unitId
-        );
-      });
-    }
-  };
 
   //handles adding an instructions section to the assignment
   const handleInstruction = (e) => {
@@ -460,7 +470,7 @@ const Assignments = ({ showNav, user }) => {
           </div>
           <div className={styles.assignmentDetails}>
             <h3>Assignment: {currentAssignment.title}</h3>
-            <h4>Unit: {"Soen 330"}</h4>
+            <h4>Unit: {currentAssignment.unit.unitName}</h4>
             <p className={styles.instruction}>
               Instructions: This assignment should be done in groups of five.
               the assignment should be submitted either on a Monday or a
@@ -475,17 +485,7 @@ const Assignments = ({ showNav, user }) => {
         <div className={`${styles.assignmentsBox}`}>
           <h3>Assignments</h3>
           <div className={styles.assignmentsHeader}>
-            <select onChange={(e) => handleFilterUnit(e)}>
-              <option value={""}>All Units</option>
-              {units.map((unit) => {
-                //change backend response to populate unit names
-                return (
-                  <option key={unit.id} value={unit.id}>
-                    {unit.name}
-                  </option>
-                );
-              })}
-            </select>
+            <h3>{selectedUnit.name || "All assignments"}</h3>
 
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
