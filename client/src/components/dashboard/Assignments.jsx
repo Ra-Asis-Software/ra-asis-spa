@@ -5,6 +5,7 @@ import RoleRestricted from "../ui/RoleRestricted";
 import { useLocation, useNavigate } from "react-router-dom";
 import { submitAssignment } from "../../services/assignmentServices";
 import AssignmentContent from "./AssignmentContent";
+import AssignmentTools from "./AssignmentTools";
 
 const Assignments = ({
   showNav,
@@ -39,6 +40,7 @@ const Assignments = ({
     time: "",
   });
   const [message, setMessage] = useState("");
+  const [canEdit, setCanEdit] = useState(false);
 
   //check if a new assignment is being created
   const location = useLocation();
@@ -192,12 +194,14 @@ const Assignments = ({
                     trigger,
                     setTrigger,
                   }}
+                  canEdit={true}
                 />
               </div>
             </div>
           </div>
         </RoleRestricted>
       ) : openAssignment === true ? (
+        //handle opening an assignment
         <div className={styles.assignmentsBox}>
           <div className={styles.assignmentsHeader}>
             <button
@@ -213,6 +217,14 @@ const Assignments = ({
           <div className={styles.textContent}>
             <h3>Assignment: {currentAssignment.title}</h3>
             <h4>Unit: {currentAssignment.unit.unitName}</h4>
+            <RoleRestricted allowedRoles={["teacher"]}>
+              <button
+                className={`${styles.addAssignment} ${styles.editButton}`}
+                onClick={() => setCanEdit((prev) => !prev)}
+              >
+                Edit
+              </button>
+            </RoleRestricted>
             <AssignmentContent
               {...{
                 content,
@@ -221,7 +233,10 @@ const Assignments = ({
                 setShowButton,
                 trigger,
                 setTrigger,
+                canEdit,
+                setCanEdit,
               }}
+              role={user.role}
             />
           </div>
         </div>
@@ -234,9 +249,14 @@ const Assignments = ({
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={() =>
-                  navigate("/dashboard/assignments?new=true", { replace: true })
-                }
+                onClick={() => {
+                  setContent([]);
+                  setSelectedFiles([]);
+                  setCanEdit(true);
+                  navigate("/dashboard/assignments?new=true", {
+                    replace: true,
+                  });
+                }}
               >
                 <i className="fa-solid fa-plus"></i>
                 <p>Create New</p>
@@ -270,103 +290,18 @@ const Assignments = ({
         </div>
       )}
       <div className={styles.extras}>
-        <RoleRestricted allowedRoles={["teacher"]}>
-          {(params.get("new") || openAssignment) && (
-            <div className={styles.tools}>
-              <div className={styles.toolsArea}>
-                <h3>Tools</h3>
-
-                <button
-                  className={styles.addAssignment}
-                  onClick={() =>
-                    setShowButton((prev) => ({ ...prev, instruction: true }))
-                  }
-                >
-                  Instruction
-                </button>
-
-                <button
-                  className={styles.addAssignment}
-                  onClick={() =>
-                    setShowButton((prev) => ({ ...prev, question: true }))
-                  }
-                >
-                  Question
-                </button>
-
-                <button
-                  className={styles.addAssignment}
-                  onClick={() =>
-                    setShowButton((prev) => ({ ...prev, textArea: true }))
-                  }
-                >
-                  Text Area
-                </button>
-
-                <button
-                  className={styles.addAssignment}
-                  onClick={() => {
-                    setShowButton((prev) => ({ ...prev, title: true }));
-                  }}
-                >
-                  Title
-                </button>
-
-                <button
-                  className={styles.addAssignment}
-                  onClick={handleChooseFiles}
-                >
-                  File
-                </button>
-                {message.length > 0 && (
-                  <p className={styles.submissionAlert}>{message}</p>
-                )}
-              </div>
-              <div className={styles.extraTools}>
-                <div className={styles.deadline}>
-                  <p>Deadline</p>
-                  <input
-                    type="date"
-                    onChange={(e) =>
-                      setAssignmentExtras((prev) => ({
-                        ...prev,
-                        date: e.target.value,
-                      }))
-                    }
-                  />
-                  <input
-                    type="time"
-                    onChange={(e) =>
-                      setAssignmentExtras((prev) => ({
-                        ...prev,
-                        time: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className={styles.deadline}>
-                  <p>Max marks</p>
-                  <input
-                    type="number"
-                    max={100}
-                    onChange={(e) =>
-                      setAssignmentExtras((prev) => ({
-                        ...prev,
-                        marks: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-              </div>
-              <button
-                className={styles.submitAssignment}
-                onClick={handlePublishAssignment}
-              >
-                PUBLISH ASSIGNMENT
-              </button>
-            </div>
-          )}
-        </RoleRestricted>
+        <AssignmentTools
+          {...{
+            params,
+            openAssignment,
+            canEdit,
+            setShowButton,
+            handleChooseFiles,
+            setAssignmentExtras,
+            handlePublishAssignment,
+            message,
+          }}
+        />
       </div>
     </div>
   );

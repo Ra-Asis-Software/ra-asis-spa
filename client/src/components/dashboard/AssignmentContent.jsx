@@ -1,7 +1,18 @@
+import RoleRestricted from "../ui/RoleRestricted";
 import styles from "./css/Assignments.module.css";
 import { useState } from "react";
 
-const AssignmentContent = ({ content, setContent , showButton, setShowButton, trigger, setTrigger }) => {
+const AssignmentContent = ({
+  content,
+  setContent,
+  showButton,
+  setShowButton,
+  trigger,
+  setTrigger,
+  canEdit = false,
+  setCanEdit,
+  role,
+}) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
     question: "",
@@ -157,6 +168,8 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
     setContent(tempArray);
     setTrigger(!trigger); //trigger a rerender of the page
   };
+
+  console.log(role, canEdit);
   return (
     <>
       {content.length > 0 &&
@@ -166,7 +179,7 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
               {item[1] === "instruction" ? (
                 <p
                   className={`${styles.textInstruction} ${styles.editable}`}
-                  contentEditable
+                  contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
                 >
@@ -176,7 +189,7 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
                 <div className={styles.questionContainer}>
                   <p
                     className={`${styles.textQuestion} ${styles.editable}`}
-                    contentEditable
+                    contentEditable={canEdit && role === "teacher"}
                     suppressContentEditableWarning
                     onInput={(e) => handleChangeText(e, index)}
                   >
@@ -188,7 +201,7 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
                       <div className={`${styles.answerBox}`} key={index1}>
                         <p
                           className={styles.editable}
-                          contentEditable
+                          contentEditable={canEdit && role === "teacher"}
                           suppressContentEditableWarning
                           onInput={(e) =>
                             handleChangeAnswerExists(e, index, index1)
@@ -200,40 +213,46 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
                     );
                   })}
 
-                  {showButton.answer === index && (
-                    <div className={styles.showAnswer}>
-                      <input
-                        className={styles.answerInput}
-                        placeholder="Enter answer here"
-                        type="text"
-                        onInput={(e) => handleChangeAnswer(e)}
-                      />
-                      <i
-                        onClick={() => handleAddAnswer(index)}
-                        className={`fa-solid fa-plus ${styles.faPlus}`}
-                      ></i>
-                    </div>
-                  )}
+                  {canEdit && (
+                    <RoleRestricted allowedRoles={["teacher"]}>
+                      {showButton.answer === index && (
+                        <div className={styles.showAnswer}>
+                          <input
+                            className={styles.answerInput}
+                            placeholder="Enter answer here"
+                            type="text"
+                            onInput={(e) => handleChangeAnswer(e)}
+                          />
+                          <i
+                            onClick={() => handleAddAnswer(index)}
+                            className={`fa-solid fa-plus ${styles.faPlus}`}
+                          ></i>
+                        </div>
+                      )}
 
-                  {showButton.answer !== index && (
-                    <button
-                      className={styles.addAnswer}
-                      onClick={() =>
-                        setShowButton({
-                          ...showButton,
-                          answer: index,
-                        })
-                      }
-                    >
-                      <i className={`fa-solid fa-plus ${styles.faPlus}`}></i>
-                      answer
-                    </button>
+                      {showButton.answer !== index && (
+                        <button
+                          className={styles.addAnswer}
+                          onClick={() =>
+                            setShowButton({
+                              ...showButton,
+                              answer: index,
+                            })
+                          }
+                        >
+                          <i
+                            className={`fa-solid fa-plus ${styles.faPlus}`}
+                          ></i>
+                          answer
+                        </button>
+                      )}
+                    </RoleRestricted>
                   )}
                 </div>
               ) : item[1] === "textArea" ? (
                 <div
                   className={`${styles.textLong} ${styles.editable}`}
-                  contentEditable
+                  contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
                 >
@@ -243,7 +262,7 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
                 item[1] === "title" && (
                   <h4
                     className={`${styles.textTitle} ${styles.editable}`}
-                    contentEditable
+                    contentEditable={canEdit && role === "teacher"}
                     suppressContentEditableWarning
                     onInput={(e) => handleChangeText(e, index)}
                   >
@@ -251,20 +270,24 @@ const AssignmentContent = ({ content, setContent , showButton, setShowButton, tr
                   </h4>
                 )
               )}
-              <div className={styles.edBtns}>
-                <i
-                  className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
-                  onClick={() => handleMoveItemUp(index)}
-                ></i>
-                <i
-                  className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
-                  onClick={() => handleMoveItemDown(index)}
-                ></i>
-                <i
-                  class={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
-                  onClick={() => handleDeleteNoteItem(index)}
-                ></i>
-              </div>
+              <RoleRestricted allowedRoles={["teacher"]}>
+                {canEdit && (
+                  <div className={styles.edBtns}>
+                    <i
+                      className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
+                      onClick={() => handleMoveItemUp(index)}
+                    ></i>
+                    <i
+                      className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
+                      onClick={() => handleMoveItemDown(index)}
+                    ></i>
+                    <i
+                      class={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
+                      onClick={() => handleDeleteNoteItem(index)}
+                    ></i>
+                  </div>
+                )}
+              </RoleRestricted>
             </div>
           );
         })}

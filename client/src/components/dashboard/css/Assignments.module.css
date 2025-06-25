@@ -1,16 +1,17 @@
 .hero {
-  transition: flex 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
   flex: 1;
   display: flex;
   padding: 10px;
 }
 .assignmentsBox {
-  flex: 0.7;
+  flex: 1;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
+  transition: flex 0.3s ease-in-out;
 }
 .assignmentsHeader {
   height: 8vh;
@@ -45,6 +46,7 @@ select {
 .assignment {
   height: 7vh;
   width: 80%;
+  max-width: 700px;
   border-radius: 10px;
   background-color: var(--aqua-color);
   display: flex;
@@ -74,7 +76,8 @@ select {
   gap: 10px;
 }
 .extras {
-  flex: 0.4;
+  width: max-content;
+  transition: width 0.3s ease-in-out;
 }
 .tools {
   height: 100%;
@@ -145,7 +148,7 @@ select {
   padding-left: 5px;
 }
 .answerBox {
-  margin-left: 10px;
+  margin-left: 30px;
   width: max-content;
   min-width: 250px;
 }
@@ -235,4 +238,7 @@ select {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+.editButton {
+  width: max-content;
 }
