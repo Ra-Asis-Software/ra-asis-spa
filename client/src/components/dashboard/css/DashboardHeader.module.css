@@ -53,7 +53,7 @@ header svg {
   z-index: 10;
 }
 
-.unitDropdown:hover .dropdownMenu {
+.unitDropdown .dropdownMenu {
   display: block;
 }
 
