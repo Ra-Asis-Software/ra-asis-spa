@@ -130,7 +130,6 @@ const Dashboard = () => {
                 <Assignments
                   {...{
                     user,
-                    units,
                     selectedUnit,
                     setSelectedUnit,
                     assignments,

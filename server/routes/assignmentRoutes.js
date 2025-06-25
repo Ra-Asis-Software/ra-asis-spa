@@ -22,6 +22,7 @@ router.post(
     // Accepts a max of 5 files and catches Multer errors
     upload.array("files", 5)(req, res, (err) => {
       if (err) {
+        console.log(err);
         return res.status(400).json({ message: err.message });
       }
       next();
@@ -37,16 +38,12 @@ router.get(
 );
 
 router.get(
-  '/:id/details',
-  hasPermission('view:assignment'),
+  "/:id/details",
+  hasPermission("view:assignment"),
   getAssignmentDetails
 );
 
-router.delete(
-  "/:id",
-  hasPermission("delete:assignment"),
-  deleteAssignment
-);
+router.delete("/:id", hasPermission("delete:assignment"), deleteAssignment);
 
 // Submission routes
 router.post(

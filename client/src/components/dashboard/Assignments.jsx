@@ -1,22 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./css/Assignments.module.css";
-import Title from "./Title";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { submitAssignment } from "../../services/assignmentServices";
 
 const Assignments = ({
   showNav,
   user,
-  units,
   selectedUnit,
   assignments,
   setAssignments,
   setUnits,
 }) => {
-  // const [assignments, setAssignments] = useState([]);
   const [allAssignments, setAllAssignments] = useState([]);
   const [openAssignment, setOpenAssignment] = useState(false);
   const [currentAssignment, setCurrentAssignment] = useState(null);
@@ -26,17 +22,28 @@ const Assignments = ({
     question: "",
     answer: "",
     textArea: "",
+    title: "",
   });
   const [showButton, setShowButton] = useState({
     instruction: false,
     question: false,
     answer: false,
     textArea: false,
+    title: false,
   });
-  const [assignmentUnit, setAssignmentUnit] = useState("");
+  const [assignmentTitle, setAssignmentTitle] = useState("");
+  const [submissionType, setSubmissionType] = useState("");
   const [trigger, setTrigger] = useState(false);
   const assignmentContentRef = useRef(null);
+  const assignmentFilesRef = useRef(null);
   const navigate = useNavigate();
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [assignmentExtras, setAssignmentExtras] = useState({
+    marks: 0,
+    date: "",
+    time: "",
+  });
+  const [message, setMessage] = useState("");
 
   //check if a new assignment is being created
   const location = useLocation();
@@ -91,6 +98,24 @@ const Assignments = ({
 
     setSectionData({ ...sectionData, instruction: "" }); //return instruction to empty
     setShowButton({ ...showButton, instruction: false }); // hide the add instruction area
+  };
+
+  //handles adding a title to the assignment
+  const handleTitle = (e) => {
+    const input = e.target;
+
+    input.style.height = "auto";
+    input.style.height = `${input.scrollHeight}px`;
+    setSectionData({ ...sectionData, title: input.value });
+  };
+
+  const handleAddTitle = () => {
+    const tempArray = [sectionData.title, "title"];
+
+    setContent((prev) => [...prev, tempArray]); // add the title to the contents array
+
+    setSectionData({ ...sectionData, title: "" }); //return title to empty
+    setShowButton({ ...showButton, title: false }); // hide the add title area
   };
 
   //handles adding a question section to the assignment
@@ -205,8 +230,55 @@ const Assignments = ({
     setTrigger(!trigger); //trigger a rerender of the page
   };
 
+  //handles choosing files
+  const handleChooseFiles = () => {
+    assignmentFilesRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    setSelectedFiles(Array.from(e.target.files));
+  };
+
   //handles publishing assignment
-  const handlePublishAssignment = () => {};
+  const handlePublishAssignment = async () => {
+    if (!selectedUnit.id) {
+      setMessage("No unit Selected");
+    } else if (content.length === 0 && selectedFiles.length === 0) {
+      setMessage("No content or files exist for the assignment");
+    } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
+      setMessage("Ensure both Assignment Title and Submission Type are set");
+    } else {
+      const formData = new FormData();
+
+      // selectedFiles.forEach((file) => formData.append("files", file));
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append("files", selectedFiles[i]);
+      }
+      formData.append("title", assignmentTitle);
+      formData.append("submissionType", submissionType);
+      formData.append(
+        "deadLine",
+        new Date(
+          `${assignmentExtras.date}T${assignmentExtras.time}`
+        ).toISOString()
+      );
+      formData.append("maxMarks", assignmentExtras.marks);
+      formData.append("content", JSON.stringify(content));
+      formData.append("unitId", selectedUnit.id);
+
+      try {
+        console.log([...formData.entries()]);
+        const submissionResult = await submitAssignment(formData);
+        console.log(submissionResult);
+      } catch (error) {
+        setMessage(error);
+      }
+    }
+
+    setTimeout(() => {
+      setMessage("");
+    }, 5000);
+  };
 
   return (
     <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
@@ -214,18 +286,28 @@ const Assignments = ({
         <RoleRestricted allowedRoles={["teacher"]}>
           <div className={styles.assignmentsBox}>
             <div className={styles.assignmentsHeader}>
+              <button
+                className={styles.addAssignment}
+                onClick={() => {
+                  navigate("/dashboard/assignments");
+                }}
+              >
+                <i className="fa-solid fa-left-long"></i>
+                <p>Back</p>
+              </button>
               <h3>Create New Assignment</h3>
             </div>
-            <div>
-              <select onChange={(e) => setAssignmentUnit(e.target.value)}>
-                <option value={""}>select unit</option>
-                {units.map((unit) => {
-                  return (
-                    <option key={unit.id} value={unit.name}>
-                      {unit.name}
-                    </option>
-                  );
-                })}
+            <div className={styles.assignmentTop}>
+              <input
+                placeholder="Assignment Title Here..."
+                className={styles.assignmentTitle}
+                type="text"
+                onChange={(e) => setAssignmentTitle(e.target.value)}
+              />
+              <select onChange={(e) => setSubmissionType(e.target.value)}>
+                <option value={""}>Submitted as</option>
+                <option value={"text"}>Text</option>
+                <option value={"file"}>File</option>
               </select>
             </div>
             <div
@@ -233,7 +315,26 @@ const Assignments = ({
               ref={assignmentContentRef}
             >
               <div className={styles.textContent}>
-                <h4>{assignmentUnit}</h4>
+                {/* Add an input for taking in files */}
+                <input
+                  type="file"
+                  multiple
+                  className={styles.fileHidden}
+                  ref={assignmentFilesRef}
+                  onChange={handleFileChange}
+                />
+
+                {/* display selected files */}
+                <div className={styles.selectedFiles}>
+                  {selectedFiles.length > 0 && <p>Selected files: </p>}
+                  {selectedFiles.map((file, index) => {
+                    return (
+                      <p className={styles.chosenFile} key={index}>
+                        {file.name}
+                      </p>
+                    );
+                  })}
+                </div>
                 {content.length === 0 && (
                   <p>Use the tools on the right to add content</p>
                 )}
@@ -313,16 +414,25 @@ const Assignments = ({
                               </button>
                             )}
                           </div>
+                        ) : item[1] === "textArea" ? (
+                          <div
+                            className={`${styles.textLong} ${styles.editable}`}
+                            contentEditable
+                            suppressContentEditableWarning
+                            onInput={(e) => handleChangeText(e, index)}
+                          >
+                            {stripHTML(item[0])}
+                          </div>
                         ) : (
-                          item[1] === "textArea" && (
-                            <div
-                              className={`${styles.textLong} ${styles.editable}`}
+                          item[1] === "title" && (
+                            <h4
+                              className={`${styles.textTitle} ${styles.editable}`}
                               contentEditable
                               suppressContentEditableWarning
                               onInput={(e) => handleChangeText(e, index)}
                             >
                               {stripHTML(item[0])}
-                            </div>
+                            </h4>
                           )
                         )}
                         <div className={styles.edBtns}>
@@ -375,6 +485,42 @@ const Assignments = ({
                       }}
                     >
                       Add instruction
+                    </button>
+                  </div>
+                )}
+
+                {/* display area for adding title */}
+                {showButton.title === true && (
+                  <div
+                    style={{
+                      height: "max-content",
+                      display: "flex",
+                      gap: "10px",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <textarea
+                      onChange={(e) => handleTitle(e)}
+                      placeholder="Enter title here..."
+                      style={{
+                        fontSize: "1.0rem",
+                        padding: "8px",
+                        width: "650px",
+                        backgroundColor: "#F0F8FF",
+                        border: "none",
+                        borderBottom: "1px solid #C0C0C0",
+                      }}
+                    />
+
+                    <button
+                      onClick={handleAddTitle}
+                      style={{
+                        width: "max-content",
+                        height: "5vh",
+                        padding: "0 10px",
+                      }}
+                    >
+                      Add Title
                     </button>
                   </div>
                 )}
@@ -465,7 +611,7 @@ const Assignments = ({
               }}
             >
               <i className="fa-solid fa-left-long"></i>
-              <p>all assignments</p>
+              <p>Back</p>
             </button>
           </div>
           <div className={styles.assignmentDetails}>
@@ -553,18 +699,59 @@ const Assignments = ({
                 Text Area
               </button>
 
-              <button className={styles.addAssignment}>Title</button>
+              <button
+                className={styles.addAssignment}
+                onClick={() => {
+                  setShowButton((prev) => ({ ...prev, title: true }));
+                }}
+              >
+                Title
+              </button>
 
-              <button className={styles.addAssignment}>File</button>
+              <button
+                className={styles.addAssignment}
+                onClick={handleChooseFiles}
+              >
+                File
+              </button>
+              {message.length > 0 && (
+                <p className={styles.submissionAlert}>{message}</p>
+              )}
             </div>
             <div className={styles.extraTools}>
               <div className={styles.deadline}>
                 <p>Deadline</p>
-                <input type="date" />
+                <input
+                  type="date"
+                  onChange={(e) =>
+                    setAssignmentExtras((prev) => ({
+                      ...prev,
+                      date: e.target.value,
+                    }))
+                  }
+                />
+                <input
+                  type="time"
+                  onChange={(e) =>
+                    setAssignmentExtras((prev) => ({
+                      ...prev,
+                      time: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div className={styles.deadline}>
                 <p>Max marks</p>
-                <input type="number" max={100} />
+                <input
+                  type="number"
+                  max={100}
+                  onChange={(e) =>
+                    setAssignmentExtras((prev) => ({
+                      ...prev,
+                      marks: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
             <button
