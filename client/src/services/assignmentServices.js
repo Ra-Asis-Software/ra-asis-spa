@@ -9,7 +9,10 @@ const submitAssignment = async (data) => {
     return response;
   } catch (error) {
     if (error.response && error.response.data) {
-      return { error: error.response.data.error.message };
+      return {
+        error: error.response.data.error.message,
+        status: error.response.status,
+      };
     } else {
       return { error: "Sorry, an unexpected error occurred" };
     }

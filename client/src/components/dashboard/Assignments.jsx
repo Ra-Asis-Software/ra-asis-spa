@@ -60,7 +60,7 @@ const Assignments = ({
       }
     };
     fetchData();
-  }, []);
+  }, [trigger]);
 
   useEffect(() => {
     const handleFilterUnit = () => {
@@ -77,10 +77,6 @@ const Assignments = ({
     };
     handleFilterUnit();
   }, [selectedUnit]);
-
-  useEffect(() => {
-    setTrigger((prev) => prev);
-  }, [trigger]);
 
   //handles adding an instructions section to the assignment
   const handleInstruction = (e) => {
@@ -250,26 +246,24 @@ const Assignments = ({
     } else {
       const formData = new FormData();
 
-      // selectedFiles.forEach((file) => formData.append("files", file));
-      for (let i = 0; i < selectedFiles.length; i++) {
-        formData.append("files", selectedFiles[i]);
-      }
+      selectedFiles.forEach((file) => formData.append("files", file));
       formData.append("title", assignmentTitle);
       formData.append("submissionType", submissionType);
       formData.append(
         "deadLine",
-        new Date(
-          `${assignmentExtras.date}T${assignmentExtras.time}`
-        ).toISOString()
+        `${assignmentExtras.date}T${assignmentExtras.time}`
       );
       formData.append("maxMarks", assignmentExtras.marks);
       formData.append("content", JSON.stringify(content));
       formData.append("unitId", selectedUnit.id);
 
       try {
-        console.log([...formData.entries()]);
         const submissionResult = await submitAssignment(formData);
-        console.log(submissionResult);
+        setMessage(submissionResult.message);
+        if (submissionResult.status === 201) {
+          setTrigger((prev) => !prev);
+          navigate("/dashboard/assignments", { replace: true });
+        }
       } catch (error) {
         setMessage(error);
       }
@@ -636,7 +630,9 @@ const Assignments = ({
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={() => navigate("/dashboard/assignments?new=true")}
+                onClick={() =>
+                  navigate("/dashboard/assignments?new=true", { replace: true })
+                }
               >
                 <i className="fa-solid fa-plus"></i>
                 <p>Create New</p>
@@ -644,22 +640,24 @@ const Assignments = ({
             </RoleRestricted>
           </div>
           <div className={styles.assignmentsBody}>
-            {assignments.map((assignment) => {
-              return (
-                <button
-                  key={assignment._id}
-                  className={styles.assignment}
-                  onClick={() => {
-                    setOpenAssignment(true);
-                    setCurrentAssignment(assignment);
-                  }}
-                >
-                  <p>{assignment.title}</p>
-                  <p>{assignment.status}</p>
-                  <p>Due in 2 days</p>
-                </button>
-              );
-            })}
+            {assignments
+              .filter((assignment) => assignment.unit._id === selectedUnit.id)
+              .map((assignment) => {
+                return (
+                  <button
+                    key={assignment._id}
+                    className={styles.assignment}
+                    onClick={() => {
+                      setOpenAssignment(true);
+                      setCurrentAssignment(assignment);
+                    }}
+                  >
+                    <p>{assignment.title}</p>
+                    <p>{assignment.status}</p>
+                    <p>Due in 2 days</p>
+                  </button>
+                );
+              })}
             {assignments.length === 0 && (
               <p>You have no assignments for the unit</p>
             )}

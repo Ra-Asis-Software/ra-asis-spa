@@ -22,7 +22,6 @@ router.post(
     // Accepts a max of 5 files and catches Multer errors
     upload.array("files", 5)(req, res, (err) => {
       if (err) {
-        console.log(err);
         return res.status(400).json({ message: err.message });
       }
       next();
