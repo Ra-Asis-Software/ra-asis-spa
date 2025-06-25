@@ -47,7 +47,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
   unit.assignments.push(assignment._id);
   await unit.save();
 
-  res.status(201).json(assignment);
+  res.status(201).json({ message: "assignment created successfully" });
 });
 
 // @desc    Get assignments for a unit
