@@ -35,7 +35,12 @@ const TeacherMain = ({
         setUnits(teacherData.data.data.units);
 
         const tempDeadlines = tempAssignments
-          .filter((assignment) => assignment.unit._id === selectedUnit.id)
+          .filter((assignment) => {
+            if (selectedUnit.id === "all") {
+              return assignment;
+            }
+            return assignment.unit._id === selectedUnit.id;
+          })
           .map((assignment) => {
             return {
               date:
@@ -89,9 +94,12 @@ const TeacherMain = ({
               <div className={styles.units}>
                 {/* map assignments for the selected unit only */}
                 {assignments
-                  .filter(
-                    (assignment) => assignment.unit._id === selectedUnit.id
-                  )
+                  .filter((assignment) => {
+                    if (selectedUnit.id === "all") {
+                      return assignment;
+                    }
+                    return assignment.unit._id === selectedUnit.id;
+                  })
                   .map((assignment) => {
                     return (
                       <AssignmentCard
@@ -104,9 +112,12 @@ const TeacherMain = ({
                   })}
 
                 {/* return a message if no assignment exists for the unit selected */}
-                {assignments.filter(
-                  (assignment) => assignment.unit._id === selectedUnit.id
-                ).length === 0 && (
+                {assignments.filter((assignment) => {
+                  if (selectedUnit.id === "all") {
+                    return assignment;
+                  }
+                  return assignment.unit._id === selectedUnit.id;
+                }).length === 0 && (
                   <div className={styles.message}>
                     <p>You don't have any existing assignments for this unit</p>
                   </div>
@@ -129,16 +140,23 @@ const TeacherMain = ({
                 </tr>
               </thead>
               <tbody>
-                {assignments.map((assignment) => {
-                  return (
-                    <tr key={assignment._id}>
-                      <td>{assignment.title}</td>
-                      <td>40/60</td>
-                      <td>Completed</td>
-                      <td>01/01/2024</td>
-                    </tr>
-                  );
-                })}
+                {assignments
+                  .filter((assignment) => {
+                    if (selectedUnit.id === "all") {
+                      return assignment;
+                    }
+                    return assignment.unit._id === selectedUnit.id;
+                  })
+                  .map((assignment) => {
+                    return (
+                      <tr key={assignment._id}>
+                        <td>{assignment.title}</td>
+                        <td>40/60</td>
+                        <td>Completed</td>
+                        <td>01/01/2024</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
@@ -150,10 +168,6 @@ const TeacherMain = ({
             {deadlines
               .filter((event) => {
                 //filter only future dates
-                console.log(
-                  convertDateTime(event.date, event.time),
-                  todayTimeStamp
-                );
                 return convertDateTime(event.date, event.time) > todayTimeStamp;
               })
               .map((item, index) => {

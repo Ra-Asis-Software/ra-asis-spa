@@ -9,50 +9,6 @@ import Progress from "../Progress";
 import RecentActivities from "../RecentActivities";
 import { getUserDetails } from "../../../services/userService";
 
-const assignmentsData = {
-  Mathematics: [
-    { title: "Algebra Homework", unit: "Science", status: "Completed" },
-    { title: "Geometry Worksheet", unit: "English", status: "Pending" },
-    { title: "Geometry Worksheet", unit: "Kiswahili", status: "Not Started" },
-  ],
-  Chemistry: [{ title: "Lab Report", unit: "Mathematics", status: "Graded" }],
-};
-
-const deadlinesData = {
-  Mathematics: [
-    { title: "Algebra Assignment", dueDate: "2025-06-10", note: "Chapter 1–3" },
-    { title: "Geometry Project", dueDate: "2025-06-14" },
-  ],
-  Chemistry: [
-    { title: "Lab Report", dueDate: "2025-06-08", note: "Submit on LMS" },
-  ],
-};
-
-const recentActivitiesData = {
-  Mathematics: [
-    {
-      type: "Submitted",
-      item: "Algebra Homework",
-      date: "2025-06-03",
-      time: "10:00 AM",
-    },
-    {
-      type: "Marked",
-      item: "Geometry Worksheet",
-      date: "2025-06-02",
-      time: "2:30 PM",
-    },
-  ],
-  Chemistry: [
-    {
-      type: "Feedback",
-      item: "Lab Report",
-      date: "2025-06-01",
-      time: "11:00 AM",
-    },
-  ],
-};
-
 const StudentMain = ({
   showNav,
   units,
@@ -75,10 +31,13 @@ const StudentMain = ({
         setAssignments(tempAssignments);
         setUnits(studentData.data.data.units);
 
-        console.log(tempAssignments);
-
         const tempDeadlines = tempAssignments
-          .filter((assignment) => assignment.unit._id === selectedUnit.id)
+          .filter((assignment) => {
+            if (selectedUnit.id === "all") {
+              return assignment;
+            }
+            return assignment.unit._id === selectedUnit.id;
+          })
           .map((assignment) => {
             return {
               date:
@@ -117,11 +76,19 @@ const StudentMain = ({
         <div className={styles.leftColumn}>
           {/* Map assignments for the selected unit */}
           <div className={styles.cardContainer}>
-            {assignments.filter(
-              (assignment) => assignment.unit._id === selectedUnit.id
-            ).length > 0 ? (
+            {assignments.filter((assignment) => {
+              if (selectedUnit.id === "all") {
+                return assignment;
+              }
+              return assignment.unit._id === selectedUnit.id;
+            }).length > 0 ? (
               assignments
-                .filter((assignment) => assignment.unit._id === selectedUnit.id)
+                .filter((assignment) => {
+                  if (selectedUnit.id === "all") {
+                    return assignment;
+                  }
+                  return assignment.unit._id === selectedUnit.id;
+                })
                 .map((assignment) => (
                   <AssignmentCard
                     key={assignment._id}
