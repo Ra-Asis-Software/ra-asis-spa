@@ -1,0 +1,42 @@
+.card {
+  background-color: rgba(90, 224, 215, 0.3);
+  /* border-radius: 12px; */
+  padding: 1rem;
+  margin-top: 2rem;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+
+  width: 90%;
+  max-width: 450px;
+  min-width: 300px; /* Optional */
+  flex: 1; /* Allows flexible shrinking if inside flex container */
+}
+
+h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: max-content;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.item {
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.detail {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: #888;
+}

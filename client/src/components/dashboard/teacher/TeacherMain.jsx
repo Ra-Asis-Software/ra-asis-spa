@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
@@ -6,6 +6,8 @@ import Title from "../Title";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import { useNavigate } from "react-router-dom";
+import DeadlineCard from "../student/DeadlineCard";
+import RecentActivities from "../RecentActivities";
 
 const TeacherMain = ({
   showNav,
@@ -17,45 +19,41 @@ const TeacherMain = ({
   selectedUnit,
 }) => {
   const navigate = useNavigate();
-  const deadlines = [
-    { date: "2025-03-01", event: "Go to space", time: "08:30" },
-    {
-      date: "2025-06-15",
-      event: "Eat all the food in the fridge",
-      time: "10:52",
-    },
-    {
-      date: "2025-07-11",
-      event: "Read the book River and the source",
-      time: "14:52",
-    },
-    { date: "2025-05-22", event: "Go to a parents' meeting", time: "16:00" },
-    {
-      date: "2025-06-12",
-      event: "Mark all Mathematics assignments",
-      time: "23:00",
-    },
-    { date: "2025-08-29", event: "Sleep for 7 hours", time: "10:00" },
-    { date: "2025-02-26", event: "Watch the series Foundation", time: "23:00" },
-    { date: "2025-09-22", event: "Check status of ...", time: "19:00" },
-    { date: "2025-06-10", event: "Do this that, that and that", time: "23:00" },
-  ];
+  const [deadlines, setDeadlines] = useState([]);
 
   //get today at midnight
   const today = new Date();
-  const todayTimeStamp = today.setHours(23, 59, 59, 999);
+  const todayTimeStamp = today.setHours(0, 0, 59, 999);
 
   useEffect(() => {
     const fetchData = async () => {
       const teacherData = await getUserDetails(profile.role, profile.id);
 
       if (teacherData.data.message) {
-        setAssignments(teacherData.data.data.assignments);
+        const tempAssignments = teacherData.data.data.assignments || [];
+        setAssignments(tempAssignments);
         setUnits(teacherData.data.data.units);
+
+        const tempDeadlines = tempAssignments
+          .filter((assignment) => assignment.unit._id === selectedUnit.id)
+          .map((assignment) => {
+            return {
+              date:
+                assignment.deadLine.slice(0, 10) === "T"
+                  ? `${today.getFullYear()}-12-31`
+                  : assignment.deadLine.slice(0, 10),
+              event: assignment.title,
+              time:
+                assignment.deadLine.slice(11) === ""
+                  ? "23:59"
+                  : assignment.deadLine.slice(11),
+            };
+          });
+        setDeadlines(tempDeadlines);
       }
     };
     fetchData();
-  }, []);
+  }, [selectedUnit]);
 
   const convertDateTime = (date, time) => {
     const fullDateTimeStr = `${date}T${time}:00`;
@@ -147,11 +145,15 @@ const TeacherMain = ({
         </div>
 
         <div className={styles.deadlines}>
-          <h3>Deadlines</h3>
+          {/* <h3>Deadlines</h3>
           <div className={styles.deadlineBox}>
             {deadlines
               .filter((event) => {
                 //filter only future dates
+                console.log(
+                  convertDateTime(event.date, event.time),
+                  todayTimeStamp
+                );
                 return convertDateTime(event.date, event.time) > todayTimeStamp;
               })
               .map((item, index) => {
@@ -162,7 +164,8 @@ const TeacherMain = ({
                   </div>
                 );
               })}
-          </div>
+          </div> */}
+          <DeadlineCard subject={selectedUnit.name} {...{ deadlines }} />
         </div>
         <div className={styles.progress}>
           <h3>Progress</h3>
@@ -170,8 +173,8 @@ const TeacherMain = ({
       </div>
       <div className={styles.heroRight}>
         <CustomCalendar deadlines={deadlines} />
-        <div className={styles.recentActivities}>
-          <h4>Recent Activities</h4>
+        {/* <div className={styles.recentActivities}> */}
+        {/* <h4>Recent Activities</h4>
           <div className={styles.recentActivitiesBox}>
             {deadlines
               .filter((event) => {
@@ -188,8 +191,9 @@ const TeacherMain = ({
                   </div>
                 );
               })}
-          </div>
-        </div>
+          </div> */}
+        <RecentActivities activities={deadlines} subject={selectedUnit.name} />
+        {/* </div> */}
       </div>
     </div>
   );
