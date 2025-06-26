@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import DeadlineCard from "../student/DeadlineCard";
 import RecentActivities from "../RecentActivities";
 import WelcomeBoard from "../WelcomeBoard";
+import Progress from "../Progress";
 
 const TeacherMain = ({
   showNav,
@@ -199,7 +200,7 @@ const TeacherMain = ({
               </div>
             </div>
             <div className={styles.progress}>
-              <h3>Progress</h3>
+              <Progress />
             </div>
           </div>
           <div className={styles.heroRight}>
