@@ -17,7 +17,10 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [units, setUnits] = useState([]);
   const [assignments, setAssignments] = useState([]);
-  const [selectedUnit, setSelectedUnit] = useState("");
+  const [selectedUnit, setSelectedUnit] = useState({
+    name: "All units",
+    id: "all",
+  });
 
   // Fetch the user's data from the token
   useEffect(() => {
