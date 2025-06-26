@@ -14,6 +14,8 @@ const Assignments = ({
   assignments,
   setAssignments,
   setUnits,
+  canEdit,
+  setCanEdit
 }) => {
   const [allAssignments, setAllAssignments] = useState([]);
   const [openAssignment, setOpenAssignment] = useState(false);
@@ -40,7 +42,7 @@ const Assignments = ({
     time: "",
   });
   const [message, setMessage] = useState("");
-  const [canEdit, setCanEdit] = useState(false);
+  // const [canEdit, setCanEdit] = useState(false);
   const [loading, setLoading] = useState(true);
 
   //check if a new assignment is being created

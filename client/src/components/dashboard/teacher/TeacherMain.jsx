@@ -8,6 +8,7 @@ import CustomCalendar from "../CustomCalendar";
 import { useNavigate } from "react-router-dom";
 import DeadlineCard from "../student/DeadlineCard";
 import RecentActivities from "../RecentActivities";
+import WelcomeBoard from "../WelcomeBoard";
 
 const TeacherMain = ({
   showNav,
@@ -17,6 +18,7 @@ const TeacherMain = ({
   assignments,
   setAssignments,
   selectedUnit,
+  setCanEdit,
 }) => {
   const navigate = useNavigate();
   const [deadlines, setDeadlines] = useState([]);
@@ -67,137 +69,154 @@ const TeacherMain = ({
   };
 
   return (
-    <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
-      <div className={styles.heroLeft}>
-        <Title />
-        <div className={styles.assignmentsOverview}>
-          {units.length === 0 ? (
-            <div className={styles.noUnits}>
-              <h4>NO UNITS</h4>
-              <div className={styles.message}>
-                <p>You don't have any units assigned to you</p>
-                <p>The admin is yet to assign them to you</p>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.unitsBox}>
-              <div className={styles.assignmentsTitle}>
-                <h4>{selectedUnit.name} Assignments</h4>
-                <button
-                  className={styles.addAssignment}
-                  onClick={() => navigate("/dashboard/assignments?new=true")}
-                >
-                  <i className="fa-solid fa-plus"></i>
-                  <p>Create</p>
-                </button>
-              </div>
-              <div className={styles.units}>
-                {/* map assignments for the selected unit only */}
-                {assignments
-                  .filter((assignment) => {
-                    if (selectedUnit.id === "all") {
-                      return assignment;
-                    }
-                    return assignment.unit._id === selectedUnit.id;
-                  })
-                  .map((assignment) => {
-                    return (
-                      <AssignmentCard
-                        key={assignment._id}
-                        unitName={assignment.unit.unitName}
-                        title={assignment.title}
-                        id={assignment._id}
-                      />
-                    );
-                  })}
-
-                {/* return a message if no assignment exists for the unit selected */}
-                {assignments.filter((assignment) => {
-                  if (selectedUnit.id === "all") {
-                    return assignment;
-                  }
-                  return assignment.unit._id === selectedUnit.id;
-                }).length === 0 && (
+    <>
+      {units.length === 0 ? (
+        <WelcomeBoard />
+      ) : (
+        <div
+          className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}
+        >
+          <div className={styles.heroLeft}>
+            <Title />
+            <div className={styles.assignmentsOverview}>
+              {units.length === 0 ? (
+                <div className={styles.noUnits}>
+                  <h4>NO UNITS</h4>
                   <div className={styles.message}>
-                    <p>You don't have any existing assignments for this unit</p>
+                    <p>You don't have any units assigned to you</p>
+                    <p>The admin is yet to assign them to you</p>
                   </div>
-                )}
+                </div>
+              ) : (
+                <div className={styles.unitsBox}>
+                  <div className={styles.assignmentsTitle}>
+                    <h4>{selectedUnit.name} Assignments</h4>
+                    <button
+                      className={styles.addAssignment}
+                      onClick={() => {
+                        setCanEdit(true);
+                        navigate("/dashboard/assignments?new=true");
+                      }}
+                    >
+                      <i className="fa-solid fa-plus"></i>
+                      <p>Create</p>
+                    </button>
+                  </div>
+                  <div className={styles.units}>
+                    {/* map assignments for the selected unit only */}
+                    {assignments
+                      .filter((assignment) => {
+                        if (selectedUnit.id === "all") {
+                          return assignment;
+                        }
+                        return assignment.unit._id === selectedUnit.id;
+                      })
+                      .map((assignment) => {
+                        return (
+                          <AssignmentCard
+                            key={assignment._id}
+                            unitName={assignment.unit.unitName}
+                            title={assignment.title}
+                            id={assignment._id}
+                          />
+                        );
+                      })}
+
+                    {/* return a message if no assignment exists for the unit selected */}
+                    {assignments.filter((assignment) => {
+                      if (selectedUnit.id === "all") {
+                        return assignment;
+                      }
+                      return assignment.unit._id === selectedUnit.id;
+                    }).length === 0 && (
+                      <div className={styles.message}>
+                        <p>
+                          You don't have any existing assignments for this unit
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className={styles.submissions}>
+              <h3>Submissions</h3>
+              <div className={styles.submissionsBox}>
+                <table>
+                  <thead>
+                    <tr>
+                      <td>Assignment title</td>
+                      <td>Sumission status</td>
+                      <td>Evaluation status</td>
+                      <td>Date assigned</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {assignments
+                      .filter((assignment) => {
+                        if (selectedUnit.id === "all") {
+                          return assignment;
+                        }
+                        return assignment.unit._id === selectedUnit.id;
+                      })
+                      .map((assignment) => {
+                        return (
+                          <tr key={assignment._id}>
+                            <td>{assignment.title}</td>
+                            <td>
+                              {assignment.submissionCount}/
+                              {assignment.enrolledStudentsCount}
+                            </td>
+                            <td>{assignment.status}</td>
+                            <td>{assignment.createdAt.slice(0, 10)}</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
               </div>
             </div>
-          )}
-        </div>
 
-        <div className={styles.submissions}>
-          <h3>Submissions</h3>
-          <div className={styles.submissionsBox}>
-            <table>
-              <thead>
-                <tr>
-                  <td>Assignment title</td>
-                  <td>Sumission status</td>
-                  <td>Evaluation status</td>
-                  <td>Date assigned</td>
-                </tr>
-              </thead>
-              <tbody>
-                {assignments
-                  .filter((assignment) => {
-                    if (selectedUnit.id === "all") {
-                      return assignment;
-                    }
-                    return assignment.unit._id === selectedUnit.id;
-                  })
-                  .map((assignment) => {
+            <div className={styles.deadlines}>
+              <h3>Deadlines</h3>
+              <div className={styles.deadlineBox}>
+                {deadlines
+                  .filter((event) => {
+                    //filter only future dates
                     return (
-                      <tr key={assignment._id}>
-                        <td>{assignment.title}</td>
-                        <td>
-                          {assignment.submissionCount}/
-                          {assignment.enrolledStudentsCount}
-                        </td>
-                        <td>{assignment.status}</td>
-                        <td>{assignment.createdAt.slice(0, 10)}</td>
-                      </tr>
+                      convertDateTime(event.date, event.time) > todayTimeStamp
+                    );
+                  })
+                  .map((item, index) => {
+                    return (
+                      <div className={styles.deadlineEvent} key={index}>
+                        <p>{item.event}</p>
+                        <p>{item.date}</p>
+                      </div>
                     );
                   })}
-              </tbody>
-            </table>
+              </div>
+            </div>
+            <div className={styles.progress}>
+              <h3>Progress</h3>
+            </div>
           </div>
-        </div>
-
-        <div className={styles.deadlines}>
-          <h3>Deadlines</h3>
-          <div className={styles.deadlineBox}>
-            {deadlines
-              .filter((event) => {
-                //filter only future dates
-                return convertDateTime(event.date, event.time) > todayTimeStamp;
-              })
-              .map((item, index) => {
+          <div className={styles.heroRight}>
+            <CustomCalendar deadlines={deadlines} />
+            <RecentActivities
+              activities={deadlines.filter((event) => {
+                //filter only past dates
                 return (
-                  <div className={styles.deadlineEvent} key={index}>
-                    <p>{item.event}</p>
-                    <p>{item.date}</p>
-                  </div>
+                  convertDateTime(event.date, event.time) <= todayTimeStamp
                 );
               })}
+              subject={selectedUnit.name}
+            />
           </div>
         </div>
-        <div className={styles.progress}>
-          <h3>Progress</h3>
-        </div>
-      </div>
-      <div className={styles.heroRight}>
-        <CustomCalendar deadlines={deadlines} />
-        <RecentActivities
-          activities={deadlines.filter((event) => {
-            //filter only past dates
-            return convertDateTime(event.date, event.time) <= todayTimeStamp;
-          })}
-          subject={selectedUnit.name}
-        />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
