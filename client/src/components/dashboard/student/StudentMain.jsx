@@ -98,6 +98,12 @@ const StudentMain = ({
     fetchData();
   }, [selectedUnit]);
 
+  const convertDateTime = (date, time) => {
+    const fullDateTimeStr = `${date}T${time}:00`;
+    const thatDate = new Date(fullDateTimeStr);
+    return thatDate.getTime();
+  };
+
   return (
     <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}>
       <Title page="Dashboard" />
@@ -132,7 +138,13 @@ const StudentMain = ({
           {/* Summary and Deadlines */}
           <div className={styles.summaryAndDeadlineRow}>
             <Summary />
-            <DeadlineCard subject={selectedUnit.name} deadlines={deadlines} />
+            <DeadlineCard
+              subject={selectedUnit.name}
+              deadlines={deadlines.filter((event) => {
+                //filter only future dates
+                return convertDateTime(event.date, event.time) > todayTimeStamp;
+              })}
+            />
           </div>
         </div>
 
@@ -144,7 +156,13 @@ const StudentMain = ({
       {/* Bottom Row */}
       <div className={styles.bottomRow}>
         <Progress />
-        <RecentActivities subject={selectedUnit.name} activities={deadlines} />
+        <RecentActivities
+          subject={selectedUnit.name}
+          activities={deadlines.filter((event) => {
+            //filter only past dates
+            return convertDateTime(event.date, event.time) <= todayTimeStamp;
+          })}
+        />
       </div>
     </main>
   );
