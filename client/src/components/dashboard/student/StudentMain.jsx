@@ -8,6 +8,7 @@ import Summary from "./Summary";
 import Progress from "../Progress";
 import RecentActivities from "../RecentActivities";
 import { getUserDetails } from "../../../services/userService";
+import WelcomeBoard from "../WelcomeBoard";
 
 const StudentMain = ({
   showNav,
@@ -64,74 +65,86 @@ const StudentMain = ({
   };
 
   return (
-    <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}>
-      <Title page="Dashboard" />
-      <h2 className={styles.heading}>
-        {selectedUnit.name
-          ? `${selectedUnit.name} Assignments`
-          : "Please select a subject"}
-      </h2>
+    <>
+      {units.length === 0 ? (
+        <WelcomeBoard />
+      ) : (
+        <main
+          className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}
+        >
+          <Title page="Dashboard" />
+          <h2 className={styles.heading}>
+            {selectedUnit.name
+              ? `${selectedUnit.name} Assignments`
+              : "Please select a subject"}
+          </h2>
 
-      <div className={styles.topRow}>
-        <div className={styles.leftColumn}>
-          {/* Map assignments for the selected unit */}
-          <div className={styles.cardContainer}>
-            {assignments.filter((assignment) => {
-              if (selectedUnit.id === "all") {
-                return assignment;
-              }
-              return assignment.unit._id === selectedUnit.id;
-            }).length > 0 ? (
-              assignments
-                .filter((assignment) => {
+          <div className={styles.topRow}>
+            <div className={styles.leftColumn}>
+              {/* Map assignments for the selected unit */}
+              <div className={styles.cardContainer}>
+                {assignments.filter((assignment) => {
                   if (selectedUnit.id === "all") {
                     return assignment;
                   }
                   return assignment.unit._id === selectedUnit.id;
-                })
-                .map((assignment) => (
-                  <AssignmentCard
-                    key={assignment._id}
-                    unitName={assignment.unit.unitName}
-                    title={assignment.title}
-                    id={assignment._id}
-                  />
-                ))
-            ) : (
-              <p>No assignments for this subject.</p>
-            )}
+                }).length > 0 ? (
+                  assignments
+                    .filter((assignment) => {
+                      if (selectedUnit.id === "all") {
+                        return assignment;
+                      }
+                      return assignment.unit._id === selectedUnit.id;
+                    })
+                    .map((assignment) => (
+                      <AssignmentCard
+                        key={assignment._id}
+                        unitName={assignment.unit.unitName}
+                        title={assignment.title}
+                        id={assignment._id}
+                      />
+                    ))
+                ) : (
+                  <p>No assignments for this subject.</p>
+                )}
+              </div>
+
+              {/* Summary and Deadlines */}
+              <div className={styles.summaryAndDeadlineRow}>
+                <Summary />
+                <DeadlineCard
+                  subject={selectedUnit.name}
+                  deadlines={deadlines.filter((event) => {
+                    //filter only future dates
+                    return (
+                      convertDateTime(event.date, event.time) > todayTimeStamp
+                    );
+                  })}
+                />
+              </div>
+            </div>
+
+            <div className={styles.rightColumn}>
+              <CustomCalendar {...{ deadlines }} />
+            </div>
           </div>
 
-          {/* Summary and Deadlines */}
-          <div className={styles.summaryAndDeadlineRow}>
-            <Summary />
-            <DeadlineCard
+          {/* Bottom Row */}
+          <div className={styles.bottomRow}>
+            <Progress />
+            <RecentActivities
               subject={selectedUnit.name}
-              deadlines={deadlines.filter((event) => {
-                //filter only future dates
-                return convertDateTime(event.date, event.time) > todayTimeStamp;
+              activities={deadlines.filter((event) => {
+                //filter only past dates
+                return (
+                  convertDateTime(event.date, event.time) <= todayTimeStamp
+                );
               })}
             />
           </div>
-        </div>
-
-        <div className={styles.rightColumn}>
-          <CustomCalendar {...{ deadlines }} />
-        </div>
-      </div>
-
-      {/* Bottom Row */}
-      <div className={styles.bottomRow}>
-        <Progress />
-        <RecentActivities
-          subject={selectedUnit.name}
-          activities={deadlines.filter((event) => {
-            //filter only past dates
-            return convertDateTime(event.date, event.time) <= todayTimeStamp;
-          })}
-        />
-      </div>
-    </main>
+        </main>
+      )}
+    </>
   );
 };
 
