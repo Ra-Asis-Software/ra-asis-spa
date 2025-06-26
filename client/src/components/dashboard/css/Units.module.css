@@ -1,0 +1,104 @@
+.hero {
+  flex: 1;
+  display: flex;
+  padding: 15px;
+}
+.heroRight {
+  min-width: 400px;
+  width: max-content;
+  max-width: 600px;
+  padding: 10px;
+  background-color: #fff;
+}
+.heroLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.searchBox {
+  height: max-content;
+  width: max-content;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+}
+.searchBox i {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchBox input {
+  height: 40px;
+  width: 250px;
+  border: none;
+}
+.searchBox input:focus {
+  outline: none;
+}
+.faSearch {
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+  width: 20px;
+}
+.faCancel {
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+.unitsBox {
+  max-width: 600px;
+  flex: 1;
+  max-height: 72vh;
+}
+.unitsHeader {
+  height: 6vh;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  background-color: var(--cerulean-color);
+}
+.units {
+  flex: 1;
+  max-height: 65vh;
+  overflow-y: auto;
+  background-color: #fff;
+}
+.unit {
+  height: 7vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.unitDetails {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.myUnitsBox {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+}
+.myUnitsBox h4 {
+  color: var(--pale-sky-color);
+}
+.assigned {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+}
+.assignedUnit {
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 0.9rem;
+}

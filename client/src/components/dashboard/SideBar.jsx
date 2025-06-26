@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./css/SideBar.module.css";
 import { Link } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
@@ -34,18 +33,6 @@ const Sidebar = ({ show, logout }) => {
             <span className={styles.linkLabel}>Activity Dashboard</span>
           </Link>
         </li>
-        <li>
-          <Link
-            to="/"
-            className={`${active === "profile" && styles.active}`}
-            onClick={() => setActive("profile")}
-          >
-            <i
-              className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}
-            ></i>
-            <span className={styles.linkLabel}>Profile</span>
-          </Link>
-        </li>
         <RoleRestricted allowedRoles={["administrator"]}>
           <li>
             <Link
@@ -64,12 +51,12 @@ const Sidebar = ({ show, logout }) => {
         <RoleRestricted allowedRoles={["student", "teacher"]}>
           <li>
             <Link
-              to="/"
+              to="/dashboard/units"
               className={`${active === "units" && styles.active}`}
               onClick={() => setActive("units")}
             >
               <i className={` ${styles.sideBarIcon} fa-solid fa-book`}></i>
-              <span className={styles.linkLabel}>Unit</span>
+              <span className={styles.linkLabel}>Units</span>
             </Link>
           </li>
         </RoleRestricted>
@@ -86,6 +73,18 @@ const Sidebar = ({ show, logout }) => {
             </Link>
           </li>
         </RoleRestricted>
+        <li>
+          <Link
+            to="/"
+            className={`${active === "profile" && styles.active}`}
+            onClick={() => setActive("profile")}
+          >
+            <i
+              className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}
+            ></i>
+            <span className={styles.linkLabel}>Profile</span>
+          </Link>
+        </li>
       </ul>
 
       <div className={styles.logout}>

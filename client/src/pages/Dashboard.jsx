@@ -8,6 +8,7 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
+import Units from "../components/dashboard/Units";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -146,6 +147,8 @@ const Dashboard = () => {
                 />
               }
             />
+
+            <Route path="/units" element={<Units {...{ user }} />} />
           </Routes>
         </div>
       </div>
