@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../css/StudentMain.module.css";
 import Title from "../Title";
 import AssignmentCard from "../AssignmentCard";
@@ -62,20 +62,41 @@ const StudentMain = ({
   assignments,
   setAssignments,
 }) => {
-  const deadlines = deadlinesData[selectedUnit.name] || [];
-  const activities = recentActivitiesData[selectedUnit.name] || [];
+  const [deadlines, setDeadlines] = useState([]);
+  const today = new Date();
+  const todayTimeStamp = today.setHours(0, 0, 59, 999);
 
   useEffect(() => {
     const fetchData = async () => {
       const studentData = await getUserDetails(profile.role, profile.id);
 
       if (studentData.data.message) {
-        setAssignments(studentData.data.data.assignments);
+        const tempAssignments = studentData.data.data.assignments || [];
+        setAssignments(tempAssignments);
         setUnits(studentData.data.data.units);
+
+        console.log(tempAssignments);
+
+        const tempDeadlines = tempAssignments
+          .filter((assignment) => assignment.unit._id === selectedUnit.id)
+          .map((assignment) => {
+            return {
+              date:
+                assignment.deadLine.slice(0, 10) === "T"
+                  ? `${today.getFullYear()}-12-31`
+                  : assignment.deadLine.slice(0, 10),
+              event: assignment.title,
+              time:
+                assignment.deadLine.slice(11) === ""
+                  ? "23:59"
+                  : assignment.deadLine.slice(11),
+            };
+          });
+        setDeadlines(tempDeadlines);
       }
     };
     fetchData();
-  }, []);
+  }, [selectedUnit]);
 
   return (
     <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}>
@@ -111,25 +132,19 @@ const StudentMain = ({
           {/* Summary and Deadlines */}
           <div className={styles.summaryAndDeadlineRow}>
             <Summary />
-            <DeadlineCard subject={"Mathematics"} deadlines={deadlines} />
+            <DeadlineCard subject={selectedUnit.name} deadlines={deadlines} />
           </div>
         </div>
 
         <div className={styles.rightColumn}>
-          <CustomCalendar
-            deadlines={[
-              { date: "2025-06-10" },
-              { date: "2025-06-12" },
-              { date: "2025-08-15" },
-            ]}
-          />
+          <CustomCalendar {...{ deadlines }} />
         </div>
       </div>
 
       {/* Bottom Row */}
       <div className={styles.bottomRow}>
         <Progress />
-        <RecentActivities subject={selectedUnit.name} activities={activities} />
+        <RecentActivities subject={selectedUnit.name} activities={deadlines} />
       </div>
     </main>
   );

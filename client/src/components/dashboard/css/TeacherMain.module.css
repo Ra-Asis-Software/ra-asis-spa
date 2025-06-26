@@ -20,6 +20,7 @@
   align-items: center;
   height: max-content;
   gap: 80px;
+  padding: 10px;
 }
 .marginCollapsed {
   margin: 0;
@@ -27,6 +28,7 @@
 .marginCollapsed .heroRight {
   width: 35vw;
   transition: width 0.3s ease-in-out;
+  padding: 15px;
 }
 .marginCollapsed .heroLeft {
   width: 65vw;

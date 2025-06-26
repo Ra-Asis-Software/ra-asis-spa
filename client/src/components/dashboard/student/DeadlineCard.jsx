@@ -19,11 +19,9 @@ const DeadlineCard = ({ subject, deadlines = [] }) => {
         <ul className={styles.list}>
           {deadlines.map((deadline, idx) => (
             <li key={idx} className={styles.deadlineItem}>
-              <div className={styles.title}>{deadline.title}</div>
+              <div className={styles.title}>{deadline.event}</div>
               {/* {deadline.note && <div className={styles.note}>{deadline.note}</div>} */}
-              <div className={styles.date}>
-                Due: {new Date(deadline.dueDate).toLocaleDateString()}
-              </div>
+              <div className={styles.date}>Due: {deadline.date}</div>
             </li>
           ))}
         </ul>

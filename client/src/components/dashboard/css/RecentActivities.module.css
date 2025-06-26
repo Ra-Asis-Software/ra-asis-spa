@@ -5,8 +5,8 @@
   margin-top: 2rem;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 
-  /* Add or adjust these lines */
-  max-width: 100px; /* Decrease to your desired width */
+  width: 90%;
+  max-width: 450px;
   min-width: 300px; /* Optional */
   flex: 1; /* Allows flexible shrinking if inside flex container */
 }
@@ -20,6 +20,9 @@ h3 {
   list-style: none;
   padding: 0;
   margin: 0;
+  height: max-content;
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .item {
