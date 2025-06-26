@@ -10,7 +10,6 @@ const AssignmentContent = ({
   trigger,
   setTrigger,
   canEdit = false,
-  setCanEdit,
   role,
 }) => {
   const [sectionData, setSectionData] = useState({
@@ -169,7 +168,6 @@ const AssignmentContent = ({
     setTrigger(!trigger); //trigger a rerender of the page
   };
 
-  console.log(role, canEdit);
   return (
     <>
       {content.length > 0 &&

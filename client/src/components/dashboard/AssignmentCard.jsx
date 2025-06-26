@@ -1,12 +1,13 @@
-import React from "react";
 import styles from "./css/AssignmentCard.module.css";
+import { useNavigate } from "react-router-dom";
 
 const AssignmentCard = ({
   unitName,
   status = "pending",
   title = "Assignment for Unit",
-  onView,
+  id
 }) => {
+  const navigate = useNavigate()
   return (
     <div className={styles.card}>
       <h3 className={styles.unit}>{unitName}</h3>
@@ -16,7 +17,7 @@ const AssignmentCard = ({
           styles[status.toLowerCase().replace(/\s/g, "")]
         }`}
       >
-        <button className={styles.viewButton} onClick={onView}>
+        <button className={styles.viewButton} onClick={() => navigate(`/dashboard/assignments?open=${id}`)}>
           View
         </button>
         {status}

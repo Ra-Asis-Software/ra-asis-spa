@@ -100,6 +100,7 @@ const StudentMain = ({
                     key={assignment._id}
                     unitName={assignment.unit.unitName}
                     title={assignment.title}
+                    id={assignment._id}
                   />
                 ))
             ) : (
