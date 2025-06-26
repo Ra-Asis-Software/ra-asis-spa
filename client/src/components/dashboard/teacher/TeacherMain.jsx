@@ -145,7 +145,7 @@ const TeacherMain = ({
         </div>
 
         <div className={styles.deadlines}>
-          {/* <h3>Deadlines</h3>
+          <h3>Deadlines</h3>
           <div className={styles.deadlineBox}>
             {deadlines
               .filter((event) => {
@@ -164,8 +164,7 @@ const TeacherMain = ({
                   </div>
                 );
               })}
-          </div> */}
-          <DeadlineCard subject={selectedUnit.name} {...{ deadlines }} />
+          </div>
         </div>
         <div className={styles.progress}>
           <h3>Progress</h3>
@@ -173,27 +172,13 @@ const TeacherMain = ({
       </div>
       <div className={styles.heroRight}>
         <CustomCalendar deadlines={deadlines} />
-        {/* <div className={styles.recentActivities}> */}
-        {/* <h4>Recent Activities</h4>
-          <div className={styles.recentActivitiesBox}>
-            {deadlines
-              .filter((event) => {
-                //filter only past dates
-                return (
-                  convertDateTime(event.date, event.time) <= todayTimeStamp
-                );
-              })
-              .map((item, index) => {
-                return (
-                  <div className={styles.deadlineEventRecent} key={index}>
-                    <p>{item.event}</p>
-                    <p>{item.date}</p>
-                  </div>
-                );
-              })}
-          </div> */}
-        <RecentActivities activities={deadlines} subject={selectedUnit.name} />
-        {/* </div> */}
+        <RecentActivities
+          activities={deadlines.filter((event) => {
+            //filter only past dates
+            return convertDateTime(event.date, event.time) <= todayTimeStamp;
+          })}
+          subject={selectedUnit.name}
+        />
       </div>
     </div>
   );

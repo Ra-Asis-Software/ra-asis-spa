@@ -8,8 +8,12 @@
   justify-content: space-between;
 }
 .heroLeft {
-  height: 150vh;
+  height: max-content;
+  max-height: 180vh;
   width: 60vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   transition: width 0.3s ease-in-out;
 }
 .heroRight {
@@ -38,7 +42,6 @@
   height: 30vh;
   width: 95%;
   padding: 10px;
-  margin-bottom: 30px;
 }
 
 .noUnits {
@@ -98,15 +101,17 @@ p {
 }
 
 .submissions {
-  height: 40vh;
+  height: max-content;
+  max-height: 50vh;
   width: 750px;
   padding: 10px;
-  overflow: auto;
-  margin-bottom: 20px;
+  overflow: hidden;
 }
 .submissionsBox {
-  height: 36vh;
+  height: max-content;
+  max-height: 42vh;
   width: 100%;
+  overflow-y: auto;
 }
 table {
   width: 100%;
@@ -128,23 +133,25 @@ tbody td:first-of-type {
   width: 40%;
 }
 .deadlines {
-  height: 40vh;
-  /* width: 750px; */
+  height: max-content;
+  max-height: 50vh;
+  overflow: hidden;
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
-  overflow-y: scroll;
   max-width: 750px;
+  margin-top: 20px;
 }
 .deadlineBox {
-  height: 35vh;
+  height: max-content;
+  max-height: 42;
   display: flex;
   flex-direction: column;
-  /* background-color: var(--french-gray-color); */
-  flex-wrap: wrap;
+  overflow-y: auto;
+  overflow-x: hidden;
   justify-items: flex-start;
+  padding: 5px;
   gap: 10px;
 }
 .deadlineBox p {
@@ -163,7 +170,7 @@ tbody td:first-of-type {
   align-items: center;
   height: 7vh;
   display: flex;
-  width: 50%;
+  width: 70%;
   padding: 5px;
   border-radius: 8px;
   background-color: #fff;
