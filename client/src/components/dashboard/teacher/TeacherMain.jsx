@@ -18,6 +18,7 @@ const TeacherMain = ({
   assignments,
   setAssignments,
   selectedUnit,
+  setCanEdit,
 }) => {
   const navigate = useNavigate();
   const [deadlines, setDeadlines] = useState([]);
@@ -92,9 +93,10 @@ const TeacherMain = ({
                     <h4>{selectedUnit.name} Assignments</h4>
                     <button
                       className={styles.addAssignment}
-                      onClick={() =>
-                        navigate("/dashboard/assignments?new=true")
-                      }
+                      onClick={() => {
+                        setCanEdit(true);
+                        navigate("/dashboard/assignments?new=true");
+                      }}
                     >
                       <i className="fa-solid fa-plus"></i>
                       <p>Create</p>

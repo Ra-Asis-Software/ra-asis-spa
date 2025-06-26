@@ -22,6 +22,7 @@ const Dashboard = () => {
     name: "All units",
     id: "all",
   });
+  const [canEdit, setCanEdit] = useState(false);
 
   // Fetch the user's data from the token
   useEffect(() => {
@@ -112,6 +113,7 @@ const Dashboard = () => {
                         assignments,
                         setAssignments,
                         selectedUnit,
+                        setCanEdit,
                       }}
                       profile={user}
                     />
@@ -139,6 +141,8 @@ const Dashboard = () => {
                     assignments,
                     setAssignments,
                     setUnits,
+                    canEdit,
+                    setCanEdit,
                   }}
                 />
               }
