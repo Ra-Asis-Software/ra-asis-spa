@@ -10,10 +10,12 @@ const AssignmentTools = ({
   setAssignmentExtras,
   handlePublishAssignment,
   message,
+  assignmentExtras,
 }) => {
   return (
     <>
       <RoleRestricted allowedRoles={["teacher"]}>
+        {/* show this only when creating a new assignment or opening an existing one, and when editing is set to true */}
         {(params.get("new") || openAssignment) && canEdit && (
           <div className={styles.tools}>
             <div className={styles.toolsArea}>
@@ -70,6 +72,7 @@ const AssignmentTools = ({
                 <p>Deadline</p>
                 <input
                   type="date"
+                  value={assignmentExtras.date}
                   onChange={(e) =>
                     setAssignmentExtras((prev) => ({
                       ...prev,
@@ -79,6 +82,7 @@ const AssignmentTools = ({
                 />
                 <input
                   type="time"
+                  value={assignmentExtras.time}
                   onChange={(e) =>
                     setAssignmentExtras((prev) => ({
                       ...prev,
@@ -92,6 +96,7 @@ const AssignmentTools = ({
                 <input
                   type="number"
                   max={100}
+                  value={assignmentExtras.marks}
                   onChange={(e) =>
                     setAssignmentExtras((prev) => ({
                       ...prev,
@@ -101,12 +106,27 @@ const AssignmentTools = ({
                 />
               </div>
             </div>
-            <button
-              className={styles.submitAssignment}
-              onClick={handlePublishAssignment}
-            >
-              PUBLISH ASSIGNMENT
-            </button>
+            {params.get("new") ? (
+              <button
+                className={styles.submitAssignment}
+                onClick={handlePublishAssignment}
+              >
+                PUBLISH ASSIGNMENT
+              </button>
+            ) : openAssignment ? (
+              <button
+                className={styles.submitAssignment}
+                onClick={() =>
+                  alert(
+                    "The Edit assignment functionality is yet to be created"
+                  )
+                }
+              >
+                SAVE CHANGES
+              </button>
+            ) : (
+              <p>No action</p>
+            )}
           </div>
         )}
       </RoleRestricted>

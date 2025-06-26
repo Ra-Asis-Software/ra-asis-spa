@@ -1,106 +1,137 @@
-import React, { useEffect } from 'react';
-import styles from '../css/StudentMain.module.css';
-import Title from '../Title';
-import AssignmentCard from '../AssignmentCard';
-import CustomCalendar from '../CustomCalendar';
-import DeadlineCard from './DeadlineCard';
-import Summary from './Summary';
-import Progress from '../Progress';
-import RecentActivities from '../RecentActivities';
-import { getUserDetails } from '../../../services/user';
+import React, { useEffect } from "react";
+import styles from "../css/StudentMain.module.css";
+import Title from "../Title";
+import AssignmentCard from "../AssignmentCard";
+import CustomCalendar from "../CustomCalendar";
+import DeadlineCard from "./DeadlineCard";
+import Summary from "./Summary";
+import Progress from "../Progress";
+import RecentActivities from "../RecentActivities";
+import { getUserDetails } from "../../../services/userService";
 
 const assignmentsData = {
   Mathematics: [
-    { title: 'Algebra Homework', unit: 'Science', status: 'Completed'},
-    { title: 'Geometry Worksheet', unit: 'English', status: 'Pending' },
-    { title: 'Geometry Worksheet', unit: 'Kiswahili', status: 'Not Started' },
+    { title: "Algebra Homework", unit: "Science", status: "Completed" },
+    { title: "Geometry Worksheet", unit: "English", status: "Pending" },
+    { title: "Geometry Worksheet", unit: "Kiswahili", status: "Not Started" },
   ],
-  Chemistry: [
-    { title: 'Lab Report', unit: 'Mathematics', status: 'Graded' },
-  ],
+  Chemistry: [{ title: "Lab Report", unit: "Mathematics", status: "Graded" }],
 };
 
 const deadlinesData = {
   Mathematics: [
-    { title: 'Algebra Assignment', dueDate: '2025-06-10', note: 'Chapter 1–3' },
-    { title: 'Geometry Project', dueDate: '2025-06-14' },
+    { title: "Algebra Assignment", dueDate: "2025-06-10", note: "Chapter 1–3" },
+    { title: "Geometry Project", dueDate: "2025-06-14" },
   ],
   Chemistry: [
-    { title: 'Lab Report', dueDate: '2025-06-08', note: 'Submit on LMS' },
+    { title: "Lab Report", dueDate: "2025-06-08", note: "Submit on LMS" },
   ],
 };
 
 const recentActivitiesData = {
   Mathematics: [
-    { type: 'Submitted', item: 'Algebra Homework', date: '2025-06-03', time: '10:00 AM' },
-    { type: 'Marked', item: 'Geometry Worksheet', date: '2025-06-02', time: '2:30 PM' },
+    {
+      type: "Submitted",
+      item: "Algebra Homework",
+      date: "2025-06-03",
+      time: "10:00 AM",
+    },
+    {
+      type: "Marked",
+      item: "Geometry Worksheet",
+      date: "2025-06-02",
+      time: "2:30 PM",
+    },
   ],
   Chemistry: [
-    { type: 'Feedback', item: 'Lab Report', date: '2025-06-01', time: '11:00 AM' },
+    {
+      type: "Feedback",
+      item: "Lab Report",
+      date: "2025-06-01",
+      time: "11:00 AM",
+    },
   ],
 };
 
-const StudentMain = ({ showNav, subject, profile}) => {
-  const assignments = assignmentsData[subject] || [];
-  const activities = recentActivitiesData[subject] || [];
+const StudentMain = ({
+  showNav,
+  units,
+  selectedUnit,
+  setUnits,
+  profile,
+  assignments,
+  setAssignments,
+}) => {
+  const deadlines = deadlinesData[selectedUnit.name] || [];
+  const activities = recentActivitiesData[selectedUnit.name] || [];
 
   useEffect(() => {
-    const fetchData = async() => {
-      const studentData = await getUserDetails(profile.role, profile.id)
-    
-    }
-    fetchData()
-  }, [])
+    const fetchData = async () => {
+      const studentData = await getUserDetails(profile.role, profile.id);
 
-  const handleView = (title) => {
-    alert(`Viewing: ${title}`);
-  };
-
+      if (studentData.data.message) {
+        setAssignments(studentData.data.data.assignments);
+        setUnits(studentData.data.data.units);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
-    <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ''}`}>
-      <Title page = "Dashboard" />
+    <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}>
+      <Title page="Dashboard" />
       <h2 className={styles.heading}>
-        {subject ? `${subject} Assignments` : 'Please select a subject'}
+        {selectedUnit.name
+          ? `${selectedUnit.name} Assignments`
+          : "Please select a subject"}
       </h2>
-  
-      <div className={styles.assignmentAndCalendarRow}>
-          <div className={styles.leftColumn}>
-            <div className={styles.cardContainer}>
-              {assignments.map((assignment, idx) => (
-                <AssignmentCard
-                  key={idx}
-                  {...assignment}
-                  onView={() => handleView(assignment.title)}
-                />
-              ))}
-            </div>
 
-            <div className={styles.summaryAndDeadline}>
-              <div className={styles.sectionRow}>
-                <Summary />
-                <DeadlineCard subject={subject} deadlines={deadlinesData[subject] || []} />
-              </div>
-            </div>
+      <div className={styles.topRow}>
+        <div className={styles.leftColumn}>
+          {/* Map assignments for the selected unit */}
+          <div className={styles.cardContainer}>
+            {assignments.filter(
+              (assignment) => assignment.unit._id === selectedUnit.id
+            ).length > 0 ? (
+              assignments
+                .filter((assignment) => assignment.unit._id === selectedUnit.id)
+                .map((assignment) => (
+                  <AssignmentCard
+                    key={assignment._id}
+                    unitName={assignment.unit.unitName}
+                    title={assignment.title}
+                    id={assignment._id}
+                  />
+                ))
+            ) : (
+              <p>No assignments for this subject.</p>
+            )}
           </div>
 
-          <div className={styles.calendarWrapper}>
-            <CustomCalendar deadlines={['2025-07-10', '2025-08-12', '2025-08-15']} />
+          {/* Summary and Deadlines */}
+          <div className={styles.summaryAndDeadlineRow}>
+            <Summary />
+            <DeadlineCard subject={"Mathematics"} deadlines={deadlines} />
           </div>
+        </div>
+
+        <div className={styles.rightColumn}>
+          <CustomCalendar
+            deadlines={[
+              { date: "2025-06-10" },
+              { date: "2025-06-12" },
+              { date: "2025-08-15" },
+            ]}
+          />
+        </div>
       </div>
 
-      
-      <div className={styles.progressAndActivitiesRow}>
+      {/* Bottom Row */}
+      <div className={styles.bottomRow}>
         <Progress />
-        
-          <RecentActivities subject={subject} activities={activities} />
-        
+        <RecentActivities subject={selectedUnit.name} activities={activities} />
       </div>
-
-
-
     </main>
-    
   );
 };
 

@@ -41,6 +41,7 @@ const Assignments = ({
   });
   const [message, setMessage] = useState("");
   const [canEdit, setCanEdit] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   //check if a new assignment is being created
   const location = useLocation();
@@ -49,8 +50,16 @@ const Assignments = ({
   useEffect(() => {
     const fetchData = async () => {
       const myData = await getUserDetails(user.role, user.id);
+      setLoading(false);
 
       if (myData.data.message) {
+        if (params.get("open")?.length > 10) {
+          const tempAssignment = myData.data.data.assignments.find(
+            (assignment) => assignment._id === params.get("open")
+          );
+
+          handleOpenExistingAssignment(tempAssignment);
+        }
         setAssignments(myData.data.data.assignments);
         setAllAssignments(myData.data.data.assignments);
         setUnits(myData.data.data.units);
@@ -82,6 +91,35 @@ const Assignments = ({
 
   const handleFileChange = (e) => {
     setSelectedFiles(Array.from(e.target.files));
+  };
+
+  //create new assignment
+  const handleCreateNewAssignment = () => {
+    setContent([]);
+    setSelectedFiles([]);
+    setAssignmentExtras({
+      date: "",
+      time: "",
+      marks: 0,
+    });
+    setCanEdit(true);
+    navigate("/dashboard/assignments?new=true", {
+      replace: true,
+    });
+  };
+
+  //open existing assignment
+  const handleOpenExistingAssignment = (assignment) => {
+    setAssignmentExtras({
+      ...assignmentExtras,
+      date: assignment.deadLine.slice(0, 10),
+      time: assignment.deadLine.slice(11),
+      marks: assignment.maxMarks,
+    });
+    setCurrentAssignment(assignment);
+    setContent(JSON.parse(assignment.content));
+    setCanEdit(false);
+    setOpenAssignment(true);
   };
 
   //handles publishing assignment
@@ -125,7 +163,9 @@ const Assignments = ({
     }, 5000);
   };
 
-  console.log(currentAssignment);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
@@ -208,6 +248,7 @@ const Assignments = ({
               className={styles.addAssignment}
               onClick={() => {
                 setOpenAssignment(false);
+                navigate("/dashboard/assignments");
               }}
             >
               <i className="fa-solid fa-left-long"></i>
@@ -218,12 +259,21 @@ const Assignments = ({
             <h3>Assignment: {currentAssignment.title}</h3>
             <h4>Unit: {currentAssignment.unit.unitName}</h4>
             <RoleRestricted allowedRoles={["teacher"]}>
-              <button
-                className={`${styles.addAssignment} ${styles.editButton}`}
-                onClick={() => setCanEdit((prev) => !prev)}
-              >
-                Edit
-              </button>
+              {canEdit ? (
+                <button
+                  className={`${styles.addAssignment} ${styles.editButton}`}
+                  onClick={() => setCanEdit(false)}
+                >
+                  Close Edit
+                </button>
+              ) : (
+                <button
+                  className={`${styles.addAssignment} ${styles.editButton}`}
+                  onClick={() => setCanEdit(true)}
+                >
+                  Edit
+                </button>
+              )}
             </RoleRestricted>
             <AssignmentContent
               {...{
@@ -249,14 +299,7 @@ const Assignments = ({
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={() => {
-                  setContent([]);
-                  setSelectedFiles([]);
-                  setCanEdit(true);
-                  navigate("/dashboard/assignments?new=true", {
-                    replace: true,
-                  });
-                }}
+                onClick={handleCreateNewAssignment}
               >
                 <i className="fa-solid fa-plus"></i>
                 <p>Create New</p>
@@ -271,11 +314,7 @@ const Assignments = ({
                   <button
                     key={assignment._id}
                     className={styles.assignment}
-                    onClick={() => {
-                      setOpenAssignment(true);
-                      setCurrentAssignment(assignment);
-                      setContent(JSON.parse(assignment.content));
-                    }}
+                    onClick={() => handleOpenExistingAssignment(assignment)}
                   >
                     <p>{assignment.title}</p>
                     <p>{assignment.status}</p>
@@ -300,6 +339,7 @@ const Assignments = ({
             setAssignmentExtras,
             handlePublishAssignment,
             message,
+            assignmentExtras,
           }}
         />
       </div>
