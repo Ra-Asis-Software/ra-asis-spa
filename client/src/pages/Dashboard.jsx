@@ -90,40 +90,46 @@ const Dashboard = () => {
               path="/"
               element={
                 <>
-                  <RoleRestricted allowedRoles={["student"]}>
-                    <StudentMain
-                      {...{
-                        units,
-                        selectedUnit,
-                        setUnits,
-                        assignments,
-                        setAssignments,
-                      }}
-                      profile={user}
-                    />
-                  </RoleRestricted>
+                  {units.length === 0 ? (
+                    <WelcomeBoard />
+                  ) : (
+                    <>
+                      <RoleRestricted allowedRoles={["student"]}>
+                        <StudentMain
+                          {...{
+                            units,
+                            selectedUnit,
+                            setUnits,
+                            assignments,
+                            setAssignments,
+                          }}
+                          profile={user}
+                        />
+                      </RoleRestricted>
 
-                  <RoleRestricted allowedRoles={["teacher"]}>
-                    <TeacherMain
-                      {...{
-                        showNav,
-                        units,
-                        setUnits,
-                        assignments,
-                        setAssignments,
-                        selectedUnit,
-                      }}
-                      profile={user}
-                    />
-                  </RoleRestricted>
+                      <RoleRestricted allowedRoles={["teacher"]}>
+                        <TeacherMain
+                          {...{
+                            showNav,
+                            units,
+                            setUnits,
+                            assignments,
+                            setAssignments,
+                            selectedUnit,
+                          }}
+                          profile={user}
+                        />
+                      </RoleRestricted>
 
-                  <RoleRestricted allowedRoles={["parent"]}>
-                    {/* <ParentDashboard /> */}
-                  </RoleRestricted>
+                      <RoleRestricted allowedRoles={["parent"]}>
+                        {/* <ParentDashboard /> */}
+                      </RoleRestricted>
 
-                  <RoleRestricted allowedRoles={["administrator"]}>
-                    {/* <ParentDashboard /> */}
-                  </RoleRestricted>
+                      <RoleRestricted allowedRoles={["administrator"]}>
+                        {/* <ParentDashboard /> */}
+                      </RoleRestricted>
+                    </>
+                  )}
                 </>
               }
             />
