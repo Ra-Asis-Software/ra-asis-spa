@@ -151,9 +151,12 @@ const TeacherMain = ({
                     return (
                       <tr key={assignment._id}>
                         <td>{assignment.title}</td>
-                        <td>40/60</td>
-                        <td>Completed</td>
-                        <td>01/01/2024</td>
+                        <td>
+                          {assignment.submissionCount}/
+                          {assignment.enrolledStudentsCount}
+                        </td>
+                        <td>{assignment.status}</td>
+                        <td>{assignment.createdAt.slice(0, 10)}</td>
                       </tr>
                     );
                   })}

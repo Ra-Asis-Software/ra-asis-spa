@@ -94,6 +94,14 @@ export const getTeacher = asyncHandler(async (req, res) => {
             path: "createdBy",
             select: "_id firstName lastName",
           },
+          {
+            path: "submissionCount",
+            select: "_id",
+          },
+          {
+            path: "enrolledStudentsCount",
+            select: "_id",
+          },
         ],
       },
     });
