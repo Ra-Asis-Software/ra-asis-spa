@@ -35,7 +35,12 @@ const TeacherMain = ({
         setUnits(teacherData.data.data.units);
 
         const tempDeadlines = tempAssignments
-          .filter((assignment) => assignment.unit._id === selectedUnit.id)
+          .filter((assignment) => {
+            if (selectedUnit.id === "all") {
+              return assignment;
+            }
+            return assignment.unit._id === selectedUnit.id;
+          })
           .map((assignment) => {
             return {
               date:
@@ -89,9 +94,12 @@ const TeacherMain = ({
               <div className={styles.units}>
                 {/* map assignments for the selected unit only */}
                 {assignments
-                  .filter(
-                    (assignment) => assignment.unit._id === selectedUnit.id
-                  )
+                  .filter((assignment) => {
+                    if (selectedUnit.id === "all") {
+                      return assignment;
+                    }
+                    return assignment.unit._id === selectedUnit.id;
+                  })
                   .map((assignment) => {
                     return (
                       <AssignmentCard
@@ -104,9 +112,12 @@ const TeacherMain = ({
                   })}
 
                 {/* return a message if no assignment exists for the unit selected */}
-                {assignments.filter(
-                  (assignment) => assignment.unit._id === selectedUnit.id
-                ).length === 0 && (
+                {assignments.filter((assignment) => {
+                  if (selectedUnit.id === "all") {
+                    return assignment;
+                  }
+                  return assignment.unit._id === selectedUnit.id;
+                }).length === 0 && (
                   <div className={styles.message}>
                     <p>You don't have any existing assignments for this unit</p>
                   </div>
@@ -129,31 +140,37 @@ const TeacherMain = ({
                 </tr>
               </thead>
               <tbody>
-                {assignments.map((assignment) => {
-                  return (
-                    <tr key={assignment._id}>
-                      <td>{assignment.title}</td>
-                      <td>40/60</td>
-                      <td>Completed</td>
-                      <td>01/01/2024</td>
-                    </tr>
-                  );
-                })}
+                {assignments
+                  .filter((assignment) => {
+                    if (selectedUnit.id === "all") {
+                      return assignment;
+                    }
+                    return assignment.unit._id === selectedUnit.id;
+                  })
+                  .map((assignment) => {
+                    return (
+                      <tr key={assignment._id}>
+                        <td>{assignment.title}</td>
+                        <td>
+                          {assignment.submissionCount}/
+                          {assignment.enrolledStudentsCount}
+                        </td>
+                        <td>{assignment.status}</td>
+                        <td>{assignment.createdAt.slice(0, 10)}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
         </div>
 
         <div className={styles.deadlines}>
-          {/* <h3>Deadlines</h3>
+          <h3>Deadlines</h3>
           <div className={styles.deadlineBox}>
             {deadlines
               .filter((event) => {
                 //filter only future dates
-                console.log(
-                  convertDateTime(event.date, event.time),
-                  todayTimeStamp
-                );
                 return convertDateTime(event.date, event.time) > todayTimeStamp;
               })
               .map((item, index) => {
@@ -164,8 +181,7 @@ const TeacherMain = ({
                   </div>
                 );
               })}
-          </div> */}
-          <DeadlineCard subject={selectedUnit.name} {...{ deadlines }} />
+          </div>
         </div>
         <div className={styles.progress}>
           <h3>Progress</h3>
@@ -173,27 +189,13 @@ const TeacherMain = ({
       </div>
       <div className={styles.heroRight}>
         <CustomCalendar deadlines={deadlines} />
-        {/* <div className={styles.recentActivities}> */}
-        {/* <h4>Recent Activities</h4>
-          <div className={styles.recentActivitiesBox}>
-            {deadlines
-              .filter((event) => {
-                //filter only past dates
-                return (
-                  convertDateTime(event.date, event.time) <= todayTimeStamp
-                );
-              })
-              .map((item, index) => {
-                return (
-                  <div className={styles.deadlineEventRecent} key={index}>
-                    <p>{item.event}</p>
-                    <p>{item.date}</p>
-                  </div>
-                );
-              })}
-          </div> */}
-        <RecentActivities activities={deadlines} subject={selectedUnit.name} />
-        {/* </div> */}
+        <RecentActivities
+          activities={deadlines.filter((event) => {
+            //filter only past dates
+            return convertDateTime(event.date, event.time) <= todayTimeStamp;
+          })}
+          subject={selectedUnit.name}
+        />
       </div>
     </div>
   );
