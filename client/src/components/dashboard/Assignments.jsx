@@ -15,7 +15,7 @@ const Assignments = ({
   setAssignments,
   setUnits,
   canEdit,
-  setCanEdit
+  setCanEdit,
 }) => {
   const [allAssignments, setAllAssignments] = useState([]);
   const [openAssignment, setOpenAssignment] = useState(false);
@@ -126,7 +126,7 @@ const Assignments = ({
 
   //handles publishing assignment
   const handlePublishAssignment = async () => {
-    if (!selectedUnit.id) {
+    if (!selectedUnit.id || selectedUnit.id === "all") {
       setMessage("No unit Selected");
     } else if (content.length === 0 && selectedFiles.length === 0) {
       setMessage("No content or files exist for the assignment");
@@ -310,7 +310,12 @@ const Assignments = ({
           </div>
           <div className={styles.assignmentsBody}>
             {assignments
-              .filter((assignment) => assignment.unit._id === selectedUnit.id)
+              .filter((assignment) => {
+                if (selectedUnit.id === "all") {
+                  return assignment;
+                }
+                return assignment.unit._id === selectedUnit.id;
+              })
               .map((assignment) => {
                 return (
                   <button

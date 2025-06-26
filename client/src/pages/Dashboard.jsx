@@ -8,7 +8,6 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
-import WelcomeBoard from "../components/dashboard/WelcomeBoard";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
