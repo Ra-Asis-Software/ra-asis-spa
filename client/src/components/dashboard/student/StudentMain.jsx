@@ -67,7 +67,7 @@ const StudentMain = ({
   return (
     <>
       {units.length === 0 ? (
-        <WelcomeBoard />
+        <WelcomeBoard firstName={profile?.firstName} />
       ) : (
         <main
           className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}

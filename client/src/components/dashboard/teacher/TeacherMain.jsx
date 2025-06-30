@@ -72,7 +72,7 @@ const TeacherMain = ({
   return (
     <>
       {units.length === 0 ? (
-        <WelcomeBoard />
+        <WelcomeBoard firstName={profile?.firstName} />
       ) : (
         <div
           className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}
