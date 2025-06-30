@@ -109,8 +109,6 @@ select {
 .textTitle {
   height: max-content;
 }
-.textLong {
-}
 .editable {
   border: 1px solid var(--foam-color);
   white-space: pre-wrap;
