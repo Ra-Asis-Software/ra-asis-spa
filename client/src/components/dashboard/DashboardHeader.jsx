@@ -87,7 +87,9 @@ const DashboardHeader = ({
               onClick={() => setShowNav(!showNav)}
             ></i>
           )}
+        </div>
 
+        <div className={styles.rightSection}>
           <div className={styles.unitDropdown}>
             <button
               className={styles.unitButton}
@@ -111,9 +113,13 @@ const DashboardHeader = ({
               </div>
             )}
           </div>
-        </div>
-
-        <div className={styles.rightSection}>
+          <div className={styles.avatar}>{initial}</div>
+          <div className={styles.profileInfo}>
+            <span className={styles.profileName}>
+              {profile.firstName} {profile.lastName}
+            </span>
+            <span className={styles.profileRole}>{profile.role}</span>
+          </div>
           <div className={styles.notificationWrapper} ref={notificationRef}>
             <i
               className={`fas fa-bell ${styles.notificationIcon}`}
@@ -147,14 +153,6 @@ const DashboardHeader = ({
                 )}
               </div>
             )}
-          </div>
-
-          <div className={styles.avatar}>{initial}</div>
-          <div className={styles.profileInfo}>
-            <span className={styles.profileName}>
-              {profile.firstName} {profile.lastName}
-            </span>
-            <span className={styles.profileRole}>{profile.role}</span>
           </div>
         </div>
       </header>

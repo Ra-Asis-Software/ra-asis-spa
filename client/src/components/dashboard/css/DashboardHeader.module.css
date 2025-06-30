@@ -37,6 +37,7 @@ header svg {
   cursor: pointer;
   font-size: small;
   font-weight: 500;
+  background-color: var(--cerulean-color);
 }
 
 .dropdownMenu {
