@@ -336,19 +336,21 @@ const Assignments = ({
         </div>
       )}
       <div className={styles.extras}>
-        <AssignmentTools
-          {...{
-            params,
-            openAssignment,
-            canEdit,
-            setShowButton,
-            handleChooseFiles,
-            setAssignmentExtras,
-            handlePublishAssignment,
-            message,
-            assignmentExtras,
-          }}
-        />
+        <RoleRestricted allowedRoles={["teacher"]}>
+          <AssignmentTools
+            {...{
+              params,
+              openAssignment,
+              canEdit,
+              setShowButton,
+              handleChooseFiles,
+              setAssignmentExtras,
+              handlePublishAssignment,
+              message,
+              assignmentExtras,
+            }}
+          />
+        </RoleRestricted>
       </div>
     </div>
   );
