@@ -103,7 +103,7 @@ select {
   width: 100%;
 }
 .textInstruction {
-  color: red;
+  color: var(--alizarin-crimson-color);
   font-size: 0.8rem;
 }
 .textTitle {
@@ -241,4 +241,28 @@ select {
 }
 .editButton {
   width: max-content;
+}
+.addedDiv {
+  height: max-content;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.addedTextArea {
+  font-size: 1rem;
+  padding: 8px;
+  width: 650px;
+  background-color: var(--foam-color);
+  border: none;
+  border-bottom: 1px solid var(--pale-sky-color);
+}
+.fullTextArea {
+  min-height: 30vh;
+}
+.addedButton {
+  width: max-content;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
