@@ -20,7 +20,7 @@ const Summary = () => {
   }, []);
 
   return (
-    <div className={styles["summary-section"]}>
+    <div className={styles.summarySection}>
       <h2>Summary of Assignments</h2>
       <div className={styles.progressBars}>
         {progressData.map((item, index) => (
