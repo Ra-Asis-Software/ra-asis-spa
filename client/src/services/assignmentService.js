@@ -19,6 +19,64 @@ const createAssignment = async (data) => {
   }
 };
 
+const getAssignmentsForUnit = async (unitId) => {
+  try {
+    const response = await api.get(`${ASSIGNMENTS_PATH}/${unitId}/assignments`);
 
+    return response;
+  } catch (error) {
+    throw (
+      error.response?.data || {
+        message: "Failed to fetch assignments for the unit",
+      }
+    );
+  }
+};
 
-export { createAssignment };
+const getAssignmentDetails = async (assignmentId) => {
+  try {
+    const response = await api.get(
+      `${ASSIGNMENTS_PATH}/${assignmentId}/details`
+    );
+
+    return response;
+  } catch (error) {
+    throw (
+      error.response?.data || { message: "Failed to fetch assignment details" }
+    );
+  }
+};
+
+const deleteAssignment = async (assignmentId) => {
+  try {
+    const response = await api.delete(`${ASSIGNMENTS_PATH}/${assignmentId}`);
+
+    return response;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to delete assignment" };
+  }
+};
+
+const getAssignmentSubmissions = async (assignmentId) => {
+  try {
+    const response = await api.get(
+      `${ASSIGNMENTS_PATH}/${assignmentId}/submissions`
+    );
+
+    return response;
+  } catch (error) {
+    throw (
+      error.response?.data || {
+        message: "Failed to get assignment submissions",
+      }
+    );
+  }
+};
+
+export default {
+  createAssignment,
+  getAssignmentsForUnit,
+  getAssignmentDetails,
+  deleteAssignment,
+  getAssignmentSubmissions,
+};
