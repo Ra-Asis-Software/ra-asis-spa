@@ -1,5 +1,5 @@
 import RoleRestricted from "../ui/RoleRestricted";
-import styles from "./css/Dashboard.module.css";
+import styles from "../../pages/Dashboard.module.css";
 import { useEffect, useState } from "react";
 
 const WelcomeBoard = ({ firstName }) => {
