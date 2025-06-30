@@ -1,0 +1,182 @@
+import React, { useState } from 'react';
+import styles from './css/ProfileContent.module.css';
+
+const ProfilePage = () => {
+  const initialData = {
+    name: 'John Doe',
+    role: 'Teacher',
+    email: 'john@example.com',
+    phone: '+1 (555) 123-4567',
+  };
+
+  const [userData, setUserData] = useState(initialData);
+  const [passwordData, setPasswordData] = useState({
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [preview, setPreview] = useState(null);
+
+  const handleUserChange = (e) => {
+    const { name, value } = e.target;
+    setUserData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveChanges = (e) => {
+    e.preventDefault();
+    if (passwordData.newPassword && passwordData.newPassword !== passwordData.confirmPassword) {
+      alert('New passwords do not match!');
+      return;
+    }
+    const finalData = { ...userData };
+    if (passwordData.newPassword) {
+      finalData.password = passwordData.newPassword;
+    }
+    console.log('Saving changes:', finalData);
+    alert('Profile updated successfully!');
+  };
+
+  const handleCancel = () => {
+    setUserData(initialData);
+    setPasswordData({ newPassword: '', confirmPassword: '' });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+      setUserData(prev => ({ ...prev, profilePic: reader.result }));
+      setShowUploadModal(false);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div className={styles.pageContainer}>
+      <form className={styles.profileLayout} onSubmit={handleSaveChanges}>
+        <div className={styles.leftPanel}>
+          <div className={styles.profilePicWrapper}>
+            <div className={styles.profilePicBox}>
+              <img
+                src={userData.profilePic || '/assets/default_profile.png'}
+                alt="Profile"
+                className={styles.profilePic}
+              />
+            </div>
+            <button
+              type="button"
+              className={styles.addPicButton}
+              onClick={() => setShowUploadModal(true)}
+              aria-label="Change profile picture"
+            >
+              +
+            </button>
+          </div>
+          <input
+            type="text"
+            name="name"
+            value={userData.name}
+            onChange={handleUserChange}
+            className={`${styles.textInput} ${styles.userName}`}
+          />
+          <input
+            type="text"
+            name="role"
+            value={userData.role}
+            onChange={handleUserChange}
+            className={`${styles.textInput} ${styles.userRole}`}
+          />
+        </div>
+
+        <div className={styles.rightPanel}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={userData.email}
+              onChange={handleUserChange}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={userData.phone}
+              onChange={handleUserChange}
+            />
+          </div>
+
+          <h3 className={styles.passwordHeader}>Change Password</h3>
+
+          <div className={`${styles.formGroup} ${styles.passwordGroup}`}>
+            <label htmlFor="newPassword">New Password</label>
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={passwordData.newPassword}
+              onChange={handlePasswordChange}
+              placeholder="Enter new password"
+            />
+          </div>
+          <div className={`${styles.formGroup} ${styles.passwordGroup}`}>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={passwordData.confirmPassword}
+              onChange={handlePasswordChange}
+              placeholder="Confirm new password"
+            />
+          </div>
+
+          <div className={styles.buttonContainer}>
+            <button type="button" className={styles.cancelButton} onClick={handleCancel}>
+              Cancel
+            </button>
+            <button type="submit" className={styles.saveButton}>
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {/* Upload Modal */}
+      {showUploadModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3 className={styles.modalTitle}>Upload Document</h3>
+            {/* <button className={styles.upload-button}> */}
+            <div className={styles.iconWrapper}>
+                <i className="fas fa-cloud-upload-alt"></i>
+            </div>
+            {/* </button> */}
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <div className={styles.modalActions}>
+              <button onClick={() => setShowUploadModal(false)} className={styles.cancelButton}>
+                Cancel
+              </button>
+              <button onClick={() => setShowUploadModal(false)} className={styles.continueButton}>
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProfilePage;
