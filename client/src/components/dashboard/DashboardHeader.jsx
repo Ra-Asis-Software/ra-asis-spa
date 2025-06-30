@@ -76,10 +76,17 @@ const DashboardHeader = ({
         <div className={styles.leftSection}>
           <div className={styles.headerTitle}>Activity Dashboard</div>
 
-          <i
-            className={`fas fa-bars ${styles.burgerIcon}`}
-            onClick={() => setShowNav(!showNav)}
-          ></i>
+          {showNav ? (
+            <i
+              className={`fas fa-xmark ${styles.burgerIcon}`}
+              onClick={() => setShowNav(!showNav)}
+            ></i>
+          ) : (
+            <i
+              className={`fas fa-bars ${styles.burgerIcon}`}
+              onClick={() => setShowNav(!showNav)}
+            ></i>
+          )}
 
           <div className={styles.unitDropdown}>
             <button
@@ -101,7 +108,6 @@ const DashboardHeader = ({
                     {subject.name}
                   </div>
                 ))}
-                
               </div>
             )}
           </div>
