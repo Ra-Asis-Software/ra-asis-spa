@@ -169,7 +169,7 @@ const TeacherMain = ({
                               {assignment.enrolledStudentsCount}
                             </td>
                             <td>{assignment.status}</td>
-                            <td>{assignment.createdAt.slice(0, 10)}</td>
+                            <td>{assignment?.createdAt.slice(0, 10)}</td>
                           </tr>
                         );
                       })}

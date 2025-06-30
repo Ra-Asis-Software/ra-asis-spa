@@ -1,8 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 .dashboardContainer {
   display: flex;
   flex-direction: column;
@@ -99,4 +94,3 @@ p.parentSpecific {
 .welcomeBoard button {
   background-color: var(--aqua-color);
 }
-
