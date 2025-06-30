@@ -113,7 +113,7 @@ const StudentMain = ({
               <div className={styles.summaryAndDeadlineRow}>
                 <Summary />
                 <DeadlineCard
-                  subject={selectedUnit.name}
+                  unit={selectedUnit.name}
                   deadlines={deadlines.filter((event) => {
                     //filter only future dates
                     return (
