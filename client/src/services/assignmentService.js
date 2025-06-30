@@ -2,7 +2,7 @@ import api from "./api";
 
 const ASSIGNMENTS_PATH = "/assignments";
 
-const submitAssignment = async (data) => {
+const createAssignment = async (data) => {
   try {
     const response = await api.post(`${ASSIGNMENTS_PATH}`, data);
 
@@ -19,4 +19,6 @@ const submitAssignment = async (data) => {
   }
 };
 
-export { submitAssignment };
+
+
+export { createAssignment };
