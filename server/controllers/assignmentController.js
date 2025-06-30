@@ -47,7 +47,9 @@ export const createAssignment = asyncHandler(async (req, res) => {
   unit.assignments.push(assignment._id);
   await unit.save();
 
-  res.status(201).json({ message: "assignment created successfully" });
+  res
+    .status(201)
+    .json({ message: "assignment created successfully", assignment });
 });
 
 // @desc    Get assignments for a unit
@@ -118,5 +120,7 @@ export const deleteAssignment = asyncHandler(async (req, res) => {
   }
 
   await assignment.deleteOne();
-  res.status(200).json({ message: "Assignment deleted successfully" });
+  res
+    .status(200)
+    .json({ message: "Assignment deleted successfully", assignment });
 });
