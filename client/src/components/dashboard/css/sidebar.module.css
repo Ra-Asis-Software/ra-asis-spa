@@ -61,18 +61,18 @@ ul li a {
 
 ul li a:hover,
 ul li a.active {
-  background: #070252;
+  background: var(--cerulean-color);
 }
 
 .logout {
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid #525151;
+  border-top: 1px solid var(--pale-sky-color);
   margin-bottom: 20px;
 }
 .logoutButton {
   background-color: transparent;
-  color: red;
+  color: var(--alizarin-crimson-color);
 }
 
 .logout a {
@@ -134,7 +134,7 @@ ul li a svg {
     left: 100%;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #070252;
+    background-color: var(--cerulean-color);
     padding: 6px 10px;
     border-radius: 4px;
     white-space: nowrap;
