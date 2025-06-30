@@ -1,5 +1,4 @@
-import React from "react";
-import styles from "./css/SideBar.module.css";
+import styles from "./css/SideBarStyles.module.css";
 import { Link } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useState } from "react";
