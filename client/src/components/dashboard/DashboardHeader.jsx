@@ -76,11 +76,20 @@ const DashboardHeader = ({
         <div className={styles.leftSection}>
           <div className={styles.headerTitle}>Activity Dashboard</div>
 
-          <i
-            className={`fas fa-bars ${styles.burgerIcon}`}
-            onClick={() => setShowNav(!showNav)}
-          ></i>
+          {showNav ? (
+            <i
+              className={`fas fa-xmark ${styles.burgerIcon}`}
+              onClick={() => setShowNav(!showNav)}
+            ></i>
+          ) : (
+            <i
+              className={`fas fa-bars ${styles.burgerIcon}`}
+              onClick={() => setShowNav(!showNav)}
+            ></i>
+          )}
+        </div>
 
+        <div className={styles.rightSection}>
           <div className={styles.unitDropdown}>
             <button
               className={styles.unitButton}
@@ -101,13 +110,16 @@ const DashboardHeader = ({
                     {subject.name}
                   </div>
                 ))}
-                
               </div>
             )}
           </div>
-        </div>
-
-        <div className={styles.rightSection}>
+          <div className={styles.avatar}>{initial}</div>
+          <div className={styles.profileInfo}>
+            <span className={styles.profileName}>
+              {profile.firstName} {profile.lastName}
+            </span>
+            <span className={styles.profileRole}>{profile.role}</span>
+          </div>
           <div className={styles.notificationWrapper} ref={notificationRef}>
             <i
               className={`fas fa-bell ${styles.notificationIcon}`}
@@ -141,14 +153,6 @@ const DashboardHeader = ({
                 )}
               </div>
             )}
-          </div>
-
-          <div className={styles.avatar}>{initial}</div>
-          <div className={styles.profileInfo}>
-            <span className={styles.profileName}>
-              {profile.firstName} {profile.lastName}
-            </span>
-            <span className={styles.profileRole}>{profile.role}</span>
           </div>
         </div>
       </header>
