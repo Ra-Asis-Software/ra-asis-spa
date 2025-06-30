@@ -65,7 +65,7 @@ export const getStudent = asyncHandler(async (req, res) => {
       }),
       assignments: student.units.flatMap((unit) => unit.assignments),
       submissions: student.submissions,
-      events: student.calender,
+      events: student.calendar,
     },
   });
 });
@@ -135,7 +135,7 @@ export const getTeacher = asyncHandler(async (req, res) => {
         return { id: unit._id, name: unit.unitName, code: unit.unitCode };
       }),
       assignments: teacher.units.flatMap((unit) => unit.assignments),
-      events: teacher.calender,
+      events: teacher.calendar,
     },
   });
 });
