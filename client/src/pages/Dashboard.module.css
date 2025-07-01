@@ -1,8 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 .dashboardContainer {
   display: flex;
   flex-direction: column;
@@ -14,8 +9,6 @@
   width: 100%;
   height: 92vh;
   display: flex;
-  /* border: 1px solid; */
-  /* margin-left: 190px; */
   transition: width 0.3s ease-in-out;
 }
 .dashboards {
@@ -75,4 +68,29 @@ p.parentSpecific {
   background: var(--alizarin-crimson-color);
   color: var(--black-pearl-colorr);
   max-width: fit-content;
+}
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+}
+.welcomeBoard {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomeBoard button {
+  background-color: var(--aqua-color);
 }

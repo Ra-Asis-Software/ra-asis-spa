@@ -1,9 +1,9 @@
-import styles from "./css/SideBar.module.css";
+import styles from "./css/SideBarStyles.module.css";
 import { Link } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useState } from "react";
 
-const Sidebar = ({ show, logout }) => {
+const SideBar = ({ show, logout }) => {
   const [active, setActive] = useState("dashboard");
   return (
     <div
@@ -97,4 +97,4 @@ const Sidebar = ({ show, logout }) => {
   );
 };
 
-export default Sidebar;
+export default SideBar;

@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState(""); // State for error handling
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState(() => window.innerWidth > 768);
   const navigate = useNavigate();
   const [units, setUnits] = useState([]);
   const [assignments, setAssignments] = useState([]);

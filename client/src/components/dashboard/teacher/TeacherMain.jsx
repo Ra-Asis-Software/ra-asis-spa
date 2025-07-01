@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
@@ -6,7 +6,6 @@ import Title from "../Title";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import { useNavigate } from "react-router-dom";
-import DeadlineCard from "../student/DeadlineCard";
 import RecentActivities from "../RecentActivities";
 import WelcomeBoard from "../WelcomeBoard";
 import Progress from "../Progress";
@@ -72,7 +71,7 @@ const TeacherMain = ({
   return (
     <>
       {units.length === 0 ? (
-        <WelcomeBoard />
+        <WelcomeBoard firstName={profile?.firstName} />
       ) : (
         <div
           className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}
@@ -170,7 +169,7 @@ const TeacherMain = ({
                               {assignment.enrolledStudentsCount}
                             </td>
                             <td>{assignment.status}</td>
-                            <td>{assignment.createdAt.slice(0, 10)}</td>
+                            <td>{assignment?.createdAt.slice(0, 10)}</td>
                           </tr>
                         );
                       })}

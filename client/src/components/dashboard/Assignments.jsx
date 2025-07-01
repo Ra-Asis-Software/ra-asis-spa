@@ -3,7 +3,7 @@ import styles from "./css/Assignments.module.css";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useLocation, useNavigate } from "react-router-dom";
-import { submitAssignment } from "../../services/assignmentServices";
+import { createAssignment } from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
 
@@ -147,7 +147,7 @@ const Assignments = ({
       formData.append("unitId", selectedUnit.id);
 
       try {
-        const submissionResult = await submitAssignment(formData);
+        const submissionResult = await createAssignment(formData);
         setMessage(submissionResult.message);
         if (submissionResult.status === 201) {
           setTrigger((prev) => !prev);
@@ -336,19 +336,21 @@ const Assignments = ({
         </div>
       )}
       <div className={styles.extras}>
-        <AssignmentTools
-          {...{
-            params,
-            openAssignment,
-            canEdit,
-            setShowButton,
-            handleChooseFiles,
-            setAssignmentExtras,
-            handlePublishAssignment,
-            message,
-            assignmentExtras,
-          }}
-        />
+        <RoleRestricted allowedRoles={["teacher"]}>
+          <AssignmentTools
+            {...{
+              params,
+              openAssignment,
+              canEdit,
+              setShowButton,
+              handleChooseFiles,
+              setAssignmentExtras,
+              handlePublishAssignment,
+              message,
+              assignmentExtras,
+            }}
+          />
+        </RoleRestricted>
       </div>
     </div>
   );
