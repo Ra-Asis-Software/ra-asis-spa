@@ -8,6 +8,7 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
+import ProfileContent from "../components/dashboard/ProfileContent";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -85,6 +86,69 @@ const Dashboard = () => {
       <div className={styles.content}>
         <Sidebar show={showNav} logout={handleLogout} />
         <div className={styles.dashboards}>
+          {/* <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <RoleRestricted allowedRoles={["student"]}>
+                    <StudentMain
+                      {...{
+                        units,
+                        selectedUnit,
+                        setUnits,
+                        assignments,
+                        setAssignments,
+                      }}
+                      profile={user}
+                    />
+                  </RoleRestricted>
+
+                  <RoleRestricted allowedRoles={["teacher"]}>
+                    <TeacherMain
+                      {...{
+                        showNav,
+                        units,
+                        setUnits,
+                        assignments,
+                        setAssignments,
+                        selectedUnit,
+                        setCanEdit,
+                      }}
+                      profile={user}
+                    />
+                  </RoleRestricted> */}
+
+                  {/* <RoleRestricted allowedRoles={["parent"]}> */}
+                    {/* <ParentDashboard /> */}
+                  {/* </RoleRestricted> */}
+
+                  {/* <RoleRestricted allowedRoles={["administrator"]}> */}
+                    {/* <ParentDashboard /> */}
+                  {/* </RoleRestricted> */}
+                {/* </>
+              }
+            />
+
+            <Route
+              path="/assignments"
+              element={
+                <Assignments
+                  {...{
+                    user,
+                    selectedUnit,
+                    setSelectedUnit,
+                    assignments,
+                    setAssignments,
+                    setUnits,
+                    canEdit,
+                    setCanEdit,
+                  }}
+                />
+              }
+            />
+          </Routes> */}
+
           <Routes>
             <Route
               path="/"
@@ -123,7 +187,7 @@ const Dashboard = () => {
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["administrator"]}>
-                    {/* <ParentDashboard /> */}
+                    {/* <AdminDashboard /> */}
                   </RoleRestricted>
                 </>
               }
@@ -146,7 +210,19 @@ const Dashboard = () => {
                 />
               }
             />
+
+            <Route
+              path="/profile"
+              element={
+                <ProfileContent
+                  profile={user}
+                  role={user.role}
+                  canEdit={true}
+                />
+              }
+            />
           </Routes>
+
         </div>
       </div>
     </div>

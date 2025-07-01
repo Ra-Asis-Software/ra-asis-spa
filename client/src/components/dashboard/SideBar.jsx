@@ -85,6 +85,34 @@ const SideBar = ({ show, logout }) => {
             <span className={styles.linkLabel}>Profile</span>
           </Link>
         </li>
+        <li>
+          <Link
+            to="/dashboard/profile"
+            className={`${active === "profile" && styles.active}`}
+            onClick={() => setActive("profile")}
+          >
+            <i
+              className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}
+            ></i>
+            <span className={styles.linkLabel}>Profile</span>
+          </Link>
+        </li>
+        <RoleRestricted allowedRoles={["administrator"]}>
+          <li>
+            <Link
+              to="/"
+              className={`${active === "users" && styles.active}`}
+              onClick={() => setActive("users")}
+            >
+              <i
+                className={`${styles.sideBarIcon} ${styles.usericon} fas fa-user`}
+              ></i>
+              <span className={styles.linkLabel}>Users</span>
+            </Link>
+          </li>
+        </RoleRestricted>
+
+        
       </ul>
 
       <div className={styles.logout}>
