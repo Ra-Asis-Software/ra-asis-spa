@@ -2,7 +2,7 @@ import api from "./api";
 
 const ASSIGNMENTS_PATH = "/assignments";
 
-const createAssignment = async (data) => {
+export const createAssignment = async (data) => {
   try {
     const response = await api.post(`${ASSIGNMENTS_PATH}`, data);
 
@@ -19,7 +19,7 @@ const createAssignment = async (data) => {
   }
 };
 
-const getAssignmentsForUnit = async (unitId) => {
+export const getAssignmentsForUnit = async (unitId) => {
   try {
     const response = await api.get(`${ASSIGNMENTS_PATH}/${unitId}/assignments`);
 
@@ -33,7 +33,7 @@ const getAssignmentsForUnit = async (unitId) => {
   }
 };
 
-const getAssignmentDetails = async (assignmentId) => {
+export const getAssignmentDetails = async (assignmentId) => {
   try {
     const response = await api.get(
       `${ASSIGNMENTS_PATH}/${assignmentId}/details`
@@ -47,7 +47,7 @@ const getAssignmentDetails = async (assignmentId) => {
   }
 };
 
-const deleteAssignment = async (assignmentId) => {
+export const deleteAssignment = async (assignmentId) => {
   try {
     const response = await api.delete(`${ASSIGNMENTS_PATH}/${assignmentId}`);
 
@@ -57,7 +57,7 @@ const deleteAssignment = async (assignmentId) => {
   }
 };
 
-const getAssignmentSubmissions = async (assignmentId) => {
+export const getAssignmentSubmissions = async (assignmentId) => {
   try {
     const response = await api.get(
       `${ASSIGNMENTS_PATH}/${assignmentId}/submissions`
@@ -71,12 +71,4 @@ const getAssignmentSubmissions = async (assignmentId) => {
       }
     );
   }
-};
-
-export default {
-  createAssignment,
-  getAssignmentsForUnit,
-  getAssignmentDetails,
-  deleteAssignment,
-  getAssignmentSubmissions,
 };
