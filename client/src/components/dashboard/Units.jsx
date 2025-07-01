@@ -9,6 +9,7 @@ const Units = ({ user }) => {
   const [units, setUnits] = useState([]);
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [unitsHolder, setUnitsHolder] = useState([]);
+  const [searchParam, setSearchParam] = useState("");
   useEffect(() => {
     const fetchUnits = async () => {
       const unitsFetched = await getAllUnits();
@@ -25,6 +26,23 @@ const Units = ({ user }) => {
     };
     fetchUnits();
   }, []);
+
+  useEffect(() => {
+    const handleSearchUnit = () => {
+      if (searchParam === "") {
+        setAllUnits(unitsHolder);
+      } else {
+        const searchResults = allUnits.filter(
+          (unit) =>
+            unit.unitCode.toLowerCase().includes(searchParam.toLowerCase()) ||
+            unit.unitName.toLowerCase().includes(searchParam.toLowerCase())
+        );
+
+        setAllUnits(searchResults);
+      }
+    };
+    handleSearchUnit();
+  }, [searchParam]);
 
   const handleSelectUnit = (e, unit) => {
     //if unit already is selected, dont add
@@ -45,20 +63,6 @@ const Units = ({ user }) => {
     }
   };
 
-  const handleSearchUnit = (value) => {
-    if (value === "") {
-      setAllUnits(unitsHolder);
-    } else {
-      const searchResults = allUnits.filter(
-        (unit) =>
-          unit.unitCode.toLowerCase().includes(value.toLowerCase()) ||
-          unit.unitName.toLowerCase().includes(value.toLowerCase())
-      );
-
-      setAllUnits(searchResults);
-    }
-  };
-
   return (
     <div className={styles.hero}>
       <div className={styles.heroLeft}>
@@ -68,9 +72,13 @@ const Units = ({ user }) => {
           <input
             type="text"
             placeholder="search unit"
-            onChange={(e) => handleSearchUnit(e.target.value)}
+            value={searchParam}
+            onChange={(e) => setSearchParam(e.target.value)}
           />
-          <i className={`fa-solid fa-x ${styles.faCancel}`}></i>
+          <i
+            className={`fa-solid fa-xmark ${styles.faCancel}`}
+            onClick={() => setSearchParam("")}
+          ></i>
         </div>
         <div className={styles.unitsBox}>
           <div className={styles.unitsHeader}>
