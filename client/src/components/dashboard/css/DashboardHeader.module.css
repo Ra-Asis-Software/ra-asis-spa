@@ -14,6 +14,9 @@
 
 .burgerIcon {
   cursor: pointer;
+  color: var(--alizarin-crimson-color);
+  font-size: 1.5rem;
+  margin-right: 1rem;
 }
 
 .navigation svg:hover {
@@ -267,14 +270,6 @@ header svg {
   .headerWrapper {
     gap: 0.5rem;
   }
-}
-
-.burgerIcon {
-  /* display: none; */
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-right: 1rem;
-  color: var(--pale-sky-color);
 }
 
 @media (max-width: 768px) {
