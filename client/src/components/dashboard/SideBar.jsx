@@ -1,10 +1,9 @@
-import React from "react";
-import styles from "./css/SideBar.module.css";
+import styles from "./css/SideBarStyles.module.css";
 import { Link } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useState } from "react";
 
-const Sidebar = ({ show, logout }) => {
+const SideBar = ({ show, logout }) => {
   const [active, setActive] = useState("dashboard");
   return (
     <div
@@ -34,18 +33,6 @@ const Sidebar = ({ show, logout }) => {
             <span className={styles.linkLabel}>Activity Dashboard</span>
           </Link>
         </li>
-        <li>
-          <Link
-            to="/"
-            className={`${active === "profile" && styles.active}`}
-            onClick={() => setActive("profile")}
-          >
-            <i
-              className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}
-            ></i>
-            <span className={styles.linkLabel}>Profile</span>
-          </Link>
-        </li>
         <RoleRestricted allowedRoles={["administrator"]}>
           <li>
             <Link
@@ -69,7 +56,7 @@ const Sidebar = ({ show, logout }) => {
               onClick={() => setActive("units")}
             >
               <i className={` ${styles.sideBarIcon} fa-solid fa-book`}></i>
-              <span className={styles.linkLabel}>Unit</span>
+              <span className={styles.linkLabel}>Units</span>
             </Link>
           </li>
         </RoleRestricted>
@@ -86,6 +73,18 @@ const Sidebar = ({ show, logout }) => {
             </Link>
           </li>
         </RoleRestricted>
+        <li>
+          <Link
+            to="/"
+            className={`${active === "profile" && styles.active}`}
+            onClick={() => setActive("profile")}
+          >
+            <i
+              className={`${styles.sideBarIcon} ${styles.profileicon} fas fa-user-cog`}
+            ></i>
+            <span className={styles.linkLabel}>Profile</span>
+          </Link>
+        </li>
       </ul>
 
       <div className={styles.logout}>
@@ -98,4 +97,4 @@ const Sidebar = ({ show, logout }) => {
   );
 };
 
-export default Sidebar;
+export default SideBar;

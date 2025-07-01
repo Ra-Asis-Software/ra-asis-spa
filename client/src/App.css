@@ -1,6 +1,6 @@
 /* Imports */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Lato");
 
 /* ROOT Variables */
@@ -19,7 +19,8 @@
 
 /* General Styles */
 
-html, body {
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
   font-family: Poppins, Lato, Inter, "Trebuchet MS", sans-serif;
@@ -46,7 +47,8 @@ h5 {
   font-weight: 600;
 }
 
-button, a {
+button,
+a {
   -webkit-tap-highlight-color: transparent;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -109,7 +111,7 @@ header.landing-header .main-navigation a i {
 
 /* Landing Page Styling */
 
-  /* Introduction */
+/* Introduction */
 
 .landing-intro {
   background: var(--foam-color);
@@ -125,7 +127,11 @@ header.landing-header .main-navigation a i {
 }
 
 .landing-intro video {
-  background-image: linear-gradient(var(--pine-green-color), var(--pine-green-color), var(--aqua-color));
+  background-image: linear-gradient(
+    var(--pine-green-color),
+    var(--pine-green-color),
+    var(--aqua-color)
+  );
   max-width: 1100px;
   padding: 40px;
   box-sizing: border-box;
@@ -149,7 +155,7 @@ header.landing-header .main-navigation a i {
   color: var(--black-pearl-color);
 }
 
-  /* Features Overview */
+/* Features Overview */
 
 .features-overview {
   background: var(--foam-color);
@@ -163,7 +169,13 @@ header.landing-header .main-navigation a i {
 }
 
 .features-descriptions {
-  background-image: linear-gradient(to bottom right, var(--black-pearl-color), var(--black-pearl-color), var(--pine-green-color), var(--aqua-color));
+  background-image: linear-gradient(
+    to bottom right,
+    var(--black-pearl-color),
+    var(--black-pearl-color),
+    var(--pine-green-color),
+    var(--aqua-color)
+  );
   display: grid;
   grid-template-columns: repeat(4, 3fr);
   gap: 20px;
@@ -218,7 +230,7 @@ header.landing-header .main-navigation a i {
   color: var(--alizarin-crimson-color);
 }
 
-  /* WhyChoose */
+/* WhyChoose */
 
 .why-choose {
   background: var(--foam-color);
@@ -275,7 +287,7 @@ header.landing-header .main-navigation a i {
   height: 120px;
 }
 
-  /* Testimonials */
+/* Testimonials */
 
 .testimonials {
   background: var(--foam-color);
@@ -356,7 +368,7 @@ header.landing-header .main-navigation a i {
   display: none;
 }
 
-  /* Lead Generation */
+/* Lead Generation */
 
 .lead-generation {
   background: var(--foam-color);
@@ -413,10 +425,14 @@ header.landing-header .main-navigation a i {
   color: var(--black-pearl-color);
 }
 
-  /* Contact Form */
+/* Contact Form */
 
 .contact-form {
-  background-image: linear-gradient(var(--cerulean-color), var(--cerulean-color), var(--pine-green-color));
+  background-image: linear-gradient(
+    var(--cerulean-color),
+    var(--cerulean-color),
+    var(--pine-green-color)
+  );
   display: flex;
   flex-direction: column;
 }
@@ -508,11 +524,19 @@ header.landing-header .main-navigation a i {
 /* Registration Page Styling */
 
 #register_header {
-  background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
+  background-image: linear-gradient(
+    to right,
+    var(--aqua-color),
+    var(--foam-color)
+  );
 }
 
 .registration-container {
-  background-image: linear-gradient(to right, var(--aqua-color), var(--foam-color));
+  background-image: linear-gradient(
+    to right,
+    var(--aqua-color),
+    var(--foam-color)
+  );
   color: var(--black-pearl-color);
 }
 
@@ -528,32 +552,70 @@ header.landing-header .main-navigation a i {
   flex-direction: column;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices {
   margin-bottom: 20px;
   margin-left: -5px;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices input.radio-restyle {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  input.radio-restyle {
   display: none;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle {
   display: inline-block;
   padding: 5px 10px;
   cursor: pointer;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle
+  span {
   position: relative;
   margin-right: 270px;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before,
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::after{
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle
+  span::before,
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle
+  span::after {
   content: "";
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::before {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle
+  span::before {
   border: 1px solid var(--black-pearl-color);
   width: 20px;
   height: 20px;
@@ -562,7 +624,13 @@ header.landing-header .main-navigation a i {
   vertical-align: top;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span::after {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle
+  span::after {
   background: var(--black-pearl-color);
   width: 14px;
   height: 14px;
@@ -573,7 +641,14 @@ header.landing-header .main-navigation a i {
   opacity: 0;
 }
 
-.registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle input:checked+span:after {
+.registration-container
+  .registration-content
+  .registration-form
+  .user-category
+  .user-category-choices
+  label.radio-restyle
+  input:checked
+  + span:after {
   opacity: 1;
 }
 
@@ -587,44 +662,91 @@ header.landing-header .main-navigation a i {
   border-radius: 15px;
 }
 
-.registration-container .registration-content .registration-form .details .details-heading h4 {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .details-heading
+  h4 {
   color: var(--alizarin-crimson-color);
 }
 
-.registration-container .registration-content .registration-form .details .personal-details,
-.registration-container .registration-content .registration-form .details .credential-details {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .personal-details,
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .credential-details {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.registration-container .registration-content .registration-form .details .credential-details {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .credential-details {
   margin-bottom: 40px;
 }
 
-.registration-container .registration-content .registration-form .details .personal-details .personal-details-inputs,
-.registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .personal-details
+  .personal-details-inputs,
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .credential-details
+  .credential-details-inputs {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 40px;
 }
 
-.registration-container .registration-content .registration-form .details .input-container {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.registration-container .registration-content .registration-form .details .input-container label {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  label {
   color: var(--foam-color);
 }
 
-.registration-container .registration-content .registration-form .details .input-container label .required-star {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  label
+  .required-star {
   color: var(--alizarin-crimson-color);
 }
 
-.registration-container .registration-content .registration-form .details .input-container input {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  input {
   background: var(--black-pearl-color);
   color: var(--foam-color);
   border: none;
@@ -632,12 +754,23 @@ header.landing-header .main-navigation a i {
   border-bottom: 2px solid var(--foam-color);
 }
 
-.registration-container .registration-content .registration-form .details .input-container input::placeholder {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  input::placeholder {
   color: var(--foam-color);
   font-style: italic;
 }
 
-.registration-container .registration-content .registration-form .details .input-container .password-input-container i {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  .password-input-container
+  i {
   color: var(--alizarin-crimson-color);
   cursor: pointer;
   font-size: inherit;
@@ -645,22 +778,43 @@ header.landing-header .main-navigation a i {
   right: 14px;
 }
 
-.registration-container .registration-content .registration-form .details .input-container .password-input-container input:focus + i {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  .password-input-container
+  input:focus
+  + i {
   animation: pulse 500ms ease-in-out 3;
 }
 
-.registration-container .registration-content .registration-form .details .input-container .error {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
+  .error {
   color: var(--alizarin-crimson-color);
   font-size: 0.625em;
 }
 
-.registration-container .registration-content .registration-form .details .submit-button {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .submit-button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.registration-container .registration-content .registration-form .details .submit-button button {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .submit-button
+  button {
   background: var(--foam-color);
   border: none;
   outline: none;
@@ -672,26 +826,50 @@ header.landing-header .main-navigation a i {
   transition: all 400ms ease-in-out;
 }
 
-.registration-container .registration-content .registration-form .details .submit-button button:hover {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .submit-button
+  button:hover {
   background: var(--alizarin-crimson-color);
   cursor: pointer;
 }
 
-.registration-container .registration-content .registration-form .details .form-message {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .form-message {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.registration-container .registration-content .registration-form .details .form-message small {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .form-message
+  small {
   font-size: 0.75em;
 }
 
-.registration-container .registration-content .registration-form .details .form-message small.success-message {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .form-message
+  small.success-message {
   color: var(--aqua-color);
 }
 
-.registration-container .registration-content .registration-form .details .form-message small.error-message {
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .form-message
+  small.error-message {
   color: var(--alizarin-crimson-color);
 }
 
@@ -709,7 +887,6 @@ header.landing-header .main-navigation a i {
 .registration-container .registration-content .login-prompt p a:hover {
   color: var(--black-pearl-color);
 }
-
 
 /*Email Verification Page Styling*/
 
@@ -742,7 +919,6 @@ header.landing-header .main-navigation a i {
 .email-verification a:hover {
   background: var(--cerulean-color);
 }
-
 
 /*Login Page Styling*/
 
@@ -795,7 +971,12 @@ header.landing-header .main-navigation a i {
   border-radius: 7px;
 }
 
-.login-container .login-content .login-form form .login-inputs input::placeholder {
+.login-container
+  .login-content
+  .login-form
+  form
+  .login-inputs
+  input::placeholder {
   color: var(--black-pearl-color);
   font-family: Poppins;
   font-size: 0.875em;
@@ -806,7 +987,13 @@ header.landing-header .main-navigation a i {
   flex-wrap: nowrap;
 }
 
-.login-container .login-content .login-form form .login-inputs .password-input i {
+.login-container
+  .login-content
+  .login-form
+  form
+  .login-inputs
+  .password-input
+  i {
   font-size: inherit;
   cursor: pointer;
   position: relative;
@@ -814,7 +1001,14 @@ header.landing-header .main-navigation a i {
   right: 24px;
 }
 
-.login-container .login-content .login-form form .login-inputs .password-input input:focus + i {
+.login-container
+  .login-content
+  .login-form
+  form
+  .login-inputs
+  .password-input
+  input:focus
+  + i {
   animation: pulse 500ms ease-in-out 3;
 }
 
@@ -852,11 +1046,21 @@ header.landing-header .main-navigation a i {
   font-size: 0.75em;
 }
 
-.login-container .login-content .login-form form .form-message small.error-message {
+.login-container
+  .login-content
+  .login-form
+  form
+  .form-message
+  small.error-message {
   color: var(--alizarin-crimson-color);
 }
 
-.login-container .login-content .login-form form .form-message small.success-message {
+.login-container
+  .login-content
+  .login-form
+  form
+  .form-message
+  small.success-message {
   color: var(--pine-green-color);
 }
 
@@ -866,7 +1070,14 @@ header.landing-header .main-navigation a i {
   gap: 350px;
 }
 
-.login-container .login-content .login-form form .remember-forgot .remember form label {
+.login-container
+  .login-content
+  .login-form
+  form
+  .remember-forgot
+  .remember
+  form
+  label {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -875,11 +1086,27 @@ header.landing-header .main-navigation a i {
   font-size: 0.75em;
 }
 
-.login-container .login-content .login-form form .remember-forgot .remember form label input {
+.login-container
+  .login-content
+  .login-form
+  form
+  .remember-forgot
+  .remember
+  form
+  label
+  input {
   display: none;
 }
 
-.login-container .login-content .login-form form .remember-forgot .remember form label span {
+.login-container
+  .login-content
+  .login-form
+  form
+  .remember-forgot
+  .remember
+  form
+  label
+  span {
   background: var(--black-pearl-color);
   color: var(--aqua-color);
   height: 20px;
@@ -891,7 +1118,16 @@ header.landing-header .main-navigation a i {
   cursor: pointer;
 }
 
-.login-container .login-content .login-form form .remember-forgot .remember form label [type=checkbox]:checked + span:before {
+.login-container
+  .login-content
+  .login-form
+  form
+  .remember-forgot
+  .remember
+  form
+  label
+  [type="checkbox"]:checked
+  + span:before {
   content: "\2714";
   position: absolute;
   font-size: 16px;
@@ -905,7 +1141,13 @@ header.landing-header .main-navigation a i {
   transition: all 400ms ease-in-out;
 }
 
-.login-container .login-content .login-form form .remember-forgot .forgot a:hover {
+.login-container
+  .login-content
+  .login-form
+  form
+  .remember-forgot
+  .forgot
+  a:hover {
   color: var(--alizarin-crimson-color);
 }
 
@@ -939,7 +1181,6 @@ header.landing-header .main-navigation a i {
   width: 500px;
   height: 500px;
 }
-
 
 /*Password Reset Page(s) Styling*/
 
@@ -1028,81 +1269,80 @@ header.landing-header .main-navigation a i {
   height: 500px;
 }
 
-  /*Request Success Styling*/
+/*Request Success Styling*/
 
-  .request-success {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    padding-bottom: 100px;
-  }
+.request-success {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding-bottom: 100px;
+}
 
-  .success-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: fit-content;
-  }
+.success-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: fit-content;
+}
 
-  .success-icon img {
-    max-width: 100px;
-    max-height: 100px;
-  }
+.success-icon img {
+  max-width: 100px;
+  max-height: 100px;
+}
 
-  .success-text h2,
-  .success-text p {
-    text-align: center;
-  }
+.success-text h2,
+.success-text p {
+  text-align: center;
+}
 
-  .success-text h2 {
-    color: var(--bright-sun-color);
-    font-size: 1em;
-    font-weight: 700;
-  }
+.success-text h2 {
+  color: var(--bright-sun-color);
+  font-size: 1em;
+  font-weight: 700;
+}
 
-  .success-text p {
-    font-size: 12px;
-  }
+.success-text p {
+  font-size: 12px;
+}
 
-  .mail-app-btn button {
-    background: var(--black-pearl-color);
-    color: var(--bright-sun-color);
-    font-family: Poppins;
-    padding: 10px  40px;
-    border: none;
-    outline: none;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 400ms ease-in-out;
-  }
+.mail-app-btn button {
+  background: var(--black-pearl-color);
+  color: var(--bright-sun-color);
+  font-family: Poppins;
+  padding: 10px 40px;
+  border: none;
+  outline: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
 
-  .mail-app-btn button:hover {
-    background: var(--bright-sun-color);
-    color: var(--black-pearl-color);
-  }
+.mail-app-btn button:hover {
+  background: var(--bright-sun-color);
+  color: var(--black-pearl-color);
+}
 
-  .try-again-text {
-    position: relative;
-    bottom: 20px;
-    margin-top: 200px;
-  }
+.try-again-text {
+  position: relative;
+  bottom: 20px;
+  margin-top: 200px;
+}
 
-  .try-again-text p {
-    font-size: 0.75em;
-    text-align: center;
-  }
+.try-again-text p {
+  font-size: 0.75em;
+  text-align: center;
+}
 
-  .try-again-text p a {
-    color: var(--alizarin-crimson-color);
-    transition: all 400ms ease-in-out;
-  }
+.try-again-text p a {
+  color: var(--alizarin-crimson-color);
+  transition: all 400ms ease-in-out;
+}
 
-  .try-again-text p a:hover {
-    color: var(--bright-sun-color);
-  }
-
+.try-again-text p a:hover {
+  color: var(--bright-sun-color);
+}
 
 /*Update Password Page Styling*/
 
@@ -1285,38 +1525,61 @@ footer.landing-footer {
 
 /*Devices Max. Screen Width 1200px*/
 
-@media(max-width: 1200px){
-  
+@media (max-width: 1200px) {
   /*Registration Page Responsive Styling*/
 
-  .registration-container .registration-content{
+  .registration-container .registration-content {
     max-width: 100%;
     margin-left: 20px;
     margin-right: 20px;
     padding-bottom: 80px;
   }
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices{
+  .registration-container
+    .registration-content
+    .registration-form
+    .user-category
+    .user-category-choices {
     margin-left: 0;
   }
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle{
+  .registration-container
+    .registration-content
+    .registration-form
+    .user-category
+    .user-category-choices
+    label.radio-restyle {
     padding: 2px 7px;
   }
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+  .registration-container
+    .registration-content
+    .registration-form
+    .user-category
+    .user-category-choices
+    label.radio-restyle
+    span {
     margin-right: 250px;
   }
 
-  .registration-container .registration-content .registration-form .details{
+  .registration-container .registration-content .registration-form .details {
     max-width: 100%;
   }
 
-  .registration-container .registration-content .registration-form .details .personal-details .personal-details-inputs,
-  .registration-container .registration-content .registration-form .details .credential-details .credential-details-inputs{
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .personal-details
+    .personal-details-inputs,
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .credential-details
+    .credential-details-inputs {
     gap: 20px;
   }
-
 
   /*Login Page Responsive Styling*/
 
@@ -1333,7 +1596,14 @@ footer.landing-footer {
     gap: 330px;
   }
 
-  .login-container .login-content .login-form form .remember-forgot .remember form label {
+  .login-container
+    .login-content
+    .login-form
+    form
+    .remember-forgot
+    .remember
+    form
+    label {
     gap: 5px;
     left: 3px;
   }
@@ -1391,7 +1661,6 @@ footer.landing-footer {
   }
 }
 
-
 /*Devices Max. Screen Width 991px*/
 
 @media (max-width: 991px) {
@@ -1399,7 +1668,7 @@ footer.landing-footer {
   header {
     gap: 770px;
   }
-/* Landing Page Responsive Styling */
+  /* Landing Page Responsive Styling */
 
   /* Introduction */
 
@@ -1420,7 +1689,7 @@ footer.landing-footer {
     margin-left: 30px;
   }
 
-    /* Testimonials */
+  /* Testimonials */
 
   .testimonials .user-details {
     padding: 0;
@@ -1435,7 +1704,7 @@ footer.landing-footer {
     top: 20px;
   }
 
-    /* Lead Generation */
+  /* Lead Generation */
 
   .lead-generation-image img {
     width: 400px;
@@ -1446,7 +1715,7 @@ footer.landing-footer {
     gap: 100px;
   }
 
-    /* Contact Form */
+  /* Contact Form */
 
   .contact-form-intro {
     margin-left: 30px;
@@ -1465,19 +1734,29 @@ footer.landing-footer {
   .contact-message .input-container {
     width: 770px;
   }
-  
-/* Registration Page Responsive Styling */
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span {
+  /* Registration Page Responsive Styling */
+
+  .registration-container
+    .registration-content
+    .registration-form
+    .user-category
+    .user-category-choices
+    label.radio-restyle
+    span {
     margin-right: 100px;
   }
 
-  .registration-container .registration-content .registration-form .details .submit-button button {
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .submit-button
+    button {
     padding: 5px 200px;
   }
 
-
-/*Login Page Responsive Styling*/
+  /*Login Page Responsive Styling*/
 
   .login-container .login-content {
     display: flex;
@@ -1486,19 +1765,19 @@ footer.landing-footer {
     margin-left: 20px;
     margin-right: 20px;
   }
-  
+
   .login-container .login-content .login-form form .login-inputs input {
     padding: 10px 200px;
   }
-  
+
   .login-container .login-content .login-form form .submit-btn button {
     padding: 10px 357px;
   }
-  
+
   .login-container .login-content .login-form form .remember-forgot {
     gap: 530px;
   }
-  
+
   .login-container .login-content .login-form .register-prompt {
     left: 7px;
   }
@@ -1509,7 +1788,7 @@ footer.landing-footer {
     align-items: center;
     margin-top: 0;
   }
-  
+
   .login-container .login-content .login-image img {
     width: 500px;
     height: 500px;
@@ -1527,15 +1806,14 @@ footer.landing-footer {
 /*Devices Max. Screen Width 832px  */
 
 @media (max-width: 832px) {
-
   /* Header Responsive Styling */
   header {
     gap: 610px;
   }
-  
+
   /* Landing Page Responsive Styling */
-    
-    /* Contact Form */
+
+  /* Contact Form */
 
   .contact-form-fields {
     margin-left: 40px;
@@ -1551,11 +1829,9 @@ footer.landing-footer {
   }
 }
 
-
 /*Devices Max. Screen Width 768px*/
 
 @media (max-width: 768px) {
-
   /* General Responsive Styling */
 
   body {
@@ -1565,11 +1841,11 @@ footer.landing-footer {
   h1 {
     font-size: 2em;
   }
-  
+
   h2 {
     font-size: 1.625em;
   }
-  
+
   h5 {
     font-size: 0.875em;
   }
@@ -1579,10 +1855,9 @@ footer.landing-footer {
     gap: 510px;
   }
 
-  
   /* Landing Page Responsive Styling */
-    
-    /* Features Overview */
+
+  /* Features Overview */
 
   .features-heading {
     margin-left: 20px;
@@ -1599,13 +1874,13 @@ footer.landing-footer {
     margin-bottom: 30px;
   }
 
-    /* WhyChoose */
+  /* WhyChoose */
 
   .why-choose-heading {
     margin-left: 20px;
   }
 
-    /* Testimonials */
+  /* Testimonials */
 
   .testimonials {
     display: flex;
@@ -1643,7 +1918,7 @@ footer.landing-footer {
     bottom: 20px;
   }
 
-    /* Lead Generation */
+  /* Lead Generation */
 
   .lead-generation {
     display: flex;
@@ -1669,7 +1944,7 @@ footer.landing-footer {
     padding: 10px 65px;
   }
 
-    /* Contact Form */
+  /* Contact Form */
 
   .contact-form-intro,
   .contact-form-fields {
@@ -1684,31 +1959,37 @@ footer.landing-footer {
   .contact-message .input-container {
     width: 540px;
   }
-  
+
   /* Registration Page Responsive Styling */
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span{
+  .registration-container
+    .registration-content
+    .registration-form
+    .user-category
+    .user-category-choices
+    label.radio-restyle
+    span {
     margin-right: 50px;
   }
 
-  .registration-container .registration-content .registration-form .details{
+  .registration-container .registration-content .registration-form .details {
     padding: 20px;
   }
 
   /*Login Page Responsive Styling*/
-  
+
   .login-container .login-content .login-form form .login-inputs input {
     padding: 10px 70px;
   }
-  
+
   .login-container .login-content .login-form form .submit-btn button {
     padding: 10px 227px;
   }
-  
+
   .login-container .login-content .login-form form .remember-forgot {
     gap: 300px;
   }
-  
+
   .login-container .login-content .login-form .register-prompt {
     left: 50px;
   }
@@ -1736,8 +2017,8 @@ footer.landing-footer {
   }
 
   /* Landing Page Responsive Styling */
-    
-    /* Contact Form */
+
+  /* Contact Form */
 
   .form-section {
     gap: 30px;
@@ -1748,11 +2029,9 @@ footer.landing-footer {
   }
 }
 
-
 /*Devices Max. Screen Width 520px*/
 
 @media (max-width: 520px) {
-
   /* General Responsive Styling */
 
   body {
@@ -1762,11 +2041,11 @@ footer.landing-footer {
   h1 {
     font-size: 1.875em;
   }
-  
+
   h2 {
     font-size: 1.5em;
   }
-  
+
   h5 {
     font-size: 0.75em;
   }
@@ -1777,8 +2056,8 @@ footer.landing-footer {
   }
 
   /* Landing Page Responsive Styling */
-    
-    /* Features Overview */
+
+  /* Features Overview */
 
   .features-heading {
     margin-right: 20px;
@@ -1801,7 +2080,7 @@ footer.landing-footer {
     margin-top: 10px;
   }
 
-    /* WhyChoose */
+  /* WhyChoose */
 
   .why-choose-heading {
     margin-right: 20px;
@@ -1817,7 +2096,7 @@ footer.landing-footer {
     border-radius: 7px;
   }
 
-    /* Lead Generation */
+  /* Lead Generation */
 
   .lead-generation-image img {
     width: 400px;
@@ -1832,7 +2111,7 @@ footer.landing-footer {
     padding: 10px 50px;
   }
 
-    /* Contact Form */
+  /* Contact Form */
 
   .form-section {
     flex-direction: column;
@@ -1842,7 +2121,7 @@ footer.landing-footer {
   .contact-message .input-container {
     width: 400px;
   }
-  
+
   /*Registration Page Responsive Styling*/
 
   #register_header {
@@ -1853,42 +2132,63 @@ footer.landing-footer {
     background-image: linear-gradient(var(--aqua-color), var(--foam-color));
   }
 
-  .registration-container .registration-content .registration-form .user-category .user-category-choices label.radio-restyle span {
+  .registration-container
+    .registration-content
+    .registration-form
+    .user-category
+    .user-category-choices
+    label.radio-restyle
+    span {
     margin-right: 10px;
   }
 
-  .registration-container .registration-content .registration-form .details .input-container {
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .input-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
-  .registration-container .registration-content .registration-form .details .input-container .password-input-container i {
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .input-container
+    .password-input-container
+    i {
     right: 0;
   }
 
-  .registration-container .registration-content .registration-form .details .submit-button button {
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .submit-button
+    button {
     padding: 5px 100px;
   }
 
   /*Login Page Responsive Styling*/
-  
+
   .login-container .login-content .login-form form .login-inputs input {
     padding: 10px 20px;
   }
-  
+
   .login-container .login-content .login-form form .submit-btn button {
     padding: 10px 177px;
   }
-  
+
   .login-container .login-content .login-form form .remember-forgot {
     gap: 170px;
   }
-  
+
   .login-container .login-content .login-form .register-prompt {
     left: 30px;
   }
-  
+
   .login-container .login-content .login-image img {
     width: 300px;
     height: 300px;
@@ -1914,7 +2214,6 @@ footer.landing-footer {
     height: 340px;
   }
 
-
   /*Update Password Page Styling*/
 
   .update-password-form form input {
@@ -1926,7 +2225,6 @@ footer.landing-footer {
   }
 }
 
-
 /*Devices Max. Screen Width 462px*/
 
 @media (max-width: 462px) {
@@ -1936,14 +2234,14 @@ footer.landing-footer {
   }
 
   /* Landing Page Responsive Styling */
-    
-    /* Features Overview */
+
+  /* Features Overview */
 
   .features-descriptions {
     padding: 10px;
   }
 
-    /* WhyChoose */
+  /* WhyChoose */
 
   .why-choose-reasons .reason-box {
     padding: 5px;
@@ -1954,7 +2252,7 @@ footer.landing-footer {
     height: 100px;
   }
 
-    /* Lead Generation */
+  /* Lead Generation */
 
   .lead-generation-image img {
     width: 340px;
@@ -1965,14 +2263,14 @@ footer.landing-footer {
     padding: 10px 30px;
   }
 
-    /* Contact Form */
+  /* Contact Form */
 
   .contact-message .input-container {
     width: 360px;
   }
 
   /*Login Page Responsive Styling*/
-    
+
   .login-container .login-content .login-form form .login-inputs input {
     padding: 10px;
   }
@@ -1985,7 +2283,14 @@ footer.landing-footer {
     gap: 100px;
   }
 
-  .login-container .login-content .login-form form .remember-forgot .remember form label {
+  .login-container
+    .login-content
+    .login-form
+    form
+    .remember-forgot
+    .remember
+    form
+    label {
     font-size: 0.6875em;
   }
 
@@ -2014,7 +2319,6 @@ footer.landing-footer {
   }
 }
 
-
 /*Devices Max. Screen Width 391px*/
 
 @media (max-width: 391px) {
@@ -2025,22 +2329,32 @@ footer.landing-footer {
   }
 
   /* Landing Page Responsive Styling */
-    
-    /* Contact Form */
+
+  /* Contact Form */
 
   .contact-message .input-container {
     width: 320px;
   }
-  
+
   /* Registration Page Responsive Styling */
 
-  .registration-container .registration-content .registration-form .details .input-container {
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .input-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .registration-container .registration-content .registration-form .details .input-container .password-input-container i {
+  .registration-container
+    .registration-content
+    .registration-form
+    .details
+    .input-container
+    .password-input-container
+    i {
     position: relative;
     right: 14px;
   }
@@ -2050,11 +2364,11 @@ footer.landing-footer {
   }
 }
 
-
 /*Animations*/
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {

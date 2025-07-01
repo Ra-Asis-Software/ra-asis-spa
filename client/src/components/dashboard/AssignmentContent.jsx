@@ -29,9 +29,9 @@ const AssignmentContent = ({
   };
 
   //replace html elements with their appropriate spaces and breaks
-  function stripHTML(html) {
+  const stripHTML = (html) => {
     return html.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "");
-  }
+  };
 
   //adding an answer to a question
   const handleChangeAnswer = (e) => {
@@ -45,7 +45,7 @@ const AssignmentContent = ({
   };
 
   const handleAddAnswer = (index) => {
-    let tempArray = [...content];
+    const tempArray = [...content];
     tempArray[index][2].push(sectionData.answer);
 
     setContent(tempArray);
@@ -292,35 +292,14 @@ const AssignmentContent = ({
 
       {/* display area for adding instruction */}
       {showButton.instruction === true && (
-        <div
-          style={{
-            height: "max-content",
-            display: "flex",
-            gap: "10px",
-            flexDirection: "column",
-          }}
-        >
+        <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleInstruction(e)}
             placeholder="Enter Instruction here..."
-            style={{
-              fontSize: "1.0rem",
-              padding: "8px",
-              width: "650px",
-              backgroundColor: "#F0F8FF",
-              border: "none",
-              borderBottom: "1px solid #C0C0C0",
-            }}
+            className={styles.addedTextArea}
           />
 
-          <button
-            onClick={handleAddInstruction}
-            style={{
-              width: "max-content",
-              height: "5vh",
-              padding: "0 10px",
-            }}
-          >
+          <button onClick={handleAddInstruction} className={styles.addedButton}>
             Add instruction
           </button>
         </div>
@@ -328,35 +307,14 @@ const AssignmentContent = ({
 
       {/* display area for adding title */}
       {showButton.title === true && (
-        <div
-          style={{
-            height: "max-content",
-            display: "flex",
-            gap: "10px",
-            flexDirection: "column",
-          }}
-        >
+        <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleTitle(e)}
             placeholder="Enter title here..."
-            style={{
-              fontSize: "1.0rem",
-              padding: "8px",
-              width: "650px",
-              backgroundColor: "#F0F8FF",
-              border: "none",
-              borderBottom: "1px solid #C0C0C0",
-            }}
+            className={styles.addedTextArea}
           />
 
-          <button
-            onClick={handleAddTitle}
-            style={{
-              width: "max-content",
-              height: "5vh",
-              padding: "0 10px",
-            }}
-          >
+          <button onClick={handleAddTitle} className={styles.addedButton}>
             Add Title
           </button>
         </div>
@@ -364,35 +322,14 @@ const AssignmentContent = ({
 
       {/* display area for adding a question */}
       {showButton.question === true && (
-        <div
-          style={{
-            height: "max-content",
-            display: "flex",
-            gap: "10px",
-            flexDirection: "column",
-          }}
-        >
+        <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleQuestion(e)}
             placeholder="Enter Question here..."
-            style={{
-              fontSize: "1.0rem",
-              padding: "8px",
-              width: "650px",
-              backgroundColor: "#F0F8FF",
-              border: "none",
-              borderBottom: "1px solid #C0C0C0",
-            }}
+            className={styles.addedTextArea}
           />
 
-          <button
-            onClick={handleAddQuestion}
-            style={{
-              width: "max-content",
-              height: "5vh",
-              padding: "0 10px",
-            }}
-          >
+          <button onClick={handleAddQuestion} className={styles.addedButton}>
             Add question
           </button>
         </div>
@@ -400,36 +337,15 @@ const AssignmentContent = ({
 
       {/* display area for adding a lot of text */}
       {showButton.textArea === true && (
-        <div
-          style={{
-            height: "max-content",
-            display: "flex",
-            gap: "10px",
-            flexDirection: "column",
-          }}
-        >
+        <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleTextArea(e)}
             placeholder="Enter Text here..."
-            style={{
-              fontSize: "1.0rem",
-              padding: "8px",
-              width: "650px",
-              backgroundColor: "#F0F8FF",
-              border: "none",
-              borderBottom: "1px solid #C0C0C0",
-              minHeight: "30vh",
-            }}
+            className={`${styles.addedTextArea}
+             ${styles.fullTextArea}`}
           />
 
-          <button
-            onClick={handleAddTextArea}
-            style={{
-              width: "max-content",
-              height: "5vh",
-              padding: "0 10px",
-            }}
-          >
+          <button onClick={handleAddTextArea} className={styles.addedButton}>
             ADD textArea
           </button>
         </div>
