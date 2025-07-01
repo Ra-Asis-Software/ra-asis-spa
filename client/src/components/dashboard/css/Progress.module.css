@@ -15,10 +15,10 @@
   margin-bottom: 1rem;
 }
 
-.progressSection h2 {
+/* .progressSection h2 {
   font-size: 1rem;
   font-weight: 600;
-}
+} */
 
 .viewReport {
   background: #4a90e2;
@@ -26,8 +26,8 @@
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  font-size: small;
-  font-weight: 500;
+  /* font-size: small; */
+  /* font-weight: 500; */
   cursor: pointer;
 }
 
@@ -39,7 +39,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  font-weight: 600;
+  /* font-weight: 600; */
   padding: 0.1rem 0.75rem;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
@@ -72,7 +72,7 @@
 
 .progressInfo {
   margin-top: 0.75rem;
-  font-size: 0.875rem;
+  /* font-size: 0.875rem; */
   color: #6b7280;
 }
 
@@ -87,8 +87,8 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
+  /* font-size: 0.95rem; */
+  /* font-weight: 500; */
   color: #333;
   position: relative;
 }
@@ -125,8 +125,8 @@
 .performanceChange {
   display: flex;
   align-items: center;
-  font-size: 0.8rem;
-  font-weight: 500;
+  /* font-size: 0.8rem; */
+  /* font-weight: 500; */
   margin-bottom: 0.5rem;
   gap: 0.3rem;
 }

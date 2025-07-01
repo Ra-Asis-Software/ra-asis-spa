@@ -3,9 +3,9 @@
 }
 
 .Title h1 {
-  font-size: 14px;
+  /* font-size: 14px; */
   margin-bottom: 0;
-  font-weight: 500;
+  /* font-weight: 500; */
   color: blue;
 }
 
@@ -22,7 +22,7 @@
 .Item {
   display: flex;
   align-items: center;
-  font-size: 12px;
+  /* font-size: 12px; */
 }
 
 .breadCrumbItem a {
@@ -45,5 +45,5 @@
 
 .active {
   color: blue;
-  font-weight: 500;
+  /* font-weight: 500; */
 }

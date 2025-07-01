@@ -14,8 +14,8 @@
 } */
 
 .summarySection h2 {
-  font-size: 1rem;
-  font-weight: 600;
+  /* font-size: 1rem; */
+  /* font-weight: 600; */
   margin-bottom: 1.5rem;
 }
 
@@ -44,8 +44,8 @@
 .labelRow {
   display: flex;
   justify-content: space-between;
-  font-weight: 500;
-  font-size: 0.8rem;
+  /* font-weight: 500; */
+  /* font-size: 0.8rem; */
 }
 
 .progressFill {
