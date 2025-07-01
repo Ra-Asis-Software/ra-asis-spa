@@ -10,6 +10,7 @@ const Units = ({ user }) => {
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [unitsHolder, setUnitsHolder] = useState([]);
   const [searchParam, setSearchParam] = useState("");
+  const [message, setMessage] = useState("");
   useEffect(() => {
     const fetchUnits = async () => {
       const unitsFetched = await getAllUnits();
@@ -32,11 +33,27 @@ const Units = ({ user }) => {
       if (searchParam === "") {
         setAllUnits(unitsHolder);
       } else {
-        const searchResults = allUnits.filter(
-          (unit) =>
+        const searchResults = unitsHolder.filter((unit) => {
+          return (
             unit.unitCode.toLowerCase().includes(searchParam.toLowerCase()) ||
             unit.unitName.toLowerCase().includes(searchParam.toLowerCase())
-        );
+          );
+        });
+
+        //recheck units that are already selected before the search
+        const selectedUnitIndexes = selectedUnits.map((unit) => {
+          const isThere = searchResults
+            .map((param) => param.unitCode)
+            .indexOf(unit);
+
+          if (isThere !== -1) {
+            const checkBox = document.getElementById(`${unit}`);
+            checkBox.checked = true;
+            // searchResults[isThere]
+            console.log(isThere, checkBox);
+            return isThere;
+          }
+        });
 
         setAllUnits(searchResults);
       }
@@ -45,10 +62,21 @@ const Units = ({ user }) => {
   }, [searchParam]);
 
   const handleSelectUnit = (e, unit) => {
-    //if unit already is selected, dont add
-    if (e.target.checked) {
-      if (!selectedUnits.includes(unit.unitCode)) {
-        setSelectedUnits((prev) => [...prev, unit.unitCode]);
+    //check the current number of units first
+    const totalUnits = units.length + selectedUnits.length;
+    if (totalUnits >= 5) {
+      setMessage("You can only have a maximum of 5 units");
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
+
+      e.target.checked = false;
+    } else {
+      //if unit already is selected, dont add
+      if (e.target.checked) {
+        if (!selectedUnits.includes(unit.unitCode)) {
+          setSelectedUnits((prev) => [...prev, unit.unitCode]);
+        }
       }
     }
 
@@ -93,6 +121,7 @@ const Units = ({ user }) => {
                     <input
                       type="checkbox"
                       onChange={(e) => handleSelectUnit(e, unit)}
+                      id={`${unit.unitCode}`}
                     />
                     <p>{unit.unitName}</p>
                   </div>
@@ -100,7 +129,9 @@ const Units = ({ user }) => {
                 </div>
               );
             })}
+            {allUnits.length === 0 && <p>No units exist yet!</p>}
           </div>
+          {message !== "" && <p className={styles.pRed}>{message}</p>}
         </div>
       </div>
       <div className={styles.heroRight}>
@@ -120,6 +151,7 @@ const Units = ({ user }) => {
                 </button>
               );
             })}
+            {units.length === 0 && <p>You don't have any units yet</p>}
           </div>
           <h4>Selected</h4>
           <div className={styles.assigned}>

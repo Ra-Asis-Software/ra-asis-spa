@@ -103,4 +103,9 @@
   align-items: center;
   padding: 10px;
   font-size: 0.9rem;
+  background-color: var(--french-gray-color);
+  border-radius: 10px;
+}
+.pRed {
+  color: var(--alizarin-crimson-color);
 }
