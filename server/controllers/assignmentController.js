@@ -120,7 +120,5 @@ export const deleteAssignment = asyncHandler(async (req, res) => {
   }
 
   await assignment.deleteOne();
-  res
-    .status(200)
-    .json({ message: "Assignment deleted successfully", assignment });
+  res.status(200).json({ message: "Assignment deleted successfully" });
 });
