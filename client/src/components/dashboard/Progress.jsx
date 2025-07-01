@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import styles from "./css/Progress.module.css";
-import axios from "axios";
+import { getProgressData } from "../../services/progressService";
 
 const Progress = () => {
   const [view, setView] = useState("weekly");
@@ -22,11 +22,7 @@ const Progress = () => {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const token = localStorage.getItem("authToken");
-        // console.log('Token:', token);
-        const response = await axios.get("http://localhost:5000/api/progress", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await getProgressData();
         setProgressData(response.data);
       } catch (error) {
         console.error("Failed to fetch progress data:", error);
