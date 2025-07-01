@@ -40,21 +40,6 @@ const Units = ({ user }) => {
           );
         });
 
-        //recheck units that are already selected before the search
-        const selectedUnitIndexes = selectedUnits.map((unit) => {
-          const isThere = searchResults
-            .map((param) => param.unitCode)
-            .indexOf(unit);
-
-          if (isThere !== -1) {
-            const checkBox = document.getElementById(`${unit}`);
-            checkBox.checked = true;
-            // searchResults[isThere]
-            console.log(isThere, checkBox);
-            return isThere;
-          }
-        });
-
         setAllUnits(searchResults);
       }
     };
@@ -159,7 +144,11 @@ const Units = ({ user }) => {
               <p>No units selected</p>
             ) : (
               selectedUnits.map((unit) => {
-                return <div className={styles.assignedUnit}>{unit}</div>;
+                return (
+                  <div key={unit} className={styles.assignedUnit}>
+                    {unit}
+                  </div>
+                );
               })
             )}
           </div>
