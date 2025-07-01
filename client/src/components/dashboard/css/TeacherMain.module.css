@@ -17,7 +17,7 @@
   transition: width 0.3s ease-in-out;
 }
 .heroRight {
-  width: calc(40vw - 190px);
+  width: calc(35vw - 190px);
   transition: width 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   margin: 0;
 }
 .marginCollapsed .heroRight {
-  width: 35vw;
+  width: 36vw;
   transition: width 0.3s ease-in-out;
   padding: 15px;
 }
