@@ -29,9 +29,9 @@ const AssignmentContent = ({
   };
 
   //replace html elements with their appropriate spaces and breaks
-  function stripHTML(html) {
+  const stripHTML = (html) => {
     return html.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "");
-  }
+  };
 
   //adding an answer to a question
   const handleChangeAnswer = (e) => {
@@ -45,7 +45,7 @@ const AssignmentContent = ({
   };
 
   const handleAddAnswer = (index) => {
-    let tempArray = [...content];
+    const tempArray = [...content];
     tempArray[index][2].push(sectionData.answer);
 
     setContent(tempArray);
