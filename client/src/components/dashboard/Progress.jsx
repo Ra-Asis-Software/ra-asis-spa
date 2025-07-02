@@ -18,6 +18,7 @@ const Progress = () => {
     monthly: [],
     lastMonth: [],
   });
+  const lineColor = "#01a0e2";
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -70,7 +71,7 @@ const Progress = () => {
               <Line
                 type="monotone"
                 dataKey="progress"
-                stroke="#4A90E2"
+                stroke={lineColor}
                 strokeWidth={3}
                 dot={{ r: 5 }}
               />
