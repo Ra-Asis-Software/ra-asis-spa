@@ -3,15 +3,19 @@ import { Link } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useState } from "react";
 
-const SideBar = ({ show, logout }) => {
+const SideBar = ({ show, logout, role }) => {
   const [active, setActive] = useState("dashboard");
   return (
     <div
-      className={
-        show
-          ? ` ${styles.sidebar} ${styles.sidebarActive}`
-          : `${styles.sidebar} ${styles.sidebarHidden}`
-      }
+      className={`${styles.sidebar} ${
+        show ? styles.sidebarActive : styles.sidebarHidden
+      } ${
+        role === "student"
+          ? styles.studentBar
+          : role === "teacher"
+          ? styles.teacherBar
+          : role === "parent" && styles.parentBar
+      }`}
     >
       <Link to="/">
         <img

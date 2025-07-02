@@ -84,71 +84,8 @@ const Dashboard = () => {
       />
 
       <div className={styles.content}>
-        <Sidebar show={showNav} logout={handleLogout} />
+        <Sidebar show={showNav} logout={handleLogout} role={user?.role} />
         <div className={styles.dashboards}>
-          {/* <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <RoleRestricted allowedRoles={["student"]}>
-                    <StudentMain
-                      {...{
-                        units,
-                        selectedUnit,
-                        setUnits,
-                        assignments,
-                        setAssignments,
-                      }}
-                      profile={user}
-                    />
-                  </RoleRestricted>
-
-                  <RoleRestricted allowedRoles={["teacher"]}>
-                    <TeacherMain
-                      {...{
-                        showNav,
-                        units,
-                        setUnits,
-                        assignments,
-                        setAssignments,
-                        selectedUnit,
-                        setCanEdit,
-                      }}
-                      profile={user}
-                    />
-                  </RoleRestricted> */}
-
-                  {/* <RoleRestricted allowedRoles={["parent"]}> */}
-                    {/* <ParentDashboard /> */}
-                  {/* </RoleRestricted> */}
-
-                  {/* <RoleRestricted allowedRoles={["administrator"]}> */}
-                    {/* <ParentDashboard /> */}
-                  {/* </RoleRestricted> */}
-                {/* </>
-              }
-            />
-
-            <Route
-              path="/assignments"
-              element={
-                <Assignments
-                  {...{
-                    user,
-                    selectedUnit,
-                    setSelectedUnit,
-                    assignments,
-                    setAssignments,
-                    setUnits,
-                    canEdit,
-                    setCanEdit,
-                  }}
-                />
-              }
-            />
-          </Routes> */}
-
           <Routes>
             <Route
               path="/"
@@ -222,7 +159,6 @@ const Dashboard = () => {
               }
             />
           </Routes>
-
         </div>
       </div>
     </div>
