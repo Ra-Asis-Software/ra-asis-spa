@@ -2,23 +2,15 @@
   flex: 1;
   padding: 1rem;
   box-sizing: border-box;
-  /* transition: margin-left 0.3s ease-in-out; */
   overflow-y: auto;
   height: calc(100vh - 30px);
+  margin-left: 60px;
 }
-
 .heading {
-  /* font-size: 1.25rem; */
   margin-bottom: 1.5rem;
-  /* font-weight: 600; */
   text-align: center;
 }
 
-/* --- Mobile-First Layout (< 768px) --- */
-
-.main {
-  margin-left: 60px;
-}
 .mainCollapsed {
   margin-left: 0;
 }
@@ -39,8 +31,6 @@
   margin-top: 1.5rem;
 }
 
-/* --- STYLING FOR CONTENT BLOCKS ON MOBILE --- */
-
 .rightColumn,
 .bottomRow > *,
 .summaryAndDeadlineRow > :last-child {
@@ -48,7 +38,6 @@
   max-width: 450px;
 }
 
-/* 2. EXCEPTION: Summary and Assignment Cards are made full-width */
 .summaryAndDeadlineRow > :first-child,
 .cardContainer > * {
   width: 100%;

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../css/StudentMain.module.css";
-import Title from "../Title";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import DeadlineCard from "./DeadlineCard";
@@ -72,12 +71,11 @@ const StudentMain = ({
         <main
           className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}
         >
-          <Title page="Dashboard" />
-          <h2 className={styles.heading}>
+          <h3 className={styles.heading}>
             {selectedUnit.name
               ? `${selectedUnit.name} Assignments`
               : "Please select a subject"}
-          </h2>
+          </h3>
 
           <div className={styles.topRow}>
             <div className={styles.leftColumn}>
