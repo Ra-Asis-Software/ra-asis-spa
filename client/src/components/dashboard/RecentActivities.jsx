@@ -1,7 +1,6 @@
-import React from "react";
 import styles from "./css/RecentActivities.module.css";
 
-const RecentActivities = ({ subject, activities }) => {
+const RecentActivities = ({ activities }) => {
   return (
     <div className={styles.card}>
       <h3>Recent Activities</h3>

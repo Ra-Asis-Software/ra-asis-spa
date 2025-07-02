@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../css/Summary.module.css";
 
 const progressData = [
@@ -21,7 +21,7 @@ const Summary = () => {
 
   return (
     <div className={styles.summarySection}>
-      <h2>Summary of Assignments</h2>
+      <h3>Summary of Assignments</h3>
       <div className={styles.progressBars}>
         {progressData.map((item, index) => (
           <div key={index} className={styles.progressRow}>

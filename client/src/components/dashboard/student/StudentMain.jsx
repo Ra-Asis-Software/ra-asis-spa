@@ -131,7 +131,6 @@ const StudentMain = ({
           <div className={styles.bottomRow}>
             <Progress />
             <RecentActivities
-              subject={selectedUnit.name}
               activities={deadlines.filter((event) => {
                 //filter only past dates
                 return (

@@ -1,49 +1,52 @@
-import React, { useState } from 'react';
-import styles from './css/ProfileContent.module.css';
+import { useState } from "react";
+import styles from "./css/ProfileContent.module.css";
 
 const ProfilePage = () => {
   const initialData = {
-    name: 'John Doe',
-    role: 'Teacher',
-    email: 'john@example.com',
-    phone: '+1 (555) 123-4567',
+    name: "John Doe",
+    role: "Teacher",
+    email: "john@example.com",
+    phone: "+1 (555) 123-4567",
   };
 
   const [userData, setUserData] = useState(initialData);
   const [passwordData, setPasswordData] = useState({
-    newPassword: '',
-    confirmPassword: '',
+    newPassword: "",
+    confirmPassword: "",
   });
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [preview, setPreview] = useState(null);
 
   const handleUserChange = (e) => {
     const { name, value } = e.target;
-    setUserData(prev => ({ ...prev, [name]: value }));
+    setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
-    setPasswordData(prev => ({ ...prev, [name]: value }));
+    setPasswordData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSaveChanges = (e) => {
     e.preventDefault();
-    if (passwordData.newPassword && passwordData.newPassword !== passwordData.confirmPassword) {
-      alert('New passwords do not match!');
+    if (
+      passwordData.newPassword &&
+      passwordData.newPassword !== passwordData.confirmPassword
+    ) {
+      alert("New passwords do not match!");
       return;
     }
     const finalData = { ...userData };
     if (passwordData.newPassword) {
       finalData.password = passwordData.newPassword;
     }
-    console.log('Saving changes:', finalData);
-    alert('Profile updated successfully!');
+    console.log("Saving changes:", finalData);
+    alert("Profile updated successfully!");
   };
 
   const handleCancel = () => {
     setUserData(initialData);
-    setPasswordData({ newPassword: '', confirmPassword: '' });
+    setPasswordData({ newPassword: "", confirmPassword: "" });
   };
 
   const handleImageChange = (e) => {
@@ -52,7 +55,7 @@ const ProfilePage = () => {
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreview(reader.result);
-      setUserData(prev => ({ ...prev, profilePic: reader.result }));
+      setUserData((prev) => ({ ...prev, profilePic: reader.result }));
       setShowUploadModal(false);
     };
     reader.readAsDataURL(file);
@@ -65,7 +68,7 @@ const ProfilePage = () => {
           <div className={styles.profilePicWrapper}>
             <div className={styles.profilePicBox}>
               <img
-                src={userData.profilePic || '/assets/default_profile.png'}
+                src={userData.profilePic || "/assets/default_profile.png"}
                 alt="Profile"
                 className={styles.profilePic}
               />
@@ -143,7 +146,11 @@ const ProfilePage = () => {
           </div>
 
           <div className={styles.buttonContainer}>
-            <button type="button" className={styles.cancelButton} onClick={handleCancel}>
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={handleCancel}
+            >
               Cancel
             </button>
             <button type="submit" className={styles.saveButton}>
@@ -160,15 +167,21 @@ const ProfilePage = () => {
             <h3 className={styles.modalTitle}>Upload Document</h3>
             {/* <button className={styles.upload-button}> */}
             <div className={styles.iconWrapper}>
-                <i className="fas fa-cloud-upload-alt"></i>
+              <i className="fas fa-cloud-upload-alt"></i>
             </div>
             {/* </button> */}
             <input type="file" accept="image/*" onChange={handleImageChange} />
             <div className={styles.modalActions}>
-              <button onClick={() => setShowUploadModal(false)} className={styles.cancelButton}>
+              <button
+                onClick={() => setShowUploadModal(false)}
+                className={styles.cancelButton}
+              >
                 Cancel
               </button>
-              <button onClick={() => setShowUploadModal(false)} className={styles.continueButton}>
+              <button
+                onClick={() => setShowUploadModal(false)}
+                className={styles.continueButton}
+              >
                 Continue
               </button>
             </div>

@@ -1,5 +1,4 @@
 import styles from "./css/Assignments.module.css";
-import RoleRestricted from "../ui/RoleRestricted";
 
 const AssignmentTools = ({
   params,

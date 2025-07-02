@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./css/DashboardHeader.module.css";
 import {
   studentBar,
@@ -126,11 +126,7 @@ const DashboardHeader = ({
               )}
             </div>
           )}
-          <div
-            className={`${styles.avatar}`}
-          >
-            {initial}
-          </div>
+          <div className={`${styles.avatar}`}>{initial}</div>
           <div className={styles.profileInfo}>
             <span className={styles.profileName}>
               {profile.firstName} {profile.lastName}
