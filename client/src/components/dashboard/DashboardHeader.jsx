@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./css/DashboardHeader.module.css";
+import { studentBar, teacherBar, parentBar } from './css/SideBarStyles.module.css'
 
 const DashboardHeader = ({
   setShowNav,
@@ -92,7 +93,12 @@ const DashboardHeader = ({
         <div className={styles.rightSection}>
           <div className={styles.unitDropdown}>
             <button
-              className={styles.unitButton}
+              className={`${styles.unitButton} ${ profile.role === "student"
+          ? studentBar
+          : profile.role === "teacher"
+          ? teacherBar
+          : profile.role === "parent" && parentBar
+       }`}
               onClick={() => setShowDropdown((prev) => !prev)}
             >
               {selectedUnit.name || "Select Subject"} ▾
