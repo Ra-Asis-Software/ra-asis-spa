@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./css/DashboardHeader.module.css";
-import { studentBar, teacherBar, parentBar } from './css/SideBarStyles.module.css'
+import {
+  studentBar,
+  teacherBar,
+  parentBar,
+} from "./css/SideBarStyles.module.css";
 
 const DashboardHeader = ({
   setShowNav,
@@ -91,35 +95,42 @@ const DashboardHeader = ({
         </div>
 
         <div className={styles.rightSection}>
-          <div className={styles.unitDropdown}>
-            <button
-              className={`${styles.unitButton} ${ profile.role === "student"
-          ? studentBar
-          : profile.role === "teacher"
-          ? teacherBar
-          : profile.role === "parent" && parentBar
-       }`}
-              onClick={() => setShowDropdown((prev) => !prev)}
-            >
-              {selectedUnit.name || "Select Subject"} ▾
-            </button>
-            {showDropdown && (
-              <div className={styles.dropdownMenu}>
-                {units.map((subject) => (
-                  <div
-                    key={subject.id}
-                    onClick={() => {
-                      setSelectedUnit(subject);
-                      setShowDropdown(false);
-                    }}
-                  >
-                    {subject.name}
-                  </div>
-                ))}
-              </div>
-            )}
+          {units.length > 0 && (
+            <div className={styles.unitDropdown}>
+              <button
+                className={`${styles.unitButton} ${
+                  profile.role === "student"
+                    ? studentBar
+                    : profile.role === "teacher"
+                    ? teacherBar
+                    : profile.role === "parent" && parentBar
+                }`}
+                onClick={() => setShowDropdown((prev) => !prev)}
+              >
+                {selectedUnit.name || "Select Subject"} ▾
+              </button>
+              {showDropdown && (
+                <div className={styles.dropdownMenu}>
+                  {units.map((subject) => (
+                    <div
+                      key={subject.id}
+                      onClick={() => {
+                        setSelectedUnit(subject);
+                        setShowDropdown(false);
+                      }}
+                    >
+                      {subject.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+          <div
+            className={`${styles.avatar}`}
+          >
+            {initial}
           </div>
-          <div className={styles.avatar}>{initial}</div>
           <div className={styles.profileInfo}>
             <span className={styles.profileName}>
               {profile.firstName} {profile.lastName}

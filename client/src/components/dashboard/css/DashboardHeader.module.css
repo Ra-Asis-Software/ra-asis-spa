@@ -170,8 +170,9 @@ header svg {
 }
 
 .avatar {
-  background-color: var(--cerulean-color);
-  color: white;
+  color: var(--black-pearl-color);
+  background-color: var(--bright-sun-color);
+  border: 3px solid;
   font-weight: bold;
   font-size: 1.1rem;
   width: 40px;
