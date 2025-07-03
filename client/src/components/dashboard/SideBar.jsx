@@ -20,8 +20,9 @@ const SideBar = ({ show, logout, role }) => {
       <Link to="/">
         <img
           src="/assets/spa_site_icon.webp"
-          alt="Dashboard"
-          className={styles["spa-logo"]}
+          alt="Site icon"
+          title="Go to site home"
+          className={styles.siteIcon}
         />
       </Link>
       <ul>

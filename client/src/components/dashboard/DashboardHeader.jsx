@@ -79,7 +79,7 @@ const DashboardHeader = ({
     <div className={styles.navigation}>
       <header className={styles.headerWrapper}>
         <div className={styles.leftSection}>
-          <div className={styles.headerTitle}>Activity Dashboard</div>
+          <div className={styles.menuTitle}>Dashboard Menu</div>
 
           {showNav ? (
             <i

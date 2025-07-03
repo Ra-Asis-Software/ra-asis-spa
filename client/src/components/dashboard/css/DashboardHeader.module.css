@@ -1,21 +1,19 @@
 .headerWrapper {
-  transition: all 0.5s;
-  z-index: 997;
-  background: #ffffff;
+  background: inherit;
   height: 6vh;
-  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  z-index: 997;
+  transition: all 0.4s ease-in-out;
 }
 
-.headerTitle {
-  font-size: 16px;
-  font-weight: 600;
+.menuTitle {
+  font-weight: 700;
   color: var(--black-pearl-color);
 }
 
 .burgerIcon {
   cursor: pointer;
   color: var(--alizarin-crimson-color);
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-right: 1rem;
 }
 
@@ -193,9 +191,9 @@ header svg {
 }
 
 .profileName {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.8rem;
-  color: var(--pale-sky-color);
+  color: var(--black-pearl-color);
   margin-right: 40px;
 }
 
