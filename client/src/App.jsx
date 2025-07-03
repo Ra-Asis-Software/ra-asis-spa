@@ -27,9 +27,23 @@ const App = () => {
     <Router>
       <Routes>
         <Route index element={<Home />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRoute isAuthPage>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute isAuthPage>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/reset-password/:token" element={<UpdatePassword />} />
