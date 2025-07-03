@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./css/ProfileContent.module.css";
 
-const ProfilePage = () => {
+const ProfileContent = () => {
   const initialData = {
     name: "John Doe",
     role: "Teacher",
@@ -192,4 +192,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default ProfileContent;
