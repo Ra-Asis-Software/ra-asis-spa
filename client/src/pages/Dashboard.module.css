@@ -83,15 +83,3 @@ p.parentSpecific {
   flex: 1;
   position: relative;
 }
-.welcomeBoard {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.welcomeBoard button {
-  background-color: var(--aqua-color);
-}
