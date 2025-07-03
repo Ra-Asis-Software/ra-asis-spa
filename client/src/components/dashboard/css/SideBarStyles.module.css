@@ -5,7 +5,8 @@
   justify-content: space-between;
   overflow: hidden;
   height: auto;
-  width: 190px;
+  width: 0;
+  min-width: 0;
   border-radius: 7px;
   margin: 10px;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
@@ -28,14 +29,11 @@
 .sidebarActive {
   width: 190px;
   min-width: 190px;
-  transition: all 0.4s ease-in-out;
 }
 
 .sidebarHidden {
   width: 0;
-  padding: 0;
-  overflow: hidden;
-  transition: all 0.4s ease-in-out;
+  min-width: 0;
 }
 
 .sidebarHidden span {
@@ -146,12 +144,6 @@ ul li a.active {
     pointer-events: auto;
     z-index: 100;
   }
-
-  .logout a {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 768px) {
@@ -164,9 +156,5 @@ ul li a.active {
 
   .sidebarActive {
     transform: translateX(0);
-  }
-
-  .logout a {
-    margin: 0;
   }
 }
