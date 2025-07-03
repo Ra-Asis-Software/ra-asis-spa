@@ -97,6 +97,17 @@ header.landing-header .main-navigation a i {
   font-size: 1.2em;
 }
 
+header.landing-header .main-navigation .logout-button {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+  font-weight: 700;
+}
+
+header.landing-header .main-navigation .logout-button:hover {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+}
+
 /* Logo Styling */
 
 .app-logo {

@@ -1,11 +1,17 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { navItems } from "../../data/headerNavData";
 
 const Header = () => {
-  // State to track opening and closing of responsive menu
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation(); // Will use this to track current route to set active class
+  const location = useLocation();
+
+  // Check if user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);
+  }, [location]); // Re-check when location changes
 
   // Toggle opening and closing menu
   const toggleMenu = () => {
@@ -15,6 +21,13 @@ const Header = () => {
   // Close menu on user selection
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setIsLoggedIn(false);
+    navigate("/");
+    closeMenu();
   };
 
   return (
@@ -31,7 +44,8 @@ const Header = () => {
       </div>
 
       <nav className={`main-navigation ${isMenuOpen ? "active" : ""}`}>
-        {navItems.map((navItem) => (
+        {/* Common navigation items */}
+        {navItems.slice(0, 5).map((navItem) => (
           <Link
             key={navItem.id}
             to={navItem.linkTo}
@@ -44,6 +58,39 @@ const Header = () => {
             )}
           </Link>
         ))}
+
+        {/* Conditional navigation items */}
+        {isLoggedIn ? (
+          <>
+            <Link
+              to="/dashboard"
+              className={location.pathname === "/dashboard" ? "active" : ""}
+              onClick={closeMenu}
+            >
+              DASHBOARD
+            </Link>
+            <button onClick={handleLogout} className="logout-button">
+              LOGOUT
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/register"
+              className={location.pathname === "/register" ? "active" : ""}
+              onClick={closeMenu}
+            >
+              REGISTER
+            </Link>
+            <Link
+              to="/login"
+              className={location.pathname === "/login" ? "active" : ""}
+              onClick={closeMenu}
+            >
+              LOGIN
+            </Link>
+          </>
+        )}
       </nav>
     </header>
   );
