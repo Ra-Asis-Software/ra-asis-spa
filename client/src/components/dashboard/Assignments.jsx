@@ -73,7 +73,7 @@ const Assignments = ({
   useEffect(() => {
     const handleFilterUnit = () => {
       const unitId = selectedUnit.id;
-      if (unitId === "") {
+      if (unitId === "all") {
         setAssignments(allAssignments);
       } else {
         setAssignments(() => {

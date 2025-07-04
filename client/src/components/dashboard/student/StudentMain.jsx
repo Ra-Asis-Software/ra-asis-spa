@@ -131,15 +131,20 @@ const StudentMain = ({
 
           {/* Bottom Row */}
           <div className={styles.bottomRow}>
-            <Progress />
-            <RecentActivities
-              activities={deadlines.filter((event) => {
-                //filter only past dates
-                return (
-                  convertDateTime(event.date, event.time) <= todayTimeStamp
-                );
-              })}
-            />
+            <div className={styles.progressBox}>
+              <Progress />
+            </div>
+
+            <div className={styles.recentsBox}>
+              <RecentActivities
+                activities={deadlines.filter((event) => {
+                  //filter only past dates
+                  return (
+                    convertDateTime(event.date, event.time) <= todayTimeStamp
+                  );
+                })}
+              />
+            </div>
           </div>
         </main>
       )}
