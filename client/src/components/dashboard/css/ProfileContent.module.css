@@ -65,7 +65,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.4s ease;
   padding: 0;
   box-sizing: border-box;
 }
@@ -125,7 +125,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.7rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.4s, box-shadow 0.3s;
 }
 
 .formGroup input:focus {
@@ -164,7 +164,7 @@
   border-radius: 6px;
   font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .cancelButton {

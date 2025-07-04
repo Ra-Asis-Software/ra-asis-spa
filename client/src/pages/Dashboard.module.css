@@ -10,11 +10,11 @@
   width: 100%;
   height: 92vh;
   display: flex;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.4s ease-in-out;
 }
 .dashboards {
   flex: 1;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.4s ease-in-out;
   display: flex;
 }
 

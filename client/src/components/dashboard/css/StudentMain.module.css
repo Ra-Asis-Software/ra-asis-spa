@@ -2,16 +2,13 @@
   flex: 1;
   padding: 1rem;
   box-sizing: border-box;
-  /* transition: margin-left 0.3s ease-in-out; */
   overflow-y: auto;
   height: calc(100vh - 30px);
   margin-left: 60px;
 }
 
 .heading {
-  /* font-size: 1.25rem; */
   margin-bottom: 1.5rem;
-  /* font-weight: 600; */
   text-align: center;
 }
 

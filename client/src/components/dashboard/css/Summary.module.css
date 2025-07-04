@@ -3,19 +3,7 @@
   padding-top: 1px;
 }
 
-/* .summary-section {
-  transition: width 0.3s ease;
-  width: 100%;
-  max-width: 500px;
-}
-
-.expanded {
-  max-width: 520px;
-} */
-
 .summarySection h2 {
-  /* font-size: 1rem; */
-  /* font-weight: 600; */
   margin-bottom: 1.5rem;
 }
 
@@ -23,7 +11,6 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  /* padding: 1rem 0; */
 }
 
 .progressTrack {
@@ -44,13 +31,11 @@
 .labelRow {
   display: flex;
   justify-content: space-between;
-  /* font-weight: 500; */
-  /* font-size: 0.8rem; */
 }
 
 .progressFill {
   height: 100%;
-  transition: width 0.8s ease;
+  transition: width 0.4s ease;
   border-radius: 6px;
 }
 
