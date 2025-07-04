@@ -1,8 +1,25 @@
 .headerWrapper {
-  background: inherit;
   height: 6vh;
   z-index: 997;
   transition: all 0.4s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  max-width: 100vw;
+}
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  height: 100%;
 }
 
 .menuTitle {
@@ -213,19 +230,6 @@ header svg {
 
 .headerIcons {
   margin-right: 30px;
-}
-
-.leftSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.rightSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-left: auto;
 }
 
 /* Hide "Activity Dashboard" on small screens */

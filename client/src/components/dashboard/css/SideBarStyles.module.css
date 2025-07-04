@@ -115,7 +115,7 @@ ul li a.active {
 }
 @media screen and (max-width: 1300px) {
   .sidebarActive {
-    height: 93vh;
+    height: 94vh;
     min-width: 100px;
     width: 100px !important;
     padding: 2px;
@@ -132,6 +132,11 @@ ul li a.active {
   .linkLabel p:first-of-type {
     display: none;
   }
+  .siteIcon {
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+  }
   .logout {
     height: 8vh;
     margin-bottom: 20px;
@@ -147,9 +152,9 @@ ul li a.active {
     padding: 0;
   }
 }
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 990px) {
   .sidebar {
     position: absolute;
-    height: 93vh;
+    height: 96vh;
   }
 }

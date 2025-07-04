@@ -1,11 +1,9 @@
 .progressSection {
   flex: 1;
-  max-width: 750px;
+  max-width: 100%;
   min-width: 350px;
   padding: 1rem;
-  /* background-color: white; */
-  /* border-radius: 12px; */
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  height: 100%;
 }
 
 .progressHeader {
@@ -15,19 +13,12 @@
   margin-bottom: 1rem;
 }
 
-/* .progressSection h2 {
-  font-size: 1rem;
-  font-weight: 600;
-} */
-
 .viewReport {
   background: #4a90e2;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  /* font-size: small; */
-  /* font-weight: 500; */
   cursor: pointer;
 }
 
@@ -39,7 +30,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* font-weight: 600; */
   padding: 0.1rem 0.75rem;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
@@ -72,7 +62,6 @@
 
 .progressInfo {
   margin-top: 0.75rem;
-  /* font-size: 0.875rem; */
   color: #6b7280;
 }
 
@@ -87,8 +76,6 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  /* font-size: 0.95rem; */
-  /* font-weight: 500; */
   color: #333;
   position: relative;
 }
@@ -148,4 +135,10 @@
   list-style-type: disc;
   padding-left: 1.5rem;
   margin-top: 0.5rem;
+}
+
+@media screen and (max-width: 990px) {
+  .progressSection {
+    max-width: 90vw !important;
+  }
 }
