@@ -7,8 +7,8 @@
   height: auto;
   width: 0;
   min-width: 0;
-  border-radius: 7px;
   margin: 10px;
+  border-radius: 7px;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
   z-index: 1000;
   transition: all 0.4s ease-in-out;
@@ -34,8 +34,8 @@
   display: none;
 }
 .sidebarHidden {
+  min-width: 0;
   width: 0;
-  max-width: 0 !important;
 }
 
 .siteIcon {
@@ -73,14 +73,16 @@ ul li a.active {
   margin-top: auto;
   border-top: 1px solid var(--alizarin-crimson-color);
   border-radius: 7px;
-  margin-bottom: 20px;
   padding: 5px;
   height: 6vh;
+  margin-bottom: 5px;
 }
 
 .logoutButton {
   background-color: transparent;
   color: var(--alizarin-crimson-color);
+  display: flex;
+  align-items: center;
 }
 
 .logoutButton i {
@@ -115,7 +117,6 @@ ul li a.active {
 }
 @media screen and (max-width: 1300px) {
   .sidebarActive {
-    height: 94vh;
     min-width: 100px;
     width: 100px !important;
     padding: 2px;
@@ -137,12 +138,7 @@ ul li a.active {
     height: 50px;
     width: 50px;
   }
-  .logout {
-    height: 8vh;
-    margin-bottom: 20px;
-  }
   .logoutButton {
-    display: flex;
     flex-direction: column;
     max-height: 100%;
     padding: 0;
@@ -155,6 +151,9 @@ ul li a.active {
 @media screen and (max-width: 990px) {
   .sidebar {
     position: absolute;
-    height: 96vh;
+    height: 88vh;
+  }
+  .logoutButton {
+    align-items: center;
   }
 }

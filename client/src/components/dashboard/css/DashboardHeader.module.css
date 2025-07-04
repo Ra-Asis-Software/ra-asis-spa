@@ -237,6 +237,9 @@ header svg {
   .headerTitle {
     display: none;
   }
+  .menuTitle {
+    display: none;
+  }
 
   .unitButton {
     font-size: 0.75rem;
