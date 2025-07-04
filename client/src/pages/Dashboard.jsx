@@ -18,10 +18,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [units, setUnits] = useState([]);
   const [assignments, setAssignments] = useState([]);
-  const [selectedUnit, setSelectedUnit] = useState({
-    name: "All units",
-    id: "all",
-  });
+  const [selectedUnit, setSelectedUnit] = useState({});
   const [canEdit, setCanEdit] = useState(false);
 
   // Fetch the user's data from the token
@@ -61,6 +58,14 @@ const Dashboard = () => {
     fetchUserData();
   }, [navigate]);
 
+  //set selected unit in localStorage
+  const persistSelectedUnit = () => {
+    const storedUnit = localStorage.getItem("focus-unit");
+    setSelectedUnit(
+      storedUnit ? JSON.parse(storedUnit) : units.length > 0 && units[0]
+    );
+  };
+
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -99,6 +104,7 @@ const Dashboard = () => {
                         setUnits,
                         assignments,
                         setAssignments,
+                        persistSelectedUnit,
                       }}
                       profile={user}
                     />
@@ -114,6 +120,7 @@ const Dashboard = () => {
                         setAssignments,
                         selectedUnit,
                         setCanEdit,
+                        persistSelectedUnit,
                       }}
                       profile={user}
                     />

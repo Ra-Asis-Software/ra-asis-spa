@@ -111,17 +111,33 @@ const DashboardHeader = ({
               </button>
               {showDropdown && (
                 <div className={styles.dropdownMenu}>
-                  {units.map((subject) => (
+                  {units.map((unit) => (
                     <div
-                      key={subject.id}
+                      key={unit.id}
                       onClick={() => {
-                        setSelectedUnit(subject);
+                        setSelectedUnit(unit);
                         setShowDropdown(false);
+                        localStorage.setItem(
+                          "focus-unit",
+                          JSON.stringify(unit)
+                        );
                       }}
                     >
-                      {subject.name}
+                      {unit.name}
                     </div>
                   ))}
+                  <div
+                    onClick={() => {
+                      setSelectedUnit({ name: "All units", id: "all" });
+                      setShowDropdown(false);
+                      localStorage.setItem(
+                        "focus-unit",
+                        JSON.stringify({ name: "All units", id: "all" })
+                      );
+                    }}
+                  >
+                    All units
+                  </div>
                 </div>
               )}
             </div>

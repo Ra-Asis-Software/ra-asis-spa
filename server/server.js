@@ -9,7 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import unitRoutes from "./routes/unitRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import assignmentRoutes from "./routes/assignmentRoutes.js";
-import progressRoutes from './routes/progressRoutes.js';
+import progressRoutes from "./routes/progressRoutes.js";
 
 // Load environment variables
 config();
@@ -34,8 +34,7 @@ app.get("/", (req, res) =>
   res.send("API is running, try outrunning it, your breath will run out...")
 );
 
-app.use('/api/progress', progressRoutes);
-
+app.use("/api/progress", progressRoutes);
 
 // Admin actions routes
 app.use("/api/admin", adminRoutes);

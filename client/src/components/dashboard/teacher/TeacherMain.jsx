@@ -18,6 +18,7 @@ const TeacherMain = ({
   setAssignments,
   selectedUnit,
   setCanEdit,
+  persistSelectedUnit,
 }) => {
   const navigate = useNavigate();
   const [deadlines, setDeadlines] = useState([]);
@@ -56,6 +57,8 @@ const TeacherMain = ({
             };
           });
         setDeadlines(tempDeadlines);
+
+        persistSelectedUnit();
       }
     };
     fetchData();

@@ -17,6 +17,7 @@ const StudentMain = ({
   profile,
   assignments,
   setAssignments,
+  persistSelectedUnit,
 }) => {
   const [deadlines, setDeadlines] = useState([]);
   const today = new Date();
@@ -52,6 +53,7 @@ const StudentMain = ({
             };
           });
         setDeadlines(tempDeadlines);
+        persistSelectedUnit();
       }
     };
     fetchData();
