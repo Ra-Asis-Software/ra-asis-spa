@@ -35,7 +35,9 @@ const SideBar = ({ show, logout, role }) => {
             <i
               className={`${styles.sideBarIcon} ${styles.dashboardicon} fas fa-th-large`}
             ></i>
-            <span className={styles.linkLabel}>Activity Dashboard</span>
+            <span className={styles.linkLabel}>
+              <p>Activity</p> Dashboard
+            </span>
           </Link>
         </li>
         <RoleRestricted allowedRoles={["administrator"]}>
