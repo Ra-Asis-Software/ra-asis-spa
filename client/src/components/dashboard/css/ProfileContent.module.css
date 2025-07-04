@@ -1,10 +1,12 @@
 /* Overall Page Layout */
 .pageContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
   align-items: flex-start;
   min-height: 100vh;
-  padding: 25px 20px;
+  margin-top: 20px;
 }
 
 /* Main layout container (the form itself) */
@@ -81,12 +83,6 @@
   border-radius: 4px;
 }
 
-/* .textInput:focus {
-  outline: none;
-  background: rgba(0, 0, 0, 0.05);
-  box-shadow: 0 0 0 2px #007bff;
-} */
-
 .userName {
   font-size: 1rem;
   font-weight: 600;
@@ -134,7 +130,7 @@
 
 .formGroup input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--cerulean-color);
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
@@ -143,9 +139,10 @@
   margin-bottom: 20px;
   font-size: 0.8rem;
   font-weight: 400;
-  color: blue;
+  color: var(--cerulean-color);
   border-top: 1px solid #e0e0e0;
   padding-top: 20px;
+  cursor: pointer;
 }
 
 .passwordGroup {
@@ -272,6 +269,20 @@
 .continueButton:hover {
   background-color: #50c4bc;
 }
+.editButtonDiv {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 5vh;
+}
+.editButton {
+  color: var(--foam-color);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
@@ -282,6 +293,7 @@
   .profileLayout {
     flex-direction: column;
     align-items: center;
+    max-width: 90vw;
     gap: 30px;
   }
 

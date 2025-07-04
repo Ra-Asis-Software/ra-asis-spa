@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import styles from "./css/ProfileContent.module.css";
 import { getUserDetails } from "../../services/userService";
+import {
+  studentBar,
+  teacherBar,
+  parentBar,
+} from "./css/SideBarStyles.module.css";
 
 const ProfileContent = ({ user }) => {
   const [userData, setUserData] = useState({});
@@ -10,6 +15,8 @@ const ProfileContent = ({ user }) => {
   });
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [detailsHolder, setDetailsHolder] = useState({});
+  const [editable, setEditable] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [preview, setPreview] = useState(null);
 
   useEffect(() => {
@@ -71,6 +78,20 @@ const ProfileContent = ({ user }) => {
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.editButtonDiv}>
+        <button
+          className={`${styles.editButton} ${
+            user.role === "student"
+              ? studentBar
+              : user.role === "teacher"
+              ? teacherBar
+              : user.role === "parent" && parentBar
+          }`}
+          onClick={() => setEditable((prev) => !prev)}
+        >
+          {editable ? "Close" : "Edit"}
+        </button>
+      </div>
       <form className={styles.profileLayout} onSubmit={handleSaveChanges}>
         <div className={styles.leftPanel}>
           <div className={styles.profilePicWrapper}>
@@ -113,6 +134,7 @@ const ProfileContent = ({ user }) => {
               type="email"
               id="email"
               name="email"
+              disabled={!editable}
               value={userData.email}
               onChange={handleUserChange}
             />
@@ -120,38 +142,48 @@ const ProfileContent = ({ user }) => {
           <div className={styles.formGroup}>
             <label htmlFor="phone">Phone Number</label>
             <input
-              type="tel"
+              type="text"
               id="phone"
-              name="phone"
+              name="phoneNumber"
+              disabled={!editable}
               value={userData.phoneNumber}
               onChange={handleUserChange}
             />
           </div>
 
-          <h3 className={styles.passwordHeader}>Change Password</h3>
+          <h3
+            className={styles.passwordHeader}
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
+            Change Password
+          </h3>
 
-          <div className={`${styles.formGroup} ${styles.passwordGroup}`}>
-            <label htmlFor="newPassword">New Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={passwordData.newPassword}
-              onChange={handlePasswordChange}
-              placeholder="Enter new password"
-            />
-          </div>
-          <div className={`${styles.formGroup} ${styles.passwordGroup}`}>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={passwordData.confirmPassword}
-              onChange={handlePasswordChange}
-              placeholder="Confirm new password"
-            />
-          </div>
+          {showPassword && (
+            <>
+              <div className={`${styles.formGroup} ${styles.passwordGroup}`}>
+                <label htmlFor="newPassword">New Password</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  value={passwordData.newPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Enter new password"
+                />
+              </div>
+              <div className={`${styles.formGroup} ${styles.passwordGroup}`}>
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={passwordData.confirmPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Confirm new password"
+                />
+              </div>
+            </>
+          )}
 
           <div className={styles.buttonContainer}>
             <button
