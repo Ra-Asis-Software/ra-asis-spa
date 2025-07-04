@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./css/ProfileContent.module.css";
+import { getUserDetails } from "../../services/userService";
 
-const ProfileContent = () => {
-  const initialData = {
-    name: "John Doe",
-    role: "Teacher",
-    email: "john@example.com",
-    phone: "+1 (555) 123-4567",
-  };
-
-  const [userData, setUserData] = useState(initialData);
+const ProfileContent = ({ user }) => {
+  const [userData, setUserData] = useState({});
   const [passwordData, setPasswordData] = useState({
     newPassword: "",
     confirmPassword: "",
   });
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [detailsHolder, setDetailsHolder] = useState({});
   const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const details = await getUserDetails(user.role, user.id);
+
+      if (details?.data?.message) {
+        const tempProfile = details.data.data.profile;
+        setUserData(tempProfile);
+        setDetailsHolder(tempProfile);
+      }
+    };
+    fetchUserDetails();
+  }, []);
 
   const handleUserChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +53,7 @@ const ProfileContent = () => {
   };
 
   const handleCancel = () => {
-    setUserData(initialData);
+    setUserData(detailsHolder);
     setPasswordData({ newPassword: "", confirmPassword: "" });
   };
 
@@ -68,7 +76,7 @@ const ProfileContent = () => {
           <div className={styles.profilePicWrapper}>
             <div className={styles.profilePicBox}>
               <img
-                src={userData.profilePic || "/assets/default_profile.png"}
+                src={userData.profilePic || "/assets/expert_support.webp"}
                 alt="Profile"
                 className={styles.profilePic}
               />
@@ -85,15 +93,15 @@ const ProfileContent = () => {
           <input
             type="text"
             name="name"
-            value={userData.name}
-            onChange={handleUserChange}
+            value={`${userData.firstName} ${userData.lastName}`}
+            disabled
             className={`${styles.textInput} ${styles.userName}`}
           />
           <input
             type="text"
             name="role"
             value={userData.role}
-            onChange={handleUserChange}
+            disabled
             className={`${styles.textInput} ${styles.userRole}`}
           />
         </div>
@@ -115,7 +123,7 @@ const ProfileContent = () => {
               type="tel"
               id="phone"
               name="phone"
-              value={userData.phone}
+              value={userData.phoneNumber}
               onChange={handleUserChange}
             />
           </div>

@@ -155,16 +155,7 @@ const Dashboard = () => {
               }
             />
 
-            <Route
-              path="/profile"
-              element={
-                <ProfileContent
-                  profile={user}
-                  role={user.role}
-                  canEdit={true}
-                />
-              }
-            />
+            <Route path="/profile" element={<ProfileContent {...{ user }} />} />
           </Routes>
         </div>
       </div>
