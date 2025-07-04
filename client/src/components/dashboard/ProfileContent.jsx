@@ -193,7 +193,16 @@ const ProfileContent = ({ user }) => {
             >
               Cancel
             </button>
-            <button type="submit" className={styles.saveButton}>
+            <button
+              type="submit"
+              className={`${styles.saveButton} ${
+                user.role === "student"
+                  ? studentBar
+                  : user.role === "teacher"
+                  ? teacherBar
+                  : user.role === "parent" && parentBar
+              }`}
+            >
               Save Changes
             </button>
           </div>
@@ -220,7 +229,7 @@ const ProfileContent = ({ user }) => {
               </button>
               <button
                 onClick={() => setShowUploadModal(false)}
-                className={styles.continueButton}
+                className={`${styles.continueButton} `}
               >
                 Continue
               </button>

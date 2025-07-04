@@ -56,9 +56,9 @@
   right: 0px;
   width: 40px;
   height: 40px;
-  background-color: #007bff;
-  color: white;
-  border: 2px solid white;
+  background-color: var(--cerulean-color);
+  color: #fff;
+  border: 2px solid #fff;
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
@@ -71,7 +71,7 @@
 }
 
 .addPicButton:hover {
-  background-color: #0056b3;
+  background-color: var(--cerulean-color);
 }
 
 .textInput {
@@ -86,13 +86,13 @@
 .userName {
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--black-pearl-color);
   margin-bottom: 5px;
 }
 
 .userRole {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--pale-sky-color);
   margin-bottom: 0;
 }
 
@@ -117,12 +117,12 @@
   font-weight: 400;
   font-size: 0.8rem;
   margin-bottom: 8px;
-  color: #444;
+  color: var(--black-pearl-color);
 }
 
 .formGroup input {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--french-gray-color);
   border-radius: 6px;
   font-size: 0.7rem;
   transition: border-color 0.4s, box-shadow 0.3s;
@@ -140,7 +140,7 @@
   font-size: 0.8rem;
   font-weight: 400;
   color: var(--cerulean-color);
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--french-gray-color);
   padding-top: 20px;
   cursor: pointer;
 }
@@ -169,19 +169,15 @@
 
 .cancelButton {
   background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ccc;
+  color: var(--pale-sky-color);
+  border: 1px solid var(--french-gray-color);
 }
 .cancelButton:hover {
-  background-color: #e0e0e0;
+  background-color: var(--french-gray-color);
 }
 
 .saveButton {
-  background-color: #5ae0d7;
-  color: black;
-}
-.saveButton:hover {
-  background-color: #50c4bc;
+  color: var(--foam-color);
 }
 
 .cancelButton:active,
@@ -231,7 +227,7 @@
   width: 100%;
   padding: 8px;
   font-size: 0.85rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--french-gray-color);
   border-radius: 6px;
 }
 
@@ -262,12 +258,12 @@
 }
 
 .continueButton {
-  background-color: #5ae0d7;
+  background-color: var(--aqua-color);
   color: #000;
 }
 
 .continueButton:hover {
-  background-color: #50c4bc;
+  background-color: var(--cerulean-color);
 }
 .editButtonDiv {
   width: 100%;
