@@ -67,3 +67,8 @@
 .notstarted {
   color: var(--alizarin-crimson-color);
 }
+@media screen and (max-width: 600px) {
+  .card {
+    height: 15vh;
+  }
+}

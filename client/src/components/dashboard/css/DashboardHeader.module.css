@@ -282,3 +282,8 @@ header svg {
     display: block;
   }
 }
+@media screen and (max-width: 400px) {
+  .profileInfo {
+    display: none;
+  }
+}

@@ -16,6 +16,7 @@
   flex: 1;
   transition: width 0.4s ease-in-out;
   display: flex;
+  max-width: 100%;
 }
 
 p.userSpecific {
