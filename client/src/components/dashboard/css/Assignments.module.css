@@ -80,7 +80,7 @@ select {
   transition: width 0.4s ease-in-out;
 }
 .tools {
-  height: 100%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -90,7 +90,7 @@ select {
 }
 .tools h3 {
   text-align: center;
-  height: 8vh;
+  height: 5vh;
 }
 .toolsArea {
   padding: 20px;
@@ -263,4 +263,89 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width: 1200px) {
+  .extras {
+    width: 15vw;
+    min-width: 170px;
+  }
+  .tools {
+    padding: 5px;
+  }
+  .toolsArea {
+    padding: 5px;
+  }
+  .extraTools {
+    display: flex;
+    flex-direction: column;
+  }
+  .deadline {
+    flex-direction: column;
+    padding: 1px 5px;
+    height: max-content;
+  }
+  .submitAssignment {
+    width: 95%;
+  }
+  .submitAssignment p {
+    display: none;
+  }
+}
+@media screen and (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+  }
+  .extras {
+    width: 100vw;
+    height: 10vh;
+  }
+  .tools {
+    height: 8vh;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    overflow-x: scroll;
+  }
+  .toolsArea {
+    flex-direction: row;
+    width: max-content;
+  }
+  .toolsArea h3 {
+    display: none;
+  }
+  .toolsArea button {
+    width: max-content;
+  }
+  .extraTools {
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+  }
+  .deadline {
+    flex-direction: row;
+    align-items: center;
+    width: max-content;
+  }
+  .deadline p {
+    display: none;
+  }
+  .submitAssignment {
+    width: 150px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .assignment {
+    width: 90vw;
+  }
+}
+@media screen and (max-width: 450px) {
+  .assignment {
+    flex-direction: column;
+    height: max-content;
+    align-items: flex-start;
+  }
+  .assignment p:first-of-type {
+    font-size: 1.02rem;
+  }
 }
