@@ -24,7 +24,6 @@
   align-items: center;
   height: max-content;
   gap: 80px;
-  /* padding: 10px; */
 }
 .marginCollapsed {
   margin: 0;
@@ -187,7 +186,7 @@ tbody td:first-of-type {
   min-width: 320px;
 }
 .progress {
-  height: 40vh;
+  height: 70vh;
   margin-bottom: 5vh;
 }
 .recentActivitiesBox {

@@ -16,6 +16,7 @@
 .topRow {
   display: flex;
   flex-direction: row;
+  max-width: 100%;
 }
 .leftColumn {
   display: flex;
@@ -49,12 +50,75 @@
 }
 .bottomRow {
   display: flex;
+  min-height: 70vh;
   justify-content: space-between;
+  margin-top: 50px;
   width: 100%;
+  gap: 20px;
 }
 .progressBox {
   flex: 1;
 }
 .recentsBox {
-  width: 350px;
+  width: 450px;
+}
+@media screen and (max-width: 1280px) {
+  .main {
+    padding: 20px;
+  }
+  .topRow {
+    flex-direction: column;
+    max-width: 1160px;
+    gap: 40px;
+  }
+  .leftColumn {
+    gap: 40px;
+  }
+  .cardContainer {
+    max-width: 95%;
+  }
+  .summaryAndDeadlineRow {
+    justify-content: flex-start;
+    gap: 30px;
+    align-items: center;
+  }
+  .rightColumn {
+    padding: 20px;
+  }
+  .bottomRow .recentsBox {
+    width: 500px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .bottomRow {
+    flex-direction: column;
+    min-height: max-content;
+    padding: 20px 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .summaryAndDeadlineRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    height: max-content;
+  }
+  .rightColumn {
+    align-items: center;
+    width: 100%;
+  }
+  .recentsBox {
+    width: 98% !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .main {
+    padding: 5px;
+  }
+  .rightColumn {
+    padding: 0;
+  }
+  .recentsBox {
+    width: 100%;
+  }
 }
