@@ -1,23 +1,40 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Summary.module.css";
 
-const progressData = [
-  { label: "Completed", percent: 80, class: styles.completed },
-  { label: "Pending", percent: 50, class: styles.pending },
-  { label: "Overdue", percent: 20, class: styles.overdue },
-];
-
-const Summary = () => {
-  const [progressWidths, setProgressWidths] = useState(
-    progressData.map(() => "0%")
-  );
+const Summary = ({ unitCode }) => {
+  const [progressData, setProgressData] = useState([
+    { label: "Completed", percent: 0, class: styles.completed },
+    { label: "Pending", percent: 0, class: styles.pending },
+    { label: "Overdue", percent: 0, class: styles.overdue },
+  ]);
+  const [progressWidths, setProgressWidths] = useState(["0%", "0%", "0%"]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setProgressWidths(progressData.map((p) => `${p.percent}%`));
-    }, 100);
-    return () => clearTimeout(timeout);
-  }, []);
+    const fetchData = async () => {
+      if (!unitCode) return;
+
+      try {
+        const res = await fetch(`/api/unit/assignment-summary/${unitCode}`);
+        const data = await res.json();
+
+        const updated = [
+          { label: "Completed", percent: data.completed || 0, class: styles.completed },
+          { label: "Pending", percent: data.pending || 0, class: styles.pending },
+          { label: "Overdue", percent: data.overdue || 0, class: styles.overdue },
+        ];
+
+        setProgressData(updated);
+
+        setTimeout(() => {
+          setProgressWidths(updated.map((item) => `${item.percent}%`));
+        }, 100);
+      } catch (error) {
+        console.error("Failed to fetch unit summary", error);
+      }
+    };
+
+    fetchData();
+  }, [unitCode]);
 
   return (
     <div className={styles.summarySection}>

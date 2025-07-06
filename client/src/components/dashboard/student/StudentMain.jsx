@@ -111,7 +111,7 @@ const StudentMain = ({
 
               {/* Summary and Deadlines */}
               <div className={styles.summaryAndDeadlineRow}>
-                <Summary />
+                <Summary unitCode="CS101" />
                 <DeadlineCard
                   unit={selectedUnit.name}
                   deadlines={deadlines.filter((event) => {

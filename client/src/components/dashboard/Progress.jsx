@@ -18,7 +18,7 @@ const Progress = () => {
     monthly: [],
     lastMonth: [],
   });
-  const lineColor = "#01a0e2";
+  const lineColor = "#FDD142";
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -33,10 +33,21 @@ const Progress = () => {
     fetchProgress();
   }, []);
 
+  // const current =
+  //   view === "weekly" ? progressData.weekly : progressData.monthly;
+  // const previous =
+  //   view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
+
   const current =
-    view === "weekly" ? progressData.weekly : progressData.monthly;
+  view === "weekly"
+    ? progressData.weekly || []
+    : progressData.monthly || [];
+
   const previous =
-    view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
+  view === "weekly"
+    ? progressData.lastWeek || []
+    : progressData.lastMonth || [];
+
 
   const average = (arr = []) => {
     if (!Array.isArray(arr) || arr.length === 0) return 0;
