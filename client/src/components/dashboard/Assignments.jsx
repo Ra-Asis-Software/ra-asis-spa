@@ -335,23 +335,25 @@ const Assignments = ({
           </div>
         </div>
       )}
-      <div className={styles.extras}>
-        <RoleRestricted allowedRoles={["teacher"]}>
-          <AssignmentTools
-            {...{
-              params,
-              openAssignment,
-              canEdit,
-              setShowButton,
-              handleChooseFiles,
-              setAssignmentExtras,
-              handlePublishAssignment,
-              message,
-              assignmentExtras,
-            }}
-          />
-        </RoleRestricted>
-      </div>
+      {params.get("new") && (
+        <div className={styles.extras}>
+          <RoleRestricted allowedRoles={["teacher"]}>
+            <AssignmentTools
+              {...{
+                params,
+                openAssignment,
+                canEdit,
+                setShowButton,
+                handleChooseFiles,
+                setAssignmentExtras,
+                handlePublishAssignment,
+                message,
+                assignmentExtras,
+              }}
+            />
+          </RoleRestricted>
+        </div>
+      )}
     </div>
   );
 };
