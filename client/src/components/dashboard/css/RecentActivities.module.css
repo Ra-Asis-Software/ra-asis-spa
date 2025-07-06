@@ -37,3 +37,16 @@ h3 {
   font-size: 0.8rem;
   color: var(--pale-sky-color);
 }
+@media screen and (max-width: 768px) {
+  .card {
+    max-width: 95vw;
+    margin-bottom: 40px;
+    padding: 0;
+  }
+}
+@media screen and (max-width: 500px) {
+  .card {
+    width: 100%;
+    max-width: 98vw;
+  }
+}

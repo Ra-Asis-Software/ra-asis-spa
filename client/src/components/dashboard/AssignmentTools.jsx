@@ -109,7 +109,7 @@ const AssignmentTools = ({
               className={styles.submitAssignment}
               onClick={handlePublishAssignment}
             >
-              PUBLISH ASSIGNMENT
+              PUBLISH <p>ASSIGNMENT</p>
             </button>
           ) : openAssignment ? (
             <button

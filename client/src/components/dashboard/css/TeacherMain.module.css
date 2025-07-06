@@ -24,7 +24,6 @@
   align-items: center;
   height: max-content;
   gap: 80px;
-  padding: 10px;
 }
 .marginCollapsed {
   margin: 0;
@@ -70,6 +69,7 @@ p {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  max-width: 98vw;
 }
 .units {
   height: 25vh;
@@ -81,8 +81,6 @@ p {
   align-items: center;
   gap: 30px;
   padding-right: 20px;
-}
-.units {
   scrollbar-color: var(--foam-color);
 }
 .assignmentsTitle {
@@ -188,7 +186,7 @@ tbody td:first-of-type {
   min-width: 320px;
 }
 .progress {
-  height: 40vh;
+  height: 70vh;
   margin-bottom: 5vh;
 }
 .recentActivitiesBox {
@@ -226,27 +224,74 @@ tbody td:first-of-type {
     width: 100%;
     min-height: max-content !important;
   }
+  .unitsBox {
+    width: 95vw;
+  }
   .heroRight {
     width: 100%;
     flex-direction: row;
   }
   .marginCollapsed .heroRight {
     width: 100%;
+    max-width: 100vw;
+    padding: 0;
   }
   .marginCollapsed .heroLeft {
     width: 100%;
   }
   .submissions {
-    width: 600px;
+    width: 650px;
   }
   .progress {
     height: max-content;
     min-height: max-content !important;
+    max-width: 80% !important;
   }
 }
 
 @media screen and (max-width: 990px) {
+  .assignmentsOverview {
+    max-height: 300px;
+  }
+  .units {
+    padding-right: 30px;
+    max-height: 200px;
+  }
+  .deadlineEvent {
+    height: 5vh;
+  }
   .progress {
-    max-width: 100vw !important;
+    max-width: 90% !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .hero {
+    padding: 2px;
+    width: 100vw;
+  }
+  .heroRight {
+    flex-direction: column;
+  }
+  .submissions {
+    width: 95%;
+  }
+  .deadlineEvent {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .submissionsBox {
+    width: 100%;
+    overflow: scroll;
+  }
+  .submissionsBox table {
+    width: 700px;
+  }
+  .unitsBox {
+    height: 30vh;
+  }
+  .units {
+    height: 24vh;
   }
 }

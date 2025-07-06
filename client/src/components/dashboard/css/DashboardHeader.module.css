@@ -237,6 +237,9 @@ header svg {
   .headerTitle {
     display: none;
   }
+  .menuTitle {
+    display: none;
+  }
 
   .unitButton {
     font-size: 0.75rem;
@@ -277,5 +280,10 @@ header svg {
 @media (max-width: 768px) {
   .burgerIcon {
     display: block;
+  }
+}
+@media screen and (max-width: 400px) {
+  .profileInfo {
+    display: none;
   }
 }

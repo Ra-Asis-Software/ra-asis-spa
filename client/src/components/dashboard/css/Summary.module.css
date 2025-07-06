@@ -50,3 +50,8 @@
 .overdue {
   background-color: var(--pale-sky-color);
 }
+@media screen and (max-width: 768px) {
+  .summarySection {
+    width: 80%;
+  }
+}

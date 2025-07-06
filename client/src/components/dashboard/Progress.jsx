@@ -64,7 +64,7 @@ const Progress = () => {
 
   return (
     <div className={styles.progressSection}>
-      <h2>Progress</h2>
+      <h3>Progress</h3>
       <div className={styles.progressHeader}>
         <span className={`${styles.performanceChange} ${changeColor}`}>
           {Math.abs(difference).toFixed(1)}% {performanceChange} vs {period}
