@@ -3,26 +3,25 @@
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 10px var(--black-pearl-color);
-  width: 100%;
   max-width: 280px;
 }
 
 .calendar :global(.react-calendar) {
   width: 100%;
   border: none;
-  font-family: "Segoe UI", sans-serif;
   line-height: 1.2;
 }
 
 .calendar :global(.react-calendar__tile) {
-  padding: 0.75rem 0.5rem;
-  border-radius: 60%;
-  transition: background 0.4s;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.4s ease-in-out;
 }
 
 .calendar :global(.react-calendar__tile--active) {
   background: var(--pine-green-color);
-  color: white;
+  color: #fff;
 }
 
 .calendar :global(.react-calendar__tile:hover) {
@@ -31,23 +30,20 @@
 }
 
 .calendar :global(.calendar-deadline) {
-  background-color: var(--bright-sun-color) !important;
-  color: var(--black-pearl-color) !important;
-  font-weight: bold;
+  background: var(--bright-sun-color);
+  color: var(--black-pearl-color);
+  font-weight: 700;
 }
+
 .specialDay {
   width: 5px;
   height: 5px;
-  background-color: var(--black-pearl-color);
-  border-radius: 50%;
-  margin: 0 auto;
-  margin-top: 2px;
-}
-.specialDayPassed {
-  width: 5px;
-  height: 5px;
-  background-color: var(--alizarin-crimson-color);
+  background-color: var(--pine-green-color);
   border-radius: 50%;
   margin: auto;
   margin-top: 2px;
+}
+
+.specialDayPassed {
+  background-color: var(--alizarin-crimson-color);
 }

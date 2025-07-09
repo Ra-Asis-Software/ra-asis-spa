@@ -119,6 +119,7 @@ const TeacherMain = ({
                             unitName={assignment.unit.unitName}
                             title={assignment.title}
                             id={assignment._id}
+                            role={profile.role}
                           />
                         );
                       })}
@@ -215,6 +216,7 @@ const TeacherMain = ({
                 );
               })}
               subject={selectedUnit.name}
+              role={profile.role}
             />
           </div>
         </div>
