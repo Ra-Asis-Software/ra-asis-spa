@@ -35,15 +35,13 @@ const SideBar = ({ show, logout, role }) => {
             <i
               className={`${styles.sideBarIcon} ${styles.dashboardicon} fas fa-th-large`}
             ></i>
-            <span className={styles.linkLabel}>
-              <p>Activity</p> Dashboard
-            </span>
+            <span className={styles.linkLabel}>Dashboard</span>
           </Link>
         </li>
         <RoleRestricted allowedRoles={["administrator"]}>
           <li>
             <Link
-              to="/"
+              to="/dashboard"
               className={`${active === "users" && styles.active}`}
               onClick={() => setActive("users")}
             >
@@ -58,7 +56,7 @@ const SideBar = ({ show, logout, role }) => {
         <RoleRestricted allowedRoles={["student", "teacher"]}>
           <li>
             <Link
-              to="/"
+              to="/dashboard"
               className={`${active === "units" && styles.active}`}
               onClick={() => setActive("units")}
             >
@@ -92,20 +90,6 @@ const SideBar = ({ show, logout, role }) => {
             <span className={styles.linkLabel}>Profile</span>
           </Link>
         </li>
-        <RoleRestricted allowedRoles={["administrator"]}>
-          <li>
-            <Link
-              to="/"
-              className={`${active === "users" && styles.active}`}
-              onClick={() => setActive("users")}
-            >
-              <i
-                className={`${styles.sideBarIcon} ${styles.usericon} fas fa-user`}
-              ></i>
-              <span className={styles.linkLabel}>Users</span>
-            </Link>
-          </li>
-        </RoleRestricted>
       </ul>
 
       <div className={styles.logout}>

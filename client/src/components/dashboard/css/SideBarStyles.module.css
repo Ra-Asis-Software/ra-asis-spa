@@ -27,12 +27,14 @@
 }
 
 .sidebarActive {
-  width: 190px;
-  min-width: 190px;
+  width: 180px;
+  min-width: 180px;
 }
+
 .sidebarHidden span {
   display: none;
 }
+
 .sidebarHidden {
   min-width: 0;
   width: 0;
@@ -47,6 +49,7 @@
 
 ul {
   padding: 0;
+  width: 90%;
 }
 
 ul li {
@@ -55,12 +58,12 @@ ul li {
 }
 
 ul li a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 12px;
+  color: #fff;
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  gap: 10px;
+  font-size: 0.75em;
+  padding: 10px;
   border-radius: 7px;
 }
 
@@ -74,7 +77,6 @@ ul li a.active {
   border-top: 1px solid var(--alizarin-crimson-color);
   border-radius: 7px;
   padding: 5px;
-  height: 6vh;
   margin-bottom: 5px;
 }
 
@@ -95,65 +97,16 @@ ul li a.active {
   right: 4px;
 }
 
-.dashboardicon {
-  margin-right: 10px;
-}
-
-.usericon {
-  margin-right: 10px;
-}
-
-.profileicon {
-  margin-right: 10px;
-}
-
-.sideBarIcon {
-  margin-right: 10px;
-}
-
 .linkLabel {
   display: flex;
   transition: opacity 0.4s ease;
 }
-@media screen and (max-width: 1300px) {
-  .sidebarActive {
-    min-width: 100px;
-    width: 100px !important;
-    padding: 2px;
-  }
-  .sidebarHidden {
-    width: -100px;
-  }
-  ul li a {
-    flex-direction: column;
-    padding: 5px;
-    align-items: center;
-    gap: 5px;
-  }
-  .linkLabel p:first-of-type {
-    display: none;
-  }
-  .siteIcon {
-    margin: 5px;
-    height: 50px;
-    width: 50px;
-  }
-  .logoutButton {
-    flex-direction: column;
-    max-height: 100%;
-    padding: 0;
-    gap: 3px;
-  }
-  .logoutButton .linkLabel {
-    padding: 0;
-  }
-}
-@media screen and (max-width: 990px) {
+
+/* RESPONSIVE BREAKPOINTS */
+
+@media (max-width: 991px) {
   .sidebar {
-    position: absolute;
-    height: 88vh;
-  }
-  .logoutButton {
-    align-items: center;
+    position: fixed;
+    height: 50vh;
   }
 }
