@@ -1,0 +1,38 @@
+.welcomeBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.studentBtn {
+  background: var(--black-pearl-color);
+  color: #fff;
+}
+
+.studentBtn:hover {
+  background: #fff;
+  color: var(--black-pearl-color);
+}
+
+.teacherBtn {
+  background: var(--cerulean-color);
+  color: #fff;
+}
+
+.teacherBtn:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
+.parentBtn {
+  background: var(--pine-green-color);
+  color: #fff;
+}
+
+.parentBtn:hover {
+  background: #fff;
+  color: var(--pine-green-color);
+}

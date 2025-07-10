@@ -34,12 +34,7 @@ router.patch(
 );
 
 //Route for enrolling for a unit (student)
-router.patch(
-  "/enroll-unit",
-  hasRole("student"),
-  validateUnitCode,
-  enrollUnit
-)
+router.patch("/enroll-unit", hasRole("student"), validateUnitCode, enrollUnit);
 
 // Route for deleting a unit
 router.delete(
@@ -66,9 +61,6 @@ router.get(
 );
 
 // Route for getting all units
-router.get(
-  "/get-all-units", 
-  getAllUnits
-);
+router.get("/get-all-units", getAllUnits);
 
 export default router;

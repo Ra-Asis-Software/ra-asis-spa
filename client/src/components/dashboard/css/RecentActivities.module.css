@@ -1,0 +1,26 @@
+.card {
+  padding: 20px;
+  margin-top: 40px;
+  max-width: 100%;
+  flex: 1; /* Allows flexible shrinking if inside flex container */
+  border-radius: 7px;
+}
+
+.list {
+  list-style: none;
+  overflow-y: auto;
+}
+
+.item {
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--pale-sky-color);
+}
+
+.detail {
+  color: var(--cerulean-color);
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: var(--pale-sky-color);
+}

@@ -1,13 +1,42 @@
 .dashboardContainer {
-  padding: 20px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow: hidden;
+  background-color: var(--foam-color);
+}
+
+.content {
+  width: 100%;
+  height: 92vh;
+  display: flex;
+  transition: width 0.4s ease-in-out;
+}
+
+.dashboards {
+  flex: 1;
+  transition: width 0.4s ease-in-out;
+  display: flex;
+  max-width: 100%;
 }
 
 p.userSpecific {
-  font-weight: 700;
-  padding: 20px;
+  font-weight: 500;
+  padding: 10px;
+  font-size: 14px;
+}
+
+p.UserSpecific {
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+p.StudentSpecific {
+  background: rgb(145, 163, 241, 0.2);
+  color: rgb(92, 92, 247);
 }
 
 p.adminSpecific {
@@ -42,4 +71,17 @@ p.parentSpecific {
   background: var(--alizarin-crimson-color);
   color: var(--black-pearl-colorr);
   max-width: fit-content;
+}
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
 }

@@ -1,6 +1,16 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const LeadGeneration = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  // Check if user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);
+  }, [location]); // Re-check when location changes
+
   return (
     <div className="lead-generation">
       <div className="lead-generation-image">
@@ -16,7 +26,9 @@ const LeadGeneration = () => {
       </div>
       <div className="lead-generation-links">
         <Link to="">REQUEST A DEMO</Link>
-        <Link to="/register">SIGN UP FOR FREE</Link>
+        <Link to={isLoggedIn ? "/dashboard" : "/register"}>
+          {isLoggedIn ? "GO TO DASHBOARD" : "SIGN UP FOR FREE"}
+        </Link>
       </div>
     </div>
   );

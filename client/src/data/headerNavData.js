@@ -26,14 +26,4 @@ export const navItems = [
     linkTo: "#",
     linkText: "SEARCH",
   },
-  {
-    id: 6,
-    linkTo: "/register",
-    linkText: "REGISTER",
-  },
-  {
-    id: 7,
-    linkTo: "/login",
-    linkText: "LOGIN",
-  },
 ];

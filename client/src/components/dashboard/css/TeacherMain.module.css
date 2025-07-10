@@ -1,0 +1,277 @@
+.hero {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100vw;
+  padding: 10px;
+}
+
+.heroLeft {
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: width 0.4s ease-in-out;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: max-content;
+  width: calc(35vw - 190px);
+  gap: 80px;
+  transition: all 0.4s ease-in-out;
+}
+
+.marginCollapsed {
+  margin: 0;
+}
+
+.marginCollapsed .heroRight {
+  width: 36vw;
+  transition: all 0.4s ease-in-out;
+}
+
+.marginCollapsed .heroLeft {
+  width: 65vw;
+  transition: all 0.4s ease-in-out;
+}
+
+.assignmentsOverview {
+  height: 30vh;
+  max-width: 100%;
+  padding: 10px;
+}
+
+.noUnits {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.heroLeft h4,
+.heroLeft h3,
+.heroLeft p {
+  margin: 0;
+}
+
+.noUnits .message {
+  background-color: var(--aqua-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 20vh;
+}
+
+.unitsBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.assignmentsTitle {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.addAssignment {
+  background: var(--aqua-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addAssignment:hover {
+  background: var(--black-pearl-color);
+  color: var(--aqua-color);
+}
+
+.units {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+  width: 800px;
+  overflow: auto;
+}
+
+.submissions {
+  max-width: 100%;
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.submissions h3 {
+  margin-bottom: 10px;
+}
+
+.submissionsBox {
+  width: 100%;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background: var(--aqua-color);
+}
+
+tbody {
+  background: #fff;
+}
+
+thead tr,
+td {
+  height: 7vh;
+}
+
+td {
+  width: 20%;
+}
+
+tbody td:first-of-type {
+  width: 40%;
+}
+
+.deadlines {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 10px;
+  max-width: 100%;
+  margin-top: 20px;
+}
+
+.deadlineBox {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding: 5px;
+  gap: 10px;
+}
+
+.deadlineBox p:last-of-type {
+  color: var(--alizarin-crimson-color);
+  font-size: 0.8em;
+  margin-right: 10px;
+}
+
+.deadlineBox p:first-of-type {
+  flex: 1;
+}
+
+.deadlineEvent {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 7vh;
+  width: 70%;
+  padding: 5px;
+  border-radius: 7px;
+}
+
+.progress {
+  margin-bottom: 20px;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .heroLeft {
+    width: 100%;
+    min-height: max-content !important;
+  }
+
+  .unitsBox {
+    width: 95vw;
+  }
+
+  .heroRight {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .marginCollapsed .heroRight {
+    width: 100%;
+    max-width: 100vw;
+    padding: 0;
+  }
+
+  .marginCollapsed .heroLeft {
+    width: 100%;
+  }
+
+  .submissions {
+    width: 650px;
+  }
+
+  .progress {
+    height: max-content;
+    min-height: max-content !important;
+    max-width: 80% !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .assignmentsOverview {
+    max-height: 300px;
+  }
+
+  .units {
+    padding-right: 30px;
+    max-height: 200px;
+  }
+
+  .deadlineEvent {
+    height: 5vh;
+  }
+
+  .progress {
+    max-width: 90% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero {
+    width: 100vw;
+  }
+
+  .assignmentsTitle {
+    margin-bottom: 0;
+  }
+
+  .submissions {
+    width: 95%;
+  }
+
+  .deadlineEvent {
+    width: 90%;
+  }
+
+  .heroRight {
+    flex-direction: column;
+  }
+}

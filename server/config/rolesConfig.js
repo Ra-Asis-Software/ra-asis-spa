@@ -63,7 +63,7 @@ export const ROLES = {
       "customize:dashboard",
       "create:unit",
       "assign:unit",
-      "delete:unit"
+      "delete:unit",
     ],
     description: "Full system access",
   },

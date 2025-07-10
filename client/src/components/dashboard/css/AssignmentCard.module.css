@@ -1,0 +1,88 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  min-width: 230px;
+  max-width: 230px;
+  height: max-content;
+  border-radius: 7px;
+}
+
+.studentCard {
+  background: var(--aqua-color);
+}
+
+.teacherCard,
+.parentCard {
+  background: #fff;
+}
+
+.unit {
+  color: var(--black-pearl-color);
+}
+
+.studentCard .title {
+  color: var(--foam-color);
+}
+
+.teacherCard .title,
+.parentCard .title {
+  color: var(--black-pearl-color);
+}
+
+.studentCard .viewButton {
+  background: var(--black-pearl-color);
+  color: var(--foam-color);
+}
+
+.studentCard .viewButton:hover {
+  background: var(--foam-color);
+  color: var(--black-pearl-color);
+}
+
+.teacherCard .viewButton {
+  background: var(--cerulean-color);
+  color: var(--foam-color);
+}
+
+.teacherCard .viewButton:hover {
+  background: var(--foam-color);
+  color: var(--cerulean-color);
+}
+
+.parentCard .viewButton {
+  background: var(--pine-green-color);
+  color: var(--foam-color);
+}
+
+.parentCard .viewButton:hover {
+  background: var(--foam-color);
+  color: var(--pine-green-color);
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+.completed {
+  color: var(--pine-green-color);
+}
+
+.pending {
+  color: var(--pale-sky-color);
+}
+
+.notstarted {
+  color: var(--alizarin-crimson-color);
+}
+
+@media screen and (max-width: 520px) {
+  .card {
+    height: 15vh;
+  }
+}

@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../components/layout/Header";
 import Introduction from "../components/home/Introduction";
 import FeaturesOverview from "../components/home/FeaturesOverview";

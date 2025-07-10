@@ -1,0 +1,49 @@
+.container {
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px var(--black-pearl-color);
+  max-width: 280px;
+}
+
+.calendar :global(.react-calendar) {
+  width: 100%;
+  border: none;
+  line-height: 1.2;
+}
+
+.calendar :global(.react-calendar__tile) {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.4s ease-in-out;
+}
+
+.calendar :global(.react-calendar__tile--active) {
+  background: var(--pine-green-color);
+  color: #fff;
+}
+
+.calendar :global(.react-calendar__tile:hover) {
+  background: var(--foam-color);
+  color: var(--black-pearl-color);
+}
+
+.calendar :global(.calendar-deadline) {
+  background: var(--bright-sun-color);
+  color: var(--black-pearl-color);
+  font-weight: 700;
+}
+
+.specialDay {
+  width: 5px;
+  height: 5px;
+  background-color: var(--pine-green-color);
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 2px;
+}
+
+.specialDayPassed {
+  background-color: var(--alizarin-crimson-color);
+}

@@ -1,0 +1,110 @@
+.progressSection {
+  flex: 1;
+  max-width: 95%;
+  min-width: 340px;
+  height: 100%;
+  margin-bottom: 30px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chartContainer {
+  position: relative;
+}
+
+.performanceIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.1rem 0.75rem;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 7px;
+}
+
+.up {
+  color: var(--pine-green-color);
+}
+
+.down {
+  color: var(--alizarin-crimson-color);
+}
+
+.progressInfo {
+  margin-top: 20px;
+  color: var(--cerulean-color);
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.toggleOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggleOption input[type="radio"] {
+  display: none;
+}
+
+.customCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--cerulean-color);
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  transition: all 0.4s ease-in-out;
+}
+
+.toggleOption input[type="radio"]:checked + .customCircle {
+  border-color: var(--bright-sun-color);
+}
+
+.toggleOption input[type="radio"]:checked + .customCircle::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--bright-sun-color);
+  border-radius: 50%;
+}
+
+.improved {
+  color: var(--pine-green-color);
+}
+
+.declined {
+  color: var(--alizarin-crimson-color);
+}
+
+.noData {
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: 7px;
+  color: var(--pale-sky-color);
+}
+
+.noData ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}

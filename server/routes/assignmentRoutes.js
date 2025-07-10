@@ -37,16 +37,12 @@ router.get(
 );
 
 router.get(
-  '/:id/details',
-  hasPermission('view:assignment'),
+  "/:id/details",
+  hasPermission("view:assignment"),
   getAssignmentDetails
 );
 
-router.delete(
-  "/:id",
-  hasPermission("delete:assignment"),
-  deleteAssignment
-);
+router.delete("/:id", hasPermission("delete:assignment"), deleteAssignment);
 
 // Submission routes
 router.post(

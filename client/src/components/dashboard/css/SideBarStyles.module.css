@@ -1,0 +1,112 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  height: auto;
+  width: 0;
+  min-width: 0;
+  margin: 10px;
+  border-radius: 7px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  transition: all 0.4s ease-in-out;
+}
+
+.studentBar {
+  background-color: var(--black-pearl-color);
+}
+
+.teacherBar {
+  background-color: var(--cerulean-color);
+}
+
+.parentBar {
+  background-color: var(--pine-green-color);
+}
+
+.sidebarActive {
+  width: 180px;
+  min-width: 180px;
+}
+
+.sidebarHidden span {
+  display: none;
+}
+
+.sidebarHidden {
+  min-width: 0;
+  width: 0;
+}
+
+.siteIcon {
+  width: 70px;
+  height: 70px;
+  margin: 20px auto;
+  border-radius: 7px;
+}
+
+ul {
+  padding: 0;
+  width: 90%;
+}
+
+ul li {
+  list-style-type: none;
+  margin: 10px 0;
+}
+
+ul li a {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75em;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+ul li a:hover,
+ul li a.active {
+  background: var(--cerulean-color);
+}
+
+.logout {
+  margin-top: auto;
+  border-top: 1px solid var(--alizarin-crimson-color);
+  border-radius: 7px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.logoutButton {
+  background-color: transparent;
+  color: var(--alizarin-crimson-color);
+  display: flex;
+  align-items: center;
+}
+
+.logoutButton i {
+  position: relative;
+  right: 8px;
+  transition: all 400ms ease-in-out;
+}
+
+.logoutButton:hover i {
+  right: 4px;
+}
+
+.linkLabel {
+  display: flex;
+  transition: opacity 0.4s ease;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+
+@media (max-width: 991px) {
+  .sidebar {
+    position: fixed;
+    height: 50vh;
+  }
+}

@@ -1,0 +1,324 @@
+/* Overall Page Layout */
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin-top: 20px;
+}
+
+/* Main layout container (the form itself) */
+.profileLayout {
+  display: flex;
+  width: 1200px;
+  max-width: 950px;
+  align-items: flex-start;
+  gap: 120px;
+}
+
+/* Left Panel: Profile Identity */
+.leftPanel {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profilePicWrapper {
+  position: relative;
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.profilePicBox {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.profilePic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.addPicButton {
+  position: absolute;
+  bottom: 5px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--cerulean-color);
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.4s ease;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.addPicButton:hover {
+  background-color: var(--cerulean-color);
+}
+
+.textInput {
+  background: transparent;
+  border: none;
+  text-align: center;
+  width: 100%;
+  padding: 1px;
+  border-radius: 4px;
+}
+
+.userName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black-pearl-color);
+  margin-bottom: 5px;
+}
+
+.userRole {
+  font-size: 0.8rem;
+  color: var(--pale-sky-color);
+  margin-bottom: 0;
+}
+
+/* Right Panel: Details Form (The White Container) */
+.rightPanel {
+  flex-grow: 1;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.formGroup label {
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  color: var(--black-pearl-color);
+}
+
+.formGroup input {
+  padding: 8px;
+  border: 1px solid var(--french-gray-color);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  transition: border-color 0.4s, box-shadow 0.3s;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: var(--cerulean-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.passwordHeader {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--cerulean-color);
+  border-top: 1px solid var(--french-gray-color);
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.passwordGroup {
+  margin-left: 2rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.cancelButton,
+.saveButton {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+}
+
+.cancelButton {
+  background-color: #f0f0f0;
+  color: var(--pale-sky-color);
+  border: 1px solid var(--french-gray-color);
+}
+.cancelButton:hover {
+  background-color: var(--french-gray-color);
+}
+
+.saveButton {
+  color: var(--foam-color);
+}
+
+.cancelButton:active,
+.saveButton:active {
+  transform: translateY(1px);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  width: 500px;
+}
+
+.modalTitle {
+  background-color: #f0f0f0;
+  padding: 10px 15px;
+  margin: 0;
+  font-size: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.iconWrapper {
+  font-size: 48px;
+  color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+}
+
+.fileInput {
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 8px;
+  font-size: 0.85rem;
+  border: 1px solid var(--french-gray-color);
+  border-radius: 6px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.cancelButton,
+.continueButton {
+  /* flex: 1; */
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.cancelButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #e0e0e0;
+}
+
+.continueButton {
+  background-color: var(--aqua-color);
+  color: #000;
+}
+
+.continueButton:hover {
+  background-color: var(--cerulean-color);
+}
+.editButtonDiv {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 5vh;
+}
+.editButton {
+  color: var(--foam-color);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding-top: 20px;
+  }
+
+  .profileLayout {
+    flex-direction: column;
+    align-items: center;
+    max-width: 90vw;
+    gap: 30px;
+  }
+
+  .leftPanel {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .rightPanel {
+    width: 100%;
+  }
+
+  .passwordGroup {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .rightPanel {
+    padding: 25px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cancelButton,
+  .saveButton {
+    width: 100%;
+  }
+}
