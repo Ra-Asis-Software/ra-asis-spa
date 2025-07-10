@@ -18,13 +18,10 @@ const DashboardHeader = ({
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
 
+  // Replace with dynamic in the next Sprint
   const notifications = [
     {
-      icon: (
-        <i
-          className={`fas fa-exclamation-circle ${styles.notificationIconLeft}`}
-        ></i>
-      ),
+      icon: <i className={`fas fa-file ${styles.notificationIconLeft}`}></i>,
       message: "New assignment uploaded",
     },
     {
@@ -35,7 +32,9 @@ const DashboardHeader = ({
     },
     {
       icon: (
-        <i className={`fas fa-times-circle ${styles.notificationIconLeft}`}></i>
+        <i
+          className={`fas fa-times-circle ${styles.notificationIconLeft} ${styles.criticalNotification}`}
+        ></i>
       ),
       message: "Assignment 1 was missed",
     },
@@ -48,10 +47,10 @@ const DashboardHeader = ({
     {
       icon: (
         <i
-          className={`fas fa-exclamation-circle ${styles.notificationIconLeft}`}
+          className={`fas fa-exclamation-circle ${styles.notificationIconLeft} ${styles.criticalNotification}`}
         ></i>
       ),
-      message: "Upcoming Assignment 2 submission",
+      message: "Upcoming Assignment 2 deadline",
     },
   ];
 
@@ -78,19 +77,13 @@ const DashboardHeader = ({
   return (
     <div className={styles.headerWrapper}>
       <div className={styles.leftSection}>
-        <div className={styles.menuTitle}>Dashboard Menu</div>
-
-        {showNav ? (
-          <i
-            className={`fas fa-xmark ${styles.burgerIcon}`}
-            onClick={() => setShowNav(!showNav)}
-          ></i>
-        ) : (
-          <i
-            className={`fas fa-bars ${styles.burgerIcon}`}
-            onClick={() => setShowNav(!showNav)}
-          ></i>
-        )}
+        <h4 className={styles.menuTitle}>Dashboard Menu</h4>
+        <i
+          className={`fas ${showNav ? "fa-xmark" : "fa-bars"} ${
+            styles.burgerIcon
+          }`}
+          onClick={() => setShowNav(!showNav)}
+        ></i>
       </div>
 
       <div className={styles.rightSection}>
@@ -106,33 +99,35 @@ const DashboardHeader = ({
               }`}
               onClick={() => setShowDropdown((prev) => !prev)}
             >
-              {selectedUnit.name || "Select Subject"} ▾
+              {selectedUnit.name || "Select Unit"} ▾
             </button>
             {showDropdown && (
               <div className={styles.dropdownMenu}>
                 {units.map((unit) => (
                   <div
                     key={unit.id}
+                    className={styles.dropdownOption}
                     onClick={() => {
                       setSelectedUnit(unit);
                       setShowDropdown(false);
-                      localStorage.setItem("focus-unit", JSON.stringify(unit));
+                      localStorage.setItem("focusUnit", JSON.stringify(unit));
                     }}
                   >
                     {unit.name}
                   </div>
                 ))}
                 <div
+                  className={styles.dropdownOption}
                   onClick={() => {
-                    setSelectedUnit({ name: "All units", id: "all" });
+                    setSelectedUnit({ name: "All Units", id: "all" });
                     setShowDropdown(false);
                     localStorage.setItem(
-                      "focus-unit",
-                      JSON.stringify({ name: "All units", id: "all" })
+                      "focusUnit",
+                      JSON.stringify({ name: "All Units", id: "all" })
                     );
                   }}
                 >
-                  All units
+                  All Units
                 </div>
               </div>
             )}
@@ -168,14 +163,21 @@ const DashboardHeader = ({
                 </div>
               ))}
 
-              {!showAllNotifications && (
-                <div
-                  className={styles.seeAll}
-                  onClick={() => setShowAllNotifications(true)}
-                >
-                  See all notifications
-                </div>
-              )}
+              <div
+                className={styles.seeAll}
+                onClick={() => setShowAllNotifications(!showAllNotifications)}
+              >
+                <span>
+                  {showAllNotifications
+                    ? "See less notifications"
+                    : "See all notifications"}
+                </span>
+                <i
+                  className={`fas ${
+                    showAllNotifications ? "fa-arrow-up" : "fa-arrow-down"
+                  }`}
+                ></i>
+              </div>
             </div>
           )}
         </div>

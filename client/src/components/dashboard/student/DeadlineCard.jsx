@@ -1,6 +1,7 @@
 import styles from "../css/DeadlineCard.module.css";
+import cardStyles from "../css/AssignmentCard.module.css";
 
-const DeadlineCard = ({ unit, deadlines = [] }) => {
+const DeadlineCard = ({ unit, deadlines = [], role }) => {
   if (!unit) {
     return (
       <div className={styles.placeholder}>
@@ -10,7 +11,15 @@ const DeadlineCard = ({ unit, deadlines = [] }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={`${styles.container} ${
+        role === "student"
+          ? cardStyles.studentCard
+          : role === "teacher"
+          ? cardStyles.teacherCard
+          : role === "parent" && cardStyles.parentCard
+      }`}
+    >
       <h3 className={styles.heading}>{unit} Deadlines</h3>
       {deadlines.length === 0 ? (
         <p className={styles.noDeadlines}>No upcoming deadlines.</p>

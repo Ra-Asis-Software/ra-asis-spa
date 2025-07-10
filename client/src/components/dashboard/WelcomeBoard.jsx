@@ -1,48 +1,66 @@
+import { useNavigate } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
 import styles from "./css/WelcomeBoard.module.css";
 
-// This helper function can live outside the component as it doesn't depend on props or state.
-const getGreeting = () => {
-  const currentHour = new Date().getHours();
-  if (currentHour < 12) return "Good Morning";
-  if (currentHour < 16) return "Good Afternoon";
-  return "Good Evening";
-};
-
 const WelcomeBoard = ({ firstName }) => {
-  const greeting = getGreeting();
+  const currentHour = new Date().getHours();
+  let greeting;
+  if (currentHour < 12) greeting = "Good Morning";
+  else if (currentHour < 16) greeting = "Good Afternoon";
+  else greeting = "Good Evening";
+
+  const navigate = useNavigate();
+
+  // We can add more logic later
+  const handleButtonClick = () => {
+    navigate("/dashboard/units");
+  };
+
+  const handleParentButtonClick = () => {
+    navigate("dashboard/students");
+  };
 
   return (
     <div className={styles.welcomeBoard}>
-      <div className={styles.contentWrapper}>
-        <h2>
-          {greeting}, {firstName}
-        </h2>
-        <h1>Welcome to your SPA Dashboard</h1>
+      <h2>
+        {greeting}, {firstName}
+      </h2>
+      <h1>Welcome to your SPA Dashboard</h1>
+      <div className={styles.instructions}>
+        <RoleRestricted allowedRoles={["student"]}>
+          <h3>
+            Just one more step, select the units you want to focus on now...
+          </h3>
+          <button
+            className={`${styles.btn} ${styles.studentBtn}`}
+            onClick={handleButtonClick}
+          >
+            Go To Units
+          </button>
+        </RoleRestricted>
 
-        {/* We use a single container for the role-specific instructions */}
-        <div className={styles.instructions}>
-          <RoleRestricted allowedRoles={["student"]}>
-            <h3>Just one more step, select the units you want to focus on now...</h3>
-            <button className={`${styles.btn} ${styles.studentBtn}`}>
-              Go To Units
-            </button>
-          </RoleRestricted>
+        <RoleRestricted allowedRoles={["teacher"]}>
+          <h3>
+            Just one more step, select one of your assigned units to focus on
+            now...
+          </h3>
+          <button
+            className={`${styles.btn} ${styles.teacherBtn}`}
+            onClick={handleButtonClick}
+          >
+            Select Unit
+          </button>
+        </RoleRestricted>
 
-          <RoleRestricted allowedRoles={["teacher"]}>
-            <h3>Just one more step, select one of your assigned units to focus on now...</h3>
-            <button className={`${styles.btn} ${styles.teacherBtn}`}>
-              Select Unit
-            </button>
-          </RoleRestricted>
-
-          <RoleRestricted allowedRoles={["parent"]}>
-            <h3>Just one more step, search and select your students.</h3>
-            <button className={`${styles.btn} ${styles.parentBtn}`}>
-              Select Student
-            </button>
-          </RoleRestricted>
-        </div>
+        <RoleRestricted allowedRoles={["parent"]}>
+          <h3>Just one more step, search and select your students.</h3>
+          <button
+            className={`${styles.btn} ${styles.parentBtn}`}
+            onClick={handleParentButtonClick}
+          >
+            Select Student
+          </button>
+        </RoleRestricted>
       </div>
     </div>
   );

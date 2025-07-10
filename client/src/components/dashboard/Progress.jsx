@@ -9,6 +9,12 @@ import {
 } from "recharts";
 import styles from "./css/Progress.module.css";
 import { getProgressData } from "../../services/progressService";
+import RoleRestricted from "../ui/RoleRestricted";
+import {
+  studentBtn,
+  teacherBtn,
+  parentBtn,
+} from "./css/WelcomeBoard.module.css";
 
 const Progress = () => {
   const [view, setView] = useState("weekly");
@@ -33,21 +39,13 @@ const Progress = () => {
     fetchProgress();
   }, []);
 
-  // const current =
-  //   view === "weekly" ? progressData.weekly : progressData.monthly;
-  // const previous =
-  //   view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
-
   const current =
-  view === "weekly"
-    ? progressData.weekly || []
-    : progressData.monthly || [];
+    view === "weekly" ? progressData.weekly || [] : progressData.monthly || [];
 
   const previous =
-  view === "weekly"
-    ? progressData.lastWeek || []
-    : progressData.lastMonth || [];
-
+    view === "weekly"
+      ? progressData.lastWeek || []
+      : progressData.lastMonth || [];
 
   const average = (arr = []) => {
     if (!Array.isArray(arr) || arr.length === 0) return 0;
@@ -69,7 +67,15 @@ const Progress = () => {
         <span className={`${styles.performanceChange} ${changeColor}`}>
           {Math.abs(difference).toFixed(1)}% {performanceChange} vs {period}
         </span>
-        <button className={styles.viewReport}>View Report</button>
+        <RoleRestricted allowedRoles={["student"]}>
+          <button className={studentBtn}>View Report</button>
+        </RoleRestricted>
+        <RoleRestricted allowedRoles={["teacher"]}>
+          <button className={teacherBtn}>View Report</button>
+        </RoleRestricted>
+        <RoleRestricted allowedRoles={["parent"]}>
+          <button className={parentBtn}>View Report</button>
+        </RoleRestricted>
       </div>
 
       <div className={styles.progressChart}>

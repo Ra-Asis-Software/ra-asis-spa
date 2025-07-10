@@ -47,14 +47,19 @@ h1 {
   font-size: 2.1875em;
 }
 
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 600;
+}
+
 h2 {
   font-size: 1.75em;
-  font-weight: 600;
 }
 
 h5 {
   font-size: 1em;
-  font-weight: 600;
 }
 
 button,

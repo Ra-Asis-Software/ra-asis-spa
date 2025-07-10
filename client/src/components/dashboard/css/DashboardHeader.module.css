@@ -1,25 +1,18 @@
 .headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 6vh;
   z-index: 997;
-  transition: all 0.4s ease-in-out;
-  display: flex;
-  justify-content: space-between;
   padding: 10px;
-  align-items: center;
   max-width: 100vw;
+  transition: all 0.4s ease-in-out;
 }
+
 .leftSection {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.rightSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: max-content;
-  height: 100%;
+  gap: 10px;
 }
 
 .menuTitle {
@@ -28,248 +21,184 @@
 }
 
 .burgerIcon {
-  cursor: pointer;
   color: var(--alizarin-crimson-color);
-  font-size: 2rem;
-  margin-right: 1rem;
-}
-
-.navigation svg:hover {
+  font-size: 2em;
   cursor: pointer;
 }
 
-header svg {
-  font-size: 20px;
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .unitDropdown {
   position: relative;
-  margin-right: 1rem;
+  margin-right: 20px;
 }
 
 .unitButton {
   color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: small;
-  font-weight: 500;
 }
 
 .dropdownMenu {
+  background-color: #fff;
   display: none;
   position: absolute;
   top: 110%;
   left: 0;
-  background-color: white;
-  font-size: small;
-  border-radius: 2px;
+  border-radius: 7px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
 }
 
 .unitDropdown .dropdownMenu {
   display: block;
 }
 
-.dropdownMenu div {
-  padding: 8px 12px;
+.dropdownOption {
+  padding: 0.6em 1.2em;
+  border-radius: 7px;
+  white-space: nowrap;
   cursor: pointer;
+  transition: all 400ms ease-in-out;
 }
 
-.dropdownMenu div:hover {
-  background-color: #f9f9f9;
+.dropdownOption:hover {
+  background-color: var(--black-pearl-color);
+  color: #fff;
 }
 
-.headerRight {
-  margin-inline-start: auto;
-  margin-right: 60px;
-}
-
-.headerRight ul {
+.avatar {
+  background: var(--bright-sun-color);
+  color: var(--black-pearl-color);
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--black-pearl-color);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.headerIcons {
+.profileInfo {
   display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  position: relative;
+  flex-direction: column;
 }
 
-.notificationIcon {
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: black;
+.profileName {
+  color: var(--black-pearl-color);
+  font-weight: 700;
+  font-size: 0.8em;
+  margin-right: 40px;
+}
+
+.profileRole {
+  color: var(--pine-green-color);
+  font-size: 0.7em;
+  font-weight: 600;
 }
 
 .notificationWrapper {
   position: relative;
 }
 
+.notificationIcon {
+  font-size: 1.5em;
+  cursor: pointer;
+  color: var(--black-pearl-color);
+}
+
 .notifierDot {
+  background-color: var(--pine-green-color);
   position: absolute;
   top: -2px;
   right: -2px;
   height: 8px;
   width: 8px;
-  background-color: var(--pine-green-color);
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid #fff;
 }
 
 .notificationDropdown {
+  background-color: #fff;
   position: absolute;
   right: 0;
   top: 28px;
   width: 320px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  font-size: 0.9em;
+  border-radius: 7px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 10;
   overflow: hidden;
-  font-size: 0.9rem;
 }
 
 .notificationHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  font-weight: medium;
-  background-color: #f8f8f8;
-  border-bottom: 1px solid #eee;
+  background: var(--cerulean-color);
+  color: var(--black-pearl-color);
 }
 
-.viewAllButton {
-  background: none;
-  border: none;
-  color: var(--cerulean-color);
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
+.notificationHeader,
 .notificationItem {
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--french-gray-color);
+}
+
+.notificationItem,
+.seeAll {
   cursor: pointer;
+  transition: all 400ms ease-in-out;
 }
 
 .notificationItem:hover {
-  background-color: #f5f5f5;
+  background: var(--cerulean-color);
 }
 
 .notificationIconLeft {
+  color: var(--pine-green-color);
   margin-right: 8px;
-  font-size: 1rem;
-  flex-shrink: 0;
-  color: var(--pale-sky-color);
+  transition: all 400ms ease-in-out;
+}
+
+.criticalNotification {
+  color: var(--alizarin-crimson-color);
+}
+
+.notificationItem:hover .notificationIconLeft {
+  color: #fff;
 }
 
 .seeAll {
-  text-align: center;
-  padding: 10px;
-  font-weight: bold;
   color: var(--cerulean-color);
-  cursor: pointer;
-  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+  font-weight: 700;
 }
 
 .seeAll:hover {
-  background-color: #f0f0f0;
+  color: var(--pine-green-color);
 }
 
-.avatar {
-  color: var(--black-pearl-color);
-  background-color: var(--bright-sun-color);
-  border: 3px solid;
-  font-weight: bold;
-  font-size: 1.1rem;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  margin-right: 5px;
-}
+/* RESPONSIVE BREAKPOINTS */
 
-.profileInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.profileName {
-  font-weight: 700;
-  font-size: 0.8rem;
-  color: var(--black-pearl-color);
-  margin-right: 40px;
-}
-
-.profileRole {
-  font-size: 0.7rem;
-  color: var(--pale-sky-color);
-}
-
-.headerList {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 32px;
-  margin: 0;
-  padding: 0;
-}
-
-.headerIcons {
-  margin-right: 30px;
-}
-
-/* Hide "Activity Dashboard" on small screens */
 @media (max-width: 768px) {
-  .headerTitle {
-    display: none;
-  }
   .menuTitle {
     display: none;
   }
 
-  .unitButton {
-    font-size: 0.75rem;
-    padding: 3px 6px;
-  }
-
-  .notificationIcon {
-    font-size: 1.2rem;
+  .burgerIcon {
+    font-size: 3em;
   }
 
   .avatar {
     width: 30px;
     height: 30px;
-    font-size: 0.75rem;
-  }
-
-  .profileName {
-    font-size: 0.75rem;
-  }
-
-  .profileRole {
-    font-size: 0.65rem;
-  }
-
-  .rightSection {
-    gap: 0.5rem;
-  }
-
-  .leftSection {
-    gap: 0.5rem;
   }
 
   .headerWrapper {
@@ -277,12 +206,7 @@ header svg {
   }
 }
 
-@media (max-width: 768px) {
-  .burgerIcon {
-    display: block;
-  }
-}
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 462px) {
   .profileInfo {
     display: none;
   }

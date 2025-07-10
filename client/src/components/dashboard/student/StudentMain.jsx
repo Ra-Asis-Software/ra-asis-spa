@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "../css/StudentMain.module.css";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
@@ -9,7 +9,6 @@ import RecentActivities from "../RecentActivities";
 import { getUserDetails } from "../../../services/userService";
 import WelcomeBoard from "../WelcomeBoard";
 
-
 const today = new Date();
 const todayTimeStamp = new Date(today).setHours(0, 0, 59, 999);
 
@@ -19,7 +18,6 @@ const convertDateTime = (date, time) => {
   const fullDateTimeStr = `${safeDate}T${safeTime}:00`;
   return new Date(fullDateTimeStr).getTime();
 };
-
 
 const StudentMain = ({
   showNav,
@@ -41,14 +39,12 @@ const StudentMain = ({
       if (studentData?.data?.data) {
         setAssignments(studentData.data.data.assignments || []);
         setUnits(studentData.data.data.units || []);
-        persistSelectedUnit(); 
+        persistSelectedUnit();
       }
     };
 
     fetchData();
-  
   }, [profile?.id, profile?.role]);
-
 
   const filteredAssignments = useMemo(() => {
     if (!assignments) return [];
@@ -58,8 +54,7 @@ const StudentMain = ({
     return assignments.filter(
       (assignment) => assignment.unit._id === selectedUnit.id
     );
-  }, [assignments, selectedUnit.id]); 
-
+  }, [assignments, selectedUnit.id]);
 
   // `deadlines` are derived directly from filtered assignments
   const deadlines = useMemo(() => {
@@ -72,7 +67,6 @@ const StudentMain = ({
       };
     });
   }, [filteredAssignments]);
-
 
   if (units.length === 0) {
     return <WelcomeBoard firstName={profile?.firstName} />;
@@ -87,12 +81,12 @@ const StudentMain = ({
 
   return (
     <main className={`${styles.main} ${!showNav ? styles.mainCollapsed : ""}`}>
-      <h3 className={styles.heading}>
-        {selectedUnit.name ? `${selectedUnit.name} Assignments` : "All Assignments"}
-      </h3>
       <div className={styles.layoutGrid}>
         <div className={styles.mainContent}>
-          <div className={styles.cardContainer}>
+          <h3
+            className={styles.heading}
+          >{`${selectedUnit.name} Assignments`}</h3>
+          <div className={styles.assignmentCardContainer}>
             {filteredAssignments.length > 0 ? (
               filteredAssignments.map((assignment) => (
                 <AssignmentCard
@@ -100,6 +94,7 @@ const StudentMain = ({
                   unitName={assignment.unit.unitName}
                   title={assignment.title}
                   id={assignment._id}
+                  role={profile.role}
                 />
               ))
             ) : (
@@ -108,22 +103,26 @@ const StudentMain = ({
           </div>
           <div className={styles.summaryAndDeadlineRow}>
             <Summary selectedUnit={selectedUnit} />
-            <DeadlineCard unit={selectedUnit.name} deadlines={upcomingDeadlines} />
+            <DeadlineCard
+              unit={selectedUnit.name}
+              deadlines={upcomingDeadlines}
+              role={profile.role}
+            />
           </div>
         </div>
-
-        <aside className={styles.sidebar}>
-          <CustomCalendar deadlines={deadlines} />
-        </aside>
 
         <div className={styles.bottomRow}>
           <div className={styles.progressBox}>
             <Progress />
           </div>
-          <div className={styles.recentsBox}>
-            <RecentActivities activities={pastActivities} />
-          </div>
         </div>
+
+        <aside className={styles.rightSideBar}>
+          <CustomCalendar deadlines={deadlines} />
+          <div className={styles.recentsBox}>
+            <RecentActivities activities={pastActivities} role={profile.role} />
+          </div>
+        </aside>
       </div>
     </main>
   );

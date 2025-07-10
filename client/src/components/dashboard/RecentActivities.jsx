@@ -1,8 +1,17 @@
 import styles from "./css/RecentActivities.module.css";
+import cardStyles from "./css/AssignmentCard.module.css";
 
-const RecentActivities = ({ activities }) => {
+const RecentActivities = ({ activities, role }) => {
   return (
-    <div className={styles.card}>
+    <div
+      className={`${styles.card} ${
+        role === "student"
+          ? cardStyles.studentCard
+          : role === "teacher"
+          ? cardStyles.teacherCard
+          : role === "parent" && cardStyles.parentCard
+      }`}
+    >
       <h3>Recent Activities</h3>
       <ul className={styles.list}>
         {activities.map((activity, idx) => (
