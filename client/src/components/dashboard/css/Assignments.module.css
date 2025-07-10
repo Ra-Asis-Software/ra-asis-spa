@@ -177,7 +177,10 @@ select {
   color: var(--alizarin-crimson-color);
 }
 .submitAssignment {
-  width: 250px;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   background-color: var(--cerulean-color);
 }
 .extraTools {
@@ -265,6 +268,7 @@ select {
   justify-content: center;
   align-items: center;
 }
+
 @media screen and (max-width: 1200px) {
   .extras {
     width: 15vw;

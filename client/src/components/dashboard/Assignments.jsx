@@ -335,7 +335,7 @@ const Assignments = ({
           </div>
         </div>
       )}
-      {params.get("new") && (
+      {(params.get("new") === "true" || openAssignment) && (
         <div className={styles.extras}>
           <RoleRestricted allowedRoles={["teacher"]}>
             <AssignmentTools
