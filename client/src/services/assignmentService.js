@@ -6,7 +6,7 @@ export const createAssignment = async (data) => {
   try {
     const response = await api.post(`${ASSIGNMENTS_PATH}`, data);
 
-    return response.data;
+    return response;
   } catch (error) {
     if (error.response && error.response.data) {
       return {
@@ -22,7 +22,7 @@ export const createAssignment = async (data) => {
 export const editAssignment = async (data, id) => {
   try {
     const response = await api.patch(`${ASSIGNMENTS_PATH}/${id}/edit`, data);
-    return response.data;
+    return response;
   } catch (error) {
     if (error.response && error.response.data) {
       return {

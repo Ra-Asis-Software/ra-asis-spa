@@ -45,25 +45,35 @@ const Assignments = ({
     time: "",
   });
   const [message, setMessage] = useState("");
-  // const [canEdit, setCanEdit] = useState(false);
   const [loading, setLoading] = useState(true);
 
   //check if a new assignment is being created
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
+  const paramsRef = useRef(null);
 
   useEffect(() => {
+    paramsRef.current = new URLSearchParams(location.search);
+
     const fetchData = async () => {
       const myData = await getUserDetails(user.role, user.id);
       setLoading(false);
 
       if (myData.data.message) {
-        if (params.get("open")?.length > 10) {
+        if (paramsRef.current.get("open")) {
           const tempAssignment = myData.data.data.assignments.find(
-            (assignment) => assignment._id === params.get("open")
+            (assignment) => assignment._id === paramsRef.current.get("open")
           );
 
-          handleOpenExistingAssignment(tempAssignment);
+          setAssignmentExtras({
+            ...assignmentExtras,
+            date: tempAssignment.deadLine.slice(0, 10),
+            time: tempAssignment.deadLine.slice(11),
+            marks: tempAssignment.maxMarks,
+          });
+          setCurrentAssignment(tempAssignment);
+          setContent(JSON.parse(tempAssignment.content));
+          setCanEdit(false);
+          setOpenAssignment(true);
         }
         setAssignments(myData.data.data.assignments);
         setAllAssignments(myData.data.data.assignments);
@@ -71,7 +81,7 @@ const Assignments = ({
       }
     };
     fetchData();
-  }, [trigger]);
+  }, [trigger, location.search]);
 
   useEffect(() => {
     const handleFilterUnit = () => {
@@ -115,16 +125,7 @@ const Assignments = ({
 
   //open existing assignment
   const handleOpenExistingAssignment = (assignment) => {
-    setAssignmentExtras({
-      ...assignmentExtras,
-      date: assignment.deadLine.slice(0, 10),
-      time: assignment.deadLine.slice(11),
-      marks: assignment.maxMarks,
-    });
-    setCurrentAssignment(assignment);
-    setContent(JSON.parse(assignment.content));
-    setCanEdit(false);
-    setOpenAssignment(true);
+    navigate(`/dashboard/assignments?open=${assignment._id}`);
   };
 
   //handles publishing assignment
@@ -150,13 +151,11 @@ const Assignments = ({
       formData.append("unitId", selectedUnit.id);
 
       try {
-        const submissionResult = await createAssignment(formData);
-        setMessage(submissionResult.message);
-        if (submissionResult.status === 201) {
-          setTrigger((prev) => !prev);
-          setContent([]);
-          setSelectedFiles([]);
-          navigate("/dashboard/assignments", { replace: true });
+        const creationResult = await createAssignment(formData);
+        setMessage(creationResult.data.message);
+        if (creationResult.status === 201) {
+          const createdAssignment = creationResult.data.assignment;
+          navigate(`/dashboard/assignments?open=${createdAssignment._id}`);
         }
       } catch (error) {
         setMessage(error);
@@ -184,14 +183,18 @@ const Assignments = ({
       const assignmentId = currentAssignment._id;
       if (assignmentId) {
         const editResult = await editAssignment(formData, assignmentId);
-        setMessage(editResult.message);
+        setMessage(editResult.data.message);
         if (editResult.status === 200) {
-          setTrigger((prev) => !prev);
-          setContent([]);
-          setSelectedFiles([]);
-          navigate("/dashboard/assignments", { replace: true });
+          const editedAssignment = editResult.data.assignment;
+          navigate(`/dashboard/assignments?open=${editedAssignment._id}`, {
+            replace: true,
+          });
+          setTrigger(!trigger);
         }
       }
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
     } catch (error) {
       console.log(error);
     }
@@ -202,7 +205,7 @@ const Assignments = ({
 
   return (
     <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
-      {params.get("new") ? ( //for teachers to create assignments
+      {paramsRef.current.get("new") ? ( //for teachers to create assignments
         <RoleRestricted allowedRoles={["teacher"]}>
           <div className={styles.assignmentsBox}>
             <div className={styles.assignmentsHeader}>
@@ -406,12 +409,11 @@ const Assignments = ({
           </div>
         </div>
       )}
-      {(params.get("new") === "true" || openAssignment) && (
+      {(paramsRef.current.get("new") === "true" || openAssignment) && (
         <div className={styles.extras}>
           <RoleRestricted allowedRoles={["teacher"]}>
             <AssignmentTools
               {...{
-                params,
                 openAssignment,
                 canEdit,
                 setShowButton,
@@ -422,6 +424,7 @@ const Assignments = ({
                 assignmentExtras,
                 handleEditAssignment,
               }}
+              params={paramsRef.current}
             />
           </RoleRestricted>
         </div>

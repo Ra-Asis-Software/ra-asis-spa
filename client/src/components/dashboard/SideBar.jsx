@@ -68,14 +68,14 @@ const SideBar = ({ show, logout, role }) => {
 
         <RoleRestricted allowedRoles={["student", "teacher"]}>
           <li>
-            <Link
-              to="/dashboard/assignments"
+            <a
+              href="/dashboard/assignments"
               onClick={() => setActive("assignments")}
               className={`${active === "assignments" && styles.active}`}
             >
               <i className={`${styles.sideBarIcon} fa-solid fa-file-pen`}></i>
               <span className={styles.linkLabel}>Assignments</span>
-            </Link>
+            </a>
           </li>
         </RoleRestricted>
         <li>

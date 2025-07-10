@@ -77,7 +77,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
   assignment.deadLine = deadLine;
 
   //clear existing files
-  if (assignment.files?.length > 0) {
+  if (req.files?.length > 0 && assignment.files?.length > 0) {
     await Promise.all(
       assignment.files.map((file) =>
         fs
