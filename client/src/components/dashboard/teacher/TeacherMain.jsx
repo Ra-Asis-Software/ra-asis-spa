@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
 import AssignmentCard from "../AssignmentCard";

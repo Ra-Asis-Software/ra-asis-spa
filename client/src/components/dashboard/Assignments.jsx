@@ -3,7 +3,10 @@ import styles from "./css/Assignments.module.css";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useLocation, useNavigate } from "react-router-dom";
-import { createAssignment } from "../../services/assignmentService";
+import {
+  createAssignment,
+  editAssignment,
+} from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
 
@@ -165,6 +168,34 @@ const Assignments = ({
     }, 5000);
   };
 
+  const handleEditAssignment = async () => {
+    const formData = new FormData();
+
+    selectedFiles.forEach((file) => formData.append("files", file));
+    formData.append("content", JSON.stringify(content));
+    formData.append(
+      "deadLine",
+      `${assignmentExtras.date}T${assignmentExtras.time}`
+    );
+    formData.append("maxMarks", assignmentExtras.marks);
+    formData.append("createdBy", currentAssignment?.createdBy?._id);
+
+    try {
+      const assignmentId = currentAssignment._id;
+      if (assignmentId) {
+        const editResult = await editAssignment(formData, assignmentId);
+        setMessage(editResult.message);
+        if (editResult.status === 200) {
+          setTrigger((prev) => !prev);
+          setContent([]);
+          setSelectedFiles([]);
+          navigate("/dashboard/assignments", { replace: true });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -276,7 +307,47 @@ const Assignments = ({
                   Edit
                 </button>
               )}
+
+              {/* Editing files section */}
+              <input
+                type="file"
+                multiple
+                className={styles.fileHidden}
+                ref={assignmentFilesRef}
+                onChange={handleFileChange}
+              />
+              {currentAssignment?.files?.length > 0 && (
+                <div className={styles.selectedFiles}>
+                  <p>{selectedFiles.length > 0 && "Old"} files: </p>
+                  {currentAssignment.files.map((file, index) => {
+                    return (
+                      <p
+                        className={`${styles.chosenFile} ${
+                          selectedFiles.length > 0 && styles.oldFile
+                        }`}
+                        key={index}
+                      >
+                        {file.fileName}
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
+              <div className={styles.selectedFiles}>
+                {selectedFiles.length > 0 && <p>New files: </p>}
+                {selectedFiles.map((file, index) => {
+                  return (
+                    <p
+                      className={`${styles.chosenFile} ${styles.newFile}`}
+                      key={index}
+                    >
+                      {file.name}
+                    </p>
+                  );
+                })}
+              </div>
             </RoleRestricted>
+
             <AssignmentContent
               {...{
                 content,
@@ -349,6 +420,7 @@ const Assignments = ({
                 handlePublishAssignment,
                 message,
                 assignmentExtras,
+                handleEditAssignment,
               }}
             />
           </RoleRestricted>

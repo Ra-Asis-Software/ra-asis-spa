@@ -210,8 +210,8 @@ select {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  padding: 10px;
 }
+
 .chosenFile {
   font-size: 0.8rem;
   height: 4vh;
@@ -219,8 +219,16 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 2px;
   border-radius: 3px;
+}
+.oldFile {
+  border: 1px solid var(--alizarin-crimson-color);
+  color: var(--alizarin-crimson-color);
+}
+.newFile {
+  border: 1px solid var(--pine-green-color);
+  color: var(--pine-green-color);
 }
 .submissionAlert {
   color: var(--alizarin-crimson-color);

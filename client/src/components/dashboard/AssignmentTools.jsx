@@ -8,6 +8,7 @@ const AssignmentTools = ({
   handleChooseFiles,
   setAssignmentExtras,
   handlePublishAssignment,
+  handleEditAssignment,
   message,
   assignmentExtras,
 }) => {
@@ -114,9 +115,7 @@ const AssignmentTools = ({
           ) : openAssignment ? (
             <button
               className={styles.submitAssignment}
-              onClick={() =>
-                alert("The Edit assignment functionality is yet to be created")
-              }
+              onClick={handleEditAssignment}
             >
               SAVE CHANGES
             </button>

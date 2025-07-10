@@ -40,7 +40,9 @@ export const createAssignment = asyncHandler(async (req, res) => {
     maxMarks,
     content,
     createdBy: req.user._id,
-    files: req.files?.map((file) => file.path), // Multer saves files to "uploads/"
+    files: req.files?.map((file) => {
+      return { path: file.path, fileName: file.originalname };
+    }), // Multer saves files to "uploads/"
   });
 
   // Link assignment to unit
@@ -50,6 +52,50 @@ export const createAssignment = asyncHandler(async (req, res) => {
   res
     .status(201)
     .json({ message: "assignment created successfully", assignment });
+});
+
+// @desc    edit assignment
+// @route   PATCH /api/:assignmentId/edit
+// @access  Private (Teachers)
+export const editAssignment = asyncHandler(async (req, res) => {
+  const { maxMarks, content, deadLine, createdBy } = req.body;
+  const { assignmentId } = req.params;
+
+  //check existence of assignment
+  //ensure the creator is the editor
+  const assignment = await Assignment.findOne({
+    _id: assignmentId,
+    createdBy: req.user._id,
+  });
+
+  if (!assignment) {
+    return res.status(404).json({ message: "No assignment found" });
+  }
+
+  assignment.maxMarks = maxMarks;
+  assignment.content = content;
+  assignment.deadLine = deadLine;
+
+  //clear existing files
+  if (assignment.files?.length > 0) {
+    await Promise.all(
+      assignment.files.map((file) =>
+        fs
+          .unlink(file.path)
+          .catch((err) => console.error("File delete error:", err))
+      )
+    );
+  }
+
+  //add new files
+  assignment.files = req.files?.map((file) => {
+    return { path: file.path, fileName: file.originalname };
+  });
+
+  await assignment.save();
+  return res
+    .status(200)
+    .json({ message: "Assignment Edited Successfully", assignment });
 });
 
 // @desc    Get assignments for a unit

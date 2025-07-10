@@ -5,6 +5,7 @@ import {
   getAssignments,
   deleteAssignment,
   getAssignmentDetails,
+  editAssignment,
 } from "../controllers/assignmentController.js";
 import {
   submitAssignment,
@@ -28,6 +29,20 @@ router.post(
     });
   },
   createAssignment
+);
+
+router.patch(
+  "/:assignmentId/edit",
+  hasPermission("edit:assignment"),
+  (req, res, next) => {
+    upload.array("files", 5)(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({ message: err.message });
+      }
+      next();
+    });
+  },
+  editAssignment
 );
 
 router.get(
