@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
-import "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
@@ -84,8 +83,10 @@ const TeacherMain = ({
                 <div className={styles.noUnits}>
                   <h4>NO UNITS</h4>
                   <div className={styles.message}>
-                    <p>You don't have any units assigned to you</p>
-                    <p>The admin is yet to assign them to you</p>
+                    <p>
+                      You don't have any units assigned to you. You can request
+                      to be assigned a unit on the Units page
+                    </p>
                   </div>
                 </div>
               ) : (
@@ -148,10 +149,10 @@ const TeacherMain = ({
                 <table>
                   <thead>
                     <tr>
-                      <td>Assignment title</td>
-                      <td>Sumission status</td>
-                      <td>Evaluation status</td>
-                      <td>Date assigned</td>
+                      <th>Assignment title</th>
+                      <th>Sumission status</th>
+                      <th>Evaluation status</th>
+                      <th>Date assigned</th>
                     </tr>
                   </thead>
                   <tbody>
