@@ -116,6 +116,15 @@ const Units = ({ user }) => {
             })}
             {allUnits.length === 0 && <p>No units exist yet!</p>}
           </div>
+
+          {selectedUnits.length !== 0 && (
+            <button className={styles.requestUnits}>
+              <RoleRestricted allowedRoles={["teacher"]}>
+                Request Units
+              </RoleRestricted>
+              <RoleRestricted allowedRoles={["student"]}>Enroll</RoleRestricted>
+            </button>
+          )}
           {message !== "" && <p className={styles.pRed}>{message}</p>}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
 import AssignmentCard from "../AssignmentCard";
@@ -20,7 +20,6 @@ const TeacherMain = ({
   persistSelectedUnit,
 }) => {
   const navigate = useNavigate();
-  const [deadlines, setDeadlines] = useState([]);
 
   //get today at midnight
   const today = new Date();
@@ -34,40 +33,49 @@ const TeacherMain = ({
         const tempAssignments = teacherData.data.data.assignments || [];
         setAssignments(tempAssignments);
         setUnits(teacherData.data.data.units);
-
-        const tempDeadlines = tempAssignments
-          .filter((assignment) => {
-            if (selectedUnit.id === "all") {
-              return assignment;
-            }
-            return assignment.unit._id === selectedUnit.id;
-          })
-          .map((assignment) => {
-            return {
-              date:
-                assignment.deadLine.slice(0, 10) === "T"
-                  ? `${today.getFullYear()}-12-31`
-                  : assignment.deadLine.slice(0, 10),
-              event: assignment.title,
-              time:
-                assignment.deadLine.slice(11) === ""
-                  ? "23:59"
-                  : assignment.deadLine.slice(11),
-            };
-          });
-        setDeadlines(tempDeadlines);
-
         persistSelectedUnit();
       }
     };
     fetchData();
-  }, [selectedUnit]);
+  }, []);
+
+  const filteredAssignments = useMemo(() => {
+    if (selectedUnit.id === "all" || !selectedUnit.id) {
+      return assignments;
+    }
+    return assignments.filter(
+      (assignment) => assignment.unit._id === selectedUnit.id
+    );
+  }, [assignments, selectedUnit.id]);
 
   const convertDateTime = (date, time) => {
     const fullDateTimeStr = `${date}T${time}:00`;
     const thatDate = new Date(fullDateTimeStr);
     return thatDate.getTime();
   };
+
+  const events = useMemo(() => {
+    return filteredAssignments.map((assignment) => {
+      return {
+        date:
+          assignment.deadLine.slice(0, 10) === "T"
+            ? `${today.getFullYear()}-12-31`
+            : assignment.deadLine.slice(0, 10),
+        event: assignment.title,
+        time:
+          assignment.deadLine.slice(11) === ""
+            ? "23:59"
+            : assignment.deadLine.slice(11),
+      };
+    });
+  }, [filteredAssignments]);
+
+  const upcomingDeadlines = events.filter(
+    (event) => convertDateTime(event.date, event.time) > todayTimeStamp
+  );
+  const pastActivities = events.filter(
+    (event) => convertDateTime(event.date, event.time) <= todayTimeStamp
+  );
 
   return (
     <>
@@ -105,33 +113,20 @@ const TeacherMain = ({
                     </button>
                   </div>
                   <div className={styles.units}>
-                    {/* map assignments for the selected unit only */}
-                    {assignments
-                      .filter((assignment) => {
-                        if (selectedUnit.id === "all") {
-                          return assignment;
-                        }
-                        return assignment.unit._id === selectedUnit.id;
-                      })
-                      .map((assignment) => {
-                        return (
-                          <AssignmentCard
-                            key={assignment._id}
-                            unitName={assignment.unit.unitName}
-                            title={assignment.title}
-                            id={assignment._id}
-                            role={profile.role}
-                          />
-                        );
-                      })}
+                    {filteredAssignments.map((assignment) => {
+                      return (
+                        <AssignmentCard
+                          key={assignment._id}
+                          unitName={assignment.unit.unitName}
+                          title={assignment.title}
+                          id={assignment._id}
+                          role={profile.role}
+                        />
+                      );
+                    })}
 
                     {/* return a message if no assignment exists for the unit selected */}
-                    {assignments.filter((assignment) => {
-                      if (selectedUnit.id === "all") {
-                        return assignment;
-                      }
-                      return assignment.unit._id === selectedUnit.id;
-                    }).length === 0 && (
+                    {filteredAssignments.length === 0 && (
                       <div className={styles.message}>
                         <p>
                           You don't have any existing assignments for this unit
@@ -156,28 +151,21 @@ const TeacherMain = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {assignments
-                      .filter((assignment) => {
-                        if (selectedUnit.id === "all") {
-                          return assignment;
-                        }
-                        return assignment.unit._id === selectedUnit.id;
-                      })
-                      .map((assignment) => {
-                        return (
-                          <tr key={assignment._id}>
-                            <td>{assignment.title}</td>
-                            <td>
-                              {assignment.submissionCount}/
-                              {assignment.enrolledStudentsCount}
-                            </td>
-                            <td>{assignment.status}</td>
-                            <td>
-                              {assignment?.createdAt?.slice(0, 10) || "N/A"}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                    {filteredAssignments.map((assignment) => {
+                      return (
+                        <tr key={assignment._id}>
+                          <td>{assignment.title}</td>
+                          <td>
+                            {assignment.submissionCount}/
+                            {assignment.enrolledStudentsCount}
+                          </td>
+                          <td>{assignment.status}</td>
+                          <td>
+                            {assignment?.createdAt?.slice(0, 10) || "N/A"}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -186,21 +174,14 @@ const TeacherMain = ({
             <div className={styles.deadlines}>
               <h3>Deadlines</h3>
               <div className={styles.deadlineBox}>
-                {deadlines
-                  .filter((event) => {
-                    //filter only future dates
-                    return (
-                      convertDateTime(event.date, event.time) > todayTimeStamp
-                    );
-                  })
-                  .map((item, index) => {
-                    return (
-                      <div className={styles.deadlineEvent} key={index}>
-                        <p>{item.event}</p>
-                        <p>{item.date}</p>
-                      </div>
-                    );
-                  })}
+                {upcomingDeadlines.map((item, index) => {
+                  return (
+                    <div className={styles.deadlineEvent} key={index}>
+                      <p>{item.event}</p>
+                      <p>{item.date}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <div className={styles.progress}>
@@ -208,14 +189,9 @@ const TeacherMain = ({
             </div>
           </div>
           <div className={styles.heroRight}>
-            <CustomCalendar deadlines={deadlines} />
+            <CustomCalendar deadlines={events} />
             <RecentActivities
-              activities={deadlines.filter((event) => {
-                //filter only past dates
-                return (
-                  convertDateTime(event.date, event.time) <= todayTimeStamp
-                );
-              })}
+              activities={pastActivities}
               subject={selectedUnit.name}
               role={profile.role}
             />
