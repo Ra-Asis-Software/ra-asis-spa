@@ -1,7 +1,17 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { featuresContent } from "../../data/featuresOverviewData";
 
 const FeaturesOverview = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  // Check if user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);
+  }, [location]); // Re-check when location changes
+
   return (
     <div className="features-overview">
       <div className="features-heading">
@@ -19,7 +29,9 @@ const FeaturesOverview = () => {
         ))}
       </div>
       <div className="features-cta-buttons">
-        <Link to="/register">SIGN UP</Link>
+        <Link to={isLoggedIn ? "/dashboard" : "/register"}>
+          {isLoggedIn ? "DASHBOARD" : "SIGN UP"}
+        </Link>
         <Link to="/contact">REQUEST A DEMO</Link>
       </div>
     </div>

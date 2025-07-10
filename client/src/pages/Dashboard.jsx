@@ -9,6 +9,7 @@ import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
 import Units from "../components/dashboard/Units";
+import ProfileContent from "../components/dashboard/ProfileContent";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null); // State to store data for a user
@@ -18,10 +19,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [units, setUnits] = useState([]);
   const [assignments, setAssignments] = useState([]);
-  const [selectedUnit, setSelectedUnit] = useState({
-    name: "All units",
-    id: "all",
-  });
+  const [selectedUnit, setSelectedUnit] = useState({});
   const [canEdit, setCanEdit] = useState(false);
 
   // Fetch the user's data from the token
@@ -61,6 +59,14 @@ const Dashboard = () => {
     fetchUserData();
   }, [navigate]);
 
+  //set selected unit in localStorage
+  const persistSelectedUnit = () => {
+    const storedUnit = localStorage.getItem("focus-unit");
+    setSelectedUnit(
+      storedUnit ? JSON.parse(storedUnit) : units.length > 0 && units[0]
+    );
+  };
+
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -84,7 +90,7 @@ const Dashboard = () => {
       />
 
       <div className={styles.content}>
-        <Sidebar show={showNav} logout={handleLogout} />
+        <Sidebar show={showNav} logout={handleLogout} role={user?.role} />
         <div className={styles.dashboards}>
           <Routes>
             <Route
@@ -99,6 +105,7 @@ const Dashboard = () => {
                         setUnits,
                         assignments,
                         setAssignments,
+                        persistSelectedUnit,
                       }}
                       profile={user}
                     />
@@ -114,6 +121,7 @@ const Dashboard = () => {
                         setAssignments,
                         selectedUnit,
                         setCanEdit,
+                        persistSelectedUnit,
                       }}
                       profile={user}
                     />
@@ -124,7 +132,7 @@ const Dashboard = () => {
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["administrator"]}>
-                    {/* <ParentDashboard /> */}
+                    {/* <AdminDashboard /> */}
                   </RoleRestricted>
                 </>
               }
@@ -149,6 +157,8 @@ const Dashboard = () => {
             />
 
             <Route path="/units" element={<Units {...{ user }} />} />
+
+            <Route path="/profile" element={<ProfileContent {...{ user }} />} />
           </Routes>
         </div>
       </div>

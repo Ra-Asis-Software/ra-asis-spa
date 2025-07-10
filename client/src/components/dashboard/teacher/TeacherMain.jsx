@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
-import Title from "../Title";
 import AssignmentCard from "../AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +18,7 @@ const TeacherMain = ({
   setAssignments,
   selectedUnit,
   setCanEdit,
+  persistSelectedUnit,
 }) => {
   const navigate = useNavigate();
   const [deadlines, setDeadlines] = useState([]);
@@ -57,6 +57,8 @@ const TeacherMain = ({
             };
           });
         setDeadlines(tempDeadlines);
+
+        persistSelectedUnit();
       }
     };
     fetchData();
@@ -77,7 +79,6 @@ const TeacherMain = ({
           className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}
         >
           <div className={styles.heroLeft}>
-            <Title />
             <div className={styles.assignmentsOverview}>
               {units.length === 0 ? (
                 <div className={styles.noUnits}>

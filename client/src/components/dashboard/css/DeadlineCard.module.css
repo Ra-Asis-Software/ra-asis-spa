@@ -5,7 +5,6 @@
   width: 100%;
   max-width: 340px;
   margin-left: 6.5rem;
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
   font-family: "Segoe UI", sans-serif;
 }
 
@@ -25,14 +24,14 @@
   margin-right: 1rem; /* Adjust margin as needed */
   white-space: nowrap;
   font-weight: 500;
-  color: #555;
+  color: var(--pale-sky-color);
 }
 
 .note {
   flex-basis: 100%;
   margin-top: 0.3rem;
   margin-left: 0.5rem;
-  color: #777;
+  color: var(--pale-sky-color);
   font-size: 0.9rem;
 }
 
@@ -50,6 +49,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  height: max-content;
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .title {
@@ -65,17 +67,24 @@
 
 .note {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--pale-sky-color);
   margin-top: 0.2rem;
 }
 
 .noDeadlines {
   font-style: italic;
-  color: #6b7280;
+  color: var(--pale-sky-color);
 }
 
 .placeholder {
   font-style: italic;
-  color: #888;
+  color: var(--pale-sky-color);
   padding: 1rem;
+}
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 80vw;
+    margin: 0;
+    margin-bottom: 40px;
+  }
 }

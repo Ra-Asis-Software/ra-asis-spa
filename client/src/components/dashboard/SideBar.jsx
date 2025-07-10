@@ -3,21 +3,26 @@ import { Link } from "react-router-dom";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useState } from "react";
 
-const SideBar = ({ show, logout }) => {
+const SideBar = ({ show, logout, role }) => {
   const [active, setActive] = useState("dashboard");
   return (
     <div
-      className={
-        show
-          ? ` ${styles.sidebar} ${styles.sidebarActive}`
-          : `${styles.sidebar} ${styles.sidebarHidden}`
-      }
+      className={`${styles.sidebar} ${
+        show ? styles.sidebarActive : styles.sidebarHidden
+      } ${
+        role === "student"
+          ? styles.studentBar
+          : role === "teacher"
+          ? styles.teacherBar
+          : role === "parent" && styles.parentBar
+      }`}
     >
       <Link to="/">
         <img
           src="/assets/spa_site_icon.webp"
-          alt="Dashboard"
-          className={styles["spa-logo"]}
+          alt="Site icon"
+          title="Go to site home"
+          className={styles.siteIcon}
         />
       </Link>
       <ul>
@@ -30,7 +35,9 @@ const SideBar = ({ show, logout }) => {
             <i
               className={`${styles.sideBarIcon} ${styles.dashboardicon} fas fa-th-large`}
             ></i>
-            <span className={styles.linkLabel}>Activity Dashboard</span>
+            <span className={styles.linkLabel}>
+              <p>Activity</p> Dashboard
+            </span>
           </Link>
         </li>
         <RoleRestricted allowedRoles={["administrator"]}>
@@ -75,7 +82,7 @@ const SideBar = ({ show, logout }) => {
         </RoleRestricted>
         <li>
           <Link
-            to="/"
+            to="/dashboard/profile"
             className={`${active === "profile" && styles.active}`}
             onClick={() => setActive("profile")}
           >
@@ -85,6 +92,20 @@ const SideBar = ({ show, logout }) => {
             <span className={styles.linkLabel}>Profile</span>
           </Link>
         </li>
+        <RoleRestricted allowedRoles={["administrator"]}>
+          <li>
+            <Link
+              to="/"
+              className={`${active === "users" && styles.active}`}
+              onClick={() => setActive("users")}
+            >
+              <i
+                className={`${styles.sideBarIcon} ${styles.usericon} fas fa-user`}
+              ></i>
+              <span className={styles.linkLabel}>Users</span>
+            </Link>
+          </li>
+        </RoleRestricted>
       </ul>
 
       <div className={styles.logout}>

@@ -1,38 +1,49 @@
 import RoleRestricted from "../ui/RoleRestricted";
-import styles from "../../pages/Dashboard.module.css";
-import { useEffect, useState } from "react";
+import styles from "./css/WelcomeBoard.module.css";
+
+// This helper function can live outside the component as it doesn't depend on props or state.
+const getGreeting = () => {
+  const currentHour = new Date().getHours();
+  if (currentHour < 12) return "Good Morning";
+  if (currentHour < 16) return "Good Afternoon";
+  return "Good Evening";
+};
 
 const WelcomeBoard = ({ firstName }) => {
-  const [greeting, setGreeting] = useState("Hello");
-  const time = new Date().getHours();
-  useEffect(() => {
-    if (time >= 0 && time < 12) setGreeting("Good Morning");
-    if (time >= 12 && time < 16) setGreeting("Good Afternoon");
-    if (time >= 16 && time < 20) setGreeting("Good Evening");
-    if (time >= 20 && time <= 23) setGreeting("Good Night");
-  }, []);
+  const greeting = getGreeting();
 
   return (
     <div className={styles.welcomeBoard}>
-      <h2>
-        {greeting}, {firstName}
-      </h2>
-      <h1>Welcome to your SPA Dashboard</h1>
-      <h3>
-        Just one more step, select{" "}
-        <RoleRestricted allowedRoles={["teacher", "student"]}>
-          units
-        </RoleRestricted>{" "}
-        <RoleRestricted allowedRoles={["parent"]}>
-          your student/s
-        </RoleRestricted>
-      </h3>
-      <RoleRestricted allowedRoles={["student", "teacher"]}>
-        <button>Select Units</button>
-      </RoleRestricted>
-      <RoleRestricted allowedRoles={["parent"]}>
-        <button>My Student/s</button>
-      </RoleRestricted>
+      <div className={styles.contentWrapper}>
+        <h2>
+          {greeting}, {firstName}
+        </h2>
+        <h1>Welcome to your SPA Dashboard</h1>
+
+        {/* We use a single container for the role-specific instructions */}
+        <div className={styles.instructions}>
+          <RoleRestricted allowedRoles={["student"]}>
+            <h3>Just one more step, select the units you want to focus on now...</h3>
+            <button className={`${styles.btn} ${styles.studentBtn}`}>
+              Go To Units
+            </button>
+          </RoleRestricted>
+
+          <RoleRestricted allowedRoles={["teacher"]}>
+            <h3>Just one more step, select one of your assigned units to focus on now...</h3>
+            <button className={`${styles.btn} ${styles.teacherBtn}`}>
+              Select Unit
+            </button>
+          </RoleRestricted>
+
+          <RoleRestricted allowedRoles={["parent"]}>
+            <h3>Just one more step, search and select your students.</h3>
+            <button className={`${styles.btn} ${styles.parentBtn}`}>
+              Select Student
+            </button>
+          </RoleRestricted>
+        </div>
+      </div>
     </div>
   );
 };

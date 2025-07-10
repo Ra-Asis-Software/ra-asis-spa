@@ -1,10 +1,7 @@
 .card {
   background-color: rgba(90, 224, 215, 0.3);
-  /* border-radius: 12px; */
   padding: 1rem;
   margin-top: 2rem;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
-
   width: 90%;
   max-width: 450px;
   min-width: 300px; /* Optional */
@@ -33,10 +30,23 @@ h3 {
 
 .detail {
   font-size: 0.95rem;
-  color: #333;
+  color: var(--pale-sky-color);
 }
 
 .timestamp {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--pale-sky-color);
+}
+@media screen and (max-width: 768px) {
+  .card {
+    max-width: 95vw;
+    margin-bottom: 40px;
+    padding: 0;
+  }
+}
+@media screen and (max-width: 500px) {
+  .card {
+    width: 100%;
+    max-width: 98vw;
+  }
 }

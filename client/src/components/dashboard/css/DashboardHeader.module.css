@@ -1,21 +1,36 @@
 .headerWrapper {
-  transition: all 0.5s;
-  z-index: 997;
-  background: #ffffff;
   height: 6vh;
-  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  z-index: 997;
+  transition: all 0.4s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  max-width: 100vw;
+}
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.headerTitle {
-  font-size: 16px;
-  font-weight: 600;
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  height: 100%;
+}
+
+.menuTitle {
+  font-weight: 700;
   color: var(--black-pearl-color);
 }
 
 .burgerIcon {
   cursor: pointer;
   color: var(--alizarin-crimson-color);
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-right: 1rem;
 }
 
@@ -33,14 +48,13 @@ header svg {
 }
 
 .unitButton {
-  color: var(--black-pearl-color);
+  color: #fff;
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: small;
   font-weight: 500;
-  background-color: var(--cerulean-color);
 }
 
 .dropdownMenu {
@@ -171,8 +185,9 @@ header svg {
 }
 
 .avatar {
-  background-color: var(--cerulean-color);
-  color: white;
+  color: var(--black-pearl-color);
+  background-color: var(--bright-sun-color);
+  border: 3px solid;
   font-weight: bold;
   font-size: 1.1rem;
   width: 40px;
@@ -193,9 +208,9 @@ header svg {
 }
 
 .profileName {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.8rem;
-  color: var(--pale-sky-color);
+  color: var(--black-pearl-color);
   margin-right: 40px;
 }
 
@@ -217,22 +232,12 @@ header svg {
   margin-right: 30px;
 }
 
-.leftSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.rightSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-left: auto;
-}
-
 /* Hide "Activity Dashboard" on small screens */
 @media (max-width: 768px) {
   .headerTitle {
+    display: none;
+  }
+  .menuTitle {
     display: none;
   }
 
@@ -275,5 +280,10 @@ header svg {
 @media (max-width: 768px) {
   .burgerIcon {
     display: block;
+  }
+}
+@media screen and (max-width: 400px) {
+  .profileInfo {
+    display: none;
   }
 }

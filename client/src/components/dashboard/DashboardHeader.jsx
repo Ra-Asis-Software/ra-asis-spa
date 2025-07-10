@@ -1,5 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./css/DashboardHeader.module.css";
+import {
+  studentBar,
+  teacherBar,
+  parentBar,
+} from "./css/SideBarStyles.module.css";
 
 const DashboardHeader = ({
   setShowNav,
@@ -71,91 +76,110 @@ const DashboardHeader = ({
   }, []);
 
   return (
-    <div className={styles.navigation}>
-      <header className={styles.headerWrapper}>
-        <div className={styles.leftSection}>
-          <div className={styles.headerTitle}>Activity Dashboard</div>
+    <div className={styles.headerWrapper}>
+      <div className={styles.leftSection}>
+        <div className={styles.menuTitle}>Dashboard Menu</div>
 
-          {showNav ? (
-            <i
-              className={`fas fa-xmark ${styles.burgerIcon}`}
-              onClick={() => setShowNav(!showNav)}
-            ></i>
-          ) : (
-            <i
-              className={`fas fa-bars ${styles.burgerIcon}`}
-              onClick={() => setShowNav(!showNav)}
-            ></i>
-          )}
-        </div>
+        {showNav ? (
+          <i
+            className={`fas fa-xmark ${styles.burgerIcon}`}
+            onClick={() => setShowNav(!showNav)}
+          ></i>
+        ) : (
+          <i
+            className={`fas fa-bars ${styles.burgerIcon}`}
+            onClick={() => setShowNav(!showNav)}
+          ></i>
+        )}
+      </div>
 
-        <div className={styles.rightSection}>
+      <div className={styles.rightSection}>
+        {units.length > 0 && (
           <div className={styles.unitDropdown}>
             <button
-              className={styles.unitButton}
+              className={`${styles.unitButton} ${
+                profile.role === "student"
+                  ? studentBar
+                  : profile.role === "teacher"
+                  ? teacherBar
+                  : profile.role === "parent" && parentBar
+              }`}
               onClick={() => setShowDropdown((prev) => !prev)}
             >
               {selectedUnit.name || "Select Subject"} ▾
             </button>
             {showDropdown && (
               <div className={styles.dropdownMenu}>
-                {units.map((subject) => (
+                {units.map((unit) => (
                   <div
-                    key={subject.id}
+                    key={unit.id}
                     onClick={() => {
-                      setSelectedUnit(subject);
+                      setSelectedUnit(unit);
                       setShowDropdown(false);
+                      localStorage.setItem("focus-unit", JSON.stringify(unit));
                     }}
                   >
-                    {subject.name}
+                    {unit.name}
                   </div>
                 ))}
-              </div>
-            )}
-          </div>
-          <div className={styles.avatar}>{initial}</div>
-          <div className={styles.profileInfo}>
-            <span className={styles.profileName}>
-              {profile.firstName} {profile.lastName}
-            </span>
-            <span className={styles.profileRole}>{profile.role}</span>
-          </div>
-          <div className={styles.notificationWrapper} ref={notificationRef}>
-            <i
-              className={`fas fa-bell ${styles.notificationIcon}`}
-              onClick={() => setShowNotifications((prev) => !prev)}
-            ></i>
-            {hasNew && <span className={styles.notifierDot}></span>}
-
-            {showNotifications && (
-              <div className={styles.notificationDropdown}>
-                <div className={styles.notificationHeader}>
-                  <span>You have 2 new notifications</span>
+                <div
+                  onClick={() => {
+                    setSelectedUnit({ name: "All units", id: "all" });
+                    setShowDropdown(false);
+                    localStorage.setItem(
+                      "focus-unit",
+                      JSON.stringify({ name: "All units", id: "all" })
+                    );
+                  }}
+                >
+                  All units
                 </div>
-
-                {(showAllNotifications
-                  ? notifications
-                  : notifications.slice(0, 2)
-                ).map((note, idx) => (
-                  <div key={idx} className={styles.notificationItem}>
-                    {note.icon}
-                    {note.message}
-                  </div>
-                ))}
-
-                {!showAllNotifications && (
-                  <div
-                    className={styles.seeAll}
-                    onClick={() => setShowAllNotifications(true)}
-                  >
-                    See all notifications
-                  </div>
-                )}
               </div>
             )}
           </div>
+        )}
+        <div className={`${styles.avatar}`}>{initial}</div>
+        <div className={styles.profileInfo}>
+          <span className={styles.profileName}>
+            {profile.firstName} {profile.lastName}
+          </span>
+          <span className={styles.profileRole}>{profile.role}</span>
         </div>
-      </header>
+        <div className={styles.notificationWrapper} ref={notificationRef}>
+          <i
+            className={`fas fa-bell ${styles.notificationIcon}`}
+            onClick={() => setShowNotifications((prev) => !prev)}
+          ></i>
+          {hasNew && <span className={styles.notifierDot}></span>}
+
+          {showNotifications && (
+            <div className={styles.notificationDropdown}>
+              <div className={styles.notificationHeader}>
+                <span>You have 2 new notifications</span>
+              </div>
+
+              {(showAllNotifications
+                ? notifications
+                : notifications.slice(0, 2)
+              ).map((note, idx) => (
+                <div key={idx} className={styles.notificationItem}>
+                  {note.icon}
+                  {note.message}
+                </div>
+              ))}
+
+              {!showAllNotifications && (
+                <div
+                  className={styles.seeAll}
+                  onClick={() => setShowAllNotifications(true)}
+                >
+                  See all notifications
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

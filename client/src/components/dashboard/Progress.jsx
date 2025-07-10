@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -18,6 +18,7 @@ const Progress = () => {
     monthly: [],
     lastMonth: [],
   });
+  const lineColor = "#FDD142";
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -32,10 +33,21 @@ const Progress = () => {
     fetchProgress();
   }, []);
 
+  // const current =
+  //   view === "weekly" ? progressData.weekly : progressData.monthly;
+  // const previous =
+  //   view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
+
   const current =
-    view === "weekly" ? progressData.weekly : progressData.monthly;
+  view === "weekly"
+    ? progressData.weekly || []
+    : progressData.monthly || [];
+
   const previous =
-    view === "weekly" ? progressData.lastWeek : progressData.lastMonth;
+  view === "weekly"
+    ? progressData.lastWeek || []
+    : progressData.lastMonth || [];
+
 
   const average = (arr = []) => {
     if (!Array.isArray(arr) || arr.length === 0) return 0;
@@ -52,7 +64,7 @@ const Progress = () => {
 
   return (
     <div className={styles.progressSection}>
-      <h2>Progress</h2>
+      <h3>Progress</h3>
       <div className={styles.progressHeader}>
         <span className={`${styles.performanceChange} ${changeColor}`}>
           {Math.abs(difference).toFixed(1)}% {performanceChange} vs {period}
@@ -70,7 +82,7 @@ const Progress = () => {
               <Line
                 type="monotone"
                 dataKey="progress"
-                stroke="#4A90E2"
+                stroke={lineColor}
                 strokeWidth={3}
                 dot={{ r: 5 }}
               />

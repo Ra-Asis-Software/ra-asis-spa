@@ -1,6 +1,16 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Introduction = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  // Check if user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);
+  }, [location]); // Re-check when location changes
+
   return (
     <div className="landing-intro">
       <h1>Empower Student Success With Real-Time Analytics</h1>
@@ -11,7 +21,9 @@ const Introduction = () => {
         muted
         loop
       />
-      <Link to="/register">SIGN UP FOR FREE!</Link>
+      <Link to={isLoggedIn ? "/dashboard" : "/register"}>
+        {isLoggedIn ? "GO TO YOUR DASHBOARD" : "SIGN UP FOR FREE!"}
+      </Link>
     </div>
   );
 };

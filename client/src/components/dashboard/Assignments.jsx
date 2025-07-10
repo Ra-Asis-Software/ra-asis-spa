@@ -73,7 +73,7 @@ const Assignments = ({
   useEffect(() => {
     const handleFilterUnit = () => {
       const unitId = selectedUnit.id;
-      if (unitId === "") {
+      if (unitId === "all") {
         setAssignments(allAssignments);
       } else {
         setAssignments(() => {
@@ -335,23 +335,25 @@ const Assignments = ({
           </div>
         </div>
       )}
-      <div className={styles.extras}>
-        <RoleRestricted allowedRoles={["teacher"]}>
-          <AssignmentTools
-            {...{
-              params,
-              openAssignment,
-              canEdit,
-              setShowButton,
-              handleChooseFiles,
-              setAssignmentExtras,
-              handlePublishAssignment,
-              message,
-              assignmentExtras,
-            }}
-          />
-        </RoleRestricted>
-      </div>
+      {params.get("new") && (
+        <div className={styles.extras}>
+          <RoleRestricted allowedRoles={["teacher"]}>
+            <AssignmentTools
+              {...{
+                params,
+                openAssignment,
+                canEdit,
+                setShowButton,
+                handleChooseFiles,
+                setAssignmentExtras,
+                handlePublishAssignment,
+                message,
+                assignmentExtras,
+              }}
+            />
+          </RoleRestricted>
+        </div>
+      )}
     </div>
   );
 };

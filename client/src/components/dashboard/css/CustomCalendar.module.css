@@ -17,7 +17,7 @@
 .calendar :global(.react-calendar__tile) {
   padding: 0.75rem 0.5rem;
   border-radius: 60%;
-  transition: background 0.3s;
+  transition: background 0.4s;
 }
 
 .calendar :global(.react-calendar__tile--active) {
