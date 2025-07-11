@@ -151,6 +151,7 @@ const Dashboard = () => {
                     setUnits,
                     canEdit,
                     setCanEdit,
+                    persistSelectedUnit,
                   }}
                 />
               }

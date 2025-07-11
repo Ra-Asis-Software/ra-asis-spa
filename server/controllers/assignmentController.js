@@ -131,6 +131,10 @@ export const getAssignmentDetails = asyncHandler(async (req, res) => {
     .populate({
       path: "enrolledStudentsCount",
       select: "_id",
+    })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName _id",
     });
 
   if (!assignment) {

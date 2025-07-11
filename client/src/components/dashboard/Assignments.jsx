@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   createAssignment,
   editAssignment,
+  getAssignmentDetails,
 } from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
@@ -19,6 +20,7 @@ const Assignments = ({
   setUnits,
   canEdit,
   setCanEdit,
+  persistSelectedUnit,
 }) => {
   const [allAssignments, setAllAssignments] = useState([]);
   const [openAssignment, setOpenAssignment] = useState(false);
@@ -47,10 +49,13 @@ const Assignments = ({
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  //check if a new assignment is being created
+  //keep tabs of url to see whether its new/open/all
   const location = useLocation();
   const paramsRef = useRef(null);
 
+  //useEffect for refreshing everything (assignments, units)
+  //triggered with the state variable "trigger" during certains ops
+  //also triggered when url changes (open, new, all)
   useEffect(() => {
     paramsRef.current = new URLSearchParams(location.search);
 
@@ -59,10 +64,25 @@ const Assignments = ({
       setLoading(false);
 
       if (myData.data.message) {
-        if (paramsRef.current.get("open")) {
-          const tempAssignment = myData.data.data.assignments.find(
-            (assignment) => assignment._id === paramsRef.current.get("open")
-          );
+        setAssignments(myData.data.data.assignments);
+        setAllAssignments(myData.data.data.assignments);
+        setUnits(myData.data.data.units);
+      }
+    };
+    fetchData();
+    persistSelectedUnit();
+  }, [trigger, location.search]);
+
+  //useEffect for fetching assignment data only when the url changes to "open"
+  useEffect(() => {
+    const assignmentDetails = async () => {
+      if (paramsRef.current.get("open")) {
+        const detailsRetrieved = await getAssignmentDetails(
+          paramsRef.current.get("open")
+        );
+
+        if (detailsRetrieved.status === 200) {
+          const tempAssignment = detailsRetrieved.data;
 
           setAssignmentExtras({
             ...assignmentExtras,
@@ -75,14 +95,12 @@ const Assignments = ({
           setCanEdit(false);
           setOpenAssignment(true);
         }
-        setAssignments(myData.data.data.assignments);
-        setAllAssignments(myData.data.data.assignments);
-        setUnits(myData.data.data.units);
       }
     };
-    fetchData();
-  }, [trigger, location.search]);
+    assignmentDetails();
+  }, [location.search]);
 
+  //useEffect for displaying assignments only tied to the currently selected unit
   useEffect(() => {
     const handleFilterUnit = () => {
       const unitId = selectedUnit.id;
@@ -108,8 +126,7 @@ const Assignments = ({
     setSelectedFiles(Array.from(e.target.files));
   };
 
-  //create new assignment
-  const handleCreateNewAssignment = () => {
+  const resetAssignmentContent = () => {
     setContent([]);
     setSelectedFiles([]);
     setAssignmentExtras({
@@ -117,6 +134,11 @@ const Assignments = ({
       time: "",
       marks: 0,
     });
+  };
+
+  //create new assignment
+  const handleCreateNewAssignment = () => {
+    resetAssignmentContent();
     setCanEdit(true);
     navigate("/dashboard/assignments?new=true", {
       replace: true,
@@ -155,6 +177,7 @@ const Assignments = ({
         setMessage(creationResult.data.message);
         if (creationResult.status === 201) {
           const createdAssignment = creationResult.data.assignment;
+          resetAssignmentContent();
           navigate(`/dashboard/assignments?open=${createdAssignment._id}`);
         }
       } catch (error) {
@@ -186,10 +209,9 @@ const Assignments = ({
         setMessage(editResult.data.message);
         if (editResult.status === 200) {
           const editedAssignment = editResult.data.assignment;
-          navigate(`/dashboard/assignments?open=${editedAssignment._id}`, {
-            replace: true,
-          });
-          setTrigger(!trigger);
+          resetAssignmentContent();
+          handleOpenExistingAssignment(editedAssignment);
+          setCanEdit(false);
         }
       }
       setTimeout(() => {
@@ -213,6 +235,7 @@ const Assignments = ({
                 className={styles.addAssignment}
                 onClick={() => {
                   navigate("/dashboard/assignments");
+                  resetAssignmentContent();
                 }}
               >
                 <i className="fa-solid fa-left-long"></i>
@@ -284,6 +307,7 @@ const Assignments = ({
               className={styles.addAssignment}
               onClick={() => {
                 setOpenAssignment(false);
+                resetAssignmentContent();
                 navigate("/dashboard/assignments");
               }}
             >
@@ -404,7 +428,7 @@ const Assignments = ({
                 );
               })}
             {assignments.length === 0 && (
-              <p>You have no assignments for the unit</p>
+              <p>You have no assignments for this selection</p>
             )}
           </div>
         </div>
