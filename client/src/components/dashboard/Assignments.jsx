@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   createAssignment,
   editAssignment,
-  getAssignmentDetails,
 } from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
@@ -73,33 +72,6 @@ const Assignments = ({
     persistSelectedUnit();
   }, [trigger, location.search]);
 
-  //useEffect for fetching assignment data only when the url changes to "open"
-  useEffect(() => {
-    const assignmentDetails = async () => {
-      if (paramsRef.current.get("open")) {
-        const detailsRetrieved = await getAssignmentDetails(
-          paramsRef.current.get("open")
-        );
-
-        if (detailsRetrieved.status === 200) {
-          const tempAssignment = detailsRetrieved.data;
-
-          setAssignmentExtras({
-            ...assignmentExtras,
-            date: tempAssignment.deadLine.slice(0, 10),
-            time: tempAssignment.deadLine.slice(11),
-            marks: tempAssignment.maxMarks,
-          });
-          setCurrentAssignment(tempAssignment);
-          setContent(JSON.parse(tempAssignment.content));
-          setCanEdit(false);
-          setOpenAssignment(true);
-        }
-      }
-    };
-    assignmentDetails();
-  }, [location.search]);
-
   //useEffect for displaying assignments only tied to the currently selected unit
   useEffect(() => {
     const handleFilterUnit = () => {
@@ -134,6 +106,7 @@ const Assignments = ({
       time: "",
       marks: 0,
     });
+    setTrigger((prev) => !prev);
   };
 
   //create new assignment
@@ -147,7 +120,39 @@ const Assignments = ({
 
   //open existing assignment
   const handleOpenExistingAssignment = (assignment) => {
+    setAssignmentExtras({
+      ...assignmentExtras,
+      date: assignment.deadLine.slice(0, 10),
+      time: assignment.deadLine.slice(11),
+      marks: assignment.maxMarks,
+    });
+    setCurrentAssignment(assignment);
+    setContent(JSON.parse(assignment.content));
+    setCanEdit(false);
+    setOpenAssignment(true);
     navigate(`/dashboard/assignments?open=${assignment._id}`);
+  };
+
+  const handleDueDate = (dateTime) => {
+    const dateTimeString = `${dateTime}:00`;
+    const fullDateTimeString = new Date(dateTimeString);
+    const milliSeconds = fullDateTimeString.getTime();
+
+    const today = Date.now();
+    const diff = milliSeconds - today;
+    if (diff < 0) return "Overdue";
+    const minutes = diff / (1000 * 60);
+    if (minutes < 60) return `due in ${Math.floor(minutes)} minutes `;
+    const hours = minutes / 60;
+    if (hours < 24) return `due in ${Math.floor(hours)} hours `;
+    const days = hours / 24;
+    if (days < 7) return `due in ${Math.floor(days)} days`;
+    const weeks = days / 7;
+    if (weeks < 4) return `due in ${Math.floor(weeks)} weeks`;
+    const months = weeks / 4;
+    if (months < 12) return `due in ${Math.floor(months)} months`;
+    const years = months / 12;
+    return `due in ${Math.floor(years)} years`;
   };
 
   //handles publishing assignment
@@ -180,7 +185,7 @@ const Assignments = ({
         if (creationResult.status === 201) {
           const createdAssignment = creationResult.data.assignment;
           resetAssignmentContent();
-          navigate(`/dashboard/assignments?open=${createdAssignment._id}`);
+          handleOpenExistingAssignment(createdAssignment);
         }
       } catch (error) {
         setMessage(error);
@@ -213,7 +218,6 @@ const Assignments = ({
           const editedAssignment = editResult.data.assignment;
           resetAssignmentContent();
           handleOpenExistingAssignment(editedAssignment);
-          setCanEdit(false);
         }
       }
       setTimeout(() => {
@@ -323,10 +327,11 @@ const Assignments = ({
               Unit: {currentAssignment.unit.unitName}
             </p>
             <p className={styles.normalText}>
-              Deadline: {assignmentExtras.date} at {assignmentExtras.time}
+              Deadline: {currentAssignment.deadLine.slice(0, 10)} at{" "}
+              {currentAssignment.deadLine.slice(11)}
             </p>
             <p className={styles.normalText}>
-              Max Mark: {assignmentExtras.marks}
+              Max Mark: {currentAssignment.maxMarks}
             </p>
 
             <RoleRestricted allowedRoles={["teacher"]}>
@@ -435,7 +440,7 @@ const Assignments = ({
                   >
                     <p>{assignment.title}</p>
                     <p>{assignment.status}</p>
-                    <p>Due in 2 days</p>
+                    <p>{handleDueDate(assignment.deadLine)}</p>
                   </button>
                 );
               })}

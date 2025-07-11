@@ -49,9 +49,13 @@ export const createAssignment = asyncHandler(async (req, res) => {
   unit.assignments.push(assignment._id);
   await unit.save();
 
-  res
-    .status(201)
-    .json({ message: "assignment created successfully", assignment });
+  //populate the assignment before sending back
+  const populatedAssignment = await assignment.populate("unit");
+
+  res.status(201).json({
+    message: "assignment created successfully",
+    assignment: populatedAssignment,
+  });
 });
 
 // @desc    edit assignment
@@ -93,9 +97,16 @@ export const editAssignment = asyncHandler(async (req, res) => {
   });
 
   await assignment.save();
+
+  //populate the assignment with unitName and code before sending back
+  const populatedAssignment = await assignment.populate("unit");
+
   return res
     .status(200)
-    .json({ message: "Assignment Edited Successfully", assignment });
+    .json({
+      message: "Assignment Edited Successfully",
+      assignment: populatedAssignment,
+    });
 });
 
 // @desc    Get assignments for a unit
