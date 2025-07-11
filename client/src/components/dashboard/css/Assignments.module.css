@@ -210,6 +210,7 @@ select {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .chosenFile {
@@ -221,6 +222,8 @@ select {
   align-items: center;
   padding: 2px;
   border-radius: 3px;
+  gap: 6px;
+  cursor: pointer;
 }
 .oldFile {
   border: 1px solid var(--alizarin-crimson-color);
@@ -278,6 +281,10 @@ select {
 }
 .assignment p:first-of-type {
   max-width: 50%;
+}
+.normalText {
+  border: 1px solid;
+  margin: 0;
 }
 
 @media screen and (max-width: 1200px) {

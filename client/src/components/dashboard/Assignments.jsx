@@ -159,15 +159,17 @@ const Assignments = ({
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
       setMessage("Ensure both Assignment Title and Submission Type are set");
     } else {
+      //setup deadlines for those not set
+      let tempDate, tempTime;
+      tempDate = assignmentExtras.date || `${new Date().getFullYear()}-12-31`;
+      tempTime = assignmentExtras.time || "23:59";
+
       const formData = new FormData();
 
       selectedFiles.forEach((file) => formData.append("files", file));
       formData.append("title", assignmentTitle);
       formData.append("submissionType", submissionType);
-      formData.append(
-        "deadLine",
-        `${assignmentExtras.date}T${assignmentExtras.time}`
-      );
+      formData.append("deadLine", `${tempDate}T${tempTime}`);
       formData.append("maxMarks", assignmentExtras.marks);
       formData.append("content", JSON.stringify(content));
       formData.append("unitId", selectedUnit.id);
@@ -317,7 +319,16 @@ const Assignments = ({
           </div>
           <div className={styles.textContent}>
             <h3>Assignment: {currentAssignment.title}</h3>
-            <h4>Unit: {currentAssignment.unit.unitName}</h4>
+            <p className={styles.normalText}>
+              Unit: {currentAssignment.unit.unitName}
+            </p>
+            <p className={styles.normalText}>
+              Deadline: {assignmentExtras.date} at {assignmentExtras.time}
+            </p>
+            <p className={styles.normalText}>
+              Max Mark: {assignmentExtras.marks}
+            </p>
+
             <RoleRestricted allowedRoles={["teacher"]}>
               {canEdit ? (
                 <button
@@ -343,23 +354,6 @@ const Assignments = ({
                 ref={assignmentFilesRef}
                 onChange={handleFileChange}
               />
-              {currentAssignment?.files?.length > 0 && (
-                <div className={styles.selectedFiles}>
-                  <p>{selectedFiles.length > 0 && "Old"} files: </p>
-                  {currentAssignment.files.map((file, index) => {
-                    return (
-                      <p
-                        className={`${styles.chosenFile} ${
-                          selectedFiles.length > 0 && styles.oldFile
-                        }`}
-                        key={index}
-                      >
-                        {file.fileName}
-                      </p>
-                    );
-                  })}
-                </div>
-              )}
               <div className={styles.selectedFiles}>
                 {selectedFiles.length > 0 && <p>New files: </p>}
                 {selectedFiles.map((file, index) => {
@@ -374,6 +368,24 @@ const Assignments = ({
                 })}
               </div>
             </RoleRestricted>
+            {currentAssignment?.files?.length > 0 && (
+              <div className={styles.selectedFiles}>
+                <p>{selectedFiles.length > 0 && "Old"} files: </p>
+                {currentAssignment.files.map((file, index) => {
+                  return (
+                    <div
+                      className={`${styles.chosenFile} ${
+                        selectedFiles.length > 0 && styles.oldFile
+                      }`}
+                      key={index}
+                    >
+                      {file.fileName}
+                      <i className="fa-solid fa-download"></i>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
             <AssignmentContent
               {...{
