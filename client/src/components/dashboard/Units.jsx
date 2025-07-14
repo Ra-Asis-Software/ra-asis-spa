@@ -13,15 +13,25 @@ const Units = ({ user }) => {
   const [message, setMessage] = useState("");
   useEffect(() => {
     const fetchUnits = async () => {
+      //fetch all units
       const unitsFetched = await getAllUnits();
 
       if (unitsFetched.data.success) {
-        setAllUnits(unitsFetched.data.data);
-        setUnitsHolder(unitsFetched.data.data);
+        const tempAllUnits = unitsFetched.data.data;
 
+        //get units i already have
         const myUnits = await getUserDetails(user.role, user.id);
         if (myUnits.data.data.units) {
+          const tempMyUnits = myUnits.data.data.units;
+
           setUnits(myUnits.data.data.units);
+          //we want to exclude units that are already assigned to me
+          const myUnitsCodes = new Set(tempMyUnits.map((unit) => unit.code));
+          const allOtherUnits = tempAllUnits.filter(
+            (unit) => !myUnitsCodes.has(unit.unitCode)
+          );
+          setAllUnits(allOtherUnits);
+          setUnitsHolder(allOtherUnits);
         }
       }
     };
@@ -50,28 +60,28 @@ const Units = ({ user }) => {
     //check the current number of units first
     const totalUnits = units.length + selectedUnits.length;
     if (totalUnits >= 5) {
-      setMessage("You can only have a maximum of 5 units");
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      if (e.target.checked) {
+        setMessage("You can only have a maximum of 5 units");
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+      }
 
       e.target.checked = false;
     } else {
-      //if unit already is selected, dont add
+      //if unit already is selected, do not add
       if (e.target.checked) {
         if (!selectedUnits.includes(unit.unitCode)) {
           setSelectedUnits((prev) => [...prev, unit.unitCode]);
         }
-      }
-    }
-
-    //if target is unchecked, check if it exists first
-    if (!e.target.checked) {
-      if (selectedUnits.includes(unit.unitCode)) {
-        const tempArray = selectedUnits.filter(
-          (item) => item !== unit.unitCode
-        );
-        setSelectedUnits(tempArray);
+      } else {
+        //if target is unchecked, check if it exists first
+        if (selectedUnits.includes(unit.unitCode)) {
+          const tempArray = selectedUnits.filter(
+            (item) => item !== unit.unitCode
+          );
+          setSelectedUnits(tempArray);
+        }
       }
     }
   };
@@ -114,7 +124,7 @@ const Units = ({ user }) => {
                 </div>
               );
             })}
-            {allUnits.length === 0 && <p>No units exist yet!</p>}
+            {allUnits.length === 0 && <p>No units available yet!</p>}
           </div>
 
           {selectedUnits.length !== 0 && (

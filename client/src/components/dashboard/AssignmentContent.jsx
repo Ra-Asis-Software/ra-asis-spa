@@ -176,7 +176,9 @@ const AssignmentContent = ({
             <div key={index} className={styles.edDiv}>
               {item[1] === "instruction" ? (
                 <p
-                  className={`${styles.textInstruction} ${styles.editable}`}
+                  className={`${styles.textInstruction} ${styles.editable} ${
+                    !canEdit && styles.textInstructionWork
+                  }`}
                   contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
@@ -184,9 +186,15 @@ const AssignmentContent = ({
                   NOTE: {stripHTML(item[0])}
                 </p>
               ) : item[1] === "question" ? (
-                <div className={styles.questionContainer}>
+                <div
+                  className={`${styles.questionContainer} ${
+                    !canEdit && styles.questionContainerWork
+                  }`}
+                >
                   <p
-                    className={`${styles.textQuestion} ${styles.editable}`}
+                    className={`${styles.textQuestion} ${styles.editable} ${
+                      !canEdit && styles.textQuestionWork
+                    }`}
                     contentEditable={canEdit && role === "teacher"}
                     suppressContentEditableWarning
                     onInput={(e) => handleChangeText(e, index)}
@@ -198,7 +206,9 @@ const AssignmentContent = ({
                     return (
                       <div className={`${styles.answerBox}`} key={index1}>
                         <p
-                          className={styles.editable}
+                          className={`${styles.editable} ${
+                            !canEdit && styles.answerWork
+                          }`}
                           contentEditable={canEdit && role === "teacher"}
                           suppressContentEditableWarning
                           onInput={(e) =>
@@ -249,7 +259,9 @@ const AssignmentContent = ({
                 </div>
               ) : item[1] === "textArea" ? (
                 <div
-                  className={`${styles.textLong} ${styles.editable}`}
+                  className={`${styles.textLong} ${styles.editable} ${
+                    !canEdit && styles.textLongWork
+                  }`}
                   contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
@@ -259,7 +271,9 @@ const AssignmentContent = ({
               ) : (
                 item[1] === "title" && (
                   <h4
-                    className={`${styles.textTitle} ${styles.editable}`}
+                    className={`${styles.textTitle} ${styles.editable} ${
+                      !canEdit && styles.textTitleWork
+                    }`}
                     contentEditable={canEdit && role === "teacher"}
                     suppressContentEditableWarning
                     onInput={(e) => handleChangeText(e, index)}
