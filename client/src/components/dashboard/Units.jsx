@@ -74,14 +74,15 @@ const Units = ({ user }) => {
         if (!selectedUnits.includes(unit.unitCode)) {
           setSelectedUnits((prev) => [...prev, unit.unitCode]);
         }
-      } else {
-        //if target is unchecked, check if it exists first
-        if (selectedUnits.includes(unit.unitCode)) {
-          const tempArray = selectedUnits.filter(
-            (item) => item !== unit.unitCode
-          );
-          setSelectedUnits(tempArray);
-        }
+      }
+    }
+    if (!e.target.checked) {
+      //if target is unchecked, check if it exists first
+      if (selectedUnits.includes(unit.unitCode)) {
+        const tempArray = selectedUnits.filter(
+          (item) => item !== unit.unitCode
+        );
+        setSelectedUnits(tempArray);
       }
     }
   };

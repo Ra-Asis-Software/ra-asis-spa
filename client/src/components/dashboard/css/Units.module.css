@@ -116,3 +116,27 @@
   align-self: center;
   margin-top: 20px;
 }
+@media screen and (max-width: 1255px) {
+  .hero {
+    gap: 10px;
+  }
+  .heroRight {
+    min-width: max-content;
+  }
+}
+@media screen and (max-width: 820px) {
+  .hero {
+    flex-direction: column;
+    height: 90dvh;
+    overflow-y: scroll;
+  }
+  .heroLeft {
+    min-height: max-content;
+  }
+  .heroRight {
+    flex: 1;
+    width: 95%;
+    min-height: max-content;
+    margin-bottom: 20px;
+  }
+}
