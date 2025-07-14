@@ -146,7 +146,7 @@ const TeacherMain = ({
             <div className={styles.submissions}>
               <h3>Submissions</h3>
               <div className={styles.submissionsBox}>
-                <table>
+                <table className={styles.submissionsTable}>
                   <thead>
                     <tr>
                       <th>Assignment title</th>

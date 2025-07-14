@@ -16,6 +16,7 @@
 .teacherCard,
 .parentCard {
   background: #fff;
+  gap: 15px;
 }
 
 .unit {
@@ -84,5 +85,10 @@
 @media screen and (max-width: 520px) {
   .card {
     height: 15vh;
+  }
+
+  .teacherCard,
+  .parentCard {
+    height: 10vh;
   }
 }
