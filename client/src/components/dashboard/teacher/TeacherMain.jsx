@@ -75,9 +75,9 @@ const TeacherMain = ({
         <WelcomeBoard firstName={profile?.firstName} />
       ) : (
         <div
-          className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}
+          className={`${styles.teacherContainer} ${showNav ? "" : styles.marginCollapsed}`}
         >
-          <div className={styles.heroLeft}>
+          <div className={styles.containerLeft}>
             <div className={styles.assignmentsOverview}>
               {units.length === 0 ? (
                 <div className={styles.noUnits}>
@@ -90,7 +90,7 @@ const TeacherMain = ({
                   </div>
                 </div>
               ) : (
-                <div className={styles.unitsBox}>
+                <div className={styles.assignmentsBox}>
                   <div className={styles.assignmentsTitle}>
                     <h4>{selectedUnit.name} Assignments</h4>
                     <button
@@ -104,7 +104,7 @@ const TeacherMain = ({
                       <p>Create</p>
                     </button>
                   </div>
-                  <div className={styles.units}>
+                  <div className={styles.assignments}>
                     {/* map assignments for the selected unit only */}
                     {assignments
                       .filter((assignment) => {
@@ -207,7 +207,7 @@ const TeacherMain = ({
               <Progress />
             </div>
           </div>
-          <div className={styles.heroRight}>
+          <div className={styles.containerRight}>
             <CustomCalendar deadlines={deadlines} />
             <RecentActivities
               activities={deadlines.filter((event) => {
