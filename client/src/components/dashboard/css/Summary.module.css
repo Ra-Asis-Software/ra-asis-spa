@@ -1,30 +1,21 @@
-.summarySection {
-  width: 35%;
-  padding-top: 1px;
-}
-
-.summarySection h2 {
-  margin-bottom: 1.5rem;
-}
-
 .progressBars {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 20px;
 }
 
 .progressTrack {
-  width: 100%;
-  height: 12px;
   background-color: var(--french-gray-color);
-  border-radius: 6px;
+  width: 100%;
+  height: 10px;
+  border-radius: 7px;
   overflow: hidden;
 }
 
 .progressRow {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 0.4rem;
 }
 
@@ -35,12 +26,12 @@
 
 .progressFill {
   height: 100%;
-  transition: width 0.4s ease;
-  border-radius: 6px;
+  border-radius: 7px;
+  transition: width 0.4s ease-in-out;
 }
 
 .completed {
-  background-color: #4caf50;
+  background-color: var(--pine-green-color);
 }
 
 .pending {
@@ -48,8 +39,10 @@
 }
 
 .overdue {
-  background-color: var(--pale-sky-color);
+  background-color: var(--alizarin-crimson-color);
 }
+
+/* RESPONSIVE BREAKPOINTS */
 @media screen and (max-width: 768px) {
   .summarySection {
     width: 80%;

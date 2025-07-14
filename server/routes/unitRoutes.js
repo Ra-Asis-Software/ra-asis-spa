@@ -5,6 +5,7 @@ import {
   deleteUnit,
   enrollUnit,
   getAllUnits,
+  getAssignmentSummaryByUnit,
   getStudents,
   getTeachers,
 } from "../controllers/unitController.js";
@@ -59,6 +60,9 @@ router.get(
   validateUnitCode,
   getTeachers
 );
+
+// Route for getting assignment summary for a unit
+router.get("/assignment-summary/:unitCode", getAssignmentSummaryByUnit);
 
 // Route for getting all units
 router.get("/get-all-units", getAllUnits);
