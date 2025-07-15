@@ -51,6 +51,7 @@ const Assignments = ({
   //keep tabs of url to see whether its new/open/all
   const location = useLocation();
   const paramsRef = useRef(null);
+  const openAssignmentFromThisPageRef = useRef(null); //this should track open assignments from teacher/student page
 
   //useEffect for refreshing everything (assignments, units)
   //triggered with the state variable "trigger" during certains ops
@@ -63,9 +64,23 @@ const Assignments = ({
       setLoading(false);
 
       if (myData.data.message) {
-        setAssignments(myData.data.data.assignments);
-        setAllAssignments(myData.data.data.assignments);
+        const tempAssignments = myData.data.data.assignments;
+        setAssignments(tempAssignments);
+        setAllAssignments(tempAssignments);
         setUnits(myData.data.data.units);
+
+        //when the assignment is opened from teacher/student
+        if (
+          paramsRef.current.get("open") &&
+          !openAssignmentFromThisPageRef.current
+        ) {
+          const toBeOpenedId = paramsRef.current.get("open");
+          const toBeOpenedData = tempAssignments.find(
+            (assignment) => assignment._id === toBeOpenedId
+          );
+          if (toBeOpenedData) handleOpenExistingAssignment(toBeOpenedData);
+          else navigate("/dashboard/assignments");
+        }
       }
     };
     fetchData();
@@ -120,6 +135,7 @@ const Assignments = ({
 
   //open existing assignment
   const handleOpenExistingAssignment = (assignment) => {
+    openAssignmentFromThisPageRef.current = true;
     setAssignmentExtras({
       ...assignmentExtras,
       date: assignment.deadLine.slice(0, 10),
