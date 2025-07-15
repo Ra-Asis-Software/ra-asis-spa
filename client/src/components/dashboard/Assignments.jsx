@@ -144,7 +144,7 @@ const Assignments = ({
     });
     setCurrentAssignment(assignment);
 
-    //assign numbers to questions
+    //assign numbers to questions before displaying
     const tempAssignmentContent = JSON.parse(assignment.content);
     let questionNumber = 1;
 

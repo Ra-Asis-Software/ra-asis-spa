@@ -13,6 +13,7 @@
   gap: 10px;
   overflow-y: auto;
   transition: flex 0.4s ease-in-out;
+  background-color: #fff;
 }
 .assignmentsHeader {
   height: 8vh;
@@ -75,6 +76,7 @@ select {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: #fff;
 }
 .textContent h3 {
   margin: 0;
@@ -286,6 +288,7 @@ select {
   max-width: 50%;
 }
 .normalText,
+.edDivWork,
 .textInstructionWork,
 .questionContainerWork,
 .textQuestionWork,
@@ -293,6 +296,7 @@ select {
 .textTitleWork,
 .textLongWork {
   margin: 0;
+  border: none;
 }
 .questionHolder {
   display: flex;

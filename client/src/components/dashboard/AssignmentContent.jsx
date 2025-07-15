@@ -173,7 +173,10 @@ const AssignmentContent = ({
       {content.length > 0 &&
         content.map((item, index) => {
           return (
-            <div key={index} className={styles.edDiv}>
+            <div
+              key={index}
+              className={`${styles.edDiv}  ${!canEdit && styles.edDivWork}`}
+            >
               {item[1] === "instruction" ? (
                 <p
                   className={`${styles.textInstruction} ${styles.editable} ${
