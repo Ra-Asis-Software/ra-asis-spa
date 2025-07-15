@@ -71,6 +71,21 @@ const getTeachersOfUnit = async () => {
   }
 };
 
+const getAssignmentSummary = async (unitCode) => {
+  try {
+    const response = await api.get(
+      `${UNITS_PATH}/assignment-summary/${unitCode}`
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return { error: error.response.data.error.message };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
 const getAllUnits = async () => {
   try {
     const response = await api.get(`${UNITS_PATH}/get-all-units`);
@@ -105,6 +120,7 @@ export {
   deleteUnit,
   getStudentsOfUnit,
   getTeachersOfUnit,
+  getAssignmentSummary,
   getAllUnits,
   enrollToUnit,
 };

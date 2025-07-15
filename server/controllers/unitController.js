@@ -1,8 +1,9 @@
 import asyncHandler from "express-async-handler";
+import { validationResult, matchedData } from "express-validator";
+import Assignment from "../models/Assignment.js";
 import Unit from "../models/Unit.js";
 import Teacher from "../models/Teacher.js";
 import User from "../models/User.js";
-import { validationResult, matchedData } from "express-validator";
 import Student from "../models/Student.js";
 
 // @desc    Create a new unit
@@ -213,4 +214,30 @@ export const enrollUnit = asyncHandler(async (req, res) => {
   return res
     .status(201)
     .json({ message: `Successfully enrolled to ${unitCode}` });
+});
+
+// @desc    Get assignment summary for a unit
+// @route   GET /api/unit/assignment-summary/:unitCode
+// @access  Private (Student)
+export const getAssignmentSummaryByUnit = asyncHandler(async (req, res) => {
+  const { unitCode } = req.params;
+
+  const unit = await Unit.findOne({ unitCode });
+
+  if (!unit) {
+    return res.status(404).json({ message: "Unit not found" });
+  }
+
+  const assignments = await Assignment.find({ unit: unit._id });
+
+  const total = assignments.length || 1;
+  const completed = assignments.filter((a) => a.status === "completed").length;
+  const pending = assignments.filter((a) => a.status === "pending").length;
+  const overdue = assignments.filter((a) => a.status === "overdue").length;
+
+  return res.json({
+    completed: Math.round((completed / total) * 100),
+    pending: Math.round((pending / total) * 100),
+    overdue: Math.round((overdue / total) * 100),
+  });
 });

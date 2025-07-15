@@ -83,9 +83,9 @@ const TeacherMain = ({
         <WelcomeBoard firstName={profile?.firstName} />
       ) : (
         <div
-          className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}
+          className={`${styles.teacherContainer} ${showNav ? "" : styles.marginCollapsed}`}
         >
-          <div className={styles.heroLeft}>
+          <div className={styles.containerLeft}>
             <div className={styles.assignmentsOverview}>
               {units.length === 0 ? (
                 <div className={styles.noUnits}>
@@ -98,7 +98,7 @@ const TeacherMain = ({
                   </div>
                 </div>
               ) : (
-                <div className={styles.unitsBox}>
+                <div className={styles.assignmentsBox}>
                   <div className={styles.assignmentsTitle}>
                     <h4>{selectedUnit.name} Assignments</h4>
                     <button
@@ -112,7 +112,7 @@ const TeacherMain = ({
                       <p>Create</p>
                     </button>
                   </div>
-                  <div className={styles.units}>
+                  <div className={styles.assignments}>
                     {filteredAssignments.map((assignment) => {
                       return (
                         <AssignmentCard
@@ -141,7 +141,7 @@ const TeacherMain = ({
             <div className={styles.submissions}>
               <h3>Submissions</h3>
               <div className={styles.submissionsBox}>
-                <table>
+                <table className={styles.submissionsTable}>
                   <thead>
                     <tr>
                       <th>Assignment title</th>
@@ -188,7 +188,7 @@ const TeacherMain = ({
               <Progress />
             </div>
           </div>
-          <div className={styles.heroRight}>
+          <div className={styles.containerRight}>
             <CustomCalendar deadlines={events} />
             <RecentActivities
               activities={pastActivities}
