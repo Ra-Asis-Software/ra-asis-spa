@@ -294,6 +294,11 @@ select {
 .textLongWork {
   margin: 0;
 }
+.questionHolder {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
 
 @media screen and (max-width: 1200px) {
   .extras {

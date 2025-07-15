@@ -54,7 +54,7 @@ const Assignments = ({
   const openAssignmentFromThisPageRef = useRef(null); //this should track open assignments from teacher/student page
 
   //useEffect for refreshing everything (assignments, units)
-  //triggered with the state variable "trigger" during certains ops
+  //triggered with the state variable "trigger" during certain ops
   //also triggered when url changes (open, new, all)
   useEffect(() => {
     paramsRef.current = new URLSearchParams(location.search);
@@ -143,7 +143,18 @@ const Assignments = ({
       marks: assignment.maxMarks,
     });
     setCurrentAssignment(assignment);
-    setContent(JSON.parse(assignment.content));
+
+    //assign numbers to questions
+    const tempAssignmentContent = JSON.parse(assignment.content);
+    let questionNumber = 1;
+
+    const assignedNumbers = tempAssignmentContent.map((assignment) => {
+      if (assignment[1] === "question") {
+        return [...assignment, questionNumber++];
+      }
+      return assignment;
+    });
+    setContent(assignedNumbers);
     setCanEdit(false);
     setOpenAssignment(true);
     navigate(`/dashboard/assignments?open=${assignment._id}`);
@@ -213,11 +224,26 @@ const Assignments = ({
     }, 5000);
   };
 
+  const cleanAssignmentContent = (content) => {
+    //remove question numbers before submitting
+    const tempContent = content.map((item) => {
+      if (item[1] === "question") {
+        const newItem = [...item];
+        newItem.splice(3);
+        return newItem;
+      }
+      return item;
+    });
+
+    return tempContent;
+  };
+
   const handleEditAssignment = async () => {
     const formData = new FormData();
 
     selectedFiles.forEach((file) => formData.append("files", file));
-    formData.append("content", JSON.stringify(content));
+    const newContent = JSON.stringify(cleanAssignmentContent(content));
+    formData.append("content", newContent);
     formData.append(
       "deadLine",
       `${assignmentExtras.date}T${assignmentExtras.time}`

@@ -191,16 +191,19 @@ const AssignmentContent = ({
                     !canEdit && styles.questionContainerWork
                   }`}
                 >
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable} ${
-                      !canEdit && styles.textQuestionWork
-                    }`}
-                    contentEditable={canEdit && role === "teacher"}
-                    suppressContentEditableWarning
-                    onInput={(e) => handleChangeText(e, index)}
-                  >
-                    {stripHTML(item[0])}
-                  </p>
+                  <div className={styles.questionHolder}>
+                    <p>{!canEdit && `${item[3]}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${
+                        !canEdit && styles.textQuestionWork
+                      }`}
+                      contentEditable={canEdit && role === "teacher"}
+                      suppressContentEditableWarning
+                      onInput={(e) => handleChangeText(e, index)}
+                    >
+                      {stripHTML(item[0])}
+                    </p>
+                  </div>
 
                   {item[2].map((ans, index1) => {
                     return (
