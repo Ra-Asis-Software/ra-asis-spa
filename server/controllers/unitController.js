@@ -188,32 +188,38 @@ export const enrollUnit = asyncHandler(async (req, res) => {
 
   //get student id and validated unitCode
   const { id } = req.user;
-  const { unitCode } = matchedData(req);
+  const { unitCodes } = matchedData(req);
 
-  const unitExists = await Unit.findOne({
-    unitCode: { $regex: `^${unitCode}$`, $options: "i" },
-  });
+  //fetch the provided units
+  const matchedUnits = await Unit.find({ unitCode: { $in: unitCodes } });
 
-  if (!unitExists)
-    return res
-      .status(404)
-      .json({ message: "The requested unit could not be found" });
+  const matchedUnitsIds = matchedUnits.map((unit) => unit._id);
 
-  //use id and role to identify the student
+  if (matchedUnitsIds.length !== unitCodes.length) {
+    return res.status(400).json({
+      message: "One or more unit codes are invalid",
+      found: matchedUnits.map((unit) => unit.unitCode),
+      missing: unitCodes.filter(
+        (code) => !matchedUnits.some((unit) => unit.unitCode === code)
+      ),
+    });
+  }
+
   const isStudent = await User.findOne({ _id: id, role: "student" });
 
-  if (!isStudent)
+  if (!isStudent) {
     return res.status(404).json({ message: "Invalid Student credentials" });
+  }
 
   await Student.updateOne(
     { bio: isStudent._id },
-    { $addToSet: { units: unitExists._id } },
+    { $addToSet: { units: { $each: matchedUnitsIds } } },
     { upsert: true }
   );
 
   return res
     .status(201)
-    .json({ message: `Successfully enrolled to ${unitCode}` });
+    .json({ message: `Student Units successfully updated` });
 });
 
 // @desc    Get assignment summary for a unit

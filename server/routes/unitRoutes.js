@@ -13,6 +13,7 @@ import {
   validateNewUnit,
   validateAssignUnit,
   validateUnitCode,
+  validateUnitCodes,
 } from "../validators/unitValidator.js";
 import { hasPermission, hasRole } from "../middleware/checkUserRole.js";
 
@@ -35,7 +36,7 @@ router.patch(
 );
 
 //Route for enrolling for a unit (student)
-router.patch("/enroll-unit", hasRole("student"), validateUnitCode, enrollUnit);
+router.patch("/enroll-unit", hasRole("student"), validateUnitCodes, enrollUnit);
 
 // Route for deleting a unit
 router.delete(

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./css/Units.module.css";
-import { getAllUnits } from "../../services/unitService";
+import { enrollToUnit, getAllUnits } from "../../services/unitService";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 
@@ -11,6 +11,7 @@ const Units = ({ user }) => {
   const [unitsHolder, setUnitsHolder] = useState([]);
   const [searchParam, setSearchParam] = useState("");
   const [message, setMessage] = useState("");
+  const [trigger, setTrigger] = useState(false);
   useEffect(() => {
     const fetchUnits = async () => {
       //fetch all units
@@ -36,7 +37,7 @@ const Units = ({ user }) => {
       }
     };
     fetchUnits();
-  }, []);
+  }, [trigger]);
 
   useEffect(() => {
     const handleSearchUnit = () => {
@@ -59,7 +60,7 @@ const Units = ({ user }) => {
   const handleSelectUnit = (e, unit) => {
     //check the current number of units first
     const totalUnits = units.length + selectedUnits.length;
-    if (totalUnits >= 5) {
+    if (totalUnits >= 5 && user.role === "teacher") {
       if (e.target.checked) {
         setMessage("You can only have a maximum of 5 units");
         setTimeout(() => {
@@ -67,14 +68,6 @@ const Units = ({ user }) => {
         }, 5000);
       }
 
-      e.target.checked = false;
-    } else if (selectedUnits.length === 1) {
-      if (e.target.checked) {
-        setMessage("Please enroll to one unit at a time");
-        setTimeout(() => {
-          setMessage("");
-        }, 5000);
-      }
       e.target.checked = false;
     } else {
       //if unit already is selected, do not add
@@ -95,7 +88,11 @@ const Units = ({ user }) => {
     }
   };
 
-  const handleEnrollToUnit = () => {};
+  const handleEnrollToUnit = async () => {
+    const enrolledUnits = await enrollToUnit(selectedUnits);
+    setSelectedUnits([]);
+    setTrigger(!trigger);
+  };
 
   return (
     <div className={styles.container}>

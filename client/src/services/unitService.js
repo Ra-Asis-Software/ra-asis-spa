@@ -100,17 +100,15 @@ const getAllUnits = async () => {
   }
 };
 
-const enrollToUnit = async () => {
+const enrollToUnit = async (unitCodes) => {
   try {
-    const response = await api.patch(`${UNITS_PATH}/enroll-unit`);
+    const response = await api.patch(`${UNITS_PATH}/enroll-unit`, {
+      unitCodes,
+    });
 
     return response;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return { error: error.response.data.error.message };
-    } else {
-      return { error: "Sorry, an unexpected error occurred" };
-    }
+    throw error.response?.data || { message: "Failed to enroll to units" };
   }
 };
 
