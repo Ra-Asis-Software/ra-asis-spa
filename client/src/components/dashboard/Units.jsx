@@ -88,8 +88,8 @@ const Units = ({ user }) => {
   };
 
   return (
-    <div className={styles.hero}>
-      <div className={styles.heroLeft}>
+    <div className={styles.container}>
+      <div className={styles.containerLeft}>
         <h3>Units</h3>
         <div className={styles.searchBox}>
           <i className={`fa-solid fa-search ${styles.faSearch}`}></i>
@@ -139,7 +139,7 @@ const Units = ({ user }) => {
           {message !== "" && <p className={styles.pRed}>{message}</p>}
         </div>
       </div>
-      <div className={styles.heroRight}>
+      <div className={styles.containerRight}>
         <h3>My Units</h3>
         <div className={styles.myUnitsBox}>
           <RoleRestricted allowedRoles={["teacher"]}>

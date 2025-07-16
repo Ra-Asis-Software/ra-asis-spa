@@ -274,7 +274,7 @@ const Assignments = ({
   }
 
   return (
-    <div className={`${styles.hero} ${showNav ? "" : styles.marginCollapsed}`}>
+    <div className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}>
       {paramsRef.current.get("new") ? ( //for teachers to create assignments
         <RoleRestricted allowedRoles={["teacher"]}>
           <div className={styles.assignmentsBox}>

@@ -1,4 +1,4 @@
-.hero {
+.container {
   transition: width 0.4s ease-in-out;
   flex: 1;
   display: flex;
@@ -333,7 +333,7 @@ select {
   }
 }
 @media screen and (max-width: 900px) {
-  .hero {
+  .container {
     flex-direction: column;
     padding: 0;
   }
