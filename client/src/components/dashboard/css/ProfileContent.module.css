@@ -6,7 +6,7 @@
   gap: 10px;
   align-items: flex-start;
   min-height: 100vh;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* Main layout container (the form itself) */
@@ -60,7 +60,6 @@
   color: #fff;
   border: 2px solid #fff;
   border-radius: 50%;
-  font-size: 20px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -84,14 +83,11 @@
 }
 
 .userName {
-  font-size: 1rem;
-  font-weight: 600;
   color: var(--black-pearl-color);
   margin-bottom: 5px;
 }
 
 .userRole {
-  font-size: 0.8rem;
   color: var(--pale-sky-color);
   margin-bottom: 0;
 }
@@ -110,12 +106,10 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .formGroup label {
-  font-weight: 400;
-  font-size: 0.8rem;
   margin-bottom: 8px;
   color: var(--black-pearl-color);
 }
@@ -124,8 +118,25 @@
   padding: 8px;
   border: 1px solid var(--french-gray-color);
   border-radius: 6px;
-  font-size: 0.7rem;
   transition: border-color 0.4s, box-shadow 0.3s;
+}
+
+.phonenumberDisplay {
+  font-size: small;
+  color: #6C707B;
+  margin: 0;         
+}
+
+.emailDisplay {
+  font-size: small;
+  color: #6C707B;
+  margin: 0;         
+}
+
+.usernameDisplay {
+  font-size: small;
+  color: #6C707B;
+  margin: 0;         
 }
 
 .formGroup input:focus {
@@ -135,14 +146,14 @@
 }
 
 .passwordHeader {
-  margin-top: 20px;
+  margin-top: 6px;
   margin-bottom: 20px;
-  font-size: 0.8rem;
-  font-weight: 400;
   color: var(--cerulean-color);
-  border-top: 1px solid var(--french-gray-color);
+  /* border-top: 1px solid var(--french-gray-color); */
   padding-top: 20px;
-  cursor: pointer;
+  /* cursor: pointer; */
+  font-weight: normal;
+  font-size: medium;
 }
 
 .passwordGroup {
@@ -162,7 +173,6 @@
   padding: 4px 10px;
   border: none;
   border-radius: 6px;
-  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
 }
@@ -211,13 +221,11 @@
   background-color: #f0f0f0;
   padding: 10px 15px;
   margin: 0;
-  font-size: 1rem;
   border-radius: 4px;
   text-align: center;
 }
 
 .iconWrapper {
-  font-size: 48px;
   color: rgba(0, 0, 0, 0.4);
   margin-bottom: 20px;
 }
@@ -226,9 +234,8 @@
   margin-bottom: 20px;
   width: 100%;
   padding: 8px;
-  font-size: 0.85rem;
   border: 1px solid var(--french-gray-color);
-  border-radius: 6px;
+  border-radius:6px;
 }
 
 .modalActions {
@@ -244,8 +251,6 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.8rem;
 }
 
 .cancelButton {
