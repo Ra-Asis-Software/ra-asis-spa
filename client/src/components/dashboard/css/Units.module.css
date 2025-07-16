@@ -65,7 +65,7 @@
   justify-content: space-between;
   padding: 5px;
   align-items: center;
-  background-color: var(--cerulean-color);
+  background-color: var(--aqua-color);
 }
 .units {
   max-height: 65vh;
@@ -103,7 +103,6 @@
 .assignedUnit {
   display: flex;
   align-items: center;
-  background-color: var(--cerulean-color);
   border-radius: 10px;
   min-height: 6vh;
   padding-left: 20px;
@@ -112,7 +111,6 @@
   color: var(--alizarin-crimson-color);
 }
 .requestUnits {
-  background-color: var(--cerulean-color);
   align-self: center;
   margin-top: 20px;
 }

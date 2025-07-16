@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./css/Units.module.css";
+import {
+  studentBar,
+  teacherBar,
+  parentBar,
+} from "./css/SideBarStyles.module.css";
 import { enrollToUnit, getAllUnits } from "../../services/unitService";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
+import { useNavigate } from "react-router-dom";
 
 const Units = ({ user }) => {
   const [allUnits, setAllUnits] = useState([]);
@@ -12,6 +18,8 @@ const Units = ({ user }) => {
   const [searchParam, setSearchParam] = useState("");
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUnits = async () => {
       //fetch all units
@@ -94,6 +102,11 @@ const Units = ({ user }) => {
     setTrigger(!trigger);
   };
 
+  const handleClickUnit = async (unit) => {
+    localStorage.setItem("focusUnit", JSON.stringify(unit));
+    navigate("/dashboard");
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.containerLeft}>
@@ -138,12 +151,28 @@ const Units = ({ user }) => {
           {selectedUnits.length !== 0 && (
             <>
               <RoleRestricted allowedRoles={["teacher"]}>
-                <button className={styles.requestUnits}>Request Units</button>
+                <button
+                  className={`${styles.requestUnits} ${
+                    user.role === "student"
+                      ? studentBar
+                      : user.role === "teacher"
+                      ? teacherBar
+                      : user.role === "parent" && parentBar
+                  }`}
+                >
+                  Request Units
+                </button>
               </RoleRestricted>
               <RoleRestricted allowedRoles={["student"]}>
                 <button
                   onClick={handleEnrollToUnit}
-                  className={styles.requestUnits}
+                  className={`${styles.requestUnits} ${
+                    user.role === "student"
+                      ? studentBar
+                      : user.role === "teacher"
+                      ? teacherBar
+                      : user.role === "parent" && parentBar
+                  }`}
                 >
                   Enroll
                 </button>
@@ -154,7 +183,7 @@ const Units = ({ user }) => {
         </div>
       </div>
       <div className={styles.containerRight}>
-        <h3>My Units</h3>
+        <h3>Your Units</h3>
         <div className={styles.myUnitsBox}>
           <RoleRestricted allowedRoles={["teacher"]}>
             <h4>Assigned</h4>
@@ -165,7 +194,17 @@ const Units = ({ user }) => {
           <div className={styles.assigned}>
             {units.map((unit) => {
               return (
-                <button key={unit.id} className={styles.assignedUnit}>
+                <button
+                  key={unit.id}
+                  className={`${styles.assignedUnit} ${
+                    user.role === "student"
+                      ? studentBar
+                      : user.role === "teacher"
+                      ? teacherBar
+                      : user.role === "parent" && parentBar
+                  }`}
+                  onClick={() => handleClickUnit(unit)}
+                >
                   {unit.name}
                 </button>
               );
@@ -179,7 +218,16 @@ const Units = ({ user }) => {
             ) : (
               selectedUnits.map((unit) => {
                 return (
-                  <div key={unit} className={styles.assignedUnit}>
+                  <div
+                    key={unit}
+                    className={`${styles.assignedUnit} ${
+                      user.role === "student"
+                        ? studentBar
+                        : user.role === "teacher"
+                        ? teacherBar
+                        : user.role === "parent" && parentBar
+                    }`}
+                  >
                     {unit}
                   </div>
                 );
