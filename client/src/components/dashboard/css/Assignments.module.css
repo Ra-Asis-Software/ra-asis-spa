@@ -28,7 +28,7 @@ select {
   width: 160px;
   background-color: var(--aqua-color);
   border: none;
-  border-radius: 6px;
+  border-radius: 7px;
   padding: 5px;
 }
 
@@ -38,7 +38,7 @@ select {
   gap: 10px;
   align-items: center;
   background-color: var(--aqua-color);
-  border-radius: 6px;
+  border-radius: 7px;
 }
 .assignmentsBody {
   height: max-content;
@@ -51,7 +51,7 @@ select {
   height: 7vh;
   width: 80%;
   max-width: 700px;
-  border-radius: 10px;
+  border-radius: 7px;
   background-color: var(--aqua-color);
   display: flex;
   align-items: center;
@@ -129,7 +129,7 @@ select {
 .addAnswer {
   width: max-content;
   height: max-content;
-  border-radius: 5px;
+  border-radius: 7px;
   font-size: 0.7rem;
   padding: 3px;
   background-color: var(--pale-sky-color);
@@ -203,7 +203,7 @@ select {
   width: 100px;
 }
 .deadline input {
-  border-radius: 5px;
+  border-radius: 7px;
   height: 4vh;
   width: 120px;
   padding-left: 10px;
@@ -227,7 +227,7 @@ select {
   justify-content: center;
   align-items: center;
   padding: 2px;
-  border-radius: 3px;
+  border-radius: 7px;
   gap: 6px;
   cursor: pointer;
 }
@@ -248,7 +248,7 @@ select {
   padding-left: 5px;
   background-color: var(--foam-color);
   border: 1px solid var(--pale-sky-color);
-  border-radius: 10px;
+  border-radius: 7px;
 }
 .assignmentTitle:focus {
   outline: 1px solid var(--pale-sky-color);
@@ -284,6 +284,8 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--black-pearl-color);
+  color: #fff;
 }
 .assignment p:first-of-type {
   max-width: 50%;
@@ -303,6 +305,29 @@ select {
   display: flex;
   align-items: center;
   gap: 3px;
+}
+.studentTools {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.studentFiles {
+  height: max-content;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.studentFiles h5 {
+  margin: 0;
+}
+.studentFiles .chosenFile {
+  border-radius: 0;
+  height: 6vh;
+  background-color: var(--cerulean-color);
+  color: #fff;
+  border: none;
 }
 
 @media screen and (max-width: 1200px) {
@@ -342,16 +367,22 @@ select {
     height: 10vh;
     overflow-x: scroll;
   }
-  .tools {
+  .tools,
+  .studentTools {
     height: 8vh;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     width: max-content;
     margin-right: 40px;
+    padding: 5px;
   }
-  .toolsArea {
+  .toolsArea,
+  .studentFiles {
     flex-direction: row;
     width: max-content;
+    max-height: 100%;
+    align-items: center;
   }
   .toolsArea h3 {
     display: none;
@@ -398,7 +429,7 @@ select {
     padding: 0 20px;
     background-color: var(--alizarin-crimson-color);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 7px;
   }
   .addedDiv {
     border: 1px solid;

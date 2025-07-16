@@ -88,7 +88,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
     await Promise.all(
       assignment.files.map((file) =>
         fs
-          .unlink(file.path)
+          .unlink(file.filePath)
           .catch((err) => console.error("File delete error:", err))
       )
     );
@@ -178,7 +178,7 @@ export const deleteAssignment = asyncHandler(async (req, res) => {
     await Promise.all(
       assignment.files.map((file) =>
         fs
-          .unlink(file.path)
+          .unlink(file.filePath)
           .catch((err) => console.error("File delete error:", err))
       )
     );

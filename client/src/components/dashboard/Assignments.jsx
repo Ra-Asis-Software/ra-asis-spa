@@ -1,5 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./css/Assignments.module.css";
+import {
+  studentBar,
+  teacherBar,
+  parentBar,
+} from "./css/SideBarStyles.module.css";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -274,7 +279,9 @@ const Assignments = ({
   }
 
   return (
-    <div className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}>
+    <div
+      className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}
+    >
       {paramsRef.current.get("new") ? ( //for teachers to create assignments
         <RoleRestricted allowedRoles={["teacher"]}>
           <div className={styles.assignmentsBox}>
@@ -367,16 +374,6 @@ const Assignments = ({
           </div>
           <div className={styles.textContent}>
             <h3>Assignment: {currentAssignment.title}</h3>
-            <p className={styles.normalText}>
-              Unit: {currentAssignment.unit.unitName}
-            </p>
-            <p className={styles.normalText}>
-              Deadline: {currentAssignment.deadLine.slice(0, 10)} at{" "}
-              {currentAssignment.deadLine.slice(11)}
-            </p>
-            <p className={styles.normalText}>
-              Max Mark: {currentAssignment.maxMarks}
-            </p>
 
             <RoleRestricted allowedRoles={["teacher"]}>
               {canEdit ? (
@@ -416,25 +413,25 @@ const Assignments = ({
                   );
                 })}
               </div>
+              {currentAssignment?.files?.length > 0 && (
+                <div className={styles.selectedFiles}>
+                  <p>{selectedFiles.length > 0 && "Old"} files: </p>
+                  {currentAssignment.files.map((file, index) => {
+                    return (
+                      <div
+                        className={`${styles.chosenFile} ${
+                          selectedFiles.length > 0 && styles.oldFile
+                        }`}
+                        key={index}
+                      >
+                        {file.fileName}
+                        <i className="fa-solid fa-download"></i>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </RoleRestricted>
-            {currentAssignment?.files?.length > 0 && (
-              <div className={styles.selectedFiles}>
-                <p>{selectedFiles.length > 0 && "Old"} files: </p>
-                {currentAssignment.files.map((file, index) => {
-                  return (
-                    <div
-                      className={`${styles.chosenFile} ${
-                        selectedFiles.length > 0 && styles.oldFile
-                      }`}
-                      key={index}
-                    >
-                      {file.fileName}
-                      <i className="fa-solid fa-download"></i>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
 
             <AssignmentContent
               {...{
@@ -494,7 +491,7 @@ const Assignments = ({
           </div>
         </div>
       )}
-      {(paramsRef.current.get("new") === "true" || openAssignment) && (
+      {openAssignment && (
         <div className={styles.extras}>
           <RoleRestricted allowedRoles={["teacher"]}>
             <AssignmentTools
@@ -511,6 +508,47 @@ const Assignments = ({
               }}
               params={paramsRef.current}
             />
+          </RoleRestricted>
+          <RoleRestricted allowedRoles={["student"]}>
+            <div className={styles.studentTools}>
+              <div className={styles.studentFiles}>
+                <h5>Files</h5>
+                {currentAssignment.files.map((file, index) => {
+                  return (
+                    <div
+                      className={`${styles.chosenFile} ${
+                        selectedFiles.length > 0 && styles.oldFile
+                      }`}
+                      key={index}
+                    >
+                      {file.fileName}
+                      <i className="fa-solid fa-download"></i>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className={styles.normalText}>
+                Unit: {currentAssignment.unit.unitName}
+              </p>
+              <p className={styles.normalText}>
+                Deadline: {currentAssignment.deadLine.slice(0, 10)} at{" "}
+                {currentAssignment.deadLine.slice(11)}
+              </p>
+              <p className={styles.normalText}>
+                Max Mark: {currentAssignment.maxMarks}
+              </p>
+              <button
+                className={`${
+                  user.role === "student"
+                    ? studentBar
+                    : user.role === "teacher"
+                    ? teacherBar
+                    : user.role === "parent" && parentBar
+                }`}
+              >
+                Submit Assignment
+              </button>
+            </div>
           </RoleRestricted>
         </div>
       )}
