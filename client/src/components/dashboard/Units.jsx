@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./css/Units.module.css";
-import { getAllUnits } from "../../services/unitsService";
+import { getAllUnits } from "../../services/unitService";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 
@@ -68,6 +68,14 @@ const Units = ({ user }) => {
       }
 
       e.target.checked = false;
+    } else if (selectedUnits.length === 1) {
+      if (e.target.checked) {
+        setMessage("Please enroll to one unit at a time");
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+      }
+      e.target.checked = false;
     } else {
       //if unit already is selected, do not add
       if (e.target.checked) {
@@ -86,6 +94,8 @@ const Units = ({ user }) => {
       }
     }
   };
+
+  const handleEnrollToUnit = () => {};
 
   return (
     <div className={styles.container}>
@@ -129,12 +139,19 @@ const Units = ({ user }) => {
           </div>
 
           {selectedUnits.length !== 0 && (
-            <button className={styles.requestUnits}>
+            <>
               <RoleRestricted allowedRoles={["teacher"]}>
-                Request Units
+                <button className={styles.requestUnits}>Request Units</button>
               </RoleRestricted>
-              <RoleRestricted allowedRoles={["student"]}>Enroll</RoleRestricted>
-            </button>
+              <RoleRestricted allowedRoles={["student"]}>
+                <button
+                  onClick={handleEnrollToUnit}
+                  className={styles.requestUnits}
+                >
+                  Enroll
+                </button>
+              </RoleRestricted>
+            </>
           )}
           {message !== "" && <p className={styles.pRed}>{message}</p>}
         </div>

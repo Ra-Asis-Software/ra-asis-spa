@@ -40,9 +40,12 @@ export const createAssignment = asyncHandler(async (req, res) => {
     maxMarks,
     content,
     createdBy: req.user._id,
-    files: req.files?.map((file) => {
-      return { path: file.path, fileName: file.originalname };
-    }), // Multer saves files to "uploads/"
+    files: req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    })), // Multer saves files to "uploads/"
   });
 
   // Link assignment to unit
@@ -92,21 +95,22 @@ export const editAssignment = asyncHandler(async (req, res) => {
   }
 
   //add new files
-  assignment.files = req.files?.map((file) => {
-    return { path: file.path, fileName: file.originalname };
-  });
+  assignment.files = req.files?.map((file) => ({
+    filePath: file.path,
+    fileName: file.originalname,
+    fileSize: file.size,
+    mimetype: file.mimetype,
+  }));
 
   await assignment.save();
 
   //populate the assignment with unitName and code before sending back
   const populatedAssignment = await assignment.populate("unit");
 
-  return res
-    .status(200)
-    .json({
-      message: "Assignment Edited Successfully",
-      assignment: populatedAssignment,
-    });
+  return res.status(200).json({
+    message: "Assignment Edited Successfully",
+    assignment: populatedAssignment,
+  });
 });
 
 // @desc    Get assignments for a unit

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const assignmentSchema = new mongoose.Schema(
   {
@@ -6,7 +6,14 @@ const assignmentSchema = new mongoose.Schema(
     unit: { type: mongoose.Schema.Types.ObjectId, ref: "Unit", required: true },
     submissionType: { type: String, enum: ["text", "file"], required: true },
     content: { type: String }, // I made this optional for file-based assignments
-    files: [{ type: mongoose.Schema.Types.Mixed, default: {} }], // Store file paths/URLs if submissionType=file
+    files: [
+      {
+        filePath: { type: String, required: true },
+        fileName: { type: String, required: true },
+        fileSize: { type: Number },
+        mimetype: { type: String },
+      },
+    ], // Store file paths/URLs if submissionType=file
     gradingCriteria: [{ type: String }],
     deadLine: { type: String, required: true },
     maxMarks: { type: Number },
