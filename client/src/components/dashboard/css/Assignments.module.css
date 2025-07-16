@@ -13,6 +13,8 @@
   gap: 10px;
   overflow-y: auto;
   transition: flex 0.4s ease-in-out;
+}
+.assignmentsBoxOpened {
   background-color: #fff;
 }
 .assignmentsHeader {
@@ -76,7 +78,6 @@ select {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: #fff;
 }
 .textContent h3 {
   margin: 0;

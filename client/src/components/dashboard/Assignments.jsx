@@ -308,7 +308,7 @@ const Assignments = ({
               className={styles.newAssignmentContent}
               ref={assignmentContentRef}
             >
-              <div className={styles.textContent}>
+              <div className={`${styles.textContent}`}>
                 {/* Add an input for taking in files */}
                 <input
                   type="file"
@@ -349,7 +349,9 @@ const Assignments = ({
         </RoleRestricted>
       ) : openAssignment === true ? (
         //handle opening an assignment
-        <div className={styles.assignmentsBox}>
+        <div
+          className={`${styles.assignmentsBox} ${styles.assignmentsBoxOpened}`}
+        >
           <div className={styles.assignmentsHeader}>
             <button
               className={styles.addAssignment}
