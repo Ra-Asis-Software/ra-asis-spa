@@ -294,14 +294,17 @@ const AssignmentContent = ({
                     <i
                       className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
                       onClick={() => handleMoveItemUp(index)}
+                      title="Move block up"
                     ></i>
                     <i
                       className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
                       onClick={() => handleMoveItemDown(index)}
+                      title="Move block down"
                     ></i>
                     <i
                       class={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
                       onClick={() => handleDeleteNoteItem(index)}
+                      title="Delete block"
                     ></i>
                   </div>
                 )}
@@ -315,12 +318,13 @@ const AssignmentContent = ({
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleInstruction(e)}
-            placeholder="Enter Instruction here..."
+            placeholder="Enter instruction here..."
             className={styles.addedTextArea}
           />
 
           <button onClick={handleAddInstruction} className={styles.addedButton}>
-            Add instruction
+            <i className="fa-solid fa-plus" />
+            Add Instruction
           </button>
         </div>
       )}
@@ -335,6 +339,7 @@ const AssignmentContent = ({
           />
 
           <button onClick={handleAddTitle} className={styles.addedButton}>
+            <i className="fa-solid fa-plus" />
             Add Title
           </button>
         </div>
@@ -345,12 +350,13 @@ const AssignmentContent = ({
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleQuestion(e)}
-            placeholder="Enter Question here..."
+            placeholder="Enter question here..."
             className={styles.addedTextArea}
           />
 
           <button onClick={handleAddQuestion} className={styles.addedButton}>
-            Add question
+            <i className="fa-solid fa-plus" />
+            Add Question
           </button>
         </div>
       )}
@@ -360,13 +366,14 @@ const AssignmentContent = ({
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleTextArea(e)}
-            placeholder="Enter Text here..."
+            placeholder="Enter text here..."
             className={`${styles.addedTextArea}
              ${styles.fullTextArea}`}
           />
 
           <button onClick={handleAddTextArea} className={styles.addedButton}>
-            ADD textArea
+            <i className="fa-solid fa-plus" />
+            Add Text Area
           </button>
         </div>
       )}

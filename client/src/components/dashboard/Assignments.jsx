@@ -300,7 +300,7 @@ const Assignments = ({
             </div>
             <div className={styles.assignmentTop}>
               <input
-                placeholder="Assignment Title Here..."
+                placeholder="Assignment title here..."
                 className={styles.assignmentTitle}
                 type="text"
                 onChange={(e) => setAssignmentTitle(e.target.value)}
@@ -327,7 +327,7 @@ const Assignments = ({
 
                 {/* display selected files */}
                 <div className={styles.selectedFiles}>
-                  {selectedFiles.length > 0 && <p>Selected files: </p>}
+                  {selectedFiles.length > 0 && <p>Selected Files: </p>}
                   {selectedFiles.map((file, index) => {
                     return (
                       <p className={styles.chosenFile} key={index}>
@@ -401,7 +401,7 @@ const Assignments = ({
                 onChange={handleFileChange}
               />
               <div className={styles.selectedFiles}>
-                {selectedFiles.length > 0 && <p>New files: </p>}
+                {selectedFiles.length > 0 && <p>New Files: </p>}
                 {selectedFiles.map((file, index) => {
                   return (
                     <p
@@ -476,7 +476,19 @@ const Assignments = ({
                 return (
                   <button
                     key={assignment._id}
-                    className={styles.assignment}
+                    className={`${styles.assignment} ${
+                      user.role === "student"
+                        ? studentBar
+                        : user.role === "teacher"
+                        ? teacherBar
+                        : user.role === "parent" && parentBar
+                    } ${
+                      user.role === "student"
+                        ? styles.studentAssignment
+                        : user.role === "teacher"
+                        ? styles.teacherAssignment
+                        : ""
+                    }`}
                     onClick={() => handleOpenExistingAssignment(assignment)}
                   >
                     <p>{assignment.title}</p>
@@ -539,7 +551,7 @@ const Assignments = ({
                   Max Mark: {currentAssignment.maxMarks}
                 </p>
                 <button
-                  className={`${
+                  className={`${styles.studentSubmit} ${
                     user.role === "student"
                       ? studentBar
                       : user.role === "teacher"

@@ -91,7 +91,7 @@ const AssignmentTools = ({
               />
             </div>
             <div className={styles.deadline}>
-              <p>Max marks</p>
+              <p>Max Marks</p>
               <input
                 type="number"
                 max={100}
@@ -107,14 +107,14 @@ const AssignmentTools = ({
           </div>
           {params.get("new") ? (
             <button
-              className={styles.submitAssignment}
+              className={styles.publishAssignment}
               onClick={handlePublishAssignment}
             >
-              PUBLISH <p>ASSIGNMENT</p>
+              PUBLISH ASSIGNMENT
             </button>
           ) : openAssignment ? (
             <button
-              className={styles.submitAssignment}
+              className={styles.publishAssignment}
               onClick={handleEditAssignment}
             >
               SAVE CHANGES
