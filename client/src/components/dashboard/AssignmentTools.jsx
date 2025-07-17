@@ -15,7 +15,7 @@ const AssignmentTools = ({
   return (
     <>
       {/* show this only when creating a new assignment or opening an existing one, and when editing is set to true */}
-      {(params.get("new") || openAssignment) && canEdit && (
+      {canEdit && (
         <div className={styles.tools}>
           <div className={styles.toolsArea}>
             <h3>Tools</h3>
