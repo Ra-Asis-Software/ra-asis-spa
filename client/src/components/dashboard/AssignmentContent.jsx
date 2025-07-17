@@ -173,10 +173,15 @@ const AssignmentContent = ({
       {content.length > 0 &&
         content.map((item, index) => {
           return (
-            <div key={index} className={styles.edDiv}>
+            <div
+              key={index}
+              className={`${styles.edDiv}  ${!canEdit && styles.edDivWork}`}
+            >
               {item[1] === "instruction" ? (
                 <p
-                  className={`${styles.textInstruction} ${styles.editable}`}
+                  className={`${styles.textInstruction} ${styles.editable} ${
+                    !canEdit && styles.textInstructionWork
+                  }`}
                   contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
@@ -184,21 +189,32 @@ const AssignmentContent = ({
                   NOTE: {stripHTML(item[0])}
                 </p>
               ) : item[1] === "question" ? (
-                <div className={styles.questionContainer}>
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable}`}
-                    contentEditable={canEdit && role === "teacher"}
-                    suppressContentEditableWarning
-                    onInput={(e) => handleChangeText(e, index)}
-                  >
-                    {stripHTML(item[0])}
-                  </p>
+                <div
+                  className={`${styles.questionContainer} ${
+                    !canEdit && styles.questionContainerWork
+                  }`}
+                >
+                  <div className={styles.questionHolder}>
+                    <p>{!canEdit && `${item[3]}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${
+                        !canEdit && styles.textQuestionWork
+                      }`}
+                      contentEditable={canEdit && role === "teacher"}
+                      suppressContentEditableWarning
+                      onInput={(e) => handleChangeText(e, index)}
+                    >
+                      {stripHTML(item[0])}
+                    </p>
+                  </div>
 
                   {item[2].map((ans, index1) => {
                     return (
                       <div className={`${styles.answerBox}`} key={index1}>
                         <p
-                          className={styles.editable}
+                          className={`${styles.editable} ${
+                            !canEdit && styles.answerWork
+                          }`}
                           contentEditable={canEdit && role === "teacher"}
                           suppressContentEditableWarning
                           onInput={(e) =>
@@ -249,7 +265,9 @@ const AssignmentContent = ({
                 </div>
               ) : item[1] === "textArea" ? (
                 <div
-                  className={`${styles.textLong} ${styles.editable}`}
+                  className={`${styles.textLong} ${styles.editable} ${
+                    !canEdit && styles.textLongWork
+                  }`}
                   contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
@@ -259,7 +277,9 @@ const AssignmentContent = ({
               ) : (
                 item[1] === "title" && (
                   <h4
-                    className={`${styles.textTitle} ${styles.editable}`}
+                    className={`${styles.textTitle} ${styles.editable} ${
+                      !canEdit && styles.textTitleWork
+                    }`}
                     contentEditable={canEdit && role === "teacher"}
                     suppressContentEditableWarning
                     onInput={(e) => handleChangeText(e, index)}
@@ -274,14 +294,17 @@ const AssignmentContent = ({
                     <i
                       className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
                       onClick={() => handleMoveItemUp(index)}
+                      title="Move block up"
                     ></i>
                     <i
                       className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
                       onClick={() => handleMoveItemDown(index)}
+                      title="Move block down"
                     ></i>
                     <i
                       class={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
                       onClick={() => handleDeleteNoteItem(index)}
+                      title="Delete block"
                     ></i>
                   </div>
                 )}
@@ -295,12 +318,13 @@ const AssignmentContent = ({
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleInstruction(e)}
-            placeholder="Enter Instruction here..."
+            placeholder="Enter instruction here..."
             className={styles.addedTextArea}
           />
 
           <button onClick={handleAddInstruction} className={styles.addedButton}>
-            Add instruction
+            <i className="fa-solid fa-plus" />
+            Add Instruction
           </button>
         </div>
       )}
@@ -315,6 +339,7 @@ const AssignmentContent = ({
           />
 
           <button onClick={handleAddTitle} className={styles.addedButton}>
+            <i className="fa-solid fa-plus" />
             Add Title
           </button>
         </div>
@@ -325,12 +350,13 @@ const AssignmentContent = ({
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleQuestion(e)}
-            placeholder="Enter Question here..."
+            placeholder="Enter question here..."
             className={styles.addedTextArea}
           />
 
           <button onClick={handleAddQuestion} className={styles.addedButton}>
-            Add question
+            <i className="fa-solid fa-plus" />
+            Add Question
           </button>
         </div>
       )}
@@ -340,13 +366,14 @@ const AssignmentContent = ({
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleTextArea(e)}
-            placeholder="Enter Text here..."
+            placeholder="Enter text here..."
             className={`${styles.addedTextArea}
              ${styles.fullTextArea}`}
           />
 
           <button onClick={handleAddTextArea} className={styles.addedButton}>
-            ADD textArea
+            <i className="fa-solid fa-plus" />
+            Add Text Area
           </button>
         </div>
       )}

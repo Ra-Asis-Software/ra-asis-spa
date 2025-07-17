@@ -8,13 +8,14 @@ const AssignmentTools = ({
   handleChooseFiles,
   setAssignmentExtras,
   handlePublishAssignment,
+  handleEditAssignment,
   message,
   assignmentExtras,
 }) => {
   return (
     <>
       {/* show this only when creating a new assignment or opening an existing one, and when editing is set to true */}
-      {(params.get("new") || openAssignment) && canEdit && (
+      {canEdit && (
         <div className={styles.tools}>
           <div className={styles.toolsArea}>
             <h3>Tools</h3>
@@ -90,7 +91,7 @@ const AssignmentTools = ({
               />
             </div>
             <div className={styles.deadline}>
-              <p>Max marks</p>
+              <p>Max Marks</p>
               <input
                 type="number"
                 max={100}
@@ -106,17 +107,15 @@ const AssignmentTools = ({
           </div>
           {params.get("new") ? (
             <button
-              className={styles.submitAssignment}
+              className={styles.publishAssignment}
               onClick={handlePublishAssignment}
             >
-              PUBLISH <p>ASSIGNMENT</p>
+              PUBLISH ASSIGNMENT
             </button>
           ) : openAssignment ? (
             <button
-              className={styles.submitAssignment}
-              onClick={() =>
-                alert("The Edit assignment functionality is yet to be created")
-              }
+              className={styles.publishAssignment}
+              onClick={handleEditAssignment}
             >
               SAVE CHANGES
             </button>

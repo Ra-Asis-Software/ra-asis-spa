@@ -16,6 +16,7 @@
 
 .studentBar {
   background-color: var(--black-pearl-color);
+  color: #fff;
 }
 
 .teacherBar {

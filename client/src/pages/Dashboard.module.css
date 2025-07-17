@@ -7,10 +7,12 @@
 }
 
 .content {
+  display: flex;
   width: 100%;
   height: 92vh;
-  display: flex;
+  overflow-y: auto;
   transition: width 0.4s ease-in-out;
+  animation: fadeIn 400ms ease-in-out;
 }
 
 .dashboards {
@@ -84,4 +86,14 @@ p.parentSpecific {
   display: flex;
   flex: 1;
   position: relative;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

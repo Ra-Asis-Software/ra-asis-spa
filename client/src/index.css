@@ -99,6 +99,17 @@ button:focus-visible {
   outline: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: var(--pale-sky-color);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

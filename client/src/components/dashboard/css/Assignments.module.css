@@ -1,161 +1,356 @@
-.hero {
-  transition: width 0.4s ease-in-out;
+.container {
   flex: 1;
   display: flex;
   padding: 10px;
   max-width: 100%;
+  transition: width 0.4s ease-in-out;
+  animation: fadeIn 400ms ease-in-out;
 }
+
 .assignmentsBox {
-  flex: 1;
-  padding: 10px;
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 10px;
+  padding: 10px;
   overflow-y: auto;
   transition: flex 0.4s ease-in-out;
 }
+
+.assignmentsBoxOpened {
+  background-color: #fff;
+}
+
+.addAssignment {
+  background-color: var(--cerulean-color);
+  display: flex;
+  align-items: center;
+  height: 6vh;
+  gap: 10px;
+}
+
+.addAssignment:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
+.assignmentsBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: max-content;
+  margin-top: 20px;
+}
+
+.assignment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 7vh;
+  width: 80%;
+  max-width: 700px;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.assignment:hover {
+  background: #fff;
+}
+
+.studentAssignment:hover {
+  color: var(--black-pearl-color);
+}
+
+.teacherAssignment:hover {
+  color: var(--cerulean-color);
+}
+
 .assignmentsHeader {
   height: 8vh;
   display: flex;
   align-items: center;
   gap: 50px;
 }
-select {
-  height: 6vh;
-  width: 160px;
-  background-color: var(--aqua-color);
-  border: none;
-  border-radius: 6px;
-  padding: 5px;
+
+.assignment p:first-of-type {
+  max-width: 50%;
 }
 
-.addAssignment {
-  height: 6vh;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background-color: var(--aqua-color);
-  border-radius: 6px;
+.normalText,
+.edDivWork,
+.textInstructionWork,
+.questionContainerWork,
+.textQuestionWork,
+.answerWork,
+.textTitleWork,
+.textLongWork {
+  margin: 0;
+  border: none;
 }
-.assignmentsBody {
-  height: max-content;
+
+.questionHolder {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.studentTools {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px;
 }
-.assignment {
-  height: 7vh;
-  width: 80%;
-  max-width: 700px;
-  border-radius: 10px;
-  background-color: var(--aqua-color);
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  justify-content: space-between;
-}
-.assignmentDetails {
+
+.studentFiles {
   height: max-content;
+  max-height: 60vh;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
-.instruction {
-  font-size: 0.9rem;
-  color: var(--alizarin-crimson-color);
+
+.studentFiles h5 {
+  margin: 0;
 }
+
+.studentFiles .chosenFile {
+  border-radius: 0;
+  height: 6vh;
+  background-color: var(--cerulean-color);
+  color: #fff;
+  border: none;
+}
+
+.studentSubmit:hover {
+  background: #fff;
+  color: var(--black-pearl-color);
+}
+
+.assignmentTitle {
+  width: 250px;
+  height: 5vh;
+  padding-left: 5px;
+  background-color: var(--foam-color);
+  border: 1px solid var(--pale-sky-color);
+  border-radius: 7px;
+}
+
+.assignmentTitle:focus {
+  outline: 1px solid var(--pale-sky-color);
+}
+
+.assignmentTop {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.editButton {
+  width: max-content;
+}
+
+.assignmentTop input {
+  background: #fff;
+  color: var(--cerulean-color);
+  border-color: var(--cerulean-color);
+}
+
+.assignmentTop input:focus {
+  outline: none;
+}
+
+.assignmentTop select {
+  background: #fff;
+  color: var(--cerulean-color);
+  height: 6vh;
+  width: 160px;
+  border: 1px solid var(--cerulean-color);
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.assignmentTop option:hover {
+  background: var(--cerulean-color);
+}
+
 .newAssignmentContent {
-  background-color: var(--aqua-color);
+  background-color: var(--cerulean-color);
   padding: 10px;
   padding-bottom: 20vh;
+  border-radius: 7px;
 }
+
 .textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 7px;
   height: max-content;
+}
+
+.textContent h3 {
+  margin: 0;
+}
+
+/* AssignmentTools & AssignmentContent Styling */
+
+/* AssignmentContent */
+.addedDiv {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: max-content;
 }
-.extras {
-  width: max-content;
-  transition: width 0.4s ease-in-out;
+
+.addedTextArea {
+  background: var(--foam-color);
+  color: var(--cerulean-color);
+  padding: 10px;
+  width: 650px;
+  border: none;
+  border-radius: 7px;
+  resize: none;
 }
-.tools {
-  height: 95%;
+
+.fullTextArea {
+  min-height: 30vh;
+}
+
+.addedButton {
+  background-color: var(--black-pearl-color);
+  color: #fff;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
+  gap: 5px;
+  width: 200px;
+  margin-bottom: 20px;
 }
-.tools h3 {
-  text-align: center;
-  height: 5vh;
+
+.addedButton:hover {
+  background: var(--foam-color);
+  color: var(--cerulean-color);
 }
-.toolsArea {
-  padding: 20px;
+
+.selectedFiles {
+  background: var(--foam-color);
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  border-radius: 7px;
+  padding: 10px;
   gap: 10px;
-  width: 100%;
 }
-.toolsArea button {
-  width: 100%;
+
+.chosenFile {
+  font-size: 0.8rem;
+  height: 4vh;
+  border: 1px solid var(--pale-sky-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  border-radius: 7px;
+  gap: 6px;
+  cursor: pointer;
 }
+
+.oldFile {
+  border: 1px solid var(--alizarin-crimson-color);
+  color: var(--alizarin-crimson-color);
+}
+
+.newFile {
+  border: 1px solid var(--pine-green-color);
+  color: var(--pine-green-color);
+}
+
+.fileHidden {
+  display: none;
+}
+
 .textInstruction {
   color: var(--alizarin-crimson-color);
-  font-size: 0.8rem;
 }
+
 .textTitle {
   height: max-content;
 }
+
 .editable {
-  border: 1px solid var(--foam-color);
   white-space: pre-wrap;
 }
+
 .questionContainer {
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 5px 0;
 }
+
 .addAnswer {
-  width: max-content;
-  height: max-content;
-  border-radius: 5px;
-  font-size: 0.7rem;
-  padding: 3px;
-  background-color: var(--pale-sky-color);
-  align-self: flex-end;
-  margin-right: 10px;
+  background: var(--pine-green-color);
+  color: #fff;
   display: flex;
-  gap: 3px;
   align-items: center;
+  gap: 3px;
+  align-self: flex-end;
+  border-radius: 7px;
+  margin-right: 10px;
 }
+
+.addAnswer:hover {
+  background: #fff;
+  color: var(--pine-green-color);
+}
+
 .showAnswer {
   display: flex;
-  width: max-content;
   align-items: center;
   gap: 5px;
+  width: max-content;
   margin-left: 10px;
 }
+
 .answerInput {
-  height: 4vh;
   background-color: var(--foam-color);
+  color: var(--cerulean-color);
   border: none;
-  padding-left: 5px;
+  border-radius: 7px;
+  padding: 10px;
 }
+
+.answerInput:focus {
+  outline: none;
+}
+
+.showAnswer i {
+  color: var(--foam-color);
+  transition: all 400ms ease-in-out;
+}
+
+.showAnswer i:hover {
+  color: var(--bright-sun-color);
+  cursor: pointer;
+}
+
 .answerBox {
   margin-left: 30px;
-  width: max-content;
   min-width: 250px;
 }
+
 .answerBox p {
+  color: var(--bright-sun-color);
   font-size: 0.9rem;
 }
+
 .edDiv {
   border: 1px solid var(--foam-color);
+  border-radius: 7px;
+  padding: 10px;
 }
 
 .edBtns {
@@ -164,187 +359,207 @@ select {
   align-items: center;
   justify-content: space-around;
   width: 150px;
-  border-top: 0;
-}
-.ed-btns .faSolid {
-  font-size: 20px;
+  margin-top: 10px;
   cursor: pointer;
 }
+
 .faArrow {
-  color: var(--cerulean-color);
+  color: var(--foam-color);
+  transition: all 400ms ease-in-out;
 }
+
+.faArrow:hover {
+  color: var(--bright-sun-color);
+}
+
 .faTrash {
   color: var(--alizarin-crimson-color);
+  position: relative;
+  top: 0;
+  transition: all 400ms ease-in-out;
 }
-.submitAssignment {
-  width: 250px;
-  background-color: var(--cerulean-color);
+
+.faTrash:hover {
+  top: 3px;
 }
+
+/* AssignmentTools */
+.extras {
+  width: max-content;
+  transition: width 0.4s ease-in-out;
+}
+
+.tools {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+.toolsArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.toolsArea h3 {
+  text-align: center;
+}
+
+.toolsArea button {
+  max-width: 100%;
+}
+
 .extraTools {
   width: 100%;
 }
+
 .deadline {
-  height: 5vh;
   display: flex;
-  padding: 2px 20px;
   align-items: center;
   gap: 10px;
+  padding: 0 10px;
 }
+
 .deadline p {
+  font-weight: 600;
   width: 100px;
 }
+
 .deadline input {
-  border-radius: 5px;
-  height: 4vh;
+  color: var(--cerulean-color);
+  border: 1px solid var(--cerulean-color);
+  border-radius: 7px;
+  height: 6vh;
   width: 120px;
   padding-left: 10px;
 }
-.fileHidden {
-  display: none;
-}
-.selectedFiles {
-  background-color: var(--foam-color);
+
+.publishAssignment {
+  background-color: var(--cerulean-color);
+  color: #fff;
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 10px;
-}
-.chosenFile {
-  font-size: 0.8rem;
-  height: 4vh;
-  border: 1px solid var(--pale-sky-color);
-  display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 5px;
-  border-radius: 3px;
+  height: 7vh;
+  width: max-content;
+  margin-top: 20px;
 }
+
+.publishAssignment:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
 .submissionAlert {
   color: var(--alizarin-crimson-color);
 }
-.assignmentTitle {
-  width: 250px;
-  height: 5vh;
-  padding-left: 5px;
-  background-color: var(--foam-color);
-  border: 1px solid var(--pale-sky-color);
-  border-radius: 10px;
-}
-.assignmentTitle:focus {
-  outline: 1px solid var(--pale-sky-color);
-}
-.assignmentTop {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.editButton {
-  width: max-content;
-}
-.addedDiv {
-  height: max-content;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-}
-.addedTextArea {
-  font-size: 1rem;
-  padding: 8px;
-  width: 650px;
-  background-color: var(--foam-color);
-  border: none;
-  border-bottom: 1px solid var(--pale-sky-color);
-}
-.fullTextArea {
-  min-height: 30vh;
-}
-.addedButton {
-  width: max-content;
-  height: 5vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
+/* RESPONSIVE BREAKPOINTS */
+
 @media screen and (max-width: 1200px) {
   .extras {
     width: 15vw;
     min-width: 170px;
   }
+
   .tools {
     padding: 5px;
   }
+
   .toolsArea {
     padding: 5px;
   }
+
   .extraTools {
     display: flex;
     flex-direction: column;
   }
+
   .deadline {
     flex-direction: column;
     padding: 1px 5px;
     height: max-content;
   }
-  .submitAssignment {
+
+  .publishAssignment {
     width: 95%;
   }
-  .submitAssignment p {
-    display: none;
-  }
 }
+
 @media screen and (max-width: 900px) {
-  .hero {
+  .container {
     flex-direction: column;
     padding: 0;
   }
+
   .extras {
     width: 100%;
     height: 10vh;
     overflow-x: scroll;
   }
-  .tools {
+
+  .tools,
+  .studentTools {
     height: 8vh;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     width: max-content;
     margin-right: 40px;
+    padding: 5px;
   }
-  .toolsArea {
+
+  .toolsArea,
+  .studentFiles {
     flex-direction: row;
     width: max-content;
+    max-height: 100%;
+    align-items: center;
   }
+
   .toolsArea h3 {
     display: none;
   }
+
   .toolsArea button {
     width: max-content;
     min-width: 90px;
     height: 5vh;
   }
+
   .extraTools {
     flex-direction: row;
     height: 100%;
     align-items: center;
     width: max-content;
   }
+
   .deadline {
     flex-direction: row;
     align-items: center;
     width: max-content;
   }
+
   .deadline p {
     display: none;
   }
-  .submitAssignment {
+
+  .publishAssignment {
     width: 150px;
   }
+
   .newAssignmentContent {
     max-width: 95%;
   }
+
   .edDiv,
   .questionContainer {
     max-width: 100%;
   }
+
   .submissionAlert {
     position: absolute;
     top: 10vh;
@@ -358,24 +573,30 @@ select {
     padding: 0 20px;
     background-color: var(--alizarin-crimson-color);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 7px;
   }
+
   .addedDiv {
     border: 1px solid;
     max-width: 100%;
   }
+
   .addedTextArea {
     width: 95%;
   }
+
   .answerInput {
     max-width: 90%;
   }
+
   .showAnswer {
     max-width: 90%;
   }
+
   .answerBox {
     max-width: 90%;
   }
+
   .editable {
     max-width: 100%;
     word-wrap: break-word;
@@ -386,13 +607,16 @@ select {
   .assignment {
     width: 90vw;
   }
+
   .assignmentTop select {
     width: 120px;
     height: 5vh;
   }
+
   .assignmentTop input {
     height: 5vh;
   }
+
   .assignmentsHeader h3 {
     font-size: 0.9rem;
   }
@@ -403,11 +627,23 @@ select {
     height: max-content;
     align-items: flex-start;
   }
+
   .assignment p:first-of-type {
     font-size: 1.02rem;
   }
+
   .assignmentTop {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

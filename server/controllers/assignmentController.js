@@ -40,16 +40,77 @@ export const createAssignment = asyncHandler(async (req, res) => {
     maxMarks,
     content,
     createdBy: req.user._id,
-    files: req.files?.map((file) => file.path), // Multer saves files to "uploads/"
+    files: req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    })), // Multer saves files to "uploads/"
   });
 
   // Link assignment to unit
   unit.assignments.push(assignment._id);
   await unit.save();
 
-  res
-    .status(201)
-    .json({ message: "assignment created successfully", assignment });
+  //populate the assignment before sending back
+  const populatedAssignment = await assignment.populate("unit");
+
+  res.status(201).json({
+    message: "assignment created successfully",
+    assignment: populatedAssignment,
+  });
+});
+
+// @desc    edit assignment
+// @route   PATCH /api/:assignmentId/edit
+// @access  Private (Teachers)
+export const editAssignment = asyncHandler(async (req, res) => {
+  const { maxMarks, content, deadLine, createdBy } = req.body;
+  const { assignmentId } = req.params;
+
+  //check existence of assignment
+  //ensure the creator is the editor
+  const assignment = await Assignment.findOne({
+    _id: assignmentId,
+    createdBy: req.user._id,
+  });
+
+  if (!assignment) {
+    return res.status(404).json({ message: "No assignment found" });
+  }
+
+  assignment.maxMarks = maxMarks;
+  assignment.content = content;
+  assignment.deadLine = deadLine;
+
+  //clear existing files
+  if (req.files?.length > 0 && assignment.files?.length > 0) {
+    await Promise.all(
+      assignment.files.map((file) =>
+        fs
+          .unlink(file.filePath)
+          .catch((err) => console.error("File delete error:", err))
+      )
+    );
+  }
+
+  //add new files
+  assignment.files = req.files?.map((file) => ({
+    filePath: file.path,
+    fileName: file.originalname,
+    fileSize: file.size,
+    mimetype: file.mimetype,
+  }));
+
+  await assignment.save();
+
+  //populate the assignment with unitName and code before sending back
+  const populatedAssignment = await assignment.populate("unit");
+
+  return res.status(200).json({
+    message: "Assignment Edited Successfully",
+    assignment: populatedAssignment,
+  });
 });
 
 // @desc    Get assignments for a unit
@@ -85,6 +146,10 @@ export const getAssignmentDetails = asyncHandler(async (req, res) => {
     .populate({
       path: "enrolledStudentsCount",
       select: "_id",
+    })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName _id",
     });
 
   if (!assignment) {
@@ -113,7 +178,7 @@ export const deleteAssignment = asyncHandler(async (req, res) => {
     await Promise.all(
       assignment.files.map((file) =>
         fs
-          .unlink(file.path)
+          .unlink(file.filePath)
           .catch((err) => console.error("File delete error:", err))
       )
     );

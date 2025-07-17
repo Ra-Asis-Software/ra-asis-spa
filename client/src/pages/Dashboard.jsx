@@ -8,6 +8,7 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Assignments from "../components/dashboard/Assignments";
+import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
 
 const Dashboard = () => {
@@ -60,7 +61,7 @@ const Dashboard = () => {
 
   //set selected unit in localStorage
   const persistSelectedUnit = () => {
-    const storedUnit = localStorage.getItem("focus-unit");
+    const storedUnit = localStorage.getItem("focusUnit");
     setSelectedUnit(
       storedUnit ? JSON.parse(storedUnit) : units.length > 0 && units[0]
     );
@@ -150,10 +151,13 @@ const Dashboard = () => {
                     setUnits,
                     canEdit,
                     setCanEdit,
+                    persistSelectedUnit,
                   }}
                 />
               }
             />
+
+            <Route path="/units" element={<Units {...{ user }} />} />
 
             <Route path="/profile" element={<ProfileContent {...{ user }} />} />
           </Routes>

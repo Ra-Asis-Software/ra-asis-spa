@@ -19,6 +19,22 @@ export const createAssignment = async (data) => {
   }
 };
 
+export const editAssignment = async (data, id) => {
+  try {
+    const response = await api.patch(`${ASSIGNMENTS_PATH}/${id}/edit`, data);
+    return response;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return {
+        error: error.response.data.error.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
 export const getAssignmentsForUnit = async (unitId) => {
   try {
     const response = await api.get(`${ASSIGNMENTS_PATH}/${unitId}/assignments`);
