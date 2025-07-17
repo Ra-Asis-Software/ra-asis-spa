@@ -491,7 +491,7 @@ const Assignments = ({
           </div>
         </div>
       )}
-      {openAssignment && (
+      {(openAssignment || paramsRef.current.get("new")) && (
         <div className={styles.extras}>
           <RoleRestricted allowedRoles={["teacher"]}>
             <AssignmentTools
@@ -510,45 +510,47 @@ const Assignments = ({
             />
           </RoleRestricted>
           <RoleRestricted allowedRoles={["student"]}>
-            <div className={styles.studentTools}>
-              <div className={styles.studentFiles}>
-                <h5>Files</h5>
-                {currentAssignment.files.map((file, index) => {
-                  return (
-                    <div
-                      className={`${styles.chosenFile} ${
-                        selectedFiles.length > 0 && styles.oldFile
-                      }`}
-                      key={index}
-                    >
-                      {file.fileName}
-                      <i className="fa-solid fa-download"></i>
-                    </div>
-                  );
-                })}
+            {currentAssignment && (
+              <div className={styles.studentTools}>
+                <div className={styles.studentFiles}>
+                  <h5>Files</h5>
+                  {currentAssignment.files.map((file, index) => {
+                    return (
+                      <div
+                        className={`${styles.chosenFile} ${
+                          selectedFiles.length > 0 && styles.oldFile
+                        }`}
+                        key={index}
+                      >
+                        {file.fileName}
+                        <i className="fa-solid fa-download"></i>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className={styles.normalText}>
+                  Unit: {currentAssignment.unit.unitName}
+                </p>
+                <p className={styles.normalText}>
+                  Deadline: {currentAssignment.deadLine.slice(0, 10)} at{" "}
+                  {currentAssignment.deadLine.slice(11)}
+                </p>
+                <p className={styles.normalText}>
+                  Max Mark: {currentAssignment.maxMarks}
+                </p>
+                <button
+                  className={`${
+                    user.role === "student"
+                      ? studentBar
+                      : user.role === "teacher"
+                      ? teacherBar
+                      : user.role === "parent" && parentBar
+                  }`}
+                >
+                  Submit Assignment
+                </button>
               </div>
-              <p className={styles.normalText}>
-                Unit: {currentAssignment.unit.unitName}
-              </p>
-              <p className={styles.normalText}>
-                Deadline: {currentAssignment.deadLine.slice(0, 10)} at{" "}
-                {currentAssignment.deadLine.slice(11)}
-              </p>
-              <p className={styles.normalText}>
-                Max Mark: {currentAssignment.maxMarks}
-              </p>
-              <button
-                className={`${
-                  user.role === "student"
-                    ? studentBar
-                    : user.role === "teacher"
-                    ? teacherBar
-                    : user.role === "parent" && parentBar
-                }`}
-              >
-                Submit Assignment
-              </button>
-            </div>
+            )}
           </RoleRestricted>
         </div>
       )}
