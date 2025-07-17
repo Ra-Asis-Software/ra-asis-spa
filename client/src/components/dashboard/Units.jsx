@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./css/Units.module.css";
-import {
-  studentBar,
-  teacherBar,
-  parentBar,
-} from "./css/SideBarStyles.module.css";
+import { studentBar, teacherBar } from "./css/SideBarStyles.module.css";
 import { enrollToUnit, getAllUnits } from "../../services/unitService";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
@@ -97,7 +93,7 @@ const Units = ({ user }) => {
   };
 
   const handleEnrollToUnit = async () => {
-    const enrolledUnits = await enrollToUnit(selectedUnits);
+    await enrollToUnit(selectedUnits);
     setSelectedUnits([]);
     setTrigger(!trigger);
   };
@@ -132,7 +128,12 @@ const Units = ({ user }) => {
           <div className={styles.units}>
             {allUnits.map((unit) => {
               return (
-                <div key={unit._id} className={styles.unit}>
+                <div
+                  key={unit._id}
+                  className={`${styles.unit} ${
+                    user.role === "teacher" ? styles.teacherUnit : ""
+                  }`}
+                >
                   <div className={styles.unitDetails}>
                     <input
                       type="checkbox"
@@ -145,20 +146,18 @@ const Units = ({ user }) => {
                 </div>
               );
             })}
-            {allUnits.length === 0 && <p>No units available yet!</p>}
+            {allUnits.length === 0 && (
+              <p className={styles.noUnitsMessage}>
+                No units available at the moment!
+              </p>
+            )}
           </div>
 
           {selectedUnits.length !== 0 && (
             <>
               <RoleRestricted allowedRoles={["teacher"]}>
                 <button
-                  className={`${styles.requestUnits} ${
-                    user.role === "student"
-                      ? studentBar
-                      : user.role === "teacher"
-                      ? teacherBar
-                      : user.role === "parent" && parentBar
-                  }`}
+                  className={`${styles.requestUnits} ${teacherBar} ${styles.teacherBtn}`}
                 >
                   Request Units
                 </button>
@@ -166,13 +165,7 @@ const Units = ({ user }) => {
               <RoleRestricted allowedRoles={["student"]}>
                 <button
                   onClick={handleEnrollToUnit}
-                  className={`${styles.requestUnits} ${
-                    user.role === "student"
-                      ? studentBar
-                      : user.role === "teacher"
-                      ? teacherBar
-                      : user.role === "parent" && parentBar
-                  }`}
+                  className={`${styles.requestUnits} ${studentBar} ${styles.studentBtn}`}
                 >
                   Enroll
                 </button>
@@ -201,7 +194,7 @@ const Units = ({ user }) => {
                       ? studentBar
                       : user.role === "teacher"
                       ? teacherBar
-                      : user.role === "parent" && parentBar
+                      : ""
                   }`}
                   onClick={() => handleClickUnit(unit)}
                 >
@@ -220,12 +213,12 @@ const Units = ({ user }) => {
                 return (
                   <div
                     key={unit}
-                    className={`${styles.assignedUnit} ${
+                    className={`${styles.selectedUnit} ${
                       user.role === "student"
                         ? studentBar
                         : user.role === "teacher"
                         ? teacherBar
-                        : user.role === "parent" && parentBar
+                        : ""
                     }`}
                   >
                     {unit}

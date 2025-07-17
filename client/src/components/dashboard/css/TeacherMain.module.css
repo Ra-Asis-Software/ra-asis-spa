@@ -5,6 +5,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding: 10px;
+  animation: fadeIn 400ms ease-in-out;
 }
 
 .containerLeft,
@@ -240,5 +241,15 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+  }
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
