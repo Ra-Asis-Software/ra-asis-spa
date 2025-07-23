@@ -1,21 +1,44 @@
 import { Router } from "express";
-import { getStudent, getTeacher } from "../controllers/userController.js";
+import {
+  getAllStudents,
+  getParent,
+  getStudent,
+  getTeacher,
+  linkStudentToParent,
+  searchStudentByEmail,
+} from "../controllers/userController.js";
 import { hasRole } from "../middleware/checkUserRole.js";
 
-const router = Router()
+const router = Router();
 
-//get student details
+// get student details
 router.get(
-    '/student/:id', 
-    hasRole("administrator", "student"),
-    getStudent
-)
+  "/student/:id",
+  hasRole("administrator", "parent", "student"),
+  getStudent
+);
 
-//get teacher details
+// get teacher details
+router.get("/teacher/:id", hasRole("administrator", "teacher"), getTeacher);
+
+// get parent details
+router.get("/parent/:id", hasRole("parent"), getParent);
+
+// add student to parent's children
+router.patch(
+  "/parent/:id/link-student",
+  hasRole("parent"),
+  linkStudentToParent
+);
+
+// get all students
+router.get("/students", hasRole("parent"), getAllStudents);
+
+// get search results
 router.get(
-    '/teacher/:id',
-    hasRole("administrator", "teacher"),
-    getTeacher
-)
+  "/search-student",
+  hasRole("administrator", "parent"),
+  searchStudentByEmail
+);
 
-export default router
+export default router;

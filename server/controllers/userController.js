@@ -4,8 +4,9 @@ import User from "../models/User.js";
 import "../models/Assignment.js";
 import "../models/Submission.js";
 import Teacher from "../models/Teacher.js";
+import Parent from "../models/Parent.js";
 
-//@desc get student details
+// @desc get student details
 // @route   GET /api/users/student/:id
 // @access  Private(Student, Admin)
 export const getStudent = asyncHandler(async (req, res) => {
@@ -70,7 +71,82 @@ export const getStudent = asyncHandler(async (req, res) => {
   });
 });
 
-//@desc get teacher details
+// @desc    Get parent details
+// @route   GET /api/users/parent/:id
+// @access  Private (Parent)
+export const getParent = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const parent = await Parent.findOne({ bio: id })
+    .populate({
+      path: "bio",
+      select: "-password -isVerified -loginAttempts",
+    })
+    .populate({
+      path: "children",
+      populate: {
+        path: "bio",
+        select: "firstName lastName email",
+      },
+    });
+
+  if (!parent) {
+    const userProfile = await User.findById(id).select(
+      "-password -isVerified -loginAttempts"
+    );
+    if (!userProfile) {
+      return res.status(404).json({ message: "User details not found" });
+    }
+    return res.status(200).json({
+      message: "User profile retrieved",
+      data: {
+        profile: userProfile,
+        children: [],
+      },
+    });
+  }
+
+  res.status(200).json({
+    message: "Parent details successfully retrieved",
+    data: {
+      profile: parent.bio,
+      children: parent.children.map((child) => ({
+        id: child.bio._id,
+        firstName: child.bio.firstName,
+        lastName: child.bio.lastName,
+        email: child.bio.email,
+      })),
+    },
+  });
+});
+
+// @desc    Link student to parent
+// @route   PATCH /api/users/parent/:id/link-student
+// @access  Private (Parent)
+export const linkStudentToParent = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { studentId } = req.body;
+
+  // Verify student exists
+  const student = await Student.findOne({ bio: studentId });
+  if (!student) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+
+  // Update parent record
+  const parent = await Parent.findOneAndUpdate(
+    { bio: id },
+    { $addToSet: { children: student._id } },
+    { new: true, upsert: true }
+  );
+
+  res.status(200).json({
+    message: "Student linked successfully",
+    data: parent,
+  });
+});
+
+// @desc get teacher details
 // @route   GET /api/users/teacher/:id
 // @access  Private(Teacher, Admin)
 export const getTeacher = asyncHandler(async (req, res) => {
@@ -136,6 +212,101 @@ export const getTeacher = asyncHandler(async (req, res) => {
       }),
       assignments: teacher.units.flatMap((unit) => unit.assignments),
       events: teacher.calendar,
+    },
+  });
+});
+
+// @desc    Get all students (for parent search)
+// @route   GET /api/users/students
+// @access  Private (Parent)
+export const getAllStudents = asyncHandler(async (req, res) => {
+  const { search } = req.query;
+
+  let query = { role: "student" };
+
+  if (search) {
+    query.$or = [
+      { firstName: { $regex: search, $options: "i" } },
+      { lastName: { $regex: search, $options: "i" } },
+      { email: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  const students = await User.find(query)
+    .select("-password -isVerified -loginAttempts")
+    .limit(50); // Limit results for performance
+
+  res.status(200).json({
+    success: true,
+    data: students,
+  });
+});
+
+// @desc    Search student by email
+// @route   GET /api/users/search-student?email=...
+// @access  Private (Parent)
+export const searchStudentByEmail = asyncHandler(async (req, res) => {
+  const { email } = req.query;
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ message: "Email query parameter is required" });
+  }
+
+  // Find student by email
+  const user = await User.findOne({
+    email,
+    role: "student", // Ensure we're only finding students
+  }).select("-password -isVerified -loginAttempts");
+
+  if (!user) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+
+  // Get full student details including units, assignments, etc.
+  const student = await Student.findOne({ bio: user._id })
+    .populate({
+      path: "units",
+      populate: {
+        path: "assignments",
+        populate: [
+          {
+            path: "unit",
+            select: "unitCode unitName _id",
+          },
+          {
+            path: "createdBy",
+            select: "_id firstName lastName",
+          },
+        ],
+      },
+    })
+    .populate("submissions");
+
+  if (!student) {
+    return res.status(200).json({
+      message: "Student profile retrieved",
+      data: {
+        profile: user,
+        units: [],
+        assignments: [],
+        submissions: [],
+        events: [],
+      },
+    });
+  }
+
+  return res.status(200).json({
+    message: "Student details successfully retrieved",
+    data: {
+      profile: user,
+      units: student.units.map((unit) => {
+        return { id: unit._id, name: unit.unitName, code: unit.unitCode };
+      }),
+      assignments: student.units.flatMap((unit) => unit.assignments),
+      submissions: student.submissions,
+      events: student.calendar,
     },
   });
 });
