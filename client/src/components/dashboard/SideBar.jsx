@@ -66,7 +66,22 @@ const SideBar = ({ show, logout, role }) => {
           </li>
         </RoleRestricted>
 
-        <RoleRestricted allowedRoles={["student", "teacher"]}>
+        <RoleRestricted allowedRoles={["parent"]}>
+          <li>
+            <Link
+              to="/dashboard/students"
+              className={`${active === "students" && styles.active}`}
+              onClick={() => setActive("students")}
+            >
+              <i
+                className={` ${styles.sideBarIcon} fa-solid fa-user-graduate`}
+              ></i>
+              <span className={styles.linkLabel}>Students</span>
+            </Link>
+          </li>
+        </RoleRestricted>
+
+        <RoleRestricted allowedRoles={["student", "teacher", "parent"]}>
           <li>
             <Link
               to="/dashboard/assignments"

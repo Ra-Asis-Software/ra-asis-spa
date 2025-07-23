@@ -17,7 +17,7 @@ const WelcomeBoard = ({ firstName }) => {
   };
 
   const handleParentButtonClick = () => {
-    navigate("dashboard/students");
+    navigate("/dashboard/students");
   };
 
   return (
