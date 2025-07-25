@@ -134,7 +134,6 @@ const Login = () => {
               </div>
               <div className="remember-forgot">
                 <div className="remember">
-                  <form>
                     <label>
                       <input
                         type="checkbox"
@@ -144,7 +143,6 @@ const Login = () => {
                       <span></span>
                       Remember Me
                     </label>
-                  </form>
                 </div>
                 <div className="forgot">
                   <Link to="/reset-password">Forgot Password</Link>

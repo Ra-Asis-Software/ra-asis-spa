@@ -780,13 +780,22 @@ header.landing-header .main-navigation .logout-button:hover {
   .registration-form
   .details
   .input-container
+  .password-input-container {
+    position: relative;
+  }
+
+.registration-container
+  .registration-content
+  .registration-form
+  .details
+  .input-container
   .password-input-container
   i {
   color: var(--alizarin-crimson-color);
   cursor: pointer;
   font-size: inherit;
-  position: relative;
-  right: 14px;
+  position: absolute;
+  right: 7px;
 }
 
 .registration-container
@@ -964,22 +973,28 @@ header.landing-header .main-navigation .logout-button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .login-container .login-content .login-form form .login-inputs {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  width: 100%;
 }
 
 .login-container .login-content .login-form form .login-inputs input {
   background: var(--aqua-color);
-  padding: 10px 100px;
+  padding: 10px;
   font-family: Poppins;
   border: none;
   outline: none;
   text-align: center;
   border-radius: 7px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .login-container
@@ -995,7 +1010,7 @@ header.landing-header .main-navigation .logout-button:hover {
 
 .login-container .login-content .login-form form .login-inputs .password-input {
   display: flex;
-  flex-wrap: nowrap;
+  position: relative;
 }
 
 .login-container
@@ -1007,9 +1022,9 @@ header.landing-header .main-navigation .logout-button:hover {
   i {
   font-size: inherit;
   cursor: pointer;
-  position: relative;
-  top: 10px;
-  right: 24px;
+  position: absolute;
+  top: 13px;
+  right: 10px;
 }
 
 .login-container
@@ -1029,17 +1044,20 @@ header.landing-header .main-navigation .logout-button:hover {
   align-items: center;
   margin-top: 30px;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .login-container .login-content .login-form form .submit-btn button {
   background: var(--black-pearl-color);
   color: var(--aqua-color);
-  padding: 10px 257px;
+  padding: 10px 20px;
   font-family: Poppins;
   font-weight: 700;
   border: none;
   outline: none;
   border-radius: 7px;
+  width: 100%;
+  box-sizing: border-box;
   cursor: pointer;
   transition: all 400ms ease-in-out;
 }
@@ -1078,7 +1096,7 @@ header.landing-header .main-navigation .logout-button:hover {
 .login-container .login-content .login-form form .remember-forgot {
   display: flex;
   justify-content: space-between;
-  gap: 350px;
+  width: 100%;
 }
 
 .login-container
@@ -1087,13 +1105,11 @@ header.landing-header .main-navigation .logout-button:hover {
   form
   .remember-forgot
   .remember
-  form
   label {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 10px;
-  position: relative;
-  left: 5px;
   font-size: 0.75em;
 }
 
@@ -1103,7 +1119,6 @@ header.landing-header .main-navigation .logout-button:hover {
   form
   .remember-forgot
   .remember
-  form
   label
   input {
   display: none;
@@ -1115,7 +1130,6 @@ header.landing-header .main-navigation .logout-button:hover {
   form
   .remember-forgot
   .remember
-  form
   label
   span {
   background: var(--black-pearl-color);
@@ -1135,15 +1149,14 @@ header.landing-header .main-navigation .logout-button:hover {
   form
   .remember-forgot
   .remember
-  form
   label
   [type="checkbox"]:checked
   + span:before {
   content: "\2714";
   position: absolute;
   font-size: 16px;
-  top: -3px;
-  left: 3px;
+  top: -2px;
+  left: 4px;
 }
 
 .login-container .login-content .login-form form .remember-forgot .forgot a {
@@ -1163,8 +1176,8 @@ header.landing-header .main-navigation .logout-button:hover {
 }
 
 .login-container .login-content .login-form .register-prompt {
-  position: relative;
-  left: 27px;
+  width: 100%;
+  text-align: center;
 }
 
 .login-container .login-content .login-form .register-prompt p {
@@ -1596,15 +1609,10 @@ footer.landing-footer {
 
   .login-container .login-content {
     gap: 5px;
-    margin-left: 30px;
   }
 
   .login-container .login-content .login-form form .form-message small {
     font-size: 0.6875em;
-  }
-
-  .login-container .login-content .login-form form .remember-forgot {
-    gap: 330px;
   }
 
   .login-container
@@ -1613,14 +1621,8 @@ footer.landing-footer {
     form
     .remember-forgot
     .remember
-    form
     label {
     gap: 5px;
-    left: 3px;
-  }
-
-  .login-container .login-content .login-form .register-prompt {
-    left: 10px;
   }
 
   .login-container .login-content .login-image img {
@@ -1775,22 +1777,6 @@ footer.landing-footer {
     gap: 10px;
     margin-left: 20px;
     margin-right: 20px;
-  }
-
-  .login-container .login-content .login-form form .login-inputs input {
-    padding: 10px 200px;
-  }
-
-  .login-container .login-content .login-form form .submit-btn button {
-    padding: 10px 357px;
-  }
-
-  .login-container .login-content .login-form form .remember-forgot {
-    gap: 530px;
-  }
-
-  .login-container .login-content .login-form .register-prompt {
-    left: 7px;
   }
 
   .login-container .login-content .login-image {
@@ -1989,24 +1975,8 @@ footer.landing-footer {
 
   /*Login Page Responsive Styling*/
 
-  .login-container .login-content .login-form form .login-inputs input {
-    padding: 10px 70px;
-  }
-
-  .login-container .login-content .login-form form .submit-btn button {
-    padding: 10px 227px;
-  }
-
-  .login-container .login-content .login-form form .remember-forgot {
-    gap: 300px;
-  }
-
-  .login-container .login-content .login-form .register-prompt {
-    left: 50px;
-  }
-
   .login-container .login-content .login-image {
-    margin-top: -30px;
+    margin-top: -10px;
   }
 }
 
@@ -2184,22 +2154,6 @@ footer.landing-footer {
 
   /*Login Page Responsive Styling*/
 
-  .login-container .login-content .login-form form .login-inputs input {
-    padding: 10px 20px;
-  }
-
-  .login-container .login-content .login-form form .submit-btn button {
-    padding: 10px 177px;
-  }
-
-  .login-container .login-content .login-form form .remember-forgot {
-    gap: 170px;
-  }
-
-  .login-container .login-content .login-form .register-prompt {
-    left: 30px;
-  }
-
   .login-container .login-content .login-image img {
     width: 300px;
     height: 300px;
@@ -2282,25 +2236,12 @@ footer.landing-footer {
 
   /*Login Page Responsive Styling*/
 
-  .login-container .login-content .login-form form .login-inputs input {
-    padding: 10px;
-  }
-
-  .login-container .login-content .login-form form .submit-btn button {
-    padding: 10px 100px;
-  }
-
-  .login-container .login-content .login-form form .remember-forgot {
-    gap: 100px;
-  }
-
   .login-container
     .login-content
     .login-form
     form
     .remember-forgot
     .remember
-    form
     label {
     font-size: 0.6875em;
   }
