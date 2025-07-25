@@ -129,6 +129,17 @@ const ProfileContent = ({ user }) => {
 
         <div className={styles.rightPanel}>
           <div className={styles.formGroup}>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              disabled
+              value={userData.username}
+              onChange={handleUserChange}
+            />
+          </div>
+          <div className={styles.formGroup}>
             <label htmlFor="email">Email</label>
             <input
               type="email"
@@ -185,27 +196,29 @@ const ProfileContent = ({ user }) => {
             </>
           )}
 
-          <div className={styles.buttonContainer}>
-            <button
-              type="button"
-              className={styles.cancelButton}
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className={`${styles.saveButton} ${
-                user.role === "student"
-                  ? studentBar
-                  : user.role === "teacher"
-                  ? teacherBar
-                  : user.role === "parent" && parentBar
-              }`}
-            >
-              Save Changes
-            </button>
-          </div>
+          {editable && (
+            <div className={styles.buttonContainer}>
+              <button
+                type="button"
+                className={styles.cancelButton}
+                onClick={() => setEditable(!editable)}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className={`${styles.saveButton} ${
+                  user.role === "student"
+                    ? studentBar
+                    : user.role === "teacher"
+                    ? teacherBar
+                    : user.role === "parent" && parentBar
+                }`}
+              >
+                Save Changes
+              </button>
+            </div>
+          )}
         </div>
       </form>
 
