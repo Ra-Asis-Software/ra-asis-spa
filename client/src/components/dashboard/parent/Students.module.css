@@ -1,0 +1,101 @@
+.studentsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 30px;
+  animation: fadeIn 400ms ease-in-out;
+}
+
+.searchResults {
+  background-color: #fff;
+  color: var(--pine-green-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: max-content;
+  width: inherit;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 7px;
+  animation: fadeIn 400ms ease-in-out;
+}
+
+.searchResultItem {
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+
+.searchResultItem:hover {
+  color: var(--bright-sun-color);
+}
+
+.noResultsMessage,
+.errorMessage {
+  color: var(--alizarin-crimson-color);
+  text-align: center;
+}
+
+.studentsTable {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.studentsSubtitle {
+  margin-top: -10px;
+  font-size: 0.875em;
+}
+
+.tableHeader,
+.studentRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 150px;
+  padding: 10px;
+  max-width: 100%;
+}
+
+.tableHeader {
+  background: var(--pine-green-color);
+  color: #fff;
+  font-weight: 700;
+}
+
+.studentRow {
+  background: #fff;
+}
+
+.studentRow span {
+  color: var(--black-pearl-color);
+  transition: all 400ms ease-in-out;
+}
+
+.studentRow span:hover {
+  color: var(--pine-green-color);
+  cursor: pointer;
+}
+
+.noStudentsMessage,
+.noResultsMessage,
+.errorMessage {
+  text-align: center;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 520px) {
+  .studentsContainer {
+    padding: 10px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

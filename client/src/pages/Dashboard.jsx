@@ -7,14 +7,16 @@ import Sidebar from "../components/dashboard/SideBar";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
+import ParentMain from "../components/dashboard/parent/ParentMain";
+import Students from "../components/dashboard/parent/Students";
 import Assignments from "../components/dashboard/Assignments";
 import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null); // State to store data for a user
-  const [loading, setLoading] = useState(true); // State to handle loading
-  const [error, setError] = useState(""); // State for error handling
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [showNav, setShowNav] = useState(() => window.innerWidth > 768);
   const navigate = useNavigate();
   const [units, setUnits] = useState([]);
@@ -128,11 +130,22 @@ const Dashboard = () => {
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["parent"]}>
-                    {/* <ParentDashboard /> */}
+                    <ParentMain
+                      {...{
+                        showNav,
+                        units,
+                        selectedUnit,
+                        setUnits,
+                        assignments,
+                        setAssignments,
+                        persistSelectedUnit,
+                      }}
+                      user={user}
+                    />
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["administrator"]}>
-                    {/* <AdminDashboard /> */}
+                    {/* AdminMain will go here later on */}
                   </RoleRestricted>
                 </>
               }
@@ -158,6 +171,8 @@ const Dashboard = () => {
             />
 
             <Route path="/units" element={<Units {...{ user }} />} />
+
+            <Route path="/students" element={<Students {...{ user }} />} />
 
             <Route path="/profile" element={<ProfileContent {...{ user }} />} />
           </Routes>

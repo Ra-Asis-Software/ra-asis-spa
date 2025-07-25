@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./css/DashboardHeader.module.css";
 import {
   studentBar,
   teacherBar,
   parentBar,
 } from "./css/SideBarStyles.module.css";
+import { getParentDetails } from "../../services/userService";
 
 const DashboardHeader = ({
   setShowNav,
@@ -14,11 +16,17 @@ const DashboardHeader = ({
   setSelectedUnit,
   profile,
 }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showUnitDropdown, setShowUnitDropdown] = useState(false);
+  const [showStudentDropdown, setShowStudentDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
+  const [linkedStudents, setLinkedStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const navigate = useNavigate();
 
-  // Replace with dynamic in the next Sprint
+  const notificationRef = useRef(null);
+
+  // Sample notifications (replace with dynamic data later)
   const notifications = [
     {
       icon: <i className={`fas fa-file ${styles.notificationIconLeft}`}></i>,
@@ -55,11 +63,46 @@ const DashboardHeader = ({
   ];
 
   const initial = profile.firstName.charAt(0).toUpperCase();
-
   const hasNew = notifications.length > 0;
 
-  const notificationRef = useRef(null);
+  useEffect(() => {
+    if (profile.role === "parent") {
+      const fetchStudents = async () => {
+        try {
+          const result = await getParentDetails(profile.id);
+          if (result.data?.children) {
+            setLinkedStudents(result.data.children);
 
+            // Sync selected student from localStorage
+            const storedId = localStorage.getItem("parentSelectedStudentId");
+          const student = storedId 
+            ? result.data.children.find(s => s.id === storedId)
+            : result.data.children[0];
+            
+          if (student) setSelectedStudent(student);
+        }
+      } catch (error) {
+          console.error("Failed to fetch parent's students:", error);
+        }
+      };
+      fetchStudents();
+    }
+  }, [profile.id, profile.role]);
+
+  const handleSelectStudent = (studentId) => {
+    localStorage.setItem("parentSelectedStudentId", studentId);
+    const student = linkedStudents.find((s) => s.id === studentId);
+    if (student) {
+      setSelectedStudent(student);
+      navigate("/dashboard", {
+        state: { selectedStudentId: studentId },
+        replace: true,
+      });
+      setShowStudentDropdown(false);
+    }
+  };
+
+  // Handle clicking outside notifications dropdown
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -87,6 +130,7 @@ const DashboardHeader = ({
       </div>
 
       <div className={styles.rightSection}>
+        {/* Units Dropdown (visible to all roles) */}
         {units.length > 0 && (
           <div className={styles.unitDropdown}>
             <button
@@ -95,13 +139,13 @@ const DashboardHeader = ({
                   ? studentBar
                   : profile.role === "teacher"
                   ? teacherBar
-                  : profile.role === "parent" && parentBar
+                  : parentBar
               }`}
-              onClick={() => setShowDropdown((prev) => !prev)}
+              onClick={() => setShowUnitDropdown((prev) => !prev)}
             >
-              {selectedUnit.name || "Select Unit"} ▾
+              {selectedUnit?.name || "Select Unit"} ▾
             </button>
-            {showDropdown && (
+            {showUnitDropdown && (
               <div className={styles.dropdownMenu}>
                 {units.map((unit) => (
                   <div
@@ -109,7 +153,7 @@ const DashboardHeader = ({
                     className={styles.dropdownOption}
                     onClick={() => {
                       setSelectedUnit(unit);
-                      setShowDropdown(false);
+                      setShowUnitDropdown(false);
                       localStorage.setItem("focusUnit", JSON.stringify(unit));
                     }}
                   >
@@ -120,7 +164,7 @@ const DashboardHeader = ({
                   className={styles.dropdownOption}
                   onClick={() => {
                     setSelectedUnit({ name: "All Units", id: "all" });
-                    setShowDropdown(false);
+                    setShowUnitDropdown(false);
                     localStorage.setItem(
                       "focusUnit",
                       JSON.stringify({ name: "All Units", id: "all" })
@@ -133,6 +177,38 @@ const DashboardHeader = ({
             )}
           </div>
         )}
+
+        {/* Students Dropdown (visible only to parents with students/children) */}
+        {profile.role === "parent" && linkedStudents.length > 0 && (
+          <div className={styles.studentDropdown}>
+            <button
+              className={`${styles.unitButton} ${parentBar}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowStudentDropdown(prev => !prev);
+              }}
+            >
+              {selectedStudent 
+    ? `${selectedStudent.firstName} ${selectedStudent.lastName}`
+    : "Select Student"} ▾
+            </button>
+            {showStudentDropdown && (
+              <div className={styles.dropdownMenu}>
+                {linkedStudents.map((student) => (
+                  <div
+                    key={student.id}
+                    className={styles.dropdownOption}
+                    onClick={() => handleSelectStudent(student.id)}
+                  >
+                    {student.firstName} {student.lastName}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Profile Section */}
         <div className={`${styles.avatar}`}>{initial}</div>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>
@@ -140,6 +216,8 @@ const DashboardHeader = ({
           </span>
           <span className={styles.profileRole}>{profile.role}</span>
         </div>
+
+        {/* Notifications */}
         <div className={styles.notificationWrapper} ref={notificationRef}>
           <i
             className={`fas fa-bell ${styles.notificationIcon}`}
@@ -150,7 +228,7 @@ const DashboardHeader = ({
           {showNotifications && (
             <div className={styles.notificationDropdown}>
               <div className={styles.notificationHeader}>
-                <span>You have 2 new notifications</span>
+                <span>You have {notifications.length} new notifications</span>
               </div>
 
               {(showAllNotifications
