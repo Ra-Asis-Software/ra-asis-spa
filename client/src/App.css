@@ -781,8 +781,8 @@ header.landing-header .main-navigation .logout-button:hover {
   .details
   .input-container
   .password-input-container {
-    position: relative;
-  }
+  position: relative;
+}
 
 .registration-container
   .registration-content
@@ -1223,8 +1223,8 @@ header.landing-header .main-navigation .logout-button:hover {
   background: var(--french-gray-color);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .request-container {
@@ -1240,6 +1240,13 @@ header.landing-header .main-navigation .logout-button:hover {
   justify-content: center;
   align-items: center;
   gap: 40px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.request-reset-form form .email-input {
+  width: 100%;
 }
 
 .request-reset-form form .email-input input {
@@ -1249,7 +1256,13 @@ header.landing-header .main-navigation .logout-button:hover {
   text-align: center;
   font-family: Poppins;
   border-radius: 7px;
-  padding: 10px 125px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.request-reset-form form .get-link-btn {
+  width: 100%;
 }
 
 .request-reset-form form .get-link-btn button {
@@ -1260,7 +1273,9 @@ header.landing-header .main-navigation .logout-button:hover {
   border: none;
   outline: none;
   border-radius: 7px;
-  padding: 10px 220px;
+  padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
   cursor: pointer;
   transition: all 400ms ease-in-out;
 }
@@ -1301,7 +1316,6 @@ header.landing-header .main-navigation .logout-button:hover {
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding-bottom: 100px;
 }
 
 .success-icon {
@@ -1351,7 +1365,7 @@ header.landing-header .main-navigation .logout-button:hover {
 .try-again-text {
   position: relative;
   bottom: 20px;
-  margin-top: 200px;
+  margin-top: 50px;
 }
 
 .try-again-text p {
@@ -1372,6 +1386,7 @@ header.landing-header .main-navigation .logout-button:hover {
 
 .update-password-container {
   background: var(--french-gray-color);
+  min-height: 100vh;
 }
 
 .update-password-content {
@@ -1379,17 +1394,28 @@ header.landing-header .main-navigation .logout-button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 100px;
+}
+
+.update-password-intro {
+  text-align: center;
 }
 
 .update-password-intro p {
   margin-bottom: 30px;
 }
 
+.update-password-form {
+  max-width: 500px;
+}
+
 .update-password-form form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 40px;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .update-password-form form .new-password-input,
@@ -1397,19 +1423,21 @@ header.landing-header .main-navigation .logout-button:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 }
 
 .update-password-form form .new-password-input .input-icon {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  width: 100%;
+  position: relative;
 }
 
 .update-password-form form .new-password-input .input-icon i {
   font-size: inherit;
-  position: relative;
+  position: absolute;
   top: 12px;
-  right: 24px;
+  right: 12px;
   cursor: pointer;
 }
 
@@ -1429,7 +1457,7 @@ header.landing-header .main-navigation .logout-button:hover {
   border: none;
   outline: none;
   border-radius: 7px;
-  padding: 10px 100px;
+  padding: 10px;
 }
 
 .reset-password-btn {
@@ -1437,6 +1465,7 @@ header.landing-header .main-navigation .logout-button:hover {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  width: 100%;
 }
 
 .reset-password-btn button {
@@ -1447,7 +1476,8 @@ header.landing-header .main-navigation .logout-button:hover {
   border: none;
   outline: none;
   border-radius: 7px;
-  padding: 10px 200px;
+  padding: 10px 20px;
+  width: 100%;
   cursor: pointer;
   transition: all 400ms ease-in-out;
 }
@@ -1638,9 +1668,9 @@ footer.landing-footer {
   }
 }
 
-/*Devices Max. Screen Width 1012px*/
+/*Devices Max. Screen Width 1100px*/
 
-@media (max-width: 1012px) {
+@media (max-width: 1100px) {
   /* Header Responsive Styling */
   header {
     gap: 820px;
@@ -1659,6 +1689,7 @@ footer.landing-footer {
     width: 100%;
     background: var(--bright-sun-color);
     padding: 10px 40px;
+    animation: fadeIn 400ms ease-in-out;
   }
 
   header.landing-header .main-navigation.active {
@@ -1671,6 +1702,12 @@ footer.landing-footer {
 
   header.landing-header .main-navigation a:hover {
     color: var(--black-pearl-color);
+  }
+
+  header.landing-header .main-navigation .logout-button {
+    max-width: 120px;
+    box-sizing: border-box;
+    text-align: left;
   }
 }
 
@@ -2316,7 +2353,7 @@ footer.landing-footer {
   }
 }
 
-/*Animations*/
+/* ANIMATIONS */
 
 @keyframes pulse {
   0%,
@@ -2325,5 +2362,14 @@ footer.landing-footer {
   }
   50% {
     transform: scale(1.2);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
