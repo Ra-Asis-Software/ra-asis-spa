@@ -186,7 +186,8 @@ const AssignmentContent = ({
                   suppressContentEditableWarning
                   onInput={(e) => handleChangeText(e, index)}
                 >
-                  NOTE: {stripHTML(item[0])}
+                  <span className={styles.noteText}>NOTE:</span>{" "}
+                  {stripHTML(item[0])}
                 </p>
               ) : item[1] === "question" ? (
                 <div

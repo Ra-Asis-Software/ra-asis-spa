@@ -273,7 +273,11 @@
 }
 
 .textInstruction {
-  color: var(--alizarin-crimson-color);
+  color: var(--bright-sun-color);
+}
+
+.noteText {
+  font-weight: 700;
 }
 
 .textTitle {

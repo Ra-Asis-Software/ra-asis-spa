@@ -13,14 +13,14 @@
 
 .item {
   margin-bottom: 5px;
-  border-bottom: 1px solid var(--pale-sky-color);
+  border-bottom: 1px solid var(--black-pearl-color);
 }
 
 .detail {
-  color: var(--cerulean-color);
+  color: var(--pine-green-color);
 }
 
 .timestamp {
   font-size: 0.8em;
-  color: var(--pale-sky-color);
+  color: var(--black-pearl-color);
 }

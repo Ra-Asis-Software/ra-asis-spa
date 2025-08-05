@@ -81,11 +81,19 @@ ul li a.active {
   margin-bottom: 5px;
 }
 
+.parentLogout {
+  border-top-color: var(--bright-sun-color);
+}
+
 .logoutButton {
   background-color: transparent;
   color: var(--alizarin-crimson-color);
   display: flex;
   align-items: center;
+}
+
+.parentLogoutButton {
+  color: var(--bright-sun-color);
 }
 
 .logoutButton i {

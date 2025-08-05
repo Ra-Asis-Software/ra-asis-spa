@@ -107,8 +107,17 @@ const SideBar = ({ show, logout, role }) => {
         </li>
       </ul>
 
-      <div className={styles.logout}>
-        <button onClick={logout} className={styles.logoutButton}>
+      <div
+        className={`${styles.logout} ${
+          role === "parent" ? styles.parentLogout : ""
+        }`}
+      >
+        <button
+          onClick={logout}
+          className={`${styles.logoutButton} ${
+            role === "parent" ? styles.parentLogoutButton : ""
+          }`}
+        >
           <i className="fas fa-sign-out-alt"></i>
           <span className={styles.linkLabel}>Log Out</span>
         </button>

@@ -23,10 +23,7 @@
   color: var(--black-pearl-color);
 }
 
-.studentCard .title {
-  color: var(--foam-color);
-}
-
+.studentCard .title,
 .teacherCard .title,
 .parentCard .title {
   color: var(--black-pearl-color);
