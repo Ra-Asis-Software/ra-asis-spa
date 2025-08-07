@@ -7,22 +7,24 @@ import Sidebar from "../components/dashboard/SideBar";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
-import ParentMain from "../components/dashboard/parent/ParentMain";
 import Students from "../components/dashboard/parent/Students";
 import Assignments from "../components/dashboard/Assignments";
 import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
+import ParentMain from "../components/dashboard/parent/ParentMain";
+import { getParentDetails } from "../services/userService";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showNav, setShowNav] = useState(() => window.innerWidth > 768);
-  const navigate = useNavigate();
   const [units, setUnits] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [selectedUnit, setSelectedUnit] = useState({});
   const [canEdit, setCanEdit] = useState(false);
+  const [linkedStudents, setLinkedStudents] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch the user's data from the token
   useEffect(() => {
@@ -61,6 +63,18 @@ const Dashboard = () => {
     fetchUserData();
   }, [navigate]);
 
+  useEffect(() => {
+    if (user?.role === "parent") {
+      const fetchStudents = async () => {
+        const result = await getParentDetails(user.id);
+        if (!result.error) {
+          setLinkedStudents(result.data?.children || []);
+        }
+      };
+      fetchStudents();
+    }
+  }, [user?.id, user?.role]);
+
   //set selected unit in localStorage
   const persistSelectedUnit = () => {
     const storedUnit = localStorage.getItem("focusUnit");
@@ -88,7 +102,14 @@ const Dashboard = () => {
     <div className={styles.dashboardContainer}>
       <DashboardHeader
         profile={user}
-        {...{ units, showNav, setShowNav, selectedUnit, setSelectedUnit }}
+        {...{
+          units,
+          showNav,
+          setShowNav,
+          selectedUnit,
+          setSelectedUnit,
+          linkedStudents,
+        }}
       />
 
       <div className={styles.content}>
@@ -130,18 +151,7 @@ const Dashboard = () => {
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["parent"]}>
-                    <ParentMain
-                      {...{
-                        showNav,
-                        units,
-                        selectedUnit,
-                        setUnits,
-                        assignments,
-                        setAssignments,
-                        persistSelectedUnit,
-                      }}
-                      user={user}
-                    />
+                    <ParentMain profile={user} />
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["administrator"]}>

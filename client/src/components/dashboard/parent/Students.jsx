@@ -99,17 +99,8 @@ const Students = ({ user }) => {
   };
 
   // Handle selecting a student to view
-  const handleSelectStudent = (studentId) => {
-    console.log("Selecting student:", studentId); // Debugger
-    localStorage.setItem("parentSelectedStudentId", studentId);
-    console.log(
-      "localStorage after set:",
-      localStorage.getItem("parentSelectedStudentId")
-    ); // Debugger
-    navigate("/dashboard", {
-      state: { selectedStudentId: studentId },
-      replace: true,
-    });
+  const handleStudentSelect = (studentId) => {
+    navigate(`/dashboard?student=${studentId}`);
   };
 
   // Helper to render error messages safely
@@ -185,7 +176,7 @@ const Students = ({ user }) => {
               <div
                 key={student.id}
                 className={styles.studentRow}
-                onClick={() => !isLoading && handleSelectStudent(student.id)}
+                onClick={() => handleStudentSelect(student.id)}
               >
                 <span>{`${student.firstName} ${student.lastName}`}</span>
                 <span>{student.email}</span>
