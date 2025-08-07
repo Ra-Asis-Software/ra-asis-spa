@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./css/DashboardHeader.module.css";
 import {
   studentBar,
   teacherBar,
   parentBar,
 } from "./css/SideBarStyles.module.css";
-import { useNavigate } from "react-router-dom";
 
 const DashboardHeader = ({
   setShowNav,
@@ -21,6 +21,12 @@ const DashboardHeader = ({
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const currentStudentId = queryParams.get("student");
+
+  // Find current student name
+  const currentStudent = linkedStudents.find((s) => s.id === currentStudentId);
 
   const notificationRef = useRef(null);
 
@@ -72,6 +78,14 @@ const DashboardHeader = ({
       ) {
         setShowNotifications(false);
       }
+
+      // Close all other dropdowns if clicked outside
+      if (!e.target.closest(`.${styles.studentDropdown}`)) {
+        setShowStudentDropdown(false);
+      }
+      if (!e.target.closest(`.${styles.unitDropdown}`)) {
+        setShowUnitDropdown(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -92,7 +106,7 @@ const DashboardHeader = ({
 
       <div className={styles.rightSection}>
         {/* Units Dropdown (visible to all roles) */}
-        {units.length > 0 && (
+        {(units?.length > 0 || profile.role === "parent") && (
           <div className={styles.unitDropdown}>
             <button
               className={`${styles.unitButton} ${
@@ -114,6 +128,7 @@ const DashboardHeader = ({
                     className={styles.dropdownOption}
                     onClick={() => {
                       setSelectedUnit(unit);
+                      window.location.reload(); // Simple for now, to refine in the next commit
                       setShowUnitDropdown(false);
                       localStorage.setItem("focusUnit", JSON.stringify(unit));
                     }}
@@ -125,6 +140,8 @@ const DashboardHeader = ({
                   className={styles.dropdownOption}
                   onClick={() => {
                     setSelectedUnit({ name: "All Units", id: "all" });
+                    window.location.reload(); // In final sol. think effects on existing behavior on other dashs
+
                     setShowUnitDropdown(false);
                     localStorage.setItem(
                       "focusUnit",
@@ -143,23 +160,32 @@ const DashboardHeader = ({
           <div className={styles.studentDropdown}>
             <button
               className={`${styles.unitButton} ${parentBar}`}
-              onClick={() => setShowStudentDropdown((prev) => !prev)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowStudentDropdown((prev) => !prev);
+                setShowUnitDropdown(false); // Close units dropdown if open
+              }}
             >
-              {"Select Student"} ▾
+              {currentStudent
+                ? `${currentStudent.firstName} ${currentStudent.lastName}`
+                : "Select Student"}{" "}
+              ▾
             </button>
             {showStudentDropdown && (
-              <div className={styles.dropdownMenu}>
+              <div
+                className={styles.dropdownMenu}
+                onClick={(e) => e.stopPropagation()}
+              >
                 {linkedStudents.map((student) => (
                   <div
                     key={student.id}
                     className={styles.dropdownOption}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       navigate(`/dashboard?student=${student.id}`);
                       setShowStudentDropdown(false);
                     }}
-                  >
-                    {`${student.firstName} ${student.lastName}`}
-                  </div>
+                  ></div>
                 ))}
               </div>
             )}

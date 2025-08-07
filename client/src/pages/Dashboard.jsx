@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [selectedUnit, setSelectedUnit] = useState({});
   const [canEdit, setCanEdit] = useState(false);
   const [linkedStudents, setLinkedStudents] = useState([]);
+  const [parentStudentData, setParentStudentData] = useState(null);
   const navigate = useNavigate();
 
   // Fetch the user's data from the token
@@ -103,7 +104,8 @@ const Dashboard = () => {
       <DashboardHeader
         profile={user}
         {...{
-          units,
+          units:
+            user.role === "parent" ? parentStudentData?.units || [] : units,
           showNav,
           setShowNav,
           selectedUnit,
@@ -151,7 +153,11 @@ const Dashboard = () => {
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["parent"]}>
-                    <ParentMain profile={user} />
+                    <ParentMain
+                      profile={user}
+                      setParentStudentData={setParentStudentData}
+                      onSelectUnit={setSelectedUnit}
+                    />
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["administrator"]}>
