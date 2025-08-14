@@ -5,7 +5,8 @@ const assignmentSchema = new mongoose.Schema(
     title: { type: String, required: true },
     unit: { type: mongoose.Schema.Types.ObjectId, ref: "Unit", required: true },
     submissionType: { type: String, enum: ["text", "file"], required: true },
-    content: { type: String }, // I made this optional for file-based assignments
+    content: { type: String }, // I made this optional for file-based assignments,
+    answers: { type: String }, // for auto-graded questions
     files: [
       {
         filePath: { type: String, required: true },

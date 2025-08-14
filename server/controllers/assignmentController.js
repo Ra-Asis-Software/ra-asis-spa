@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import Assignment from "../models/Assignment.js";
 import Unit from "../models/Unit.js";
 import Teacher from "../models/Teacher.js";
-
+import { v4 as uuidv4 } from "uuid";
 // @desc    Create an assignment
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
@@ -31,6 +31,25 @@ export const createAssignment = asyncHandler(async (req, res) => {
     }
   }
 
+  //get answers from auto graded questions
+  const parsedContent = JSON.parse(content);
+
+  const { newContent, newAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      const id = uuidv4();
+
+      if (item[1] === "question" && item.length > 3) {
+        acc.newContent.push([...item.slice(0, 3), id]); // question with new ID
+        acc.newAnswers.push({ id, answer: item[3] }); // matching answer
+      } else {
+        acc.newContent.push([...item, id]); //if not a question with answers, return original
+      }
+
+      return acc;
+    },
+    { newContent: [], newAnswers: [] }
+  );
+
   // Create assignment
   const assignment = await Assignment.create({
     title,
@@ -38,7 +57,8 @@ export const createAssignment = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
-    content,
+    content: JSON.stringify(newContent),
+    answers: JSON.stringify(newAnswers),
     createdBy: req.user._id,
     files: req.files?.map((file) => ({
       filePath: file.path,
