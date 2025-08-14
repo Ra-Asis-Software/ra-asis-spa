@@ -38,11 +38,16 @@ export const createAssignment = asyncHandler(async (req, res) => {
     (acc, item) => {
       const id = uuidv4();
 
-      if (item[1] === "question" && item.length > 3) {
-        acc.newContent.push([...item.slice(0, 3), id]); // question with new ID
-        acc.newAnswers.push({ id, answer: item[3] }); // matching answer
+      if (item.type === "question" && item.answer) {
+        acc.newContent.push({
+          type: item.type,
+          data: item.data,
+          answers: item.answers,
+          id,
+        }); // question with new ID
+        acc.newAnswers.push({ id, answer: item.answer }); // matching answer
       } else {
-        acc.newContent.push([...item, id]); //if not a question with answers, return original
+        acc.newContent.push({ ...item, id }); //if not a question with answers, return original
       }
 
       return acc;
@@ -99,8 +104,63 @@ export const editAssignment = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "No assignment found" });
   }
 
+  //check the changes made
+  const parsedContent = JSON.parse(content);
+  let currentAnswers = JSON.parse(assignment.answers);
+
+  const { changedContent, changedAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      if (!item.id) {
+        item.id = uuidv4(); //cater for new question items
+      }
+      if (item?.answer) {
+        acc.changedAnswers.push({
+          id: item.id,
+          newAnswer: item.answer,
+        });
+      }
+      const { answer, ...rest } = item; //separate answer from the object
+      acc.changedContent.push(rest);
+
+      return acc;
+    },
+    { changedContent: [], changedAnswers: [] }
+  );
+
+  //remove answers whose question was deleted from the assignment
+  currentAnswers = currentAnswers.filter((answer) => {
+    return changedContent.some((question) => question.id === answer.id);
+  });
+
+  //update the current answers with the incoming edits
+  const replaceAnswers = currentAnswers.map((answer) => {
+    const isAnswerModified = changedAnswers.find(
+      (newAnswer) => newAnswer.id === answer.id
+    );
+
+    if (!isAnswerModified) {
+      return answer;
+    } else {
+      return { id: isAnswerModified.id, answer: isAnswerModified.newAnswer };
+    }
+  });
+
+  //include edits that are bringing in new questions, or answers currently not present
+  const veryNewAnswers = changedAnswers
+    .filter(
+      (newAnswer) =>
+        !currentAnswers.some((answer) => answer.id === newAnswer.id)
+    )
+    .map((newAnswer) => ({
+      id: newAnswer.id,
+      answer: newAnswer.newAnswer,
+    }));
+
+  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+
   assignment.maxMarks = maxMarks;
-  assignment.content = content;
+  assignment.content = JSON.stringify(changedContent);
+  assignment.answers = JSON.stringify(newAnswers);
   assignment.deadLine = deadLine;
 
   //clear existing files
