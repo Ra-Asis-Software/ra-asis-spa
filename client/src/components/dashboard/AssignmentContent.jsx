@@ -22,7 +22,7 @@ const AssignmentContent = ({
 
   //make changes to an already added section
   const handleChangeText = (e, index) => {
-    const tempArray = content;
+    const tempArray = [...content];
     tempArray[index][0] = e.target.innerHTML;
 
     setContent(tempArray); //replace-in the new changes
@@ -55,10 +55,20 @@ const AssignmentContent = ({
   };
 
   const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
-    const tempArray = content;
+    const tempArray = [...content];
     tempArray[questionIndex][2][answerIndex] = e.target.innerHTML;
 
     setContent(tempArray);
+  };
+
+  const handleSetCorrectAnswer = (answer, questionIndex) => {
+    const tempArray = [...content];
+
+    if (tempArray[questionIndex].length > 3) {
+      tempArray[questionIndex][3] = answer; //change current answer
+    } else {
+      tempArray[questionIndex].push(answer); //set new answer
+    }
   };
 
   //handles adding an instructions section to the assignment
@@ -209,9 +219,17 @@ const AssignmentContent = ({
                     </p>
                   </div>
 
-                  {item[2].map((ans, index1) => {
+                  {item[2].map((ans, answerIndex) => {
                     return (
-                      <div className={`${styles.answerBox}`} key={index1}>
+                      <div className={`${styles.answerBox}`} key={answerIndex}>
+                        {canEdit && (
+                          <input
+                            type="radio"
+                            name={`question${index}Answer`}
+                            defaultChecked={item?.at(3) === ans}
+                            onChange={() => handleSetCorrectAnswer(ans, index)}
+                          />
+                        )}
                         <p
                           className={`${styles.editable} ${
                             !canEdit && styles.answerWork
@@ -219,7 +237,7 @@ const AssignmentContent = ({
                           contentEditable={canEdit && role === "teacher"}
                           suppressContentEditableWarning
                           onInput={(e) =>
-                            handleChangeAnswerExists(e, index, index1)
+                            handleChangeAnswerExists(e, index, answerIndex)
                           }
                         >
                           {ans}

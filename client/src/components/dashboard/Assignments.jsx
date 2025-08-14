@@ -196,31 +196,49 @@ const Assignments = ({
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
       setMessage("Ensure both Assignment Title and Submission Type are set");
     } else {
-      //setup deadlines for those not set
-      let tempDate, tempTime;
-      tempDate = assignmentExtras.date || `${new Date().getFullYear()}-12-31`;
-      tempTime = assignmentExtras.time || "23:59";
-
-      const formData = new FormData();
-
-      selectedFiles.forEach((file) => formData.append("files", file));
-      formData.append("title", assignmentTitle);
-      formData.append("submissionType", submissionType);
-      formData.append("deadLine", `${tempDate}T${tempTime}`);
-      formData.append("maxMarks", assignmentExtras.marks);
-      formData.append("content", JSON.stringify(content));
-      formData.append("unitId", selectedUnit.id);
-
-      try {
-        const creationResult = await createAssignment(formData);
-        setMessage(creationResult.data.message);
-        if (creationResult.status === 201) {
-          const createdAssignment = creationResult.data.assignment;
-          resetAssignmentContent();
-          handleOpenExistingAssignment(createdAssignment);
+      //check if all auto-grade answers are set
+      const isAnyAnswerMissing = () => {
+        for (const item of content) {
+          if (item[1] === "question") {
+            if (item?.[2]?.length > 0) {
+              if (item[3] == null || item[3] === "") {
+                return true;
+              }
+            }
+          }
         }
-      } catch (error) {
-        setMessage(error);
+        return false;
+      };
+
+      if (isAnyAnswerMissing()) {
+        setMessage("Some answers have not be set for auto-grading questions");
+      } else {
+        //setup deadlines for those not set
+        let tempDate, tempTime;
+        tempDate = assignmentExtras.date || `${new Date().getFullYear()}-12-31`;
+        tempTime = assignmentExtras.time || "23:59";
+
+        const formData = new FormData();
+
+        selectedFiles.forEach((file) => formData.append("files", file));
+        formData.append("title", assignmentTitle);
+        formData.append("submissionType", submissionType);
+        formData.append("deadLine", `${tempDate}T${tempTime}`);
+        formData.append("maxMarks", assignmentExtras.marks);
+        formData.append("content", JSON.stringify(content));
+        formData.append("unitId", selectedUnit.id);
+
+        try {
+          const creationResult = await createAssignment(formData);
+          setMessage(creationResult.data.message);
+          if (creationResult.status === 201) {
+            const createdAssignment = creationResult.data.assignment;
+            resetAssignmentContent();
+            handleOpenExistingAssignment(createdAssignment);
+          }
+        } catch (error) {
+          setMessage(error);
+        }
       }
     }
 
