@@ -23,7 +23,7 @@ const AssignmentContent = ({
   //make changes to an already added section
   const handleChangeText = (e, index) => {
     const tempArray = [...content];
-    tempArray[index][0] = e.target.innerHTML;
+    tempArray[index].data = e.target.innerHTML;
 
     setContent(tempArray); //replace-in the new changes
   };
@@ -31,44 +31,6 @@ const AssignmentContent = ({
   //replace html elements with their appropriate spaces and breaks
   const stripHTML = (html) => {
     return html.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]*>/g, "");
-  };
-
-  //adding an answer to a question
-  const handleChangeAnswer = (e) => {
-    const input = e.target;
-
-    input.style.width = "auto";
-    input.style.height = "4vh";
-    input.style.width = `${input.scrollWidth}px`;
-
-    setSectionData({ ...sectionData, answer: input.value });
-  };
-
-  const handleAddAnswer = (index) => {
-    const tempArray = [...content];
-    tempArray[index][2].push(sectionData.answer);
-
-    setContent(tempArray);
-
-    setSectionData({ ...sectionData, answer: "" }); //return answer to empty
-    setShowButton({ ...showButton, answer: false }); // hide the add answer input
-  };
-
-  const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
-    const tempArray = [...content];
-    tempArray[questionIndex][2][answerIndex] = e.target.innerHTML;
-
-    setContent(tempArray);
-  };
-
-  const handleSetCorrectAnswer = (answer, questionIndex) => {
-    const tempArray = [...content];
-
-    if (tempArray[questionIndex].length > 3) {
-      tempArray[questionIndex][3] = answer; //change current answer
-    } else {
-      tempArray[questionIndex].push(answer); //set new answer
-    }
   };
 
   //handles adding an instructions section to the assignment
@@ -81,9 +43,12 @@ const AssignmentContent = ({
   };
 
   const handleAddInstruction = () => {
-    const tempArray = [sectionData.instruction, "instruction"];
+    const tempInstruction = {
+      type: "instruction",
+      data: sectionData.instruction,
+    };
 
-    setContent((prev) => [...prev, tempArray]); // add the instruction to the contents array
+    setContent((prev) => [...prev, tempInstruction]); // add the instruction to the contents array
 
     setSectionData({ ...sectionData, instruction: "" }); //return instruction to empty
     setShowButton({ ...showButton, instruction: false }); // hide the add instruction area
@@ -99,9 +64,9 @@ const AssignmentContent = ({
   };
 
   const handleAddTitle = () => {
-    const tempArray = [sectionData.title, "title"];
+    const tempTitle = { type: "title", data: sectionData.title };
 
-    setContent((prev) => [...prev, tempArray]); // add the title to the contents array
+    setContent((prev) => [...prev, tempTitle]); // add the title to the contents array
 
     setSectionData({ ...sectionData, title: "" }); //return title to empty
     setShowButton({ ...showButton, title: false }); // hide the add title area
@@ -117,12 +82,52 @@ const AssignmentContent = ({
   };
 
   const handleAddQuestion = () => {
-    const tempArray = [sectionData.question, "question", []];
+    const tempQuestion = {
+      type: "question",
+      data: sectionData.question,
+      answers: [],
+    };
 
-    setContent((prev) => [...prev, tempArray]); // add the instruction to the contents array
+    setContent((prev) => [...prev, tempQuestion]); // add the question to the contents array
 
-    setSectionData({ ...sectionData, question: "" }); //return instruction to empty
-    setShowButton({ ...showButton, question: false }); // hide the add instruction area
+    setSectionData({ ...sectionData, question: "" }); //return question to empty
+    setShowButton({ ...showButton, question: false }); // hide the add question area
+  };
+
+  //adding an answer to a question
+  const handleChangeAnswer = (e) => {
+    const input = e.target;
+
+    input.style.width = "auto";
+    input.style.height = "4vh";
+    input.style.width = `${input.scrollWidth}px`;
+
+    setSectionData({ ...sectionData, answer: input.value });
+  };
+
+  const handleAddAnswer = (index) => {
+    const tempArray = [...content];
+    tempArray[index].answers.push(sectionData.answer);
+
+    setContent(tempArray);
+
+    setSectionData({ ...sectionData, answer: "" }); //return answer to empty
+    setShowButton({ ...showButton, answer: false }); // hide the add answer input
+  };
+
+  const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
+    const tempArray = [...content];
+    tempArray[questionIndex].answers[answerIndex] = e.targert.innerHTML;
+
+    setContent(tempArray);
+  };
+
+  const handleSetCorrectAnswer = (answer, questionIndex) => {
+    const tempArray = [...content];
+
+    tempArray[questionIndex].answer = answer; //change current answer
+
+    setContent(tempArray);
   };
 
   //handles adding textarea to the assignment
@@ -135,9 +140,9 @@ const AssignmentContent = ({
   };
 
   const handleAddTextArea = () => {
-    const tempArray = [sectionData.textArea, "textArea"];
+    const tempTextArea = { type: "textArea", data: sectionData.textArea };
 
-    setContent((prev) => [...prev, tempArray]); // add the instruction to the contents array
+    setContent((prev) => [...prev, tempTextArea]); // add the instruction to the contents array
 
     setSectionData({ ...sectionData, textArea: "" }); //return textArea to empty
     setShowButton({ ...showButton, textArea: false }); // hide the add textArea area
@@ -145,7 +150,7 @@ const AssignmentContent = ({
 
   //move an item in the assignment either up or down
   const handleMoveItemUp = (index) => {
-    const tempArray = content;
+    const tempArray = [...content];
     const itemClicked = tempArray[index];
     const itemToSwap = index - 1 > -1 ? tempArray[index - 1] : tempArray[index];
 
@@ -187,7 +192,7 @@ const AssignmentContent = ({
               key={index}
               className={`${styles.edDiv}  ${!canEdit && styles.edDivWork}`}
             >
-              {item[1] === "instruction" ? (
+              {item.type === "instruction" ? (
                 <p
                   className={`${styles.textInstruction} ${styles.editable} ${
                     !canEdit && styles.textInstructionWork
@@ -197,16 +202,16 @@ const AssignmentContent = ({
                   onInput={(e) => handleChangeText(e, index)}
                 >
                   <span className={styles.noteText}>NOTE:</span>{" "}
-                  {stripHTML(item[0])}
+                  {stripHTML(item.data)}
                 </p>
-              ) : item[1] === "question" ? (
+              ) : item.type === "question" ? (
                 <div
                   className={`${styles.questionContainer} ${
                     !canEdit && styles.questionContainerWork
                   }`}
                 >
                   <div className={styles.questionHolder}>
-                    <p>{!canEdit && `${item[3]}.) `}</p>
+                    <p>{!canEdit && `${item.questionNumber}.) `}</p>
                     <p
                       className={`${styles.textQuestion} ${styles.editable} ${
                         !canEdit && styles.textQuestionWork
@@ -215,18 +220,18 @@ const AssignmentContent = ({
                       suppressContentEditableWarning
                       onInput={(e) => handleChangeText(e, index)}
                     >
-                      {stripHTML(item[0])}
+                      {stripHTML(item.data)}
                     </p>
                   </div>
 
-                  {item[2].map((ans, answerIndex) => {
+                  {item.answers.map((ans, answerIndex) => {
                     return (
                       <div className={`${styles.answerBox}`} key={answerIndex}>
                         {canEdit && (
                           <input
                             type="radio"
                             name={`question${index}Answer`}
-                            defaultChecked={item?.at(3) === ans}
+                            defaultChecked={item?.answer === ans}
                             onChange={() => handleSetCorrectAnswer(ans, index)}
                           />
                         )}
@@ -282,19 +287,22 @@ const AssignmentContent = ({
                     </RoleRestricted>
                   )}
                 </div>
-              ) : item[1] === "textArea" ? (
-                <div
-                  className={`${styles.textLong} ${styles.editable} ${
-                    !canEdit && styles.textLongWork
-                  }`}
-                  contentEditable={canEdit && role === "teacher"}
-                  suppressContentEditableWarning
-                  onInput={(e) => handleChangeText(e, index)}
-                >
-                  {stripHTML(item[0])}
+              ) : item.type === "textArea" ? (
+                <div className={styles.questionHolder}>
+                  <p>{!canEdit && `${item.questionNumber}.) `}</p>
+                  <div
+                    className={`${styles.textLong} ${styles.editable} ${
+                      !canEdit && styles.textLongWork
+                    }`}
+                    contentEditable={canEdit && role === "teacher"}
+                    suppressContentEditableWarning
+                    onInput={(e) => handleChangeText(e, index)}
+                  >
+                    {stripHTML(item.data)}
+                  </div>
                 </div>
               ) : (
-                item[1] === "title" && (
+                item.type === "title" && (
                   <h4
                     className={`${styles.textTitle} ${styles.editable} ${
                       !canEdit && styles.textTitleWork
@@ -303,7 +311,7 @@ const AssignmentContent = ({
                     suppressContentEditableWarning
                     onInput={(e) => handleChangeText(e, index)}
                   >
-                    {stripHTML(item[0])}
+                    {stripHTML(item.data)}
                   </h4>
                 )
               )}
@@ -321,7 +329,7 @@ const AssignmentContent = ({
                       title="Move block down"
                     ></i>
                     <i
-                      class={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
+                      className={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
                       onClick={() => handleDeleteNoteItem(index)}
                       title="Delete block"
                     ></i>

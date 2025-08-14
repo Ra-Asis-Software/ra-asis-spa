@@ -154,11 +154,11 @@ const Assignments = ({
     let questionNumber = 1;
 
     const assignedNumbers = tempAssignmentContent.map((assignment) => {
-      if (assignment[1] === "question") {
-        return [...assignment, questionNumber++];
-      }
+      if (["question", "textArea"].includes(assignment?.type))
+        return { ...assignment, questionNumber: questionNumber++ };
       return assignment;
     });
+
     setContent(assignedNumbers);
     setCanEdit(false);
     setOpenAssignment(true);
@@ -199,9 +199,13 @@ const Assignments = ({
       //check if all auto-grade answers are set
       const isAnyAnswerMissing = () => {
         for (const item of content) {
-          if (item[1] === "question") {
-            if (item?.[2]?.length > 0) {
-              if (item[3] == null || item[3] === "") {
+          if (item.type === "question") {
+            if (item.answers.length > 0) {
+              if (
+                item.answer == null ||
+                item.answer === "" ||
+                item.answer == undefined
+              ) {
                 return true;
               }
             }
@@ -249,16 +253,10 @@ const Assignments = ({
 
   const cleanAssignmentContent = (content) => {
     //remove question numbers before submitting
-    const tempContent = content.map((item) => {
-      if (item[1] === "question") {
-        const newItem = [...item];
-        newItem.splice(3);
-        return newItem;
-      }
+    return content.map((item) => {
+      delete item.questionNumber;
       return item;
     });
-
-    return tempContent;
   };
 
   const handleEditAssignment = async () => {
