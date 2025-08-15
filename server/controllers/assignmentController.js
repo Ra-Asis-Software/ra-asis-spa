@@ -111,7 +111,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
   const { changedContent, changedAnswers } = parsedContent.reduce(
     (acc, item) => {
       if (!item.id) {
-        item.id = uuidv4(); //cater for new question items
+        item.id = uuidv4(); //create id for new question items
       }
       if (item?.answer) {
         acc.changedAnswers.push({
@@ -127,7 +127,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
     { changedContent: [], changedAnswers: [] }
   );
 
-  //remove answers whose question was deleted from the assignment
+  //remove from the db answers whose question was deleted from the assignment
   currentAnswers = currentAnswers.filter((answer) => {
     return changedContent.some((question) => question.id === answer.id);
   });

@@ -11,6 +11,8 @@ const AssignmentContent = ({
   setTrigger,
   canEdit = false,
   role,
+  studentAnswers,
+  setStudentAnswers,
 }) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
@@ -19,6 +21,7 @@ const AssignmentContent = ({
     textArea: "",
     title: "",
   });
+  const [openAnswerArea, setOpenAnswerArea] = useState(null);
 
   //make changes to an already added section
   const handleChangeText = (e, index) => {
@@ -122,12 +125,21 @@ const AssignmentContent = ({
     setContent(tempArray);
   };
 
+  //allows teachers to set answers for the questions during creation and editing
   const handleSetCorrectAnswer = (answer, questionIndex) => {
     const tempArray = [...content];
 
     tempArray[questionIndex].answer = answer; //change current answer
 
     setContent(tempArray);
+  };
+
+  //allow student to choose their answers
+  const handleChooseAnswer = (chosenAnswer, questionId) => {
+    const tempAnswers = { ...studentAnswers };
+
+    tempAnswers[questionId] = chosenAnswer;
+    setStudentAnswers(tempAnswers);
   };
 
   //handles adding textarea to the assignment
@@ -227,14 +239,26 @@ const AssignmentContent = ({
                   {item.answers.map((ans, answerIndex) => {
                     return (
                       <div className={`${styles.answerBox}`} key={answerIndex}>
-                        {canEdit && (
+                        <RoleRestricted allowedRoles={["teacher"]}>
+                          {canEdit && (
+                            <input
+                              type="radio"
+                              name={`question${index}Answer`}
+                              defaultChecked={item?.answer === ans}
+                              onChange={() =>
+                                handleSetCorrectAnswer(ans, index)
+                              }
+                            />
+                          )}
+                        </RoleRestricted>
+                        <RoleRestricted allowedRoles={["student"]}>
                           <input
                             type="radio"
                             name={`question${index}Answer`}
                             defaultChecked={item?.answer === ans}
-                            onChange={() => handleSetCorrectAnswer(ans, index)}
+                            onChange={() => handleChooseAnswer(ans, item.id)}
                           />
-                        )}
+                        </RoleRestricted>
                         <p
                           className={`${styles.editable} ${
                             !canEdit && styles.answerWork
@@ -288,18 +312,49 @@ const AssignmentContent = ({
                   )}
                 </div>
               ) : item.type === "textArea" ? (
-                <div className={styles.questionHolder}>
-                  <p>{!canEdit && `${item.questionNumber}.) `}</p>
-                  <div
-                    className={`${styles.textLong} ${styles.editable} ${
-                      !canEdit && styles.textLongWork
-                    }`}
-                    contentEditable={canEdit && role === "teacher"}
-                    suppressContentEditableWarning
-                    onInput={(e) => handleChangeText(e, index)}
-                  >
-                    {stripHTML(item.data)}
+                <div className={styles.questionAnswerBox}>
+                  <div className={styles.questionHolder}>
+                    <p>{!canEdit && `${item.questionNumber}.) `}</p>
+                    <div
+                      className={`${styles.textLong} ${styles.editable} ${
+                        !canEdit && styles.textLongWork
+                      }`}
+                      contentEditable={canEdit && role === "teacher"}
+                      suppressContentEditableWarning
+                      onInput={(e) => handleChangeText(e, index)}
+                    >
+                      {stripHTML(item.data)}
+                    </div>
                   </div>
+
+                  {/* allow students only to make attempts */}
+                  <RoleRestricted allowedRoles={["student"]}>
+                    {openAnswerArea !== item.id ? (
+                      <button
+                        className={`${styles.attemptButton} ${
+                          studentAnswers?.[item.id]?.length > 0
+                            ? styles.attempted
+                            : styles.notAttempted
+                        }`}
+                        onClick={() => setOpenAnswerArea(item.id)}
+                      >
+                        {studentAnswers?.[item.id]?.length > 0
+                          ? "answered"
+                          : "Attempt now"}
+                      </button>
+                    ) : (
+                      <div>
+                        <textarea
+                          defaultValue={studentAnswers?.[item.id]}
+                          onChange={(e) =>
+                            handleChooseAnswer(e.target.value, item.id)
+                          }
+                          placeholder="Enter answer here..."
+                          className={styles.addedTextArea}
+                        />
+                      </div>
+                    )}
+                  </RoleRestricted>
                 </div>
               ) : (
                 item.type === "title" && (

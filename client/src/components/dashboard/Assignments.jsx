@@ -43,6 +43,7 @@ const Assignments = ({
   const [trigger, setTrigger] = useState(false);
   const assignmentContentRef = useRef(null);
   const assignmentFilesRef = useRef(null);
+  const studentFilesRef = useRef(null); //this will specifically handle student file submissions
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [assignmentExtras, setAssignmentExtras] = useState({
@@ -52,6 +53,8 @@ const Assignments = ({
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [studentAnswers, setStudentAnswers] = useState({});
+  const [studentUploadedFiles, setStudentUploadedFiles] = useState([]);
 
   //keep tabs of url to see whether its new/open/all
   const location = useLocation();
@@ -109,13 +112,22 @@ const Assignments = ({
     handleFilterUnit();
   }, [selectedUnit]);
 
-  //handles choosing files
+  //handles choosing files during assignment creation and editing
   const handleChooseFiles = () => {
     assignmentFilesRef.current.click();
   };
 
   const handleFileChange = (e) => {
     setSelectedFiles(Array.from(e.target.files));
+  };
+
+  //handles chossong files by the student for submission
+  const handleChooseStudentFiles = () => {
+    studentFilesRef.current.click();
+  };
+
+  const handleStudentFileChange = (e) => {
+    setStudentUploadedFiles(Array.from(e.target.files));
   };
 
   const resetAssignmentContent = () => {
@@ -290,6 +302,7 @@ const Assignments = ({
       console.log(error);
     }
   };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -449,6 +462,45 @@ const Assignments = ({
               )}
             </RoleRestricted>
 
+            {/* allows students to upload assignment files */}
+            <RoleRestricted allowedRoles={["student"]}>
+              {currentAssignment.submissionType === "file" && (
+                <>
+                  <div className={styles.studentFileUpload}>
+                    <button
+                      className={styles.studentFileUploadButton}
+                      onClick={handleChooseStudentFiles}
+                    >
+                      <i
+                        className={`fa-solid fa-file-arrow-up ${styles.uploadIcon}`}
+                      ></i>
+                    </button>
+                    <p>Upload file/s</p>
+                  </div>
+
+                  {/* Add an input for taking in files */}
+                  <input
+                    type="file"
+                    multiple
+                    className={styles.fileHidden}
+                    ref={studentFilesRef}
+                    onChange={handleStudentFileChange}
+                  />
+
+                  {/* display selected files */}
+                  <div className={styles.selectedFiles}>
+                    {studentUploadedFiles.map((file, index) => {
+                      return (
+                        <p className={styles.chosenFile} key={index}>
+                          {file.name}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </RoleRestricted>
+
             <AssignmentContent
               {...{
                 content,
@@ -459,6 +511,8 @@ const Assignments = ({
                 setTrigger,
                 canEdit,
                 setCanEdit,
+                studentAnswers,
+                setStudentAnswers,
               }}
               role={user.role}
             />

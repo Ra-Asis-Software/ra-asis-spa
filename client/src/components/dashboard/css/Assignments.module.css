@@ -464,6 +464,36 @@
   color: var(--alizarin-crimson-color);
 }
 
+.questionAnswerBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.attemptButton {
+  width: max-content;
+  height: max-content;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+.notAttempted {
+  color: var(--cerulean-color);
+}
+
+.attempted {
+  color: var(--pine-green-color);
+}
+
+.studentFileUpload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uploadIcon {
+  font-size: 28px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
 
 @media screen and (max-width: 1200px) {
