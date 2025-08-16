@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   createAssignment,
   editAssignment,
+  submitAssignment,
 } from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
@@ -303,6 +304,24 @@ const Assignments = ({
     }
   };
 
+  const handleSubmitAssignment = async () => {
+    try {
+      const formData = new FormData();
+
+      studentUploadedFiles.forEach((file) => formData.append("files", file));
+      const answerSheet = JSON.stringify(studentAnswers);
+      formData.append("content", answerSheet);
+      formData.append("time", Date.now());
+
+      const submissionResults = await submitAssignment(
+        formData,
+        currentAssignment._id
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -338,6 +357,7 @@ const Assignments = ({
                 <option value={""}>Submitted as</option>
                 <option value={"text"}>Text</option>
                 <option value={"file"}>File</option>
+                <option value={"mixed"}>Mixed</option>
               </select>
             </div>
             <div
@@ -377,6 +397,7 @@ const Assignments = ({
                     trigger,
                     setTrigger,
                   }}
+                  role={user?.role}
                   canEdit={true}
                 />
               </div>
@@ -514,7 +535,7 @@ const Assignments = ({
                 studentAnswers,
                 setStudentAnswers,
               }}
-              role={user.role}
+              role={user?.role}
             />
           </div>
         </div>
@@ -628,6 +649,7 @@ const Assignments = ({
                       ? teacherBar
                       : user.role === "parent" && parentBar
                   }`}
+                  onClick={handleSubmitAssignment}
                 >
                   Submit Assignment
                 </button>

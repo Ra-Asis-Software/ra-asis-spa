@@ -213,7 +213,6 @@ const AssignmentContent = ({
                   suppressContentEditableWarning
                   onBlur={(e) => handleChangeText(e, index)}
                 >
-                  <span className={styles.noteText}>NOTE:</span>{" "}
                   {stripHTML(item.data)}
                 </p>
               ) : item.type === "question" ? (

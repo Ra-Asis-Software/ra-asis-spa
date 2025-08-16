@@ -18,7 +18,7 @@ const submissionSchema = new mongoose.Schema({
   feedBack: { type: String },
   status: {
     type: String,
-    enum: ["submitted", "graded", "overdue"],
+    enum: ["submitted", "graded", "in-progress"],
     default: "submitted",
   },
   submittedAt: { type: Date, default: Date.now() },
@@ -33,19 +33,11 @@ submissionSchema.pre("validate", function (next) {
   if (assignment.submissionType === "text" && !this.content) {
     throw new Error("Text submissions require 'content' field.");
   }
-  if (assignment.submissionType === "file" && (!this.files || this.files.length === 0)) {
+  if (
+    assignment.submissionType === "file" &&
+    (!this.files || this.files.length === 0)
+  ) {
     throw new Error("File submissions require at least one file.");
-  }
-  next();
-});
-
-// Here I automatically set status: "overdue" if submission is late
-submissionSchema.pre("save", async function (next) {
-  if (this.isNew) {
-    const assignment = await mongoose.model("Assignment").findById(this.assignment);
-    if (assignment && this.submittedAt > assignment.deadLine) {
-      this.status = "overdue";
-    }
   }
   next();
 });

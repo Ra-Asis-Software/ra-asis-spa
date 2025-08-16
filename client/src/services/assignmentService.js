@@ -88,3 +88,21 @@ export const getAssignmentSubmissions = async (assignmentId) => {
     );
   }
 };
+
+export const submitAssignment = async (data, id) => {
+  try {
+    const response = await api.post(`${ASSIGNMENTS_PATH}/${id}/submit`, data);
+    return response;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return {
+        error: error.response.data.error.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+
