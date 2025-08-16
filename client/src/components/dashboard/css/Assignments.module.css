@@ -285,6 +285,7 @@
 }
 
 .editable {
+  padding: 0 3px;
   white-space: pre-wrap;
 }
 

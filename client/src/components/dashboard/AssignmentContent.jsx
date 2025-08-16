@@ -120,7 +120,7 @@ const AssignmentContent = ({
 
   const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
     const tempArray = [...content];
-    tempArray[questionIndex].answers[answerIndex] = e.targert.innerHTML;
+    tempArray[questionIndex].answers[answerIndex] = e.target.innerHTML;
 
     setContent(tempArray);
   };
@@ -175,7 +175,7 @@ const AssignmentContent = ({
   };
 
   const handleMoveItemDown = (index) => {
-    const tempArray = content;
+    const tempArray = [...content];
     const itemClicked = tempArray[index];
     const itemToSwap =
       index + 1 < tempArray.length ? tempArray[index + 1] : tempArray[index];
@@ -189,7 +189,7 @@ const AssignmentContent = ({
   };
 
   const handleDeleteNoteItem = (index) => {
-    const tempArray = content;
+    const tempArray = [...content];
     tempArray.splice(index, 1);
     setContent(tempArray);
     setTrigger(!trigger); //trigger a rerender of the page
@@ -201,7 +201,7 @@ const AssignmentContent = ({
         content.map((item, index) => {
           return (
             <div
-              key={index}
+              key={item.id || index}
               className={`${styles.edDiv}  ${!canEdit && styles.edDivWork}`}
             >
               {item.type === "instruction" ? (
@@ -211,7 +211,7 @@ const AssignmentContent = ({
                   }`}
                   contentEditable={canEdit && role === "teacher"}
                   suppressContentEditableWarning
-                  onInput={(e) => handleChangeText(e, index)}
+                  onBlur={(e) => handleChangeText(e, index)}
                 >
                   <span className={styles.noteText}>NOTE:</span>{" "}
                   {stripHTML(item.data)}
@@ -230,7 +230,7 @@ const AssignmentContent = ({
                       }`}
                       contentEditable={canEdit && role === "teacher"}
                       suppressContentEditableWarning
-                      onInput={(e) => handleChangeText(e, index)}
+                      onBlur={(e) => handleChangeText(e, index)}
                     >
                       {stripHTML(item.data)}
                     </p>
@@ -265,7 +265,7 @@ const AssignmentContent = ({
                           }`}
                           contentEditable={canEdit && role === "teacher"}
                           suppressContentEditableWarning
-                          onInput={(e) =>
+                          onChange={(e) =>
                             handleChangeAnswerExists(e, index, answerIndex)
                           }
                         >
@@ -283,7 +283,7 @@ const AssignmentContent = ({
                             className={styles.answerInput}
                             placeholder="Enter answer here"
                             type="text"
-                            onInput={(e) => handleChangeAnswer(e)}
+                            onChange={(e) => handleChangeAnswer(e)}
                           />
                           <i
                             onClick={() => handleAddAnswer(index)}
@@ -321,7 +321,7 @@ const AssignmentContent = ({
                       }`}
                       contentEditable={canEdit && role === "teacher"}
                       suppressContentEditableWarning
-                      onInput={(e) => handleChangeText(e, index)}
+                      onBlur={(e) => handleChangeText(e, index)}
                     >
                       {stripHTML(item.data)}
                     </div>
@@ -346,7 +346,7 @@ const AssignmentContent = ({
                       <div>
                         <textarea
                           defaultValue={studentAnswers?.[item.id]}
-                          onChange={(e) =>
+                          onBlur={(e) =>
                             handleChooseAnswer(e.target.value, item.id)
                           }
                           placeholder="Enter answer here..."
@@ -364,7 +364,7 @@ const AssignmentContent = ({
                     }`}
                     contentEditable={canEdit && role === "teacher"}
                     suppressContentEditableWarning
-                    onInput={(e) => handleChangeText(e, index)}
+                    onBlur={(e) => handleChangeText(e, index)}
                   >
                     {stripHTML(item.data)}
                   </h4>
