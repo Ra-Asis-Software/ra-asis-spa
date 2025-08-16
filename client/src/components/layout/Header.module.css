@@ -1,0 +1,95 @@
+.landingHeader {
+  background: var(--foam-color);
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.mobileMenuIcon {
+  color: var(--black-pearl-color);
+  display: none;
+  font-size: 2.5em;
+  cursor: pointer;
+}
+
+.mainNavigation a {
+  color: var(--pine-green-color);
+  font-weight: 700;
+  margin-right: 40px;
+}
+
+.mainNavigation a:hover,
+.mainNavigation a.active {
+  color: var(--bright-sun-color);
+}
+
+.mainNavigation a i {
+  font-size: 1.2em;
+}
+
+.logoutButton {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+  font-weight: 700;
+}
+
+.logoutButton:hover {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+
+@media (max-width: 1100px) {
+  .landingHeader {
+    justify-content: space-between;
+  }
+
+  .mobileMenuIcon {
+    display: block;
+    margin-right: 50px;
+  }
+
+  .mainNavigation {
+    background: var(--bright-sun-color);
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px 40px;
+    animation: fadeIn 400ms ease-in-out;
+  }
+
+  .mainNavigation.active {
+    display: flex;
+  }
+
+  .mainNavigation a {
+    margin: 10px 0;
+  }
+
+  .mainNavigation a:hover {
+    color: var(--black-pearl-color);
+  }
+
+  .mainNavigation .logoutButton {
+    max-width: 120px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

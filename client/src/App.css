@@ -53,61 +53,6 @@ a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* Header Styling */
-
-header {
-  background: var(--foam-color);
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  position: relative;
-  z-index: 1000;
-  width: 100%;
-  padding: 10px 20px;
-  transition: all 400ms ease-in-out;
-}
-
-header.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
-.mobile-menu-icon {
-  display: none;
-  font-size: 2.5em;
-  cursor: pointer;
-  color: var(--black-pearl-color);
-}
-
-header.landing-header .main-navigation a {
-  color: var(--pine-green-color);
-  font-weight: 700;
-  margin-right: 40px;
-  text-decoration: none;
-  transition: all 400ms ease-in-out;
-}
-
-header.landing-header .main-navigation a:hover,
-header.landing-header .main-navigation a.active {
-  color: var(--bright-sun-color);
-}
-
-header.landing-header .main-navigation a i {
-  font-size: 1.2em;
-}
-
-header.landing-header .main-navigation .logout-button {
-  background: var(--pine-green-color);
-  color: var(--bright-sun-color);
-  font-weight: 700;
-}
-
-header.landing-header .main-navigation .logout-button:hover {
-  background: var(--bright-sun-color);
-  color: var(--pine-green-color);
-}
-
 /* Logo Styling */
 
 .app-logo {
@@ -1668,56 +1613,9 @@ footer.landing-footer {
   }
 }
 
-/*Devices Max. Screen Width 1100px*/
-
-@media (max-width: 1100px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 820px;
-  }
-
-  .mobile-menu-icon {
-    display: block;
-  }
-
-  header.landing-header .main-navigation {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--bright-sun-color);
-    padding: 10px 40px;
-    animation: fadeIn 400ms ease-in-out;
-  }
-
-  header.landing-header .main-navigation.active {
-    display: flex;
-  }
-
-  header.landing-header .main-navigation a {
-    margin: 10px 0;
-  }
-
-  header.landing-header .main-navigation a:hover {
-    color: var(--black-pearl-color);
-  }
-
-  header.landing-header .main-navigation .logout-button {
-    max-width: 120px;
-    box-sizing: border-box;
-    text-align: left;
-  }
-}
-
 /*Devices Max. Screen Width 991px*/
 
 @media (max-width: 991px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 770px;
-  }
   /* Landing Page Responsive Styling */
 
   /* Introduction */
@@ -1829,22 +1727,9 @@ footer.landing-footer {
   }
 }
 
-/*Devices Max. Screen 931px*/
-@media (max-width: 931px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 670px;
-  }
-}
-
 /*Devices Max. Screen Width 832px  */
 
 @media (max-width: 832px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 610px;
-  }
-
   /* Landing Page Responsive Styling */
 
   /* Contact Form */
@@ -1882,11 +1767,6 @@ footer.landing-footer {
 
   h5 {
     font-size: 0.875em;
-  }
-
-  /* Header Responsive Styling */
-  header {
-    gap: 510px;
   }
 
   /* Landing Page Responsive Styling */
@@ -2017,23 +1897,9 @@ footer.landing-footer {
   }
 }
 
-/* Devices Max. Screen Width 660px */
-
-@media (max-width: 660px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 400px;
-  }
-}
-
 /* Devices Max. Screen Width 564px */
 
 @media (max-width: 564px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 360px;
-  }
-
   /* Landing Page Responsive Styling */
 
   /* Contact Form */
@@ -2066,11 +1932,6 @@ footer.landing-footer {
 
   h5 {
     font-size: 0.75em;
-  }
-
-  /* Header Responsive Styling */
-  header {
-    gap: 310px;
   }
 
   /* Landing Page Responsive Styling */
@@ -2230,11 +2091,6 @@ footer.landing-footer {
 /*Devices Max. Screen Width 462px*/
 
 @media (max-width: 462px) {
-  /* Header Responsive Styling */
-  header {
-    gap: 270px;
-  }
-
   /* Landing Page Responsive Styling */
 
   /* Features Overview */
@@ -2299,24 +2155,9 @@ footer.landing-footer {
   }
 }
 
-/*Devices Max. Screen Width 420px*/
-@media (max-width: 420px) {
-  /* Header Responsive Styling */
-
-  header {
-    gap: 240px;
-  }
-}
-
 /*Devices Max. Screen Width 391px*/
 
 @media (max-width: 391px) {
-  /* Header Responsive Styling */
-
-  header {
-    gap: 200px;
-  }
-
   /* Landing Page Responsive Styling */
 
   /* Contact Form */

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "./Header.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { navItems } from "../../data/headerNavData";
 
@@ -31,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <header className="landing-header" id="landing_header">
+    <header className={styles.landingHeader}>
       <div className="app-logo">
         <Link to="/">
           <img src="/assets/spa_logo.webp" alt="SPA logo" />
@@ -39,22 +40,28 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu Icon */}
-      <div className="mobile-menu-icon" onClick={toggleMenu}>
-        <i className={`fa-solid ${isMenuOpen ? "fa-xmark" : "fa-bars"}`}></i>
+      <div className={styles.mobileMenuIcon} onClick={toggleMenu}>
+        <i className={`fa-solid ${isMenuOpen ? "fa-xmark" : "fa-bars"}`} />
       </div>
 
-      <nav className={`main-navigation ${isMenuOpen ? "active" : ""}`}>
+      <nav
+        className={`${styles.mainNavigation} ${
+          isMenuOpen ? styles.active : ""
+        }`}
+      >
         {/* Common navigation items */}
         {navItems.slice(0, 5).map((navItem) => (
           <Link
             key={navItem.id}
             to={navItem.linkTo}
-            className={location.pathname === navItem.linkTo ? "active" : ""}
+            className={
+              location.pathname === navItem.linkTo ? styles.active : ""
+            }
             onClick={closeMenu}
           >
             {navItem.linkText}
             {navItem.hasDropdownMenu && (
-              <i className="fa-solid fa-chevron-down"></i>
+              <i className="fa-solid fa-chevron-down" />
             )}
           </Link>
         ))}
@@ -64,12 +71,14 @@ const Header = () => {
           <>
             <Link
               to="/dashboard"
-              className={location.pathname === "/dashboard" ? "active" : ""}
+              className={
+                location.pathname === "/dashboard" ? styles.active : ""
+              }
               onClick={closeMenu}
             >
               DASHBOARD
             </Link>
-            <button onClick={handleLogout} className="logout-button">
+            <button onClick={handleLogout} className={styles.logoutButton}>
               LOGOUT
             </button>
           </>
@@ -77,14 +86,14 @@ const Header = () => {
           <>
             <Link
               to="/register"
-              className={location.pathname === "/register" ? "active" : ""}
+              className={location.pathname === "/register" ? styles.active : ""}
               onClick={closeMenu}
             >
               REGISTER
             </Link>
             <Link
               to="/login"
-              className={location.pathname === "/login" ? "active" : ""}
+              className={location.pathname === "/login" ? styles.active : ""}
               onClick={closeMenu}
             >
               LOGIN
