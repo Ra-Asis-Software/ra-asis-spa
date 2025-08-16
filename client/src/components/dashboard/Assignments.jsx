@@ -28,6 +28,7 @@ const Assignments = ({
   persistSelectedUnit,
 }) => {
   const [allAssignments, setAllAssignments] = useState([]);
+  const submissions = useRef([]);
   const [openAssignment, setOpenAssignment] = useState(false);
   const [currentAssignment, setCurrentAssignment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
@@ -56,6 +57,7 @@ const Assignments = ({
   const [loading, setLoading] = useState(true);
   const [studentAnswers, setStudentAnswers] = useState({});
   const [studentUploadedFiles, setStudentUploadedFiles] = useState([]);
+  const [openSubmission, setOpenSubmission] = useState(null);
 
   //keep tabs of url to see whether its new/open/all
   const location = useLocation();
@@ -73,10 +75,12 @@ const Assignments = ({
       setLoading(false);
 
       if (myData.data.message) {
-        const tempAssignments = myData.data.data.assignments;
+        const tempAssignments = myData.data.data.assignments || [];
+        const tempSubmissions = myData.data.data.submissions || [];
         setAssignments(tempAssignments);
+        submissions.current = tempSubmissions;
         setAllAssignments(tempAssignments);
-        setUnits(myData.data.data.units);
+        setUnits(myData.data.data.units || []);
 
         //when the assignment is opened from teacher/student
         if (
@@ -161,6 +165,14 @@ const Assignments = ({
       marks: assignment.maxMarks,
     });
     setCurrentAssignment(assignment);
+
+    //check student submission on that assignment
+    if (user.role === "student") {
+      const tempSubmission = submissions.current.find(
+        (submission) => submission.assignment === assignment._id
+      );
+      setOpenSubmission(tempSubmission);
+    }
 
     //assign numbers to questions before displaying
     const tempAssignmentContent = JSON.parse(assignment.content);
@@ -322,6 +334,12 @@ const Assignments = ({
     }
   };
 
+  const submissionExists = (id) => {
+    return submissions.current.some(
+      (submission) => submission.assignment === id
+    );
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -407,7 +425,9 @@ const Assignments = ({
       ) : openAssignment === true ? (
         //handle opening an assignment
         <div
-          className={`${styles.assignmentsBox} ${styles.assignmentsBoxOpened}`}
+          className={`${styles.assignmentsBox} ${
+            openSubmission ? styles.foamBackground : styles.assignmentsBoxOpened
+          }`}
         >
           <div className={styles.assignmentsHeader}>
             <button
@@ -522,21 +542,34 @@ const Assignments = ({
               )}
             </RoleRestricted>
 
-            <AssignmentContent
-              {...{
-                content,
-                setContent,
-                showButton,
-                setShowButton,
-                trigger,
-                setTrigger,
-                canEdit,
-                setCanEdit,
-                studentAnswers,
-                setStudentAnswers,
-              }}
-              role={user?.role}
-            />
+            {openSubmission && user.role === "student" ? (
+              <div className={styles.submittedBox}>
+                <h3>You already submitted this Assignment</h3>
+                <h4 className={styles.divFlex}>
+                  Grade:{" "}
+                  <p className={styles.cerulianText}>still in progress</p>
+                </h4>
+                <button className={styles.removeSubmission}>
+                  REMOVE SUBMISSION
+                </button>
+              </div>
+            ) : (
+              <AssignmentContent
+                {...{
+                  content,
+                  setContent,
+                  showButton,
+                  setShowButton,
+                  trigger,
+                  setTrigger,
+                  canEdit,
+                  setCanEdit,
+                  studentAnswers,
+                  setStudentAnswers,
+                }}
+                role={user?.role}
+              />
+            )}
           </div>
         </div>
       ) : (
@@ -583,7 +616,22 @@ const Assignments = ({
                     onClick={() => handleOpenExistingAssignment(assignment)}
                   >
                     <p>{assignment.title}</p>
-                    <p>{assignment.status}</p>
+                    <RoleRestricted allowedRoles={["student"]}>
+                      <p>
+                        {submissionExists(assignment._id) ? (
+                          <i
+                            className={`fa-regular fa-circle-check ${styles.faSubmission} ${styles.faSubmitted}`}
+                          ></i>
+                        ) : (
+                          <i
+                            className={`fa-solid fa-clock ${styles.faSubmission} ${styles.faPending}`}
+                          ></i>
+                        )}
+                      </p>
+                    </RoleRestricted>
+                    <RoleRestricted allowedRoles={["teacher"]}>
+                      <p>{assignment.status}</p>
+                    </RoleRestricted>
                     <p>{handleDueDate(assignment.deadLine)}</p>
                   </button>
                 );
@@ -613,7 +661,7 @@ const Assignments = ({
             />
           </RoleRestricted>
           <RoleRestricted allowedRoles={["student"]}>
-            {currentAssignment && (
+            {currentAssignment && !openSubmission && (
               <div className={styles.studentTools}>
                 <div className={styles.studentFiles}>
                   <h5>Files</h5>

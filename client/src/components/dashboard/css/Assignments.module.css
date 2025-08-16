@@ -53,6 +53,16 @@
   padding: 5px;
 }
 
+.assignment p:first-of-type {
+  width: 55%;
+  text-align: left;
+}
+
+.assignment p:last-of-type {
+  width: 30%;
+  text-align: right;
+}
+
 .assignment:hover {
   background: #fff;
 }
@@ -70,10 +80,6 @@
   display: flex;
   align-items: center;
   gap: 50px;
-}
-
-.assignment p:first-of-type {
-  max-width: 50%;
 }
 
 .normalText,
@@ -477,8 +483,11 @@
   font-size: 0.9rem;
 }
 
-.notAttempted {
+.cerulianText {
   color: var(--cerulean-color);
+}
+.foamBackground {
+  background-color: var(--foam-color);
 }
 
 .attempted {
@@ -493,6 +502,36 @@
 
 .uploadIcon {
   font-size: 28px;
+}
+
+.faSubmission {
+  font-size: 22px;
+}
+
+.faSubmitted {
+  color: var(--pine-green-color);
+}
+
+.faPending {
+  color: var(--bright-sun-color);
+}
+
+.submittedBox {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeSubmission {
+  background-color: var(--alizarin-crimson-color);
+}
+
+.divFlex {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 /* RESPONSIVE BREAKPOINTS */

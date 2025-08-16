@@ -76,11 +76,14 @@ export const submitAssignment = asyncHandler(async (req, res) => {
 
   // compute total marks and grading completeness
   let total = 0;
-  let complete = null;
+  let complete = true;
   // null - marking has not started
   // false - marking is underway
   // true - marking is completed
 
+  if (JSON.stringify(markedContent) === "{}") {
+    complete = null;
+  }
   for (const { marks } of Object.values(markedContent)) {
     if (marks === null) {
       complete = false; //questions to be manually marked are here, if true... the submission is 100% auto-graded
@@ -108,7 +111,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
   student.submissions.push(submission._id);
   await student.save();
 
-  res.status(201).json(submission);
+  res.status(201).json({success: 'Assignment successfully submitted', submission});
 });
 
 // @desc    Get submissions for an assignment

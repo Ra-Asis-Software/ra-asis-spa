@@ -104,5 +104,3 @@ export const submitAssignment = async (data, id) => {
     }
   }
 };
-
-

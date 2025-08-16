@@ -333,7 +333,7 @@ const AssignmentContent = ({
                         className={`${styles.attemptButton} ${
                           studentAnswers?.[item.id]?.length > 0
                             ? styles.attempted
-                            : styles.notAttempted
+                            : styles.cerulianText
                         }`}
                         onClick={() => setOpenAnswerArea(item.id)}
                       >
