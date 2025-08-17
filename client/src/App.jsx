@@ -14,6 +14,7 @@ import ResetPassword from "./pages/ResetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
+import { ModalProvider } from "./components/shared/modal";
 
 const DashboardLayout = () => {
   return (
@@ -24,6 +25,7 @@ const DashboardLayout = () => {
 };
 const App = () => {
   return (
+    <ModalProvider>
     <Router>
       <Routes>
         <Route index element={<Home />} />
@@ -54,6 +56,7 @@ const App = () => {
         </Route>
       </Routes>
     </Router>
+    </ModalProvider>
   );
 };
 
