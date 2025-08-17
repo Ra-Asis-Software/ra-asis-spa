@@ -72,6 +72,7 @@ a {
   font-weight: 500;
   color: var(--black-pearl-color);
   text-decoration: inherit;
+  border-radius: 7px;
   transition: all 400ms ease-in-out;
 }
 

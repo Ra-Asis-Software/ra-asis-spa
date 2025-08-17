@@ -67,125 +67,6 @@ a {
 
 /* Landing Page Styling */
 
-/* Introduction */
-
-.landing-intro {
-  background: var(--foam-color);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-}
-
-.landing-intro h1 {
-  text-align: center;
-}
-
-.landing-intro video {
-  background-image: linear-gradient(
-    var(--pine-green-color),
-    var(--pine-green-color),
-    var(--aqua-color)
-  );
-  max-width: 1100px;
-  padding: 40px;
-  box-sizing: border-box;
-  border-radius: 7px;
-}
-
-.landing-intro a {
-  background: var(--black-pearl-color);
-  color: var(--aqua-color);
-  margin-top: 50px;
-  margin-bottom: 50px;
-  text-decoration: none;
-  font-weight: 700;
-  padding: 15px 75px;
-  border-radius: 7px;
-  transition: all 400ms ease-in-out;
-}
-
-.landing-intro a:hover {
-  background: var(--aqua-color);
-  color: var(--black-pearl-color);
-}
-
-/* Features Overview */
-
-.features-overview {
-  background: var(--foam-color);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.features-heading {
-  margin-left: 70px;
-}
-
-.features-descriptions {
-  background-image: linear-gradient(
-    to bottom right,
-    var(--black-pearl-color),
-    var(--black-pearl-color),
-    var(--pine-green-color),
-    var(--aqua-color)
-  );
-  display: grid;
-  grid-template-columns: repeat(4, 3fr);
-  gap: 20px;
-  padding: 50px 20px;
-}
-
-.features-descriptions .feature-box {
-  display: flex;
-  flex-direction: column;
-}
-
-.features-descriptions .feature-box img {
-  width: 120px;
-  height: 120px;
-}
-
-.features-descriptions .feature-box h3 {
-  color: var(--bright-sun-color);
-}
-
-.features-descriptions .feature-box p {
-  color: var(--foam-color);
-  font-size: 0.9em;
-  text-align: left;
-}
-
-.features-cta-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-  margin-top: 30px;
-  margin-bottom: 50px;
-}
-
-.features-cta-buttons a {
-  background: var(--alizarin-crimson-color);
-  color: var(--aqua-color);
-  padding: 15px 75px;
-  border-radius: 7px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: all 400ms ease-in-out;
-}
-
-.features-cta-buttons a:first-child {
-  padding: 15px 112px;
-}
-
-.features-cta-buttons a:hover {
-  background: var(--aqua-color);
-  color: var(--alizarin-crimson-color);
-}
-
 /* WhyChoose */
 
 .why-choose {
@@ -1541,19 +1422,6 @@ a {
 @media (max-width: 991px) {
   /* Landing Page Responsive Styling */
 
-  /* Introduction */
-
-  .landing-intro video {
-    max-width: 100%;
-    padding: 20px;
-  }
-
-  /* Features Overview */
-
-  .features-heading {
-    margin-left: 30px;
-  }
-
   /* WhyChoose */
 
   .why-choose-heading {
@@ -1693,23 +1561,6 @@ a {
   }
 
   /* Landing Page Responsive Styling */
-
-  /* Features Overview */
-
-  .features-heading {
-    margin-left: 20px;
-  }
-
-  .features-descriptions {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .features-cta-buttons {
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
 
   /* WhyChoose */
 
@@ -1859,29 +1710,6 @@ a {
 
   /* Landing Page Responsive Styling */
 
-  /* Features Overview */
-
-  .features-heading {
-    margin-right: 20px;
-  }
-
-  .features-descriptions {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 7px;
-  }
-
-  .features-descriptions .feature-box {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .features-descriptions .feature-box .descriptions-texts {
-    margin-top: 10px;
-  }
-
   /* WhyChoose */
 
   .why-choose-heading {
@@ -2015,12 +1843,6 @@ a {
 
 @media (max-width: 462px) {
   /* Landing Page Responsive Styling */
-
-  /* Features Overview */
-
-  .features-descriptions {
-    padding: 10px;
-  }
 
   /* WhyChoose */
 

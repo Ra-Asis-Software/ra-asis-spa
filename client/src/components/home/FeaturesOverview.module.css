@@ -1,0 +1,122 @@
+.featuresOverview {
+  background: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.featuresHeading {
+  margin-left: 70px;
+}
+
+.featuresDescriptions {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--black-pearl-color),
+    var(--black-pearl-color),
+    var(--pine-green-color),
+    var(--aqua-color)
+  );
+  display: grid;
+  grid-template-columns: repeat(4, 3fr);
+  gap: 20px;
+  padding: 50px 20px;
+}
+
+.featureBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.featureContentImage {
+  width: 120px;
+  height: 120px;
+}
+
+.featureBox h3 {
+  color: var(--bright-sun-color);
+}
+
+.featureBox p {
+  color: var(--foam-color);
+  font-size: 0.9em;
+  text-align: left;
+}
+
+.featuresCtaButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.featuresCtaButtons a {
+  background: var(--alizarin-crimson-color);
+  color: var(--aqua-color);
+  padding: 15px 75px;
+  font-weight: 700;
+}
+
+.featuresCtaButtons a:first-child {
+  padding: 15px 112px;
+}
+
+.featuresCtaButtons a:hover {
+  background: var(--aqua-color);
+  color: var(--alizarin-crimson-color);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 991px) {
+  .featuresHeading {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .featuresHeading {
+    margin-left: 20px;
+  }
+
+  .featuresDescriptions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featuresCtaButtons {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 520px) {
+  .featuresHeading {
+    margin-right: 20px;
+  }
+
+  .featuresDescriptions {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 7px;
+  }
+
+  .featureBox {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .descriptionsTexts {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 462px) {
+  .featuresDescriptions {
+    padding: 10px;
+  }
+}
