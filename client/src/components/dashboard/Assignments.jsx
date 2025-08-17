@@ -14,6 +14,8 @@ import {
 } from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
+import { useModal } from "../shared/modal";
+import CreateOptionsContent from "./CreateOptionsContent";
 
 const Assignments = ({
   showNav,
@@ -26,6 +28,9 @@ const Assignments = ({
   setCanEdit,
   persistSelectedUnit,
 }) => {
+  // Add modal hook
+  const { openModal } = useModal();
+
   const [allAssignments, setAllAssignments] = useState([]);
   const [openAssignment, setOpenAssignment] = useState(false);
   const [currentAssignment, setCurrentAssignment] = useState(null);
@@ -136,6 +141,23 @@ const Assignments = ({
     navigate("/dashboard/assignments?new=true", {
       replace: true,
     });
+  };
+
+  //create new quiz (called from modal)
+  const handleCreateNewQuiz = () => {
+    navigate("/dashboard/quizzes?new=true", {
+      replace: true,
+    });
+  };
+
+  // Open the creation modal
+  const handleOpenCreateModal = () => {
+    openModal(
+      <CreateOptionsContent
+        onCreateQuiz={handleCreateNewQuiz}
+        onCreateAssignment={handleCreateNewAssignment}
+      />
+    );
   };
 
   //open existing assignment
@@ -473,7 +495,7 @@ const Assignments = ({
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={handleCreateNewAssignment}
+                onClick={handleOpenCreateModal} // changed opens the modal
               >
                 <i className="fa-solid fa-plus"></i>
                 <p>Create New</p>
