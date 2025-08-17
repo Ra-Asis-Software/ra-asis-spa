@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import styles from "./Footer.module.css";
 import { footerLinkContainers } from "../../data/footerLinksData";
 import { footerSocials } from "../../data/footerSocialsData";
 
@@ -16,7 +17,7 @@ const Footer = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     setIsLoggedIn(false);
-    navigate("/");
+    navigate("/login");
   };
 
   // Update only the "Popular Links" section
@@ -50,15 +51,19 @@ const Footer = () => {
   });
 
   return (
-    <footer className="landing-footer" id="landing">
-      <div className="logo-name-socials">
-        <div className="logo-name">
+    <footer className={styles.landingFooter}>
+      <div className={styles.logoNameSocials}>
+        <div className={styles.logoName}>
           <Link to="/">
-            <img src="/assets/spa_site_icon.webp" alt="SPA logo" />
+            <img
+              src="/assets/spa_site_icon.webp"
+              alt="SPA logo"
+              className={styles.footerLogo}
+            />
           </Link>
           <h3>Ra'Asis Analytica</h3>
         </div>
-        <div className="socials">
+        <div className={styles.socials}>
           {footerSocials.map((footerSocial) => (
             <Link
               key={footerSocial.id}
@@ -74,7 +79,7 @@ const Footer = () => {
       {updatedFooterLinks.map((footerLinkContainer) => (
         <div
           key={footerLinkContainer.id}
-          className={`${footerLinkContainer.className} footer-links`}
+          className={`${footerLinkContainer.className} ${styles.footerLinks}`}
         >
           <h3>{footerLinkContainer.containerHeading}</h3>
           {footerLinkContainer.containerLinks.map((link, index) => (
