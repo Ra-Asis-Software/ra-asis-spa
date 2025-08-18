@@ -2,11 +2,9 @@
   padding: 62px;
   padding-top: 0px;
   width: 50%;
-
 }
 
 .title {
-  font-size: 24px;
   font-weight: bold;
   margin-bottom: 24px;
   text-align: center;
@@ -19,7 +17,7 @@
 }
 
 .button {
-    background-color: var(--cerulean-color);
+  background-color: var(--cerulean-color);
   display: flex;
   align-items: center;
   height: 6vh;
@@ -43,7 +41,7 @@
 
 .modalContent {
   position: relative;
-  background-color:var(--foam-color);
+  background-color: var(--foam-color);
   border-radius: 10px;
   width: 90%;
   max-width: 600px;
