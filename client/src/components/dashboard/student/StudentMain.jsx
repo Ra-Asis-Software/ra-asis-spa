@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import styles from "../css/StudentMain.module.css";
-import AssignmentCard from "../AssignmentCard";
+import AssignmentCard from "../assignments/AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import DeadlineCard from "./DeadlineCard";
 import Summary from "./Summary";
