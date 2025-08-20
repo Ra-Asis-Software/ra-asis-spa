@@ -104,3 +104,21 @@ export const submitAssignment = async (data, id) => {
     }
   }
 };
+
+export const deleteSubmission = async (submissionId) => {
+  try {
+    const response = await api.delete(
+      `${ASSIGNMENTS_PATH}/submissions/${submissionId}`
+    );
+    return response;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return {
+        error: error.response.data.error.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};

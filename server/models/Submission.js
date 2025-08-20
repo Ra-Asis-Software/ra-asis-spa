@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { timeLeft } from "../utils/assignment.js";
 
 const submissionSchema = new mongoose.Schema({
   assignment: {
@@ -16,7 +17,14 @@ const submissionSchema = new mongoose.Schema({
   files: [{ type: String }], // For now let's use local storage
   marks: { type: Number },
   feedBack: { type: String },
-  status: {
+  submissionStatus: {
+    //this has to do with the time student submitted
+    type: String,
+    enum: ["on-time", "overdue"],
+    default: "on-time",
+  },
+  gradingStatus: {
+    //this has to do with where the teacher has reached in grading
     type: String,
     enum: ["submitted", "graded", "in-progress"],
     default: "submitted",
@@ -38,6 +46,19 @@ submissionSchema.pre("validate", function (next) {
     (!this.files || this.files.length === 0)
   ) {
     throw new Error("File submissions require at least one file.");
+  }
+  next();
+});
+
+// Here I automatically set status: "overdue" if submission is late
+submissionSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const assignment = await mongoose
+      .model("Assignment")
+      .findById(this.assignment);
+    if (assignment && timeLeft(assignment.deadLine) < 0) {
+      this.submissionStatus = "overdue";
+    }
   }
   next();
 });

@@ -2,6 +2,9 @@ import asyncHandler from "express-async-handler";
 import Submission from "../models/Submission.js";
 import Assignment from "../models/Assignment.js";
 import Student from "../models/Student.js";
+import mongoose from "mongoose";
+import fs from "fs/promises";
+import { timeLeft } from "../../client/src/utils/assignments.js";
 
 // @desc    Submit an assignment
 // @route   POST /api/assignments/:assignmentId/submit
@@ -99,7 +102,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     content: JSON.stringify(markedContent),
     submittedAt: time,
     files: req.files?.map((file) => file.path),
-    status:
+    gradingStatus:
       complete === true
         ? "graded"
         : complete === false
@@ -111,7 +114,9 @@ export const submitAssignment = asyncHandler(async (req, res) => {
   student.submissions.push(submission._id);
   await student.save();
 
-  res.status(201).json({success: 'Assignment successfully submitted', submission});
+  res
+    .status(201)
+    .json({ success: "Assignment successfully submitted", submission });
 });
 
 // @desc    Get submissions for an assignment
@@ -122,4 +127,60 @@ export const getSubmissions = asyncHandler(async (req, res) => {
     assignment: req.params.assignmentId,
   });
   res.status(200).json(submissions);
+});
+
+// @desc    Delete submission for an assignment
+// @route   DELETE /api/assignments/:assignmentId/submissions
+// @access  Private (Student/Admin)
+export const deleteSubmission = asyncHandler(async (req, res) => {
+  const { submissionId } = req.params;
+
+  const submissionExists = await Submission.findById(submissionId);
+
+  if (!submissionExists)
+    return res.status(404).json({ error: "Submission does not exist" });
+
+  const assignment = await Assignment.findById(submissionExists.assignment);
+
+  if (!assignment)
+    return res
+      .status(404)
+      .json({ error: "No assignment exists for this submission" });
+
+  //check for lateness
+  if (timeLeft(assignment.deadLine) < 20)
+    return res.status(409).json({
+      error: "You cannot revoke a submission 20 minutes to the deadline",
+    });
+
+  //transaction for deleting submission instance in submissions and for a student
+  const session = await mongoose.startSession();
+
+  await session.withTransaction(async () => {
+    await Student.updateOne(
+      { bio: req.user._id },
+      {
+        $pull: { submissions: submissionExists._id },
+      },
+      { session }
+    );
+
+    //remove files
+    if (submissionExists.files?.length > 0) {
+      await Promise.all(
+        submissionExists.files.map((file) => {
+          fs.unlink(file).catch((err) => {
+            console.error("File delete error:", err);
+            throw new Error("An error occurred while deleting the submission");
+          });
+        })
+      );
+    }
+
+    await submissionExists.deleteOne({ session });
+  });
+
+  session.endSession();
+
+  return res.status(200).json({ message: "Submission has been removed" });
 });

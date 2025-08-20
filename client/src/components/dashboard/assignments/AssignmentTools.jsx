@@ -2,7 +2,6 @@ import styles from "../css/Assignments.module.css";
 import { useUrlParams } from "../../../utils/assignments";
 
 const AssignmentTools = ({
-
   canEdit,
   setShowButton,
   assignmentFiles,

@@ -3,11 +3,17 @@ import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { StudentAssignmentContent } from "./StudentAssignmentContent";
 import styles from "../css/Assignments.module.css";
 import { useNavigate } from "react-router-dom";
-import { useFileUploads, useUrlParams } from "../../../utils/assignments";
+import {
+  handleDueDate,
+  timeLeft,
+  useFileUploads,
+  useUrlParams,
+} from "../../../utils/assignments";
 import { useState } from "react";
 import {
   submitAssignment,
   editAssignment,
+  deleteSubmission,
 } from "../../../services/assignmentService";
 import AssignmentTools from "./AssignmentTools";
 import { SubmissionTools } from "./SubmissionTools";
@@ -52,7 +58,6 @@ const AssignmentContent = ({
     if (submissionResults.error) {
       //
     } else {
-      navigate("/dashboard/assignments");
       window.location.reload();
     }
   };
@@ -86,6 +91,16 @@ const AssignmentContent = ({
       }, 5000);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleRemoveSubmission = async () => {
+    const removeSubmission = await deleteSubmission(openSubmission._id);
+
+    if (removeSubmission.error) {
+      //
+    } else {
+      window.location.reload();
     }
   };
 
@@ -154,7 +169,9 @@ const AssignmentContent = ({
         </div>
       </RoleRestricted>
       <RoleRestricted allowedRoles={["student"]}>
-        <div className={styles.assignmentsBox}>
+        <div
+          className={`${styles.assignmentsBox} ${styles.assignmentsBoxOpened}`}
+        >
           <div className={styles.assignmentsHeader}>
             <button
               className={styles.addAssignment}
@@ -169,13 +186,28 @@ const AssignmentContent = ({
           </div>
           {openSubmission ? (
             <div className={styles.submittedBox}>
-              <h3>You already submitted this Assignment</h3>
-              <h4 className={styles.divFlex}>
-                Grade: <p className={styles.cerulianText}>still in progress</p>
-              </h4>
-              <button className={styles.removeSubmission}>
-                REMOVE SUBMISSION
-              </button>
+              <h3>
+                Assignment submitted{" "}
+                {openSubmission?.submissionStatus === "overdue" && "late"}
+              </h3>
+              <div className={styles.divFlex}>
+                Deadline:{" "}
+                <p className={styles.cerulianText}>
+                  {handleDueDate(currentAssignment.deadLine)}
+                </p>
+              </div>
+              <div className={styles.divFlex}>
+                Grade: <p className={styles.cerulianText}>Not yet graded</p>
+              </div>
+              {/* restrict reattempts to when deadline is in > 20 minutes */}
+              {timeLeft(currentAssignment.deadLine) > 20 && (
+                <button
+                  className={styles.removeSubmission}
+                  onClick={handleRemoveSubmission}
+                >
+                  REMOVE SUBMISSION
+                </button>
+              )}
             </div>
           ) : (
             <StudentAssignmentContent

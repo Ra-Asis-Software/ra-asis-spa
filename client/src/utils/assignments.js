@@ -21,6 +21,17 @@ export const handleDueDate = (dateTime) => {
   return `due in ${Math.floor(years)} years`;
 };
 
+export const timeLeft = (dueDate) => {
+  const dateTimeString = `${dueDate}:00`;
+  const fullDateTimeString = new Date(dateTimeString);
+  const milliSeconds = fullDateTimeString.getTime();
+
+  const today = Date.now();
+  const diff = (milliSeconds - today) / (1000 * 60); //in minutes
+
+  return diff;
+};
+
 export const useFileUploads = () => {
   const inputRef = useRef(null);
   const [files, setFiles] = useState([]);

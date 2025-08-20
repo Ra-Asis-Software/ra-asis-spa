@@ -22,6 +22,7 @@ export const getStudent = asyncHandler(async (req, res) => {
       path: "units",
       populate: {
         path: "assignments",
+        select: "-answers",
         populate: [
           {
             path: "unit",

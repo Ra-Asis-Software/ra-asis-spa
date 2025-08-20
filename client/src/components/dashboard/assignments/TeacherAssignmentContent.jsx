@@ -156,7 +156,7 @@ export const TeacherAssignmentContent = ({
 
   const handleAddTextArea = () => addBlock("textArea", sectionData.textArea);
 
-  let questionNumber = 1
+  let questionNumber = 1;
   return (
     <div className={styles.textContent}>
       {isOpened && (
@@ -187,7 +187,10 @@ export const TeacherAssignmentContent = ({
 
       {content.map((item, index) => {
         return (
-          <div key={item.id || index} className={`${styles.edDivWork}`}>
+          <div
+            key={item.id || index}
+            className={`${styles.edDivWork} ${styles.edDiv}`}
+          >
             {item.type === "instruction" && (
               <p
                 className={`${styles.textInstruction} ${styles.editable} ${

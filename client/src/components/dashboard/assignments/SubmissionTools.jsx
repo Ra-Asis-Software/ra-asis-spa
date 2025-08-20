@@ -12,7 +12,9 @@ export const SubmissionTools = ({
       {currentAssignment && !openSubmission && (
         <div className={styles.studentTools}>
           <div className={styles.studentFiles}>
-            <h5>Files</h5>
+            <h5 className={styles.divFlex}>
+              Files : {currentAssignment.files.length === 0 && <p>none</p>}
+            </h5>
             {currentAssignment.files.map((file, index) => {
               return (
                 <div className={`${styles.chosenFile} `} key={index}>

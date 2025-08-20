@@ -420,6 +420,7 @@
 
 .toolsArea h3 {
   text-align: center;
+  margin: 0;
 }
 
 .toolsArea button {
@@ -535,6 +536,11 @@
 
 .filesEmpty {
   display: none;
+}
+
+.lateSubmission {
+  color: var(--alizarin-crimson-color);
+  margin: 0;
 }
 
 /* RESPONSIVE BREAKPOINTS */

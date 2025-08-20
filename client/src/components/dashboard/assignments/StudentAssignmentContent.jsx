@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { stripHTML } from "../../../utils/assignments";
+import { stripHTML, timeLeft } from "../../../utils/assignments";
 import styles from "../css/Assignments.module.css";
 import { FileSelector } from "./FileSelector";
 
@@ -23,6 +23,10 @@ export const StudentAssignmentContent = ({
   let questionNumber = 1;
   return (
     <>
+      <p className={styles.lateSubmission}>
+        {timeLeft(currentAssignment.deadLine) < 0 &&
+          "This assignment is overdue, it will be flagged as late and penalized"}
+      </p>
       <h3>Assignment: {currentAssignment.title}</h3>
       {currentAssignment.submissionType === "file" && (
         <>

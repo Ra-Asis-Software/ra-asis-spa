@@ -10,8 +10,9 @@ import {
 import {
   submitAssignment,
   getSubmissions,
+  deleteSubmission,
 } from "../controllers/submissionController.js";
-import { hasPermission } from "../middleware/checkUserRole.js";
+import { hasPermission, hasRole } from "../middleware/checkUserRole.js";
 
 const router = Router();
 
@@ -78,6 +79,12 @@ router.get(
   "/:assignmentId/submissions",
   hasPermission("manage:assignments"),
   getSubmissions
+);
+
+router.delete(
+  "/submissions/:submissionId",
+  hasPermission("remove:assignment-submission"),
+  deleteSubmission
 );
 
 export default router;
