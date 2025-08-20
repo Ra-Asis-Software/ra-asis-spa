@@ -14,6 +14,8 @@ import {
 } from "../../services/assignmentService";
 import AssignmentContent from "./AssignmentContent";
 import AssignmentTools from "./AssignmentTools";
+import Modal from "../ui/Modals";
+import CreateOptionsContent from "../dashboard/CreateOptionsContent";
 
 const Assignments = ({
   showNav,
@@ -52,6 +54,9 @@ const Assignments = ({
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //keep tabs of url to see whether its new/open/all
   const location = useLocation();
@@ -127,6 +132,24 @@ const Assignments = ({
       marks: 0,
     });
     setTrigger((prev) => !prev);
+  };
+
+  // Modal handlers
+  const handleOpenCreateModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCreateNewQuiz = () => {
+    navigate("/dashboard/quizzes?new=true", {
+      replace: true,
+    });
+  };
+  const handleCreateAssignmentFromModal = () => {
+    handleCreateNewAssignment();
   };
 
   //create new assignment
@@ -274,6 +297,7 @@ const Assignments = ({
       console.log(error);
     }
   };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -457,7 +481,7 @@ const Assignments = ({
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={handleCreateNewAssignment}
+                onClick={handleOpenCreateModal}
               >
                 <i className="fa-solid fa-plus"></i>
                 <p>Create New</p>
@@ -503,6 +527,16 @@ const Assignments = ({
           </div>
         </div>
       )}
+
+      {/* Modal for create options */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <CreateOptionsContent
+          onClose={handleCloseModal}
+          onCreateQuiz={handleCreateNewQuiz}
+          onCreateAssignment={handleCreateAssignmentFromModal}
+        />
+      </Modal>
+
       {(openAssignment || paramsRef.current.get("new")) && (
         <div className={styles.extras}>
           <RoleRestricted allowedRoles={["teacher"]}>
