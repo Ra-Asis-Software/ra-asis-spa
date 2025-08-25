@@ -43,23 +43,50 @@ const AssignmentContent = ({
   const assignmentFiles = useFileUploads();
   const submissionFiles = useFileUploads();
 
+  const checkEmptyAnswerFields = (studentAnswers, content) => {
+    for (const item of content) {
+      if (item.type === "question" || item.type === "textArea") {
+        const answer = studentAnswers[item.id];
+
+        // multiple choice
+        if (item?.answers?.length > 0) {
+          if (!answer || !item.answers.includes(answer)) {
+            return item.data; // return first unanswered multiple-choice
+          }
+        } else {
+          // open-ended question or textArea
+          if (!answer || answer.trim() === "") {
+            return item.data; // return first unanswered open-ended
+          }
+        }
+      }
+    }
+
+    return null;
+  };
+
   const handleSubmitAssignment = async () => {
-    const formData = new FormData();
-
-    submissionFiles.files.forEach((file) => formData.append("files", file));
-    const answerSheet = JSON.stringify(studentAnswers);
-    formData.append("content", answerSheet);
-    formData.append("time", Date.now());
-
-    const submissionResults = await submitAssignment(
-      formData,
-      currentAssignment._id
-    );
-
-    if (submissionResults.error) {
-      //
+    if (checkEmptyAnswerFields(studentAnswers, content)) {
+      setMessage("Some questions have not been answered");
+      clearMessage();
     } else {
-      window.location.reload();
+      const formData = new FormData();
+
+      submissionFiles.files.forEach((file) => formData.append("files", file));
+      const answerSheet = JSON.stringify(studentAnswers);
+      formData.append("content", answerSheet);
+      formData.append("time", Date.now());
+
+      const submissionResults = await submitAssignment(
+        formData,
+        currentAssignment._id
+      );
+
+      if (submissionResults.error) {
+        //
+      } else {
+        window.location.reload();
+      }
     }
   };
 
@@ -219,7 +246,12 @@ const AssignmentContent = ({
         </div>
         <div className={styles.extras}>
           <SubmissionTools
-            {...{ handleSubmitAssignment, currentAssignment, openSubmission }}
+            {...{
+              handleSubmitAssignment,
+              currentAssignment,
+              openSubmission,
+              message,
+            }}
           />
         </div>
       </RoleRestricted>

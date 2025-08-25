@@ -5,6 +5,7 @@ export const SubmissionTools = ({
   currentAssignment,
   handleSubmitAssignment,
   openSubmission,
+  message,
 }) => {
   return (
     <>
@@ -33,6 +34,9 @@ export const SubmissionTools = ({
           <p className={styles.normalText}>
             Max Mark: {currentAssignment.maxMarks}
           </p>
+          {message !== "" && (
+            <p className={styles.submissionAlert}>{message}</p>
+          )}
           <button
             className={`${styles.studentSubmit} ${studentBar}`}
             onClick={handleSubmitAssignment}
