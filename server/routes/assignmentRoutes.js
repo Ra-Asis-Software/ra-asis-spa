@@ -12,7 +12,7 @@ import {
   getSubmissions,
   deleteSubmission,
 } from "../controllers/submissionController.js";
-import { hasPermission, hasRole } from "../middleware/checkUserRole.js";
+import { hasPermission } from "../middleware/checkUserRole.js";
 
 const router = Router();
 
