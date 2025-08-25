@@ -13,6 +13,8 @@ export const TeacherAssignmentContent = ({
   currentAssignment,
   canEdit,
   assignmentFiles,
+  setMessage,
+  clearMessage,
 }) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
@@ -141,9 +143,14 @@ export const TeacherAssignmentContent = ({
   };
 
   const addBlock = (type, data, extra = {}) => {
-    setContent((prev) => [...prev, { type, data, ...extra }]);
-    setSectionData({ ...sectionData, [type]: "" });
-    setShowButton({ ...showButton, [type]: false });
+    if (!data) {
+      setMessage("Cannot add an empty field");
+      clearMessage();
+    } else {
+      setContent((prev) => [...prev, { type, data, ...extra }]);
+      setSectionData({ ...sectionData, [type]: "" });
+      setShowButton({ ...showButton, [type]: false });
+    }
   };
 
   const handleAddInstruction = () =>
@@ -224,7 +231,7 @@ export const TeacherAssignmentContent = ({
                 }`}
               >
                 <div className={styles.questionHolder}>
-                  <p>{!canEdit && `${questionNumber++}.) `}</p>
+                  <p>{`${questionNumber++}.) `}</p>
                   <p
                     className={`${styles.textQuestion} ${styles.editable} ${
                       !canEdit && styles.textQuestionWork
@@ -304,7 +311,7 @@ export const TeacherAssignmentContent = ({
             {item.type === "textArea" && (
               <div className={styles.questionAnswerBox}>
                 <div className={styles.questionHolder}>
-                  <p>{!canEdit && `${questionNumber++}.) `}</p>
+                  <p>{`${questionNumber++}.) `}</p>
                   <div
                     className={`${styles.textLong} ${styles.editable} ${
                       !canEdit && styles.textLongWork

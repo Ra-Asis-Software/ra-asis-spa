@@ -2,7 +2,6 @@ import RoleRestricted from "../../ui/RoleRestricted";
 import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { StudentAssignmentContent } from "./StudentAssignmentContent";
 import styles from "../css/Assignments.module.css";
-import { useNavigate } from "react-router-dom";
 import {
   handleDueDate,
   timeLeft,
@@ -33,10 +32,12 @@ const AssignmentContent = ({
   handleOpenExistingAssignment,
   canEdit,
   setCanEdit,
+  handleCloseAssignment,
+  message,
+  setMessage,
+  clearMessage,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate();
   const { isOpened } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
@@ -86,9 +87,7 @@ const AssignmentContent = ({
           handleOpenExistingAssignment(editedAssignment);
         }
       }
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      clearMessage();
     } catch (error) {
       console.log(error);
     }
@@ -103,7 +102,6 @@ const AssignmentContent = ({
       window.location.reload();
     }
   };
-
   return (
     <>
       <RoleRestricted allowedRoles={["teacher"]}>
@@ -112,10 +110,7 @@ const AssignmentContent = ({
             <div className={styles.assignmentsHeader}>
               <button
                 className={styles.addAssignment}
-                onClick={() => {
-                  resetAssignmentContent();
-                  navigate("/dashboard/assignments");
-                }}
+                onClick={handleCloseAssignment}
               >
                 <i className="fa-solid fa-left-long"></i>
                 <p>Back</p>
@@ -140,19 +135,23 @@ const AssignmentContent = ({
               )}
             </div>
           )}
-          <TeacherAssignmentContent
-            {...{
-              content,
-              setContent,
-              showButton,
-              setShowButton,
-              trigger,
-              setTrigger,
-              currentAssignment,
-              canEdit,
-              assignmentFiles,
-            }}
-          />
+          <div className={styles.newAssignmentContent}>
+            <TeacherAssignmentContent
+              {...{
+                content,
+                setContent,
+                showButton,
+                setShowButton,
+                trigger,
+                setTrigger,
+                currentAssignment,
+                canEdit,
+                assignmentFiles,
+                setMessage,
+                clearMessage,
+              }}
+            />
+          </div>
         </div>
         <div className={styles.extras}>
           <AssignmentTools
@@ -175,10 +174,7 @@ const AssignmentContent = ({
           <div className={styles.assignmentsHeader}>
             <button
               className={styles.addAssignment}
-              onClick={() => {
-                resetAssignmentContent();
-                navigate("/dashboard/assignments");
-              }}
+              onClick={handleCloseAssignment}
             >
               <i className="fa-solid fa-left-long"></i>
               <p>Back</p>

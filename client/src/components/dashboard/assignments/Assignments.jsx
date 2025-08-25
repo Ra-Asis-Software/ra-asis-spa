@@ -27,6 +27,7 @@ const Assignments = ({
   const submissions = useRef([]);
   const [currentAssignment, setCurrentAssignment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
+  const [message, setMessage] = useState("");
 
   const [showButton, setShowButton] = useState({
     instruction: false,
@@ -143,6 +144,24 @@ const Assignments = ({
     );
   };
 
+  const clearMessage = () => {
+    return setTimeout(() => {
+      setMessage("");
+    }, 5000);
+  };
+
+  const handleCloseAssignment = () => {
+    resetAssignmentContent();
+    navigate("/dashboard/assignments");
+    setShowButton({
+      instruction: false,
+      question: false,
+      answer: false,
+      textArea: false,
+      title: false,
+    });
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -155,6 +174,7 @@ const Assignments = ({
         <RoleRestricted allowedRoles={["teacher"]}>
           <NewAssignment
             {...{
+              handleCloseAssignment,
               resetAssignmentContent,
               showButton,
               setShowButton,
@@ -165,12 +185,16 @@ const Assignments = ({
               handleOpenExistingAssignment,
               canEdit,
               currentAssignment,
+              message,
+              setMessage,
+              clearMessage,
             }}
           />
         </RoleRestricted>
       ) : isOpened ? (
         <AssignmentContent
           {...{
+            handleCloseAssignment,
             content,
             setContent,
             showButton,
@@ -185,6 +209,9 @@ const Assignments = ({
             handleOpenExistingAssignment,
             canEdit,
             setCanEdit,
+            message,
+            setMessage,
+            clearMessage,
           }}
         />
       ) : (

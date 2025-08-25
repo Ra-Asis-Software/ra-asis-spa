@@ -11,6 +11,7 @@ export const StudentAssignmentContent = ({
   submissionFiles,
 }) => {
   const [openAnswerArea, setOpenAnswerArea] = useState(null);
+  const [answerValue, setAnswerValue] = useState(null);
 
   //allow student to choose their answers
   const handleChooseAnswer = (chosenAnswer, questionId) => {
@@ -18,6 +19,17 @@ export const StudentAssignmentContent = ({
 
     tempAnswers[questionId] = chosenAnswer;
     setStudentAnswers(tempAnswers);
+  };
+
+  const handleWriteAnswer = (questionId) => {
+    const tempAnswers = { ...studentAnswers };
+
+    if (openAnswerArea === questionId && answerValue !== null) {
+      tempAnswers[questionId] = answerValue;
+    }
+    setStudentAnswers(tempAnswers);
+    setOpenAnswerArea(null);
+    setAnswerValue(null);
   };
 
   let questionNumber = 1;
@@ -110,15 +122,16 @@ export const StudentAssignmentContent = ({
                           : "Attempt now"}
                       </button>
                     ) : (
-                      <div>
+                      <div className={styles.answerArea}>
                         <textarea
                           defaultValue={studentAnswers?.[item.id]}
-                          onBlur={(e) =>
-                            handleChooseAnswer(e.target.value, item.id)
-                          }
                           placeholder="Enter answer here..."
                           className={styles.addedTextArea}
+                          onChange={(e) => setAnswerValue(e.target.value)}
                         />
+                        <button onClick={() => handleWriteAnswer(item.id)}>
+                          Save answer
+                        </button>
                       </div>
                     )}
                   </>
@@ -151,15 +164,16 @@ export const StudentAssignmentContent = ({
                       : "Attempt now"}
                   </button>
                 ) : (
-                  <div>
+                  <div className={styles.answerArea}>
                     <textarea
                       defaultValue={studentAnswers?.[item.id]}
-                      onBlur={(e) =>
-                        handleChooseAnswer(e.target.value, item.id)
-                      }
                       placeholder="Enter answer here..."
                       className={styles.addedTextArea}
+                      onChange={(e) => setAnswerValue(e.target.value)}
                     />
+                    <button onClick={() => handleWriteAnswer(item.id)}>
+                      Save answer
+                    </button>
                   </div>
                 )}
               </div>

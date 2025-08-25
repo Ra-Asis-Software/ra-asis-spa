@@ -212,7 +212,8 @@
 }
 
 .addedTextArea {
-  background: var(--aqua-color);
+  background: var(--foam-color);
+  color: var(--cerulean-color);
   padding: 10px;
   width: 650px;
   border: none;
@@ -394,6 +395,23 @@
 
 .faTrash:hover {
   top: 3px;
+}
+
+.answerArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.answerArea button {
+  width: max-content;
+  height: max-content;
+  padding: 2px 8px;
+  font-size: 0.9rem;
+}
+
+.answerArea button:hover {
+  background-color: var(--cerulean-color);
 }
 
 /* AssignmentTools */

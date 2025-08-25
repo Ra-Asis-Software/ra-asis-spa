@@ -1,9 +1,7 @@
 import styles from "../css/Assignments.module.css";
-import { useNavigate } from "react-router-dom";
 import AssignmentTools from "./AssignmentTools";
 import { useState } from "react";
 import { createAssignment } from "../../../services/assignmentService";
-import RoleRestricted from "../../ui/RoleRestricted";
 import { useFileUploads } from "../../../utils/assignments";
 import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { FileSelector } from "./FileSelector";
@@ -17,17 +15,19 @@ export const NewAssignment = ({
   selectedUnit,
   handleOpenExistingAssignment,
   currentAssignment,
+  handleCloseAssignment,
+  message,
+  setMessage,
+  clearMessage,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
-  const [message, setMessage] = useState("");
   const [assignmentExtras, setAssignmentExtras] = useState({
     marks: 0,
     date: "",
     time: "",
   });
-  const navigate = useNavigate();
 
   const assignmentFiles = useFileUploads();
 
@@ -102,10 +102,7 @@ export const NewAssignment = ({
         <div className={styles.assignmentsHeader}>
           <button
             className={styles.addAssignment}
-            onClick={() => {
-              navigate("/dashboard/assignments");
-              resetAssignmentContent();
-            }}
+            onClick={handleCloseAssignment}
           >
             <i className="fa-solid fa-left-long"></i>
             <p>Back</p>
@@ -142,6 +139,9 @@ export const NewAssignment = ({
                 setTrigger,
                 currentAssignment,
                 assignmentFiles,
+                message,
+                setMessage,
+                clearMessage,
               }}
               canEdit={true}
             />
