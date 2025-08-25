@@ -1,6 +1,5 @@
 import styles from "../css/Assignments.module.css";
 import { studentBar } from "../css/SideBarStyles.module.css";
-import RoleRestricted from "../../ui/RoleRestricted";
 
 export const SubmissionTools = ({
   currentAssignment,
@@ -8,7 +7,7 @@ export const SubmissionTools = ({
   openSubmission,
 }) => {
   return (
-    <RoleRestricted allowedRoles={["student"]}>
+    <>
       {currentAssignment && !openSubmission && (
         <div className={styles.studentTools}>
           <div className={styles.studentFiles}>
@@ -42,6 +41,6 @@ export const SubmissionTools = ({
           </button>
         </div>
       )}
-    </RoleRestricted>
+    </>
   );
 };
