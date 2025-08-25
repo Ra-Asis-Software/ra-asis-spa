@@ -152,20 +152,22 @@ const Assignments = ({
       className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}
     >
       {isNew ? ( //for teachers to create assignments
-        <NewAssignment
-          {...{
-            resetAssignmentContent,
-            showButton,
-            setShowButton,
-            trigger,
-            setTrigger,
-            user,
-            selectedUnit,
-            handleOpenExistingAssignment,
-            canEdit,
-            currentAssignment,
-          }}
-        />
+        <RoleRestricted allowedRoles={["teacher"]}>
+          <NewAssignment
+            {...{
+              resetAssignmentContent,
+              showButton,
+              setShowButton,
+              trigger,
+              setTrigger,
+              user,
+              selectedUnit,
+              handleOpenExistingAssignment,
+              canEdit,
+              currentAssignment,
+            }}
+          />
+        </RoleRestricted>
       ) : isOpened ? (
         <AssignmentContent
           {...{

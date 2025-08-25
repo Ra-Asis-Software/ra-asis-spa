@@ -97,7 +97,7 @@ export const NewAssignment = ({
   };
 
   return (
-    <RoleRestricted allowedRoles={["teacher"]}>
+    <>
       <div className={styles.assignmentsBox}>
         <div className={styles.assignmentsHeader}>
           <button
@@ -162,6 +162,6 @@ export const NewAssignment = ({
           handleEditAssignment={null}
         />
       </div>
-    </RoleRestricted>
+    </>
   );
 };
