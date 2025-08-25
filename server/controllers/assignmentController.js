@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import Assignment from "../models/Assignment.js";
 import Unit from "../models/Unit.js";
 import Teacher from "../models/Teacher.js";
-import { v4 as uuidv4 } from "uuid";
+
 // @desc    Create an assignment
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
@@ -36,7 +36,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
 
   const { newContent, newAnswers } = parsedContent.reduce(
     (acc, item) => {
-      const id = uuidv4();
+      const id = crypto.randomUUID();
 
       if (item.type === "question" && item.answer) {
         acc.newContent.push({
@@ -111,7 +111,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
   const { changedContent, changedAnswers } = parsedContent.reduce(
     (acc, item) => {
       if (!item.id) {
-        item.id = uuidv4(); //create id for new question items
+        item.id = crypto.randomUUID(); //create id for new question items
       }
       if (item?.answer) {
         acc.changedAnswers.push({
