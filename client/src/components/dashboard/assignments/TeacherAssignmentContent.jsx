@@ -23,6 +23,7 @@ export const TeacherAssignmentContent = ({
     textArea: "",
     title: "",
   });
+  const [showAnswerButton, setShowAnswerButton] = useState(null);
 
   const { isOpened } = useUrlParams();
 
@@ -68,7 +69,7 @@ export const TeacherAssignmentContent = ({
     setContent(tempArray);
 
     setSectionData({ ...sectionData, answer: "" }); //return answer to empty
-    setShowButton({ ...showButton, answer: false }); // hide the add answer input
+    setShowAnswerButton(null); // hide the add answer input
   };
 
   //move an item in the assignment either up or down
@@ -147,9 +148,10 @@ export const TeacherAssignmentContent = ({
       setMessage("Cannot add an empty field");
       clearMessage();
     } else {
+      console.log(type, data);
       setContent((prev) => [...prev, { type, data, ...extra }]);
       setSectionData({ ...sectionData, [type]: "" });
-      setShowButton({ ...showButton, [type]: false });
+      setShowButton(null);
     }
   };
 
@@ -274,7 +276,7 @@ export const TeacherAssignmentContent = ({
 
                 {canEdit && (
                   <>
-                    {showButton.answer === index && (
+                    {showAnswerButton === index && (
                       <div className={styles.showAnswer}>
                         <input
                           className={styles.answerInput}
@@ -289,15 +291,10 @@ export const TeacherAssignmentContent = ({
                       </div>
                     )}
 
-                    {showButton.answer !== index && (
+                    {showAnswerButton !== index && (
                       <button
                         className={styles.addAnswer}
-                        onClick={() =>
-                          setShowButton({
-                            ...showButton,
-                            answer: index,
-                          })
-                        }
+                        onClick={() => setShowAnswerButton(index)}
                       >
                         <i className={`fa-solid fa-plus ${styles.faPlus}`}></i>
                         answer
@@ -350,7 +347,7 @@ export const TeacherAssignmentContent = ({
       })}
 
       {/* display area for adding instruction */}
-      {showButton.instruction === true && (
+      {showButton === "instruction" && (
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleInstruction(e)}
@@ -366,7 +363,7 @@ export const TeacherAssignmentContent = ({
       )}
 
       {/* display area for adding title */}
-      {showButton.title === true && (
+      {showButton === "title" && (
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleTitle(e)}
@@ -382,7 +379,7 @@ export const TeacherAssignmentContent = ({
       )}
 
       {/* display area for adding a question */}
-      {showButton.question === true && (
+      {showButton === "question" && (
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleQuestion(e)}
@@ -398,7 +395,7 @@ export const TeacherAssignmentContent = ({
       )}
 
       {/* display area for adding a lot of text */}
-      {showButton.textArea === true && (
+      {showButton === "textArea" && (
         <div className={styles.addedDiv}>
           <textarea
             onChange={(e) => handleTextArea(e)}

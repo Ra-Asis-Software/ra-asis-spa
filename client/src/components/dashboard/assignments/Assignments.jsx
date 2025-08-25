@@ -29,13 +29,7 @@ const Assignments = ({
   const [content, setContent] = useState([]); //array for holding all assignment content
   const [message, setMessage] = useState("");
 
-  const [showButton, setShowButton] = useState({
-    instruction: false,
-    question: false,
-    answer: false,
-    textArea: false,
-    title: false,
-  });
+  const [showButton, setShowButton] = useState(null);
 
   const [trigger, setTrigger] = useState(false);
   const navigate = useNavigate();
@@ -153,13 +147,7 @@ const Assignments = ({
   const handleCloseAssignment = () => {
     resetAssignmentContent();
     navigate("/dashboard/assignments");
-    setShowButton({
-      instruction: false,
-      question: false,
-      answer: false,
-      textArea: false,
-      title: false,
-    });
+    setShowButton(null);
   };
 
   if (loading) {

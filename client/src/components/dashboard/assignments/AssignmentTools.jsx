@@ -23,27 +23,21 @@ const AssignmentTools = ({
 
             <button
               className={styles.addAssignment}
-              onClick={() =>
-                setShowButton((prev) => ({ ...prev, instruction: true }))
-              }
+              onClick={() => setShowButton("instruction")}
             >
               Instruction
             </button>
 
             <button
               className={styles.addAssignment}
-              onClick={() =>
-                setShowButton((prev) => ({ ...prev, question: true }))
-              }
+              onClick={() => setShowButton("question")}
             >
               Question
             </button>
 
             <button
               className={styles.addAssignment}
-              onClick={() =>
-                setShowButton((prev) => ({ ...prev, textArea: true }))
-              }
+              onClick={() => setShowButton("textArea")}
             >
               Text Area
             </button>
@@ -51,7 +45,7 @@ const AssignmentTools = ({
             <button
               className={styles.addAssignment}
               onClick={() => {
-                setShowButton((prev) => ({ ...prev, title: true }));
+                setShowButton("title");
               }}
             >
               Title
