@@ -148,7 +148,6 @@ export const TeacherAssignmentContent = ({
       setMessage("Cannot add an empty field");
       clearMessage();
     } else {
-      console.log(type, data);
       setContent((prev) => [...prev, { type, data, ...extra }]);
       setSectionData({ ...sectionData, [type]: "" });
       setShowButton(null);

@@ -31,18 +31,38 @@ export const NewAssignment = ({
 
   const assignmentFiles = useFileUploads();
 
-  const isAnyAnswerMissing = () => {
+  const correctAnswerNotSet = () => {
+    let questionNumber = 0;
     for (const item of content) {
+      if (item.type === "question" || item.type === "textArea") {
+        questionNumber++;
+      }
       if (item.type === "question") {
         if (item.answers.length > 0) {
+          //check if the correct answer has been set
           if (
             item.answer == null ||
             item.answer === "" ||
             item.answer == undefined
           ) {
-            return true;
+            return questionNumber;
           }
         }
+      }
+    }
+    return false;
+  };
+
+  const hasSingleAnswerOption = () => {
+    let questionNumber = 0;
+
+    for (const item of content) {
+      if (item.type === "question" || item.type === "textArea") {
+        questionNumber++;
+      }
+
+      if (item.type === "question" && item.answers.length < 2) {
+        return questionNumber;
       }
     }
     return false;
@@ -57,10 +77,17 @@ export const NewAssignment = ({
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
       setMessage("Ensure both Assignment Title and Submission Type are set");
     } else {
-      //check if all auto-grade answers are set
+      // get question numbers temporarily to be used to point out errors
 
-      if (isAnyAnswerMissing()) {
-        setMessage("Some answers have not be set for auto-grading questions");
+      //check if all auto-grade answers are set
+      const answerNotSet = correctAnswerNotSet();
+      const singleAnswerOption = hasSingleAnswerOption();
+      if (singleAnswerOption) {
+        setMessage(`Question ${singleAnswerOption} has only one answer option`);
+      } else if (answerNotSet) {
+        setMessage(
+          `You have not set the correct answer for question ${answerNotSet}`
+        );
       } else {
         //setup deadlines for those not set
         let tempDate, tempTime;
