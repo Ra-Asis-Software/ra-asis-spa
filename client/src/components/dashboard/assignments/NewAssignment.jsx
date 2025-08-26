@@ -2,7 +2,12 @@ import styles from "../css/Assignments.module.css";
 import AssignmentTools from "./AssignmentTools";
 import { useState } from "react";
 import { createAssignment } from "../../../services/assignmentService";
-import { useFileUploads } from "../../../utils/assignments";
+import {
+  correctAnswerNotSet,
+  hasSingleAnswerOption,
+  isAnyAnswerEmpty,
+  useFileUploads,
+} from "../../../utils/assignments";
 import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { FileSelector } from "./FileSelector";
 
@@ -31,43 +36,6 @@ export const NewAssignment = ({
 
   const assignmentFiles = useFileUploads();
 
-  const correctAnswerNotSet = () => {
-    let questionNumber = 0;
-    for (const item of content) {
-      if (item.type === "question" || item.type === "textArea") {
-        questionNumber++;
-      }
-      if (item.type === "question") {
-        if (item.answers.length > 0) {
-          //check if the correct answer has been set
-          if (
-            item.answer == null ||
-            item.answer === "" ||
-            item.answer == undefined
-          ) {
-            return questionNumber;
-          }
-        }
-      }
-    }
-    return false;
-  };
-
-  const hasSingleAnswerOption = () => {
-    let questionNumber = 0;
-
-    for (const item of content) {
-      if (item.type === "question" || item.type === "textArea") {
-        questionNumber++;
-      }
-
-      if (item.type === "question" && item.answers.length < 2) {
-        return questionNumber;
-      }
-    }
-    return false;
-  };
-
   //handles publishing assignment
   const handlePublishAssignment = async () => {
     if (!selectedUnit.id || selectedUnit.id === "all") {
@@ -77,13 +45,14 @@ export const NewAssignment = ({
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
       setMessage("Ensure both Assignment Title and Submission Type are set");
     } else {
-      // get question numbers temporarily to be used to point out errors
-
       //check if all auto-grade answers are set
-      const answerNotSet = correctAnswerNotSet();
-      const singleAnswerOption = hasSingleAnswerOption();
+      const answerNotSet = correctAnswerNotSet(content);
+      const singleAnswerOption = hasSingleAnswerOption(content);
+      const answerIsEmpty = isAnyAnswerEmpty(content);
       if (singleAnswerOption) {
         setMessage(`Question ${singleAnswerOption} has only one answer option`);
+      } else if (answerIsEmpty) {
+        setMessage(`You have an empty answer in question ${answerIsEmpty}`);
       } else if (answerNotSet) {
         setMessage(
           `You have not set the correct answer for question ${answerNotSet}`

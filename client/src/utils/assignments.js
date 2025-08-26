@@ -54,3 +54,59 @@ export const useUrlParams = () => {
 
   return { isNew, isOpened };
 };
+
+export const correctAnswerNotSet = (content) => {
+  let questionNumber = 0;
+  for (const item of content) {
+    if (item.type === "question" || item.type === "textArea") {
+      questionNumber++;
+    }
+    if (item.type === "question") {
+      if (item.answers.length > 0) {
+        //check if the correct answer has been set
+        if (
+          item.answer == null ||
+          item.answer === "" ||
+          item.answer == undefined
+        ) {
+          return questionNumber;
+        }
+      }
+    }
+  }
+  return false;
+};
+
+export const hasSingleAnswerOption = (content) => {
+  let questionNumber = 0;
+
+  for (const item of content) {
+    if (item.type === "question" || item.type === "textArea") {
+      questionNumber++;
+    }
+
+    if (item.type === "question" && item.answers.length === 1) {
+      return questionNumber;
+    }
+  }
+  return false;
+};
+
+export const isAnyAnswerEmpty = (content) => {
+  let questionNumber = 0;
+
+  for (const item of content) {
+    if (item.type === "question" || item.type === "textArea") {
+      questionNumber++;
+    }
+
+    if (item.type === "question" && item.answers.length > 0) {
+      for (const answer of item.answers) {
+        if (!answer) {
+          return questionNumber;
+        }
+      }
+    }
+  }
+  return false;
+};

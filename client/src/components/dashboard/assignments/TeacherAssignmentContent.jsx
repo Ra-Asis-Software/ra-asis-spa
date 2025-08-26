@@ -1,5 +1,5 @@
 import styles from "../css/Assignments.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { stripHTML, useUrlParams } from "../../../utils/assignments";
 import { FileSelector } from "./FileSelector";
 
@@ -24,8 +24,28 @@ export const TeacherAssignmentContent = ({
     title: "",
   });
   const [showAnswerButton, setShowAnswerButton] = useState(null);
-
   const { isOpened } = useUrlParams();
+
+  //match answers to their questions during editing
+  useEffect(() => {
+    if (isOpened) {
+      const parsedAnswers = JSON.parse(currentAssignment?.answers);
+      const tempContent = content.map((item) => {
+        if (item.type === "question" && item.answers.length > 0) {
+          const answerExists = parsedAnswers.find(
+            (answer) => answer.id === item.id
+          );
+
+          if (answerExists) {
+            return { ...item, answer: answerExists.answer };
+          }
+        }
+        return item;
+      });
+
+      setContent(tempContent);
+    }
+  }, [currentAssignment]);
 
   //make changes to an already added section
   const handleChangeText = (e, index) => {
@@ -46,8 +66,12 @@ export const TeacherAssignmentContent = ({
 
   const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
     const tempArray = [...content];
-    tempArray[questionIndex].answers[answerIndex] = e.target.innerHTML;
-
+    const newValue = e.currentTarget.textContent;
+    const prevValue = tempArray[questionIndex].answers[answerIndex];
+    tempArray[questionIndex].answers[answerIndex] = newValue;
+    if (tempArray[questionIndex].answer === prevValue) {
+      tempArray[questionIndex].answer = newValue;
+    }
     setContent(tempArray);
   };
 
@@ -63,13 +87,18 @@ export const TeacherAssignmentContent = ({
   };
 
   const handleAddAnswer = (index) => {
-    const tempArray = [...content];
-    tempArray[index].answers.push(sectionData.answer);
+    if (!sectionData.answer) {
+      setMessage("Cannot add an empty answer");
+      clearMessage();
+    } else {
+      const tempArray = [...content];
+      tempArray[index].answers.push(sectionData.answer);
 
-    setContent(tempArray);
+      setContent(tempArray);
 
-    setSectionData({ ...sectionData, answer: "" }); //return answer to empty
-    setShowAnswerButton(null); // hide the add answer input
+      setSectionData({ ...sectionData, answer: "" }); //return answer to empty
+      setShowAnswerButton(null); // hide the add answer input
+    }
   };
 
   //move an item in the assignment either up or down
@@ -252,7 +281,7 @@ export const TeacherAssignmentContent = ({
                         <input
                           type="radio"
                           name={`question${index}Answer`}
-                          defaultChecked={item?.answer === ans}
+                          checked={item?.answer === ans}
                           onChange={() => handleSetCorrectAnswer(ans, index)}
                         />
                       )}
@@ -263,7 +292,7 @@ export const TeacherAssignmentContent = ({
                         }`}
                         contentEditable={canEdit}
                         suppressContentEditableWarning
-                        onChange={(e) =>
+                        onBlur={(e) =>
                           handleChangeAnswerExists(e, index, answerIndex)
                         }
                       >

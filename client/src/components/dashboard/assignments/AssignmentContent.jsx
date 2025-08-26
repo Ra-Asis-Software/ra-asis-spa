@@ -3,7 +3,10 @@ import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { StudentAssignmentContent } from "./StudentAssignmentContent";
 import styles from "../css/Assignments.module.css";
 import {
+  correctAnswerNotSet,
   handleDueDate,
+  hasSingleAnswerOption,
+  isAnyAnswerEmpty,
   timeLeft,
   useFileUploads,
   useUrlParams,
@@ -91,33 +94,47 @@ const AssignmentContent = ({
   };
 
   const handleEditAssignment = async () => {
-    const formData = new FormData();
+    //check if all auto-grade answers are still intact
+    const answerNotSet = correctAnswerNotSet(content);
+    const singleAnswerOption = hasSingleAnswerOption(content);
+    const answerIsEmpty = isAnyAnswerEmpty(content);
+    if (singleAnswerOption) {
+      setMessage(`Question ${singleAnswerOption} has only one answer option`);
+    } else if (answerIsEmpty) {
+      setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+    } else if (answerNotSet) {
+      setMessage(
+        `You have not set the correct answer for question ${answerNotSet}`
+      );
+    } else {
+      const formData = new FormData();
 
-    assignmentFiles.files.forEach((file) => formData.append("files", file));
-    const newContent = JSON.stringify(content);
-    formData.append("content", newContent);
-    formData.append(
-      "deadLine",
-      `${assignmentExtras.date}T${assignmentExtras.time}`
-    );
-    formData.append("maxMarks", assignmentExtras.marks);
-    formData.append("createdBy", currentAssignment?.createdBy?._id);
+      assignmentFiles.files.forEach((file) => formData.append("files", file));
+      const newContent = JSON.stringify(content);
+      formData.append("content", newContent);
+      formData.append(
+        "deadLine",
+        `${assignmentExtras.date}T${assignmentExtras.time}`
+      );
+      formData.append("maxMarks", assignmentExtras.marks);
+      formData.append("createdBy", currentAssignment?.createdBy?._id);
 
-    try {
-      const assignmentId = currentAssignment._id;
-      if (assignmentId) {
-        const editResult = await editAssignment(formData, assignmentId);
-        setMessage(editResult.data.message);
-        if (editResult.status === 200) {
-          const editedAssignment = editResult.data.assignment;
-          resetAssignmentContent();
-          handleOpenExistingAssignment(editedAssignment);
+      try {
+        const assignmentId = currentAssignment._id;
+        if (assignmentId) {
+          const editResult = await editAssignment(formData, assignmentId);
+          setMessage(editResult.data.message);
+          if (editResult.status === 200) {
+            const editedAssignment = editResult.data.assignment;
+            resetAssignmentContent();
+            handleOpenExistingAssignment(editedAssignment);
+          }
         }
+      } catch (error) {
+        console.log(error);
       }
-      clearMessage();
-    } catch (error) {
-      console.log(error);
     }
+    clearMessage();
   };
 
   const handleRemoveSubmission = async () => {
