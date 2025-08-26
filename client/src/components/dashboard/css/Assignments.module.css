@@ -53,6 +53,16 @@
   padding: 5px;
 }
 
+.assignment p:first-of-type {
+  width: 55%;
+  text-align: left;
+}
+
+.assignment p:last-of-type {
+  width: 30%;
+  text-align: right;
+}
+
 .assignment:hover {
   background: #fff;
 }
@@ -66,14 +76,10 @@
 }
 
 .assignmentsHeader {
-  height: 8vh;
   display: flex;
-  align-items: center;
-  gap: 50px;
-}
-
-.assignment p:first-of-type {
-  max-width: 50%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 
 .normalText,
@@ -285,6 +291,7 @@
 }
 
 .editable {
+  padding: 0 3px;
   white-space: pre-wrap;
 }
 
@@ -342,6 +349,9 @@
 }
 
 .answerBox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin-left: 30px;
   min-width: 250px;
 }
@@ -387,6 +397,23 @@
   top: 3px;
 }
 
+.answerArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.answerArea button {
+  width: max-content;
+  height: max-content;
+  padding: 2px 8px;
+  font-size: 0.9rem;
+}
+
+.answerArea button:hover {
+  background-color: var(--cerulean-color);
+}
+
 /* AssignmentTools */
 .extras {
   width: max-content;
@@ -411,6 +438,7 @@
 
 .toolsArea h3 {
   text-align: center;
+  margin: 0;
 }
 
 .toolsArea button {
@@ -459,6 +487,78 @@
 
 .submissionAlert {
   color: var(--alizarin-crimson-color);
+}
+
+.questionAnswerBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.attemptButton {
+  width: max-content;
+  height: max-content;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+.cerulianText {
+  color: var(--cerulean-color);
+}
+.foamBackground {
+  background-color: var(--foam-color);
+}
+
+.attempted {
+  color: var(--pine-green-color);
+}
+
+.studentFileUpload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uploadIcon {
+  font-size: 28px;
+}
+
+.faSubmission {
+  font-size: 22px;
+}
+
+.faSubmitted {
+  color: var(--pine-green-color);
+}
+
+.faPending {
+  color: var(--bright-sun-color);
+}
+
+.submittedBox {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeSubmission {
+  background-color: var(--alizarin-crimson-color);
+}
+
+.divFlex {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filesEmpty {
+  display: none;
+}
+
+.lateSubmission {
+  color: var(--alizarin-crimson-color);
+  margin: 0;
 }
 
 /* RESPONSIVE BREAKPOINTS */

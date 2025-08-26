@@ -31,6 +31,30 @@ export const createAssignment = asyncHandler(async (req, res) => {
     }
   }
 
+  //get answers from auto graded questions
+  const parsedContent = JSON.parse(content);
+
+  const { newContent, newAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      const id = crypto.randomUUID();
+
+      if (item.type === "question" && item.answer) {
+        acc.newContent.push({
+          type: item.type,
+          data: item.data,
+          answers: item.answers,
+          id,
+        }); // question with new ID
+        acc.newAnswers.push({ id, answer: item.answer }); // matching answer
+      } else {
+        acc.newContent.push({ ...item, id }); //if not a question with answers, return original
+      }
+
+      return acc;
+    },
+    { newContent: [], newAnswers: [] }
+  );
+
   // Create assignment
   const assignment = await Assignment.create({
     title,
@@ -38,7 +62,8 @@ export const createAssignment = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
-    content,
+    content: JSON.stringify(newContent),
+    answers: JSON.stringify(newAnswers),
     createdBy: req.user._id,
     files: req.files?.map((file) => ({
       filePath: file.path,
@@ -79,8 +104,63 @@ export const editAssignment = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "No assignment found" });
   }
 
+  //check the changes made
+  const parsedContent = JSON.parse(content);
+  let currentAnswers = JSON.parse(assignment.answers);
+
+  const { changedContent, changedAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      if (!item.id) {
+        item.id = crypto.randomUUID(); //create id for new question items
+      }
+      if (item?.answer) {
+        acc.changedAnswers.push({
+          id: item.id,
+          newAnswer: item.answer,
+        });
+      }
+      const { answer, ...rest } = item; //separate answer from the object
+      acc.changedContent.push(rest);
+
+      return acc;
+    },
+    { changedContent: [], changedAnswers: [] }
+  );
+
+  //remove from the db answers whose question was deleted from the assignment
+  currentAnswers = currentAnswers.filter((answer) => {
+    return changedContent.some((question) => question.id === answer.id);
+  });
+
+  //update the current answers with the incoming edits
+  const replaceAnswers = currentAnswers.map((answer) => {
+    const isAnswerModified = changedAnswers.find(
+      (newAnswer) => newAnswer.id === answer.id
+    );
+
+    if (!isAnswerModified) {
+      return answer;
+    } else {
+      return { id: isAnswerModified.id, answer: isAnswerModified.newAnswer };
+    }
+  });
+
+  //include edits that are bringing in new questions, or answers currently not present
+  const veryNewAnswers = changedAnswers
+    .filter(
+      (newAnswer) =>
+        !currentAnswers.some((answer) => answer.id === newAnswer.id)
+    )
+    .map((newAnswer) => ({
+      id: newAnswer.id,
+      answer: newAnswer.newAnswer,
+    }));
+
+  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+
   assignment.maxMarks = maxMarks;
-  assignment.content = content;
+  assignment.content = JSON.stringify(changedContent);
+  assignment.answers = JSON.stringify(newAnswers);
   assignment.deadLine = deadLine;
 
   //clear existing files
