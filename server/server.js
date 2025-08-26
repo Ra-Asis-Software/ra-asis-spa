@@ -34,6 +34,7 @@ app.get("/", (req, res) =>
   res.send("API is running, try outrunning it, your breath will run out...")
 );
 
+// User progress routes
 app.use("/api/progress", progressRoutes);
 
 // Admin actions routes
