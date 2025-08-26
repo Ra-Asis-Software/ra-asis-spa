@@ -1,0 +1,30 @@
+.container {
+  padding: 62px;
+  padding-top: 0px;
+  width: 50%;
+}
+
+.title {
+  font-weight: bold;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.button {
+  background-color: var(--cerulean-color);
+  display: flex;
+  align-items: center;
+  height: 6vh;
+  gap: 10px;
+}
+
+.button:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
