@@ -1,4 +1,4 @@
-import styles from "../dashboard/css/CreateModal.module.css";
+import styles from "../dashboard/css/CreateOptionsContent.module.css";
 
 const CreateOptionsContent = ({
   onClose,
