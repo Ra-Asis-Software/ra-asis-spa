@@ -130,6 +130,7 @@ export const ROLES = {
       "view:assignment",
       "download:assignment",
       "upload:assignment-submission",
+      "remove:assignment-submission",
       "view:assessment",
       "download:assessment",
       "upload:assessment",

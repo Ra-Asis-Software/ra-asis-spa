@@ -1,17 +1,18 @@
-import styles from "./css/Assignments.module.css";
+import styles from "../css/Assignments.module.css";
+import { useUrlParams } from "../../../utils/assignments";
 
 const AssignmentTools = ({
-  params,
-  openAssignment,
   canEdit,
   setShowButton,
-  handleChooseFiles,
+  assignmentFiles,
   setAssignmentExtras,
   handlePublishAssignment,
   handleEditAssignment,
   message,
   assignmentExtras,
 }) => {
+  const { isNew, isOpened } = useUrlParams();
+
   return (
     <>
       {/* show this only when creating a new assignment or opening an existing one, and when editing is set to true */}
@@ -22,27 +23,21 @@ const AssignmentTools = ({
 
             <button
               className={styles.addAssignment}
-              onClick={() =>
-                setShowButton((prev) => ({ ...prev, instruction: true }))
-              }
+              onClick={() => setShowButton("instruction")}
             >
               Instruction
             </button>
 
             <button
               className={styles.addAssignment}
-              onClick={() =>
-                setShowButton((prev) => ({ ...prev, question: true }))
-              }
+              onClick={() => setShowButton("question")}
             >
               Question
             </button>
 
             <button
               className={styles.addAssignment}
-              onClick={() =>
-                setShowButton((prev) => ({ ...prev, textArea: true }))
-              }
+              onClick={() => setShowButton("textArea")}
             >
               Text Area
             </button>
@@ -50,7 +45,7 @@ const AssignmentTools = ({
             <button
               className={styles.addAssignment}
               onClick={() => {
-                setShowButton((prev) => ({ ...prev, title: true }));
+                setShowButton("title");
               }}
             >
               Title
@@ -58,7 +53,7 @@ const AssignmentTools = ({
 
             <button
               className={styles.addAssignment}
-              onClick={handleChooseFiles}
+              onClick={assignmentFiles.chooseFiles}
             >
               File
             </button>
@@ -105,14 +100,14 @@ const AssignmentTools = ({
               />
             </div>
           </div>
-          {params.get("new") ? (
+          {isNew ? (
             <button
               className={styles.publishAssignment}
               onClick={handlePublishAssignment}
             >
               PUBLISH ASSIGNMENT
             </button>
-          ) : openAssignment ? (
+          ) : isOpened ? (
             <button
               className={styles.publishAssignment}
               onClick={handleEditAssignment}

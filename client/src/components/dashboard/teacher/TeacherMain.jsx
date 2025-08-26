@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
-import AssignmentCard from "../AssignmentCard";
+import AssignmentCard from "../assignments/AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import { useNavigate } from "react-router-dom";
 import RecentActivities from "../RecentActivities";
