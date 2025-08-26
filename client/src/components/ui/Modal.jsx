@@ -1,4 +1,4 @@
-import styles from "../dashboard/css/CreateModal.module.css";
+import styles from "../ui/Modal.module.css";
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
