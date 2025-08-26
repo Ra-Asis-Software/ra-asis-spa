@@ -7,7 +7,7 @@ const Modal = ({ isOpen, onClose, children }) => {
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className={styles.closeButton}>
-            <i className="fa-solid fa-xmark"></i>
+          <i className="fa-solid fa-xmark" />
         </button>
         {children}
       </div>
