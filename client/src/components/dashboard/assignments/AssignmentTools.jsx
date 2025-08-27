@@ -90,13 +90,8 @@ const AssignmentTools = ({
               <input
                 type="number"
                 max={100}
+                disabled
                 value={assignmentExtras.marks}
-                onChange={(e) =>
-                  setAssignmentExtras((prev) => ({
-                    ...prev,
-                    marks: e.target.value,
-                  }))
-                }
               />
             </div>
           </div>

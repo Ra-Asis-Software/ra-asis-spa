@@ -176,6 +176,8 @@ const Assignments = ({
               message,
               setMessage,
               clearMessage,
+              assignmentExtras,
+              setAssignmentExtras
             }}
           />
         </RoleRestricted>

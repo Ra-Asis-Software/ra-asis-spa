@@ -15,6 +15,7 @@ export const TeacherAssignmentContent = ({
   assignmentFiles,
   setMessage,
   clearMessage,
+  setAssignmentExtras,
 }) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
@@ -24,6 +25,7 @@ export const TeacherAssignmentContent = ({
     title: "",
   });
   const [showAnswerButton, setShowAnswerButton] = useState(null);
+  const [recalculateMarks, setRecalculateMarks] = useState(false);
   const { isOpened } = useUrlParams();
 
   //match answers to their questions during editing
@@ -46,6 +48,17 @@ export const TeacherAssignmentContent = ({
       setContent(tempContent);
     }
   }, [currentAssignment]);
+
+  //recalculate max marks when a question is added and when marks is changed
+  useEffect(() => {
+    const tempContent = [...content];
+
+    const total = tempContent.reduce((cumulative, current) => {
+      return cumulative + Number(current.marks);
+    }, 0);
+
+    setAssignmentExtras((prev) => ({ ...prev, marks: total }));
+  }, [recalculateMarks]);
 
   //make changes to an already added section
   const handleChangeText = (e, index) => {
@@ -134,6 +147,7 @@ export const TeacherAssignmentContent = ({
     tempArray.splice(index, 1);
     setContent(tempArray);
     setTrigger(!trigger); //trigger a rerender of the page
+    setRecalculateMarks(!recalculateMarks);
   };
 
   //handles adding an instructions section to the assignment
@@ -180,6 +194,11 @@ export const TeacherAssignmentContent = ({
       setContent((prev) => [...prev, { type, data, ...extra }]);
       setSectionData({ ...sectionData, [type]: "" });
       setShowButton(null);
+
+      //recalculate max marks
+      if (["question", "textArea"].includes(type)) {
+        setRecalculateMarks(!recalculateMarks);
+      }
     }
   };
 
@@ -189,9 +208,19 @@ export const TeacherAssignmentContent = ({
   const handleAddTitle = () => addBlock("title", sectionData.title);
 
   const handleAddQuestion = () =>
-    addBlock("question", sectionData.question, { answers: [] });
+    addBlock("question", sectionData.question, { answers: [], marks: "1" });
 
-  const handleAddTextArea = () => addBlock("textArea", sectionData.textArea);
+  const handleAddTextArea = () =>
+    addBlock("textArea", sectionData.textArea, { marks: "1" });
+
+  const handleChangeMark = (value, questionIndex) => {
+    const tempArray = [...content];
+
+    tempArray[questionIndex].marks = value;
+
+    setContent(tempArray);
+    setRecalculateMarks(!recalculateMarks);
+  };
 
   let questionNumber = 1;
   return (
@@ -353,21 +382,35 @@ export const TeacherAssignmentContent = ({
 
             {canEdit && (
               <div className={styles.edBtns}>
-                <i
-                  className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
-                  onClick={() => handleMoveItemUp(index)}
-                  title="Move block up"
-                ></i>
-                <i
-                  className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
-                  onClick={() => handleMoveItemDown(index)}
-                  title="Move block down"
-                ></i>
-                <i
-                  className={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
-                  onClick={() => handleDeleteNoteItem(index)}
-                  title="Delete block"
-                ></i>
+                <div className={styles.edBtnsLeft}>
+                  {" "}
+                  <i
+                    className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
+                    onClick={() => handleMoveItemUp(index)}
+                    title="Move block up"
+                  ></i>
+                  <i
+                    className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
+                    onClick={() => handleMoveItemDown(index)}
+                    title="Move block down"
+                  ></i>
+                  <i
+                    className={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
+                    onClick={() => handleDeleteNoteItem(index)}
+                    title="Delete block"
+                  ></i>
+                </div>
+                {(item.type === "question" || item.type === "textArea") && (
+                  <div className={styles.edBtnsRight}>
+                    <label className={styles.whiteText}>Marks: </label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={item?.marks}
+                      onChange={(e) => handleChangeMark(e.target.value, index)}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>

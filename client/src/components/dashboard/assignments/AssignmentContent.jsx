@@ -47,19 +47,21 @@ const AssignmentContent = ({
   const submissionFiles = useFileUploads();
 
   const checkEmptyAnswerFields = (studentAnswers, content) => {
+    let questionNumber = 0;
     for (const item of content) {
       if (item.type === "question" || item.type === "textArea") {
+        questionNumber++;
         const answer = studentAnswers[item.id];
 
         // multiple choice
         if (item?.answers?.length > 0) {
           if (!answer || !item.answers.includes(answer)) {
-            return item.data; // return first unanswered multiple-choice
+            return questionNumber; // return first unanswered multiple-choice
           }
         } else {
           // open-ended question or textArea
           if (!answer || answer.trim() === "") {
-            return item.data; // return first unanswered open-ended
+            return questionNumber; // return first unanswered open-ended
           }
         }
       }
@@ -69,8 +71,9 @@ const AssignmentContent = ({
   };
 
   const handleSubmitAssignment = async () => {
-    if (checkEmptyAnswerFields(studentAnswers, content)) {
-      setMessage("Some questions have not been answered");
+    const lacksAnswer = checkEmptyAnswerFields(studentAnswers, content);
+    if (lacksAnswer) {
+      setMessage(`Question ${lacksAnswer} has not been answered`);
       clearMessage();
     } else {
       const formData = new FormData();
@@ -193,6 +196,7 @@ const AssignmentContent = ({
                 assignmentFiles,
                 setMessage,
                 clearMessage,
+                setAssignmentExtras,
               }}
             />
           </div>

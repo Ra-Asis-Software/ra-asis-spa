@@ -24,15 +24,12 @@ export const NewAssignment = ({
   message,
   setMessage,
   clearMessage,
+  assignmentExtras,
+  setAssignmentExtras,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
-  const [assignmentExtras, setAssignmentExtras] = useState({
-    marks: 0,
-    date: "",
-    time: "",
-  });
 
   const assignmentFiles = useFileUploads();
 
@@ -138,6 +135,7 @@ export const NewAssignment = ({
                 message,
                 setMessage,
                 clearMessage,
+                setAssignmentExtras,
               }}
               canEdit={true}
             />

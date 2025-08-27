@@ -310,7 +310,6 @@
   gap: 3px;
   align-self: flex-end;
   border-radius: 7px;
-  margin-right: 10px;
 }
 
 .addAnswer:hover {
@@ -371,10 +370,26 @@
   height: 4vh;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.edBtnsLeft,
+.edBtnsRight {
   width: 150px;
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   cursor: pointer;
+}
+
+.edBtnsRight input {
+  height: 4vh;
+  width: 80px;
+  border-radius: 5px;
+  border: none;
+  padding-left: 5px;
 }
 
 .faArrow {
@@ -501,9 +516,14 @@
   font-size: 0.9rem;
 }
 
+.whiteText {
+  color: #fff;
+}
+
 .cerulianText {
   color: var(--cerulean-color);
 }
+
 .foamBackground {
   background-color: var(--foam-color);
 }
