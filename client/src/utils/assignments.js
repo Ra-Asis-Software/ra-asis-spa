@@ -49,8 +49,9 @@ export const stripHTML = (html) => {
 export const useUrlParams = () => {
   const params = new URLSearchParams(location.search);
 
+  const type = params.get("type");
   const isNew = params.get("new");
   const isOpened = params.get("open");
 
-  return { isNew, isOpened };
+  return { isNew, isOpened, type };
 };

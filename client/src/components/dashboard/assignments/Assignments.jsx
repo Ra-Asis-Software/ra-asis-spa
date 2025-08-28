@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import AssignmentContent from "./AssignmentContent";
 import { handleDueDate, useUrlParams } from "../../../utils/assignments";
 import { NewAssignment } from "./NewAssignment";
+import Modal from "../../ui/Modal";
+import CreateOptionsContent from "../CreateOptionsContent";
 
 const Assignments = ({
   showNav,
@@ -42,7 +44,7 @@ const Assignments = ({
   const [openSubmission, setOpenSubmission] = useState(null);
 
   //keep tabs of url to see whether its new/open/all
-  const { isNew, isOpened } = useUrlParams();
+  const { isNew, isOpened, type } = useUrlParams();
   const openAssignmentFromThisPageRef = useRef(null); //this should track open assignments from teacher/student page
 
   //useEffect for refreshing everything (assignments, units)
@@ -68,13 +70,13 @@ const Assignments = ({
             (assignment) => assignment._id === toBeOpenedId
           );
           if (toBeOpenedData) handleOpenExistingAssignment(toBeOpenedData);
-          else navigate("/dashboard/assignments");
+          else navigate(`/dashboard/assessments?type=${type}`);
         }
       }
     };
     fetchData();
     persistSelectedUnit();
-  }, [trigger, location.search]);
+  }, [trigger, location.search, type]);
 
   //useEffect for displaying assignments only tied to the currently selected unit
   useEffect(() => {
@@ -100,7 +102,7 @@ const Assignments = ({
   const handleCreateNewAssignment = () => {
     resetAssignmentContent();
     setCanEdit(true);
-    navigate("/dashboard/assignments?new=true", {
+    navigate(`/dashboard/assessments?type=${type}&new=true`, {
       replace: true,
     });
   };
@@ -129,7 +131,7 @@ const Assignments = ({
 
     setContent(tempAssignmentContent);
     setCanEdit(false);
-    navigate(`/dashboard/assignments?open=${assignment._id}`);
+    navigate(`/dashboard/assessments?type=${type}&open=${assignment._id}`);
   };
 
   const submissionExists = (id) => {
@@ -146,12 +148,20 @@ const Assignments = ({
 
   const handleCloseAssignment = () => {
     resetAssignmentContent();
-    navigate("/dashboard/assignments");
+    navigate(`/dashboard/assessments?type=${type}`);
     setShowButton(null);
   };
 
   if (loading) {
     return <p>Loading...</p>;
+  }
+
+  if (!type) {
+    return (
+      <Modal isOpen={true} onClose={() => navigate(-1)}>
+        <CreateOptionsContent open={true} />
+      </Modal>
+    );
   }
 
   return (

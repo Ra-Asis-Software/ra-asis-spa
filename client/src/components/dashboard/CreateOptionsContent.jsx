@@ -1,38 +1,38 @@
+import { useNavigate } from "react-router-dom";
 import styles from "../dashboard/css/CreateOptionsContent.module.css";
 
-const CreateOptionsContent = ({
-  onClose,
-  onCreateQuiz,
-  onCreateAssignment,
-}) => {
-  const handleCreateQuiz = () => {
-    onClose();
-    if (onCreateQuiz) onCreateQuiz();
+const CreateOptionsContent = ({ open = false }) => {
+  const navigate = useNavigate();
+  const handleQuiz = () => {
+    if (!open) navigate(`/dashboard/assessments?type=quiz&new=true`);
+    else navigate(`/dashboard/assessments?type=quiz`);
   };
 
-  const handleCreateAssignment = () => {
-    onClose();
-    if (onCreateAssignment) onCreateAssignment();
+  const handleAssignment = () => {
+    if (!open) navigate(`/dashboard/assessments?type=assignment&new=true`);
+    else navigate(`/dashboard/assessments?type=assignment`);
   };
 
   return (
     <div className={styles.modalWrapper}>
       <div className={styles.container}>
-        <h2 className={styles.title}>What would you like to create?</h2>
+        <h2 className={styles.title}>
+          What would you like to {open ? "access" : "create"}?
+        </h2>
         <div className={styles.buttonContainer}>
           <button
-            onClick={handleCreateQuiz}
+            onClick={handleQuiz}
             className={`${styles.button} ${styles.quizButton}`}
           >
             <span>📝</span>
-            <span>Create Quiz</span>
+            <span>Quiz</span>
           </button>
           <button
-            onClick={handleCreateAssignment}
+            onClick={handleAssignment}
             className={`${styles.button} ${styles.assignmentButton}`}
           >
             <span>📚</span>
-            <span>Create Assignment</span>
+            <span>Assignment</span>
           </button>
         </div>
       </div>

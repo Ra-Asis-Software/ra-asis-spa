@@ -29,7 +29,9 @@ const AssignmentCard = ({
       >
         <button
           className={styles.viewButton}
-          onClick={() => navigate(`/dashboard/assignments?open=${id}`)}
+          onClick={() =>
+            navigate(`/dashboard/assessments?type=assignment&open=${id}`)
+          }
         >
           View
         </button>

@@ -168,7 +168,7 @@ const Dashboard = () => {
             />
 
             <Route
-              path="/assignments"
+              path="/assessments"
               element={
                 <Assignments
                   {...{

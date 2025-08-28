@@ -1,7 +1,10 @@
 .container {
-  padding: 62px;
-  padding-top: 0px;
-  width: 50%;
+  min-height: 200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
 }
 
 .title {
@@ -12,15 +15,16 @@
 
 .buttonContainer {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   gap: 16px;
 }
 
 .button {
-  background-color: var(--cerulean-color);
+  height: 6vh;
+  width: 200px;
   display: flex;
   align-items: center;
-  height: 6vh;
+  background-color: var(--cerulean-color);
   gap: 10px;
 }
 
