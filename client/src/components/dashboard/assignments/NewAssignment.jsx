@@ -2,7 +2,12 @@ import styles from "../css/Assignments.module.css";
 import AssignmentTools from "./AssignmentTools";
 import { useState } from "react";
 import { createAssignment } from "../../../services/assignmentService";
-import { useFileUploads } from "../../../utils/assignments";
+import {
+  correctAnswerNotSet,
+  hasSingleAnswerOption,
+  isAnyAnswerEmpty,
+  useFileUploads,
+} from "../../../utils/assignments";
 import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { FileSelector } from "./FileSelector";
 
@@ -19,34 +24,14 @@ export const NewAssignment = ({
   message,
   setMessage,
   clearMessage,
+  assignmentExtras,
+  setAssignmentExtras,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
-  const [assignmentExtras, setAssignmentExtras] = useState({
-    marks: 0,
-    date: "",
-    time: "",
-  });
 
   const assignmentFiles = useFileUploads();
-
-  const isAnyAnswerMissing = () => {
-    for (const item of content) {
-      if (item.type === "question") {
-        if (item.answers.length > 0) {
-          if (
-            item.answer == null ||
-            item.answer === "" ||
-            item.answer == undefined
-          ) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
 
   //handles publishing assignment
   const handlePublishAssignment = async () => {
@@ -58,9 +43,17 @@ export const NewAssignment = ({
       setMessage("Ensure both Assignment Title and Submission Type are set");
     } else {
       //check if all auto-grade answers are set
-
-      if (isAnyAnswerMissing()) {
-        setMessage("Some answers have not be set for auto-grading questions");
+      const answerNotSet = correctAnswerNotSet(content);
+      const singleAnswerOption = hasSingleAnswerOption(content);
+      const answerIsEmpty = isAnyAnswerEmpty(content);
+      if (singleAnswerOption) {
+        setMessage(`Question ${singleAnswerOption} has only one answer option`);
+      } else if (answerIsEmpty) {
+        setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+      } else if (answerNotSet) {
+        setMessage(
+          `You have not set the correct answer for question ${answerNotSet}`
+        );
       } else {
         //setup deadlines for those not set
         let tempDate, tempTime;
@@ -85,6 +78,7 @@ export const NewAssignment = ({
             resetAssignmentContent();
             handleOpenExistingAssignment(createdAssignment);
           }
+          assignmentFiles.resetFiles()
         } catch (error) {
           setMessage(error);
         }
@@ -142,6 +136,7 @@ export const NewAssignment = ({
                 message,
                 setMessage,
                 clearMessage,
+                setAssignmentExtras,
               }}
               canEdit={true}
             />

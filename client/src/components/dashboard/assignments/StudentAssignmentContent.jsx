@@ -40,7 +40,7 @@ export const StudentAssignmentContent = ({
           "This assignment is overdue, it will be flagged as late and penalized"}
       </p>
       <h3>Assignment: {currentAssignment.title}</h3>
-      {currentAssignment.submissionType === "file" && (
+      {["file", "mixed"].includes(currentAssignment.submissionType) && (
         <>
           <div className={styles.studentFileUpload}>
             <button
@@ -81,12 +81,17 @@ export const StudentAssignmentContent = ({
                 className={`${styles.questionContainer} ${styles.questionContainerWork}`}
               >
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable} ${styles.textQuestionWork}`}
-                  >
-                    {stripHTML(item.data)}
-                  </p>
+                  <div className={styles.questionContent}>
+                    {" "}
+                    <p>{`${questionNumber++}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${styles.textQuestionWork}`}
+                    >
+                      {stripHTML(item.data)}
+                    </p>
+                  </div>
+
+                  <p className={styles.marksArea}>({item.marks} marks)</p>
                 </div>
 
                 {item.answers.map((ans, answerIndex) => {
@@ -142,12 +147,15 @@ export const StudentAssignmentContent = ({
             {item.type === "textArea" && (
               <div className={styles.questionAnswerBox}>
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <div
-                    className={`${styles.textLong} ${styles.editable} ${styles.textLongWork}`}
-                  >
-                    {stripHTML(item.data)}
+                  <div className={styles.questionContent}>
+                    <p>{`${questionNumber++}.) `}</p>
+                    <div
+                      className={`${styles.textLong} ${styles.editable} ${styles.textLongWork}`}
+                    >
+                      {stripHTML(item.data)}
+                    </div>
                   </div>
+                  <p className={styles.marksArea}>({item.marks} marks)</p>
                 </div>
 
                 {openAnswerArea !== item.id ? (
