@@ -65,7 +65,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
         markedContent[questionId] = {
           userAnswer,
           correctAnswer: answerIsThere.answer,
-          marks: userAnswer === answerIsThere.answer ? 1 : 0, //to be changed appropriately later
+          marks: userAnswer === answerIsThere.answer ? answerIsThere.marks : 0, //to be changed appropriately later
         };
         //markedContent is taking this form for confirmations and corrections later, if needed
       } else {

@@ -290,17 +290,22 @@ export const TeacherAssignmentContent = ({
                 }`}
               >
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable} ${
-                      !canEdit && styles.textQuestionWork
-                    }`}
-                    contentEditable={canEdit}
-                    suppressContentEditableWarning
-                    onBlur={(e) => handleChangeText(e, index)}
-                  >
-                    {stripHTML(item.data)}
-                  </p>
+                  <div className={styles.questionContent}>
+                    <p>{`${questionNumber++}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${
+                        !canEdit && styles.textQuestionWork
+                      }`}
+                      contentEditable={canEdit}
+                      suppressContentEditableWarning
+                      onBlur={(e) => handleChangeText(e, index)}
+                    >
+                      {stripHTML(item.data)}
+                    </p>
+                  </div>
+                  {!canEdit && (
+                    <p className={styles.marksArea}>({item.marks} marks)</p>
+                  )}
                 </div>
 
                 {item.answers.map((ans, answerIndex) => {

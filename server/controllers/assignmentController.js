@@ -43,9 +43,10 @@ export const createAssignment = asyncHandler(async (req, res) => {
           type: item.type,
           data: item.data,
           answers: item.answers,
+          marks: item.marks,
           id,
         }); // question with new ID
-        acc.newAnswers.push({ id, answer: item.answer }); // matching answer
+        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
       } else {
         acc.newContent.push({ ...item, id }); //if not a question with answers, return original
       }
@@ -117,6 +118,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
         acc.changedAnswers.push({
           id: item.id,
           newAnswer: item.answer,
+          marks: item.marks,
         });
       }
       const { answer, ...rest } = item; //separate answer from the object
@@ -141,7 +143,11 @@ export const editAssignment = asyncHandler(async (req, res) => {
     if (!isAnswerModified) {
       return answer;
     } else {
-      return { id: isAnswerModified.id, answer: isAnswerModified.newAnswer };
+      return {
+        id: isAnswerModified.id,
+        answer: isAnswerModified.newAnswer,
+        marks: isAnswerModified.marks,
+      };
     }
   });
 
@@ -154,6 +160,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
     .map((newAnswer) => ({
       id: newAnswer.id,
       answer: newAnswer.newAnswer,
+      marks: newAnswer.marks,
     }));
 
   const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones

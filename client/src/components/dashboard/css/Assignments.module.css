@@ -97,6 +97,12 @@
 .questionHolder {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.questionContent {
+  display: flex;
+  align-items: center;
   gap: 3px;
 }
 
@@ -199,6 +205,10 @@
 
 .textContent h3 {
   margin: 0;
+}
+
+.marksArea {
+  align-self: right;
 }
 
 /* AssignmentTools & AssignmentContent Styling */

@@ -81,12 +81,17 @@ export const StudentAssignmentContent = ({
                 className={`${styles.questionContainer} ${styles.questionContainerWork}`}
               >
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable} ${styles.textQuestionWork}`}
-                  >
-                    {stripHTML(item.data)}
-                  </p>
+                  <div className={styles.questionContent}>
+                    {" "}
+                    <p>{`${questionNumber++}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${styles.textQuestionWork}`}
+                    >
+                      {stripHTML(item.data)}
+                    </p>
+                  </div>
+
+                  <p className={styles.marksArea}>({item.marks} marks)</p>
                 </div>
 
                 {item.answers.map((ans, answerIndex) => {
