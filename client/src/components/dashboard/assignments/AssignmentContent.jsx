@@ -93,6 +93,7 @@ const AssignmentContent = ({
       } else {
         window.location.reload();
       }
+      submissionFiles.resetFiles();
     }
   };
 
@@ -133,6 +134,7 @@ const AssignmentContent = ({
             handleOpenExistingAssignment(editedAssignment);
           }
         }
+        assignmentFiles.resetFiles();
       } catch (error) {
         console.log(error);
       }
@@ -149,6 +151,7 @@ const AssignmentContent = ({
       window.location.reload();
     }
   };
+
   return (
     <>
       <RoleRestricted allowedRoles={["teacher"]}>

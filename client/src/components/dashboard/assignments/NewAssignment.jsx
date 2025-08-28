@@ -78,6 +78,7 @@ export const NewAssignment = ({
             resetAssignmentContent();
             handleOpenExistingAssignment(createdAssignment);
           }
+          assignmentFiles.resetFiles()
         } catch (error) {
           setMessage(error);
         }

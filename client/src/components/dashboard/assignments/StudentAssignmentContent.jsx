@@ -40,7 +40,7 @@ export const StudentAssignmentContent = ({
           "This assignment is overdue, it will be flagged as late and penalized"}
       </p>
       <h3>Assignment: {currentAssignment.title}</h3>
-      {currentAssignment.submissionType === "file" && (
+      {["file", "mixed"].includes(currentAssignment.submissionType) && (
         <>
           <div className={styles.studentFileUpload}>
             <button

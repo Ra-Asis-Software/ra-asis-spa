@@ -101,7 +101,12 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     student: req.user._id,
     content: JSON.stringify(markedContent),
     submittedAt: time,
-    files: req.files?.map((file) => file.path),
+    files: req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    })),
     gradingStatus:
       complete === true
         ? "graded"

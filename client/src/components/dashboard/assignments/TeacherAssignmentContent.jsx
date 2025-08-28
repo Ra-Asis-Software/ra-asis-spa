@@ -225,11 +225,10 @@ export const TeacherAssignmentContent = ({
   let questionNumber = 1;
   return (
     <div className={styles.textContent}>
-      {isOpened && (
+      {(isOpened || assignmentFiles.length > 0) && (
         <>
-          {assignmentFiles.files.length > 0 && (
-            <FileSelector selector={assignmentFiles} />
-          )}
+          <FileSelector selector={assignmentFiles} />
+
           {currentAssignment?.files?.length > 0 && (
             <div className={styles.selectedFiles}>
               <p>{assignmentFiles.files.length > 0 && "Old"} files: </p>
@@ -411,7 +410,7 @@ export const TeacherAssignmentContent = ({
                     <input
                       type="number"
                       min={1}
-                      value={item?.marks}
+                      value={item.marks ?? 1}
                       onChange={(e) => handleChangeMark(e.target.value, index)}
                     />
                   </div>
