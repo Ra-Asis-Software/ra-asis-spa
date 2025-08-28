@@ -433,10 +433,13 @@
   height: max-content;
   padding: 2px 8px;
   font-size: 0.9rem;
+  color: var(--cerulean-color);
+  background-color: var(--black-pearl-color);
 }
 
 .answerArea button:hover {
   background-color: var(--cerulean-color);
+  color: var(--black-pearl-color);
 }
 
 /* AssignmentTools */
