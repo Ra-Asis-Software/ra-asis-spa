@@ -147,12 +147,15 @@ export const StudentAssignmentContent = ({
             {item.type === "textArea" && (
               <div className={styles.questionAnswerBox}>
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <div
-                    className={`${styles.textLong} ${styles.editable} ${styles.textLongWork}`}
-                  >
-                    {stripHTML(item.data)}
+                  <div className={styles.questionContent}>
+                    <p>{`${questionNumber++}.) `}</p>
+                    <div
+                      className={`${styles.textLong} ${styles.editable} ${styles.textLongWork}`}
+                    >
+                      {stripHTML(item.data)}
+                    </div>
                   </div>
+                  <p className={styles.marksArea}>({item.marks} marks)</p>
                 </div>
 
                 {openAnswerArea !== item.id ? (
