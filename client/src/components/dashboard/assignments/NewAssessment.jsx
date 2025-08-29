@@ -7,11 +7,13 @@ import {
   hasSingleAnswerOption,
   isAnyAnswerEmpty,
   useFileUploads,
+  useUrlParams,
 } from "../../../utils/assignments";
 import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { FileSelector } from "./FileSelector";
+import { createQuiz } from "../../../services/quizService";
 
-export const NewAssignment = ({
+export const NewAssessment = ({
   resetAssignmentContent,
   showButton,
   setShowButton,
@@ -26,21 +28,24 @@ export const NewAssignment = ({
   clearMessage,
   assignmentExtras,
   setAssignmentExtras,
+  timeLimit,
+  setTimeLimit,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
+  const { type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
 
   //handles publishing assignment
-  const handlePublishAssignment = async () => {
+  const handlePublishAssessment = async () => {
     if (!selectedUnit.id || selectedUnit.id === "all") {
       setMessage("No unit Selected");
     } else if (content.length === 0 && assignmentFiles.files.length === 0) {
       setMessage("No content or files exist for the assignment");
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
-      setMessage("Ensure both Assignment Title and Submission Type are set");
+      setMessage(`Ensure both ${type} Title and Submission Type are set`);
     } else {
       //check if all auto-grade answers are set
       const answerNotSet = correctAnswerNotSet(content);
@@ -69,16 +74,31 @@ export const NewAssignment = ({
         formData.append("maxMarks", assignmentExtras.marks);
         formData.append("content", JSON.stringify(content));
         formData.append("unitId", selectedUnit.id);
+        if (type === "quiz") {
+          formData.append(
+            "timeLimit",
+            JSON.stringify({
+              value: Number(timeLimit.value),
+              unit: timeLimit.unit,
+            })
+          );
+        }
 
         try {
-          const creationResult = await createAssignment(formData);
-          setMessage(creationResult.data.message);
-          if (creationResult.status === 201) {
-            const createdAssignment = creationResult.data.assignment;
+          const creationResult =
+            type === "quiz"
+              ? await createQuiz(formData)
+              : type === "assignment" && (await createAssignment(formData));
+
+          if (creationResult.error) {
+            setMessage(creationResult.error);
+          } else {
+            const createdAssessment = creationResult.data?.[type];
             resetAssignmentContent();
-            handleOpenExistingAssignment(createdAssignment);
+            handleOpenExistingAssignment(createdAssessment);
           }
-          assignmentFiles.resetFiles()
+
+          assignmentFiles.resetFiles();
         } catch (error) {
           setMessage(error);
         }
@@ -101,11 +121,11 @@ export const NewAssignment = ({
             <i className="fa-solid fa-left-long"></i>
             <p>Back</p>
           </button>
-          <h3>Create New Assignment</h3>
+          <h3>New {type}</h3>
         </div>
         <div className={styles.assignmentTop}>
           <input
-            placeholder="Assignment title here..."
+            placeholder={`${type} title here...`}
             className={styles.assignmentTitle}
             type="text"
             onChange={(e) => setAssignmentTitle(e.target.value)}
@@ -148,13 +168,14 @@ export const NewAssignment = ({
           {...{
             setShowButton,
             setAssignmentExtras,
-            handlePublishAssignment,
+            handlePublishAssessment,
             message,
             assignmentExtras,
             assignmentFiles,
+            timeLimit,
+            setTimeLimit,
           }}
           canEdit={true}
-          handleEditAssignment={null}
         />
       </div>
     </>

@@ -8,6 +8,7 @@ import Teacher from "../models/Teacher.js";
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
 export const createAssignment = asyncHandler(async (req, res) => {
+
   const { title, unitId, submissionType, deadLine, maxMarks, content } =
     req.body;
 

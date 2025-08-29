@@ -6,13 +6,14 @@ const AssignmentTools = ({
   setShowButton,
   assignmentFiles,
   setAssignmentExtras,
-  handlePublishAssignment,
-  handleEditAssignment,
+  handlePublishAssessment = null,
+  handleEditAssignment = null,
   message,
   assignmentExtras,
+  timeLimit,
+  setTimeLimit,
 }) => {
-  const { isNew, isOpened } = useUrlParams();
-
+  const { isNew, isOpened, type } = useUrlParams();
   return (
     <>
       {/* show this only when creating a new assignment or opening an existing one, and when editing is set to true */}
@@ -85,6 +86,31 @@ const AssignmentTools = ({
                 }
               />
             </div>
+            {type === "quiz" && (
+              <div className={styles.deadline}>
+                <p>Time limit</p>
+                <input
+                  type="number"
+                  value={timeLimit.value}
+                  onChange={(e) =>
+                    setTimeLimit({
+                      ...timeLimit,
+                      value: e.target.value,
+                    })
+                  }
+                />
+                <select
+                  className={styles.timerSelect}
+                  onChange={(e) =>
+                    setTimeLimit({ ...timeLimit, unit: e.target.value })
+                  }
+                >
+                  <option value={"minutes"}>Minutes</option>
+                  <option value={"seconds"}>Seconds</option>
+                  <option value={"hours"}>Hours</option>
+                </select>
+              </div>
+            )}
             <div className={styles.deadline}>
               <p>Max Marks</p>
               <input
@@ -98,9 +124,9 @@ const AssignmentTools = ({
           {isNew ? (
             <button
               className={styles.publishAssignment}
-              onClick={handlePublishAssignment}
+              onClick={handlePublishAssessment}
             >
-              PUBLISH ASSIGNMENT
+              PUBLISH {type.toUpperCase() ?? "ASSESSMENT"}
             </button>
           ) : isOpened ? (
             <button

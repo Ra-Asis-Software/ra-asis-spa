@@ -489,7 +489,8 @@
   width: 100px;
 }
 
-.deadline input {
+.deadline input,
+.timerSelect {
   color: var(--cerulean-color);
   border: 1px solid var(--cerulean-color);
   border-radius: 7px;

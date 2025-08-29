@@ -10,11 +10,11 @@ import RoleRestricted from "../../ui/RoleRestricted";
 import { useNavigate } from "react-router-dom";
 import AssignmentContent from "./AssignmentContent";
 import { handleDueDate, useUrlParams } from "../../../utils/assignments";
-import { NewAssignment } from "./NewAssignment";
+import { NewAssessment } from "./NewAssessment";
 import Modal from "../../ui/Modal";
 import CreateOptionsContent from "../CreateOptionsContent";
 
-const Assignments = ({
+const Assessments = ({
   showNav,
   user,
   selectedUnit,
@@ -39,6 +39,10 @@ const Assignments = ({
     marks: 0,
     date: "",
     time: "",
+  });
+  const [timeLimit, setTimeLimit] = useState({
+    value: 0,
+    unit: "minutes",
   });
   const [loading, setLoading] = useState(true);
   const [openSubmission, setOpenSubmission] = useState(null);
@@ -94,6 +98,10 @@ const Assignments = ({
       date: "",
       time: "",
       marks: 0,
+    });
+    setTimeLimit({
+      value: 0,
+      unit: "minutes",
     });
     setTrigger((prev) => !prev);
   };
@@ -170,7 +178,7 @@ const Assignments = ({
     >
       {isNew ? ( //for teachers to create assignments
         <RoleRestricted allowedRoles={["teacher"]}>
-          <NewAssignment
+          <NewAssessment
             {...{
               handleCloseAssignment,
               resetAssignmentContent,
@@ -187,7 +195,9 @@ const Assignments = ({
               setMessage,
               clearMessage,
               assignmentExtras,
-              setAssignmentExtras
+              setAssignmentExtras,
+              timeLimit,
+              setTimeLimit,
             }}
           />
         </RoleRestricted>
@@ -212,6 +222,8 @@ const Assignments = ({
             message,
             setMessage,
             clearMessage,
+            timeLimit,
+            setTimeLimit,
           }}
         />
       ) : (
@@ -288,4 +300,4 @@ const Assignments = ({
   );
 };
 
-export default Assignments;
+export default Assessments;

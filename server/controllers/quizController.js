@@ -1,6 +1,7 @@
-import Quiz from "../models/Quiz";
-import Teacher from "../models/Teacher";
-import Unit from "../models/Unit";
+import asyncHandler from "express-async-handler";
+import Unit from "../models/Unit.js";
+import Quiz from "../models/Quiz.js";
+import Teacher from "../models/Teacher.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quiz
@@ -36,8 +37,9 @@ export const createQuiz = asyncHandler(async (req, res) => {
     }
   }
 
+  const parsedTimeLimit = JSON.parse(timeLimit);
   //ensure time limit is set
-  if (!timeLimit.value || !timeLimit.unit) {
+  if (!parsedTimeLimit.value || !parsedTimeLimit.unit) {
     return res.status(422).json({ message: "The time limit is not set" });
   }
 
@@ -72,7 +74,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
-    timeLimit,
+    timeLimit: parsedTimeLimit,
     content: JSON.stringify(newContent),
     answers: JSON.stringify(newAnswers),
     createdBy: req.user._id,

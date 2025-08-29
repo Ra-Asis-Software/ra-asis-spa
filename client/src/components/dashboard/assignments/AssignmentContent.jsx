@@ -39,6 +39,8 @@ const AssignmentContent = ({
   message,
   setMessage,
   clearMessage,
+  timeLimit,
+  setTimeLimit
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
   const { isOpened } = useUrlParams();
@@ -214,6 +216,8 @@ const AssignmentContent = ({
               message,
               assignmentExtras,
               assignmentFiles,
+              timeLimit,
+              setTimeLimit
             }}
           />
         </div>

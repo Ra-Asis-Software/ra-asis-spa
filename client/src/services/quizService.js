@@ -1,0 +1,20 @@
+import api from "./api";
+
+const QUIZ_PATH = "/quizzes";
+
+export const createQuiz = async (data) => {
+  try {
+    const response = await api.post(`${QUIZ_PATH}`, data);
+
+    return response;
+  } catch (error) {
+    if (error.response?.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
