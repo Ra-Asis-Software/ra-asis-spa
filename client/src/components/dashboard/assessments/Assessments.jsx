@@ -60,8 +60,15 @@ const Assessments = ({
       setLoading(false);
 
       if (myData.data.message) {
-        const tempAssignments = myData.data.data.assignments || [];
-        const tempSubmissions = myData.data.data.submissions || [];
+        const tempAssignments =
+          myData.data.data?.[
+            type === "assignment" ? "assignments" : "quizzes"
+          ] || [];
+        const tempSubmissions =
+          myData.data.data?.[
+            type === "assignment" ? "submissions" : "quizSubmissions"
+          ] || [];
+
         setAssignments(tempAssignments);
         submissions.current = tempSubmissions;
         setAllAssignments(tempAssignments);

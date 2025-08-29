@@ -8,7 +8,7 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
 import StudentMain from "../components/dashboard/student/StudentMain";
 import Students from "../components/dashboard/parent/Students";
-import Assessments from "../components/dashboard/assignments/Assessments";
+import Assessments from "../components/dashboard/assessments/Assessments";
 import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
 import ParentMain from "../components/dashboard/parent/ParentMain";

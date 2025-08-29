@@ -4,6 +4,7 @@ import Student from "../models/Student.js";
 import User from "../models/User.js";
 import "../models/Assignment.js";
 import "../models/Submission.js";
+import "../models/QuizSubmission.js";
 import Teacher from "../models/Teacher.js";
 import Parent from "../models/Parent.js";
 
@@ -35,7 +36,25 @@ export const getStudent = asyncHandler(async (req, res) => {
         ],
       },
     })
-    .populate("submissions");
+    .populate({
+      path: "units",
+      populate: {
+        path: "quiz",
+        select: "-answers",
+        populate: [
+          {
+            path: "unit",
+            select: "unitCode unitName _id",
+          },
+          {
+            path: "createdBy",
+            select: "_id firstName lastName",
+          },
+        ],
+      },
+    })
+    .populate("submissions")
+    .populate("quizSubmissions");
 
   if (!student) {
     //get profile only if the specific user model has not been instantiated
@@ -52,7 +71,9 @@ export const getStudent = asyncHandler(async (req, res) => {
         profile: userProfile,
         units: [],
         assignments: [],
+        quizzes: [],
         submissions: [],
+        quizSubmissions: [],
         events: [],
       },
     });
@@ -67,7 +88,9 @@ export const getStudent = asyncHandler(async (req, res) => {
         return { id: unit._id, name: unit.unitName, code: unit.unitCode };
       }),
       assignments: student.units.flatMap((unit) => unit.assignments),
+      quizzes: student.units.flatMap((unit) => unit.quiz),
       submissions: student.submissions,
+      quizSubmissions: student.quizSubmissions,
       events: student.calendar,
     },
   });
@@ -232,6 +255,30 @@ export const getTeacher = asyncHandler(async (req, res) => {
           },
         ],
       },
+    })
+    .populate({
+      path: "units",
+      populate: {
+        path: "quiz",
+        populate: [
+          {
+            path: "unit",
+            select: "unitCode unitName _id",
+          },
+          {
+            path: "createdBy",
+            select: "_id firstName lastName",
+          },
+          {
+            path: "submissionCount",
+            select: "_id",
+          },
+          {
+            path: "enrolledStudentsCount",
+            select: "_id",
+          },
+        ],
+      },
     });
 
   if (!teacher) {
@@ -249,6 +296,7 @@ export const getTeacher = asyncHandler(async (req, res) => {
         profile: userProfile,
         units: [],
         assignments: [],
+        quizzes: [],
         events: [],
       },
     });
@@ -263,6 +311,7 @@ export const getTeacher = asyncHandler(async (req, res) => {
         return { id: unit._id, name: unit.unitName, code: unit.unitCode };
       }),
       assignments: teacher.units.flatMap((unit) => unit.assignments),
+      quizzes: teacher.units.flatMap((unit) => unit.quiz),
       events: teacher.calendar,
     },
   });

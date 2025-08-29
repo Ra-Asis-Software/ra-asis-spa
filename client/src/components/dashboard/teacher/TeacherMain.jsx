@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
-import AssignmentCard from "../assignments/AssignmentCard";
+import AssignmentCard from "../assessments/AssignmentCard";
 import CustomCalendar from "../CustomCalendar";
 import RecentActivities from "../RecentActivities";
 import WelcomeBoard from "../WelcomeBoard";
