@@ -1,4 +1,4 @@
-import styles from "../css/Assignments.module.css";
+import styles from "../css/Assessments.module.css";
 
 export const FileSelector = ({ selector }) => {
   return (

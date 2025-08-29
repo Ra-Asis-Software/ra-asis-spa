@@ -1,6 +1,6 @@
-import styles from "../css/Assignments.module.css";
+import styles from "../css/Assessments.module.css";
 import { useEffect, useState } from "react";
-import { stripHTML, useUrlParams } from "../../../utils/assignments";
+import { stripHTML, useUrlParams } from "../../../utils/assessments";
 import { FileSelector } from "./FileSelector";
 
 export const TeacherAssignmentContent = ({
@@ -10,12 +10,12 @@ export const TeacherAssignmentContent = ({
   setShowButton,
   trigger,
   setTrigger,
-  currentAssignment,
+  currentAssessment,
   canEdit,
   assignmentFiles,
   setMessage,
   clearMessage,
-  setAssignmentExtras,
+  setAssessmentExtras,
 }) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
@@ -31,7 +31,7 @@ export const TeacherAssignmentContent = ({
   //match answers to their questions during editing
   useEffect(() => {
     if (isOpened) {
-      const parsedAnswers = JSON.parse(currentAssignment?.answers);
+      const parsedAnswers = JSON.parse(currentAssessment?.answers);
       const tempContent = content.map((item) => {
         if (item.type === "question" && item.answers.length > 0) {
           const answerExists = parsedAnswers.find(
@@ -47,7 +47,7 @@ export const TeacherAssignmentContent = ({
 
       setContent(tempContent);
     }
-  }, [currentAssignment]);
+  }, [currentAssessment]);
 
   //recalculate max marks when a question is added and when marks is changed
   useEffect(() => {
@@ -57,7 +57,7 @@ export const TeacherAssignmentContent = ({
       return cumulative + Number(current.marks ?? 0);
     }, 0);
 
-    setAssignmentExtras((prev) => ({ ...prev, marks: total }));
+    setAssessmentExtras((prev) => ({ ...prev, marks: total }));
   }, [recalculateMarks]);
 
   //make changes to an already added section
@@ -229,10 +229,10 @@ export const TeacherAssignmentContent = ({
         <>
           <FileSelector selector={assignmentFiles} />
 
-          {currentAssignment?.files?.length > 0 && (
+          {currentAssessment?.files?.length > 0 && (
             <div className={styles.selectedFiles}>
               <p>{assignmentFiles.files.length > 0 && "Old"} files: </p>
-              {currentAssignment.files.map((file, index) => {
+              {currentAssessment.files.map((file, index) => {
                 return (
                   <div
                     className={`${styles.chosenFile} ${

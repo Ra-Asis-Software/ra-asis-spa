@@ -1,7 +1,7 @@
-import styles from "../css/AssignmentCard.module.css";
+import styles from "../css/AssessmentCard.module.css";
 import { useNavigate } from "react-router-dom";
 
-const AssignmentCard = ({
+const AssessmentCard = ({
   unitName,
   status = "pending",
   title = "Assignment for Unit",
@@ -41,4 +41,4 @@ const AssignmentCard = ({
   );
 };
 
-export default AssignmentCard;
+export default AssessmentCard;

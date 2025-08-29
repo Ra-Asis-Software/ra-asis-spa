@@ -1,5 +1,5 @@
-import styles from "../css/Assignments.module.css";
-import AssignmentTools from "./AssignmentTools";
+import styles from "../css/Assessments.module.css";
+import AssessmentTools from "./AssessmentTools";
 import { useState } from "react";
 import { createAssignment } from "../../../services/assignmentService";
 import {
@@ -8,26 +8,26 @@ import {
   isAnyAnswerEmpty,
   useFileUploads,
   useUrlParams,
-} from "../../../utils/assignments";
-import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
+} from "../../../utils/assessments";
+import { TeacherAssessmentContent } from "./TeacherAssessmentContent";
 import { FileSelector } from "./FileSelector";
 import { createQuiz } from "../../../services/quizService";
 
 export const NewAssessment = ({
-  resetAssignmentContent,
+  resetAssessmentContent,
   showButton,
   setShowButton,
   trigger,
   setTrigger,
   selectedUnit,
-  handleOpenExistingAssignment,
-  currentAssignment,
-  handleCloseAssignment,
+  handleOpenExistingAssessment,
+  currentAssessment,
+  handleCloseAssessment,
   message,
   setMessage,
   clearMessage,
-  assignmentExtras,
-  setAssignmentExtras,
+  assessmentExtras,
+  setAssessmentExtras,
   timeLimit,
   setTimeLimit,
 }) => {
@@ -62,8 +62,8 @@ export const NewAssessment = ({
       } else {
         //setup deadlines for those not set
         let tempDate, tempTime;
-        tempDate = assignmentExtras.date || `${new Date().getFullYear()}-12-31`;
-        tempTime = assignmentExtras.time || "23:59";
+        tempDate = assessmentExtras.date || `${new Date().getFullYear()}-12-31`;
+        tempTime = assessmentExtras.time || "23:59";
 
         const formData = new FormData();
 
@@ -71,7 +71,7 @@ export const NewAssessment = ({
         formData.append("title", assignmentTitle);
         formData.append("submissionType", submissionType);
         formData.append("deadLine", `${tempDate}T${tempTime}`);
-        formData.append("maxMarks", assignmentExtras.marks);
+        formData.append("maxMarks", assessmentExtras.marks);
         formData.append("content", JSON.stringify(content));
         formData.append("unitId", selectedUnit.id);
         if (type === "quiz") {
@@ -94,8 +94,8 @@ export const NewAssessment = ({
             setMessage(creationResult.error);
           } else {
             const createdAssessment = creationResult.data?.[type];
-            resetAssignmentContent();
-            handleOpenExistingAssignment(createdAssessment);
+            resetAssessmentContent();
+            handleOpenExistingAssessment(createdAssessment);
           }
 
           assignmentFiles.resetFiles();
@@ -116,7 +116,7 @@ export const NewAssessment = ({
         <div className={styles.assignmentsHeader}>
           <button
             className={styles.addAssignment}
-            onClick={handleCloseAssignment}
+            onClick={handleCloseAssessment}
           >
             <i className="fa-solid fa-left-long"></i>
             <p>Back</p>
@@ -143,7 +143,7 @@ export const NewAssessment = ({
             {content.length === 0 && (
               <p>Use the tools on the right to add content</p>
             )}
-            <TeacherAssignmentContent
+            <TeacherAssessmentContent
               {...{
                 content,
                 setContent,
@@ -151,12 +151,12 @@ export const NewAssessment = ({
                 setShowButton,
                 trigger,
                 setTrigger,
-                currentAssignment,
+                currentAssessment,
                 assignmentFiles,
                 message,
                 setMessage,
                 clearMessage,
-                setAssignmentExtras,
+                setAssessmentExtras,
               }}
               canEdit={true}
             />
@@ -164,13 +164,13 @@ export const NewAssessment = ({
         </div>
       </div>
       <div className={styles.extras}>
-        <AssignmentTools
+        <AssessmentTools
           {...{
             setShowButton,
-            setAssignmentExtras,
+            setAssessmentExtras,
             handlePublishAssessment,
             message,
-            assignmentExtras,
+            assessmentExtras,
             assignmentFiles,
             timeLimit,
             setTimeLimit,

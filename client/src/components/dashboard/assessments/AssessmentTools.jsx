@@ -1,15 +1,15 @@
-import styles from "../css/Assignments.module.css";
-import { useUrlParams } from "../../../utils/assignments";
+import styles from "../css/Assessments.module.css";
+import { useUrlParams } from "../../../utils/assessments";
 
-const AssignmentTools = ({
+const AssessmentTools = ({
   canEdit,
   setShowButton,
   assignmentFiles,
-  setAssignmentExtras,
+  setAssessmentExtras,
   handlePublishAssessment = null,
   handleEditAssignment = null,
   message,
-  assignmentExtras,
+  assessmentExtras,
   timeLimit,
   setTimeLimit,
 }) => {
@@ -67,9 +67,9 @@ const AssignmentTools = ({
               <p>Deadline</p>
               <input
                 type="date"
-                value={assignmentExtras.date}
+                value={assessmentExtras.date}
                 onChange={(e) =>
-                  setAssignmentExtras((prev) => ({
+                  setAssessmentExtras((prev) => ({
                     ...prev,
                     date: e.target.value,
                   }))
@@ -77,9 +77,9 @@ const AssignmentTools = ({
               />
               <input
                 type="time"
-                value={assignmentExtras.time}
+                value={assessmentExtras.time}
                 onChange={(e) =>
-                  setAssignmentExtras((prev) => ({
+                  setAssessmentExtras((prev) => ({
                     ...prev,
                     time: e.target.value,
                   }))
@@ -117,7 +117,7 @@ const AssignmentTools = ({
                 type="number"
                 max={100}
                 disabled
-                value={assignmentExtras.marks}
+                value={assessmentExtras.marks}
               />
             </div>
           </div>
@@ -144,4 +144,4 @@ const AssignmentTools = ({
   );
 };
 
-export default AssignmentTools;
+export default AssessmentTools;

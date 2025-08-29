@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
-import AssignmentCard from "../assessments/AssignmentCard";
+import AssessmentCard from "../assessments/AssessmentCard";
 import CustomCalendar from "../CustomCalendar";
 import RecentActivities from "../RecentActivities";
 import WelcomeBoard from "../WelcomeBoard";
@@ -14,8 +14,8 @@ const TeacherMain = ({
   profile,
   units,
   setUnits,
-  assignments,
-  setAssignments,
+  assessments,
+  setAssessments,
   selectedUnit,
   setCanEdit,
   persistSelectedUnit,
@@ -31,8 +31,8 @@ const TeacherMain = ({
       const teacherData = await getUserDetails(profile.role, profile.id);
 
       if (teacherData.data.message) {
-        const tempAssignments = teacherData.data.data.assignments || [];
-        setAssignments(tempAssignments);
+        const tempAssessments = teacherData.data.data.assignments || [];
+        setAssessments(tempAssessments);
         setUnits(teacherData.data.data.units);
         persistSelectedUnit();
       }
@@ -42,12 +42,12 @@ const TeacherMain = ({
 
   const filteredAssignments = useMemo(() => {
     if (selectedUnit.id === "all" || !selectedUnit.id) {
-      return assignments;
+      return assessments;
     }
-    return assignments.filter(
+    return assessments.filter(
       (assignment) => assignment.unit._id === selectedUnit.id
     );
-  }, [assignments, selectedUnit.id]);
+  }, [assessments, selectedUnit.id]);
 
   const convertDateTime = (date, time) => {
     const fullDateTimeStr = `${date}T${time}:00`;
@@ -123,7 +123,7 @@ const TeacherMain = ({
                   <div className={styles.assignments}>
                     {filteredAssignments.map((assignment) => {
                       return (
-                        <AssignmentCard
+                        <AssessmentCard
                           key={assignment._id}
                           unitName={assignment.unit.unitName}
                           title={assignment.title}
@@ -137,7 +137,7 @@ const TeacherMain = ({
                     {filteredAssignments.length === 0 && (
                       <div className={styles.message}>
                         <p>
-                          You don't have any existing assignments for this unit
+                          You don't have any existing assessments for this unit
                         </p>
                       </div>
                     )}

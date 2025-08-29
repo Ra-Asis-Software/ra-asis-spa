@@ -148,8 +148,8 @@ const ParentMain = ({ profile, setParentStudentData, onSelectUnit }) => {
         id: studentData.profile._id,
         role: "student", // Temporary override for view compatibility
       }}
-      assignments={studentData.assignments || []}
-      setAssignments={() => {}}
+      assessments={studentData.assignments || []}
+      setAssessments={() => {}}
       setUnits={() => {}}
       persistSelectedUnit={persistSelections}
     />

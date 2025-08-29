@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import styles from "../css/Assignments.module.css";
+import styles from "../css/Assessments.module.css";
 import {
   studentBar,
   teacherBar,
@@ -8,8 +8,8 @@ import {
 import { getUserDetails } from "../../../services/userService";
 import RoleRestricted from "../../ui/RoleRestricted";
 import { useNavigate } from "react-router-dom";
-import AssignmentContent from "./AssignmentContent";
-import { handleDueDate, useUrlParams } from "../../../utils/assignments";
+import AssessmentContent from "./AssessmentContent";
+import { handleDueDate, useUrlParams } from "../../../utils/assessments";
 import { NewAssessment } from "./NewAssessment";
 import Modal from "../../ui/Modal";
 import CreateOptionsContent from "../CreateOptionsContent";
@@ -18,16 +18,16 @@ const Assessments = ({
   showNav,
   user,
   selectedUnit,
-  assignments,
-  setAssignments,
+  assessments,
+  setAssessments,
   setUnits,
   canEdit,
   setCanEdit,
   persistSelectedUnit,
 }) => {
-  const [allAssignments, setAllAssignments] = useState([]);
+  const [allAssessments, setAllAssessments] = useState([]);
   const submissions = useRef([]);
-  const [currentAssignment, setCurrentAssignment] = useState(null);
+  const [currentAssessment, setCurrentAssessment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
   const [message, setMessage] = useState("");
 
@@ -35,7 +35,7 @@ const Assessments = ({
 
   const [trigger, setTrigger] = useState(false);
   const navigate = useNavigate();
-  const [assignmentExtras, setAssignmentExtras] = useState({
+  const [assessmentExtras, setAssessmentExtras] = useState({
     marks: 0,
     date: "",
     time: "",
@@ -49,9 +49,9 @@ const Assessments = ({
 
   //keep tabs of url to see whether its new/open/all
   const { isNew, isOpened, type } = useUrlParams();
-  const openAssignmentFromThisPageRef = useRef(null); //this should track open assignments from teacher/student page
+  const openAssessmentFromThisPageRef = useRef(null); //this should track open assessments from teacher/student page
 
-  //useEffect for refreshing everything (assignments, units)
+  //useEffect for refreshing everything (assessments, units)
   //triggered with the state variable "trigger" during certain ops
   //also triggered when url changes (open, new, all)
   useEffect(() => {
@@ -60,7 +60,7 @@ const Assessments = ({
       setLoading(false);
 
       if (myData.data.message) {
-        const tempAssignments =
+        const tempAssessments =
           myData.data.data?.[
             type === "assignment" ? "assignments" : "quizzes"
           ] || [];
@@ -69,18 +69,18 @@ const Assessments = ({
             type === "assignment" ? "submissions" : "quizSubmissions"
           ] || [];
 
-        setAssignments(tempAssignments);
+        setAssessments(tempAssessments);
         submissions.current = tempSubmissions;
-        setAllAssignments(tempAssignments);
+        setAllAssessments(tempAssessments);
         setUnits(myData.data.data.units || []);
 
         //when the assignment is opened from teacher/student
-        if (isOpened && !openAssignmentFromThisPageRef.current) {
+        if (isOpened && !openAssessmentFromThisPageRef.current) {
           const toBeOpenedId = isOpened;
-          const toBeOpenedData = tempAssignments.find(
+          const toBeOpenedData = tempAssessments.find(
             (assignment) => assignment._id === toBeOpenedId
           );
-          if (toBeOpenedData) handleOpenExistingAssignment(toBeOpenedData);
+          if (toBeOpenedData) handleOpenExistingAssessment(toBeOpenedData);
           else navigate(`/dashboard/assessments?type=${type}`);
         }
       }
@@ -89,19 +89,19 @@ const Assessments = ({
     persistSelectedUnit();
   }, [trigger, location.search, type]);
 
-  //useEffect for displaying assignments only tied to the currently selected unit
+  //useEffect for displaying assessments only tied to the currently selected unit
   useEffect(() => {
     const unitId = selectedUnit.id;
     if (unitId === "all") {
-      setAssignments(allAssignments);
+      setAssessments(allAssessments);
     } else {
-      setAssignments(allAssignments.filter((a) => a.unit._id === unitId));
+      setAssessments(allAssessments.filter((a) => a.unit._id === unitId));
     }
-  }, [selectedUnit, allAssignments]);
+  }, [selectedUnit, allAssessments]);
 
-  const resetAssignmentContent = () => {
+  const resetAssessmentContent = () => {
     setContent([]);
-    setAssignmentExtras({
+    setAssessmentExtras({
       date: "",
       time: "",
       marks: 0,
@@ -114,8 +114,8 @@ const Assessments = ({
   };
 
   //create new assignment
-  const handleCreateNewAssignment = () => {
-    resetAssignmentContent();
+  const handleCreateNewAssessment = () => {
+    resetAssessmentContent();
     setCanEdit(true);
     navigate(`/dashboard/assessments?type=${type}&new=true`, {
       replace: true,
@@ -123,30 +123,31 @@ const Assessments = ({
   };
 
   //open existing assignment
-  const handleOpenExistingAssignment = (assignment) => {
-    openAssignmentFromThisPageRef.current = true;
-    setAssignmentExtras({
-      ...assignmentExtras,
-      date: assignment.deadLine.slice(0, 10),
-      time: assignment.deadLine.slice(11),
-      marks: assignment.maxMarks,
+  const handleOpenExistingAssessment = (assessment) => {
+    openAssessmentFromThisPageRef.current = true;
+    setAssessmentExtras({
+      ...assessmentExtras,
+      date: assessment.deadLine.slice(0, 10),
+      time: assessment.deadLine.slice(11),
+      marks: assessment.maxMarks,
     });
-    setCurrentAssignment(assignment);
+    setTimeLimit();
+    setCurrentAssessment(assessment);
 
     //check student submission on that assignment
     if (user.role === "student") {
       const tempSubmission = submissions.current.find(
-        (submission) => submission.assignment === assignment._id
+        (submission) => submission.assignment === assessment._id
       );
       setOpenSubmission(tempSubmission);
     }
 
     //assign numbers to questions before displaying
-    const tempAssignmentContent = JSON.parse(assignment.content);
+    const tempAssessmentContent = JSON.parse(assessment.content);
 
-    setContent(tempAssignmentContent);
+    setContent(tempAssessmentContent);
     setCanEdit(false);
-    navigate(`/dashboard/assessments?type=${type}&open=${assignment._id}`);
+    navigate(`/dashboard/assessments?type=${type}&open=${assessment._id}`);
   };
 
   const submissionExists = (id) => {
@@ -161,8 +162,8 @@ const Assessments = ({
     }, 5000);
   };
 
-  const handleCloseAssignment = () => {
-    resetAssignmentContent();
+  const handleCloseAssessment = () => {
+    resetAssessmentContent();
     navigate(`/dashboard/assessments?type=${type}`);
     setShowButton(null);
   };
@@ -183,35 +184,35 @@ const Assessments = ({
     <div
       className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}
     >
-      {isNew ? ( //for teachers to create assignments
+      {isNew ? ( //for teachers to create assessments
         <RoleRestricted allowedRoles={["teacher"]}>
           <NewAssessment
             {...{
-              handleCloseAssignment,
-              resetAssignmentContent,
+              handleCloseAssessment,
+              resetAssessmentContent,
               showButton,
               setShowButton,
               trigger,
               setTrigger,
               user,
               selectedUnit,
-              handleOpenExistingAssignment,
+              handleOpenExistingAssessment,
               canEdit,
-              currentAssignment,
+              currentAssessment,
               message,
               setMessage,
               clearMessage,
-              assignmentExtras,
-              setAssignmentExtras,
+              assessmentExtras,
+              setAssessmentExtras,
               timeLimit,
               setTimeLimit,
             }}
           />
         </RoleRestricted>
       ) : isOpened ? (
-        <AssignmentContent
+        <AssessmentContent
           {...{
-            handleCloseAssignment,
+            handleCloseAssessment,
             content,
             setContent,
             showButton,
@@ -219,11 +220,11 @@ const Assessments = ({
             trigger,
             setTrigger,
             openSubmission,
-            resetAssignmentContent,
-            currentAssignment,
-            assignmentExtras,
-            setAssignmentExtras,
-            handleOpenExistingAssignment,
+            resetAssessmentContent,
+            currentAssessment,
+            assessmentExtras,
+            setAssessmentExtras,
+            handleOpenExistingAssessment,
             canEdit,
             setCanEdit,
             message,
@@ -235,14 +236,14 @@ const Assessments = ({
         />
       ) : (
         <div className={`${styles.assignmentsBox}`}>
-          <h3>Assignments</h3>
+          <h3>{type === "assignment" ? "Assignments" : "Quizzes"}</h3>
           <div className={styles.assignmentsHeader}>
-            <h3>{selectedUnit.name || "All assignments"}</h3>
+            <h3>{selectedUnit.name || "All assessments"}</h3>
 
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={handleCreateNewAssignment}
+                onClick={handleCreateNewAssessment}
               >
                 <i className="fa-solid fa-plus"></i>
                 <p>Create New</p>
@@ -250,7 +251,7 @@ const Assessments = ({
             </RoleRestricted>
           </div>
           <div className={styles.assignmentsBody}>
-            {assignments
+            {assessments
               .filter((assignment) => {
                 if (selectedUnit.id === "all") {
                   return assignment;
@@ -274,7 +275,7 @@ const Assessments = ({
                         ? styles.teacherAssignment
                         : ""
                     }`}
-                    onClick={() => handleOpenExistingAssignment(assignment)}
+                    onClick={() => handleOpenExistingAssessment(assignment)}
                   >
                     <p>{assignment.title}</p>
                     <RoleRestricted allowedRoles={["student"]}>
@@ -297,7 +298,7 @@ const Assessments = ({
                   </button>
                 );
               })}
-            {assignments.length === 0 && (
+            {assessments.length === 0 && (
               <p>You have no assignments for this selection</p>
             )}
           </div>

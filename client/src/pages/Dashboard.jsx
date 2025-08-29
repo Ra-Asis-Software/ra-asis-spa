@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [showNav, setShowNav] = useState(() => window.innerWidth > 768);
   const [units, setUnits] = useState([]);
-  const [assignments, setAssignments] = useState([]);
+  const [assessments, setAssessments] = useState([]);
   const [selectedUnit, setSelectedUnit] = useState({});
   const [canEdit, setCanEdit] = useState(false);
   const [linkedStudents, setLinkedStudents] = useState([]);
@@ -128,8 +128,8 @@ const Dashboard = () => {
                         units,
                         selectedUnit,
                         setUnits,
-                        assignments,
-                        setAssignments,
+                        assessments,
+                        setAssessments,
                         persistSelectedUnit,
                       }}
                       profile={user}
@@ -142,8 +142,8 @@ const Dashboard = () => {
                         showNav,
                         units,
                         setUnits,
-                        assignments,
-                        setAssignments,
+                        assessments,
+                        setAssessments,
                         selectedUnit,
                         setCanEdit,
                         persistSelectedUnit,
@@ -175,8 +175,8 @@ const Dashboard = () => {
                     user,
                     selectedUnit,
                     setSelectedUnit,
-                    assignments,
-                    setAssignments,
+                    assessments,
+                    setAssessments,
                     setUnits,
                     canEdit,
                     setCanEdit,

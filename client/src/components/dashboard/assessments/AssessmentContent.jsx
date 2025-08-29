@@ -1,7 +1,7 @@
 import RoleRestricted from "../../ui/RoleRestricted";
-import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
-import { StudentAssignmentContent } from "./StudentAssignmentContent";
-import styles from "../css/Assignments.module.css";
+import { TeacherAssessmentContent } from "./TeacherAssessmentContent";
+import { StudentAssessmentContent } from "./StudentAssessmentContent";
+import styles from "../css/Assessments.module.css";
 import {
   correctAnswerNotSet,
   handleDueDate,
@@ -10,17 +10,17 @@ import {
   timeLeft,
   useFileUploads,
   useUrlParams,
-} from "../../../utils/assignments";
+} from "../../../utils/assessments";
 import { useState } from "react";
 import {
   submitAssignment,
   editAssignment,
   deleteSubmission,
 } from "../../../services/assignmentService";
-import AssignmentTools from "./AssignmentTools";
+import AssessmentTools from "./AssessmentTools";
 import { SubmissionTools } from "./SubmissionTools";
 
-const AssignmentContent = ({
+const AssessmentContent = ({
   content,
   setContent,
   showButton,
@@ -28,19 +28,19 @@ const AssignmentContent = ({
   trigger,
   setTrigger,
   openSubmission,
-  resetAssignmentContent,
-  currentAssignment,
-  assignmentExtras,
-  setAssignmentExtras,
-  handleOpenExistingAssignment,
+  resetAssessmentContent,
+  currentAssessment,
+  assessmentExtras,
+  setAssessmentExtras,
+  handleOpenExistingAssessment,
   canEdit,
   setCanEdit,
-  handleCloseAssignment,
+  handleCloseAssessment,
   message,
   setMessage,
   clearMessage,
   timeLimit,
-  setTimeLimit
+  setTimeLimit,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
   const { isOpened } = useUrlParams();
@@ -87,7 +87,7 @@ const AssignmentContent = ({
 
       const submissionResults = await submitAssignment(
         formData,
-        currentAssignment._id
+        currentAssessment._id
       );
 
       if (submissionResults.error) {
@@ -120,20 +120,20 @@ const AssignmentContent = ({
       formData.append("content", newContent);
       formData.append(
         "deadLine",
-        `${assignmentExtras.date}T${assignmentExtras.time}`
+        `${assessmentExtras.date}T${assessmentExtras.time}`
       );
-      formData.append("maxMarks", assignmentExtras.marks);
-      formData.append("createdBy", currentAssignment?.createdBy?._id);
+      formData.append("maxMarks", assessmentExtras.marks);
+      formData.append("createdBy", currentAssessment?.createdBy?._id);
 
       try {
-        const assignmentId = currentAssignment._id;
+        const assignmentId = currentAssessment._id;
         if (assignmentId) {
           const editResult = await editAssignment(formData, assignmentId);
           setMessage(editResult.data.message);
           if (editResult.status === 200) {
             const editedAssignment = editResult.data.assignment;
-            resetAssignmentContent();
-            handleOpenExistingAssignment(editedAssignment);
+            resetAssessmentContent();
+            handleOpenExistingAssessment(editedAssignment);
           }
         }
         assignmentFiles.resetFiles();
@@ -162,13 +162,13 @@ const AssignmentContent = ({
             <div className={styles.assignmentsHeader}>
               <button
                 className={styles.addAssignment}
-                onClick={handleCloseAssignment}
+                onClick={handleCloseAssessment}
               >
                 <i className="fa-solid fa-left-long"></i>
                 <p>Back</p>
               </button>
 
-              <h3>Assignment: {currentAssignment.title}</h3>
+              <h3>Assignment: {currentAssessment.title}</h3>
 
               {canEdit ? (
                 <button
@@ -188,7 +188,7 @@ const AssignmentContent = ({
             </div>
           )}
           <div className={styles.newAssignmentContent}>
-            <TeacherAssignmentContent
+            <TeacherAssessmentContent
               {...{
                 content,
                 setContent,
@@ -196,28 +196,28 @@ const AssignmentContent = ({
                 setShowButton,
                 trigger,
                 setTrigger,
-                currentAssignment,
+                currentAssessment,
                 canEdit,
                 assignmentFiles,
                 setMessage,
                 clearMessage,
-                setAssignmentExtras,
+                setAssessmentExtras,
               }}
             />
           </div>
         </div>
         <div className={styles.extras}>
-          <AssignmentTools
+          <AssessmentTools
             {...{
               canEdit,
               setShowButton,
-              setAssignmentExtras,
+              setAssessmentExtras,
               handleEditAssignment,
               message,
-              assignmentExtras,
+              assessmentExtras,
               assignmentFiles,
               timeLimit,
-              setTimeLimit
+              setTimeLimit,
             }}
           />
         </div>
@@ -229,7 +229,7 @@ const AssignmentContent = ({
           <div className={styles.assignmentsHeader}>
             <button
               className={styles.addAssignment}
-              onClick={handleCloseAssignment}
+              onClick={handleCloseAssessment}
             >
               <i className="fa-solid fa-left-long"></i>
               <p>Back</p>
@@ -244,14 +244,14 @@ const AssignmentContent = ({
               <div className={styles.divFlex}>
                 Deadline:{" "}
                 <p className={styles.cerulianText}>
-                  {handleDueDate(currentAssignment.deadLine)}
+                  {handleDueDate(currentAssessment.deadLine)}
                 </p>
               </div>
               <div className={styles.divFlex}>
                 Grade: <p className={styles.cerulianText}>Not yet graded</p>
               </div>
               {/* restrict reattempts to when deadline is in > 20 minutes */}
-              {timeLeft(currentAssignment.deadLine) > 20 && (
+              {timeLeft(currentAssessment.deadLine) > 20 && (
                 <button
                   className={styles.removeSubmission}
                   onClick={handleRemoveSubmission}
@@ -261,9 +261,9 @@ const AssignmentContent = ({
               )}
             </div>
           ) : (
-            <StudentAssignmentContent
+            <StudentAssessmentContent
               {...{
-                currentAssignment,
+                currentAssessment,
                 content,
                 studentAnswers,
                 setStudentAnswers,
@@ -276,7 +276,7 @@ const AssignmentContent = ({
           <SubmissionTools
             {...{
               handleSubmitAssignment,
-              currentAssignment,
+              currentAssessment,
               openSubmission,
               message,
             }}
@@ -287,4 +287,4 @@ const AssignmentContent = ({
   );
 };
 
-export default AssignmentContent;
+export default AssessmentContent;

@@ -1,5 +1,5 @@
 import styles from "./css/RecentActivities.module.css";
-import cardStyles from "./css/AssignmentCard.module.css";
+import cardStyles from "./css/AssessmentCard.module.css";
 
 const RecentActivities = ({ activities, role }) => {
   return (
