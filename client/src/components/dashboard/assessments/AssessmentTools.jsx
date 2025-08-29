@@ -7,7 +7,7 @@ const AssessmentTools = ({
   assignmentFiles,
   setAssessmentExtras,
   handlePublishAssessment = null,
-  handleEditAssignment = null,
+  handleEditAssessment = null,
   message,
   assessmentExtras,
   timeLimit,
@@ -131,7 +131,7 @@ const AssessmentTools = ({
           ) : isOpened ? (
             <button
               className={styles.publishAssignment}
-              onClick={handleEditAssignment}
+              onClick={handleEditAssessment}
             >
               SAVE CHANGES
             </button>

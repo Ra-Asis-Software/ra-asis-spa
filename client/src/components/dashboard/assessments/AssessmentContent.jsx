@@ -19,6 +19,7 @@ import {
 } from "../../../services/assignmentService";
 import AssessmentTools from "./AssessmentTools";
 import { SubmissionTools } from "./SubmissionTools";
+import { editQuiz } from "../../../services/quizService";
 
 const AssessmentContent = ({
   content,
@@ -43,7 +44,7 @@ const AssessmentContent = ({
   setTimeLimit,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
-  const { isOpened } = useUrlParams();
+  const { isOpened, type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
   const submissionFiles = useFileUploads();
@@ -72,7 +73,7 @@ const AssessmentContent = ({
     return null;
   };
 
-  const handleSubmitAssignment = async () => {
+  const handleSubmitAssessment = async () => {
     const lacksAnswer = checkEmptyAnswerFields(studentAnswers, content);
     if (lacksAnswer) {
       setMessage(`Question ${lacksAnswer} has not been answered`);
@@ -99,7 +100,7 @@ const AssessmentContent = ({
     }
   };
 
-  const handleEditAssignment = async () => {
+  const handleEditAssessment = async () => {
     //check if all auto-grade answers are still intact
     const answerNotSet = correctAnswerNotSet(content);
     const singleAnswerOption = hasSingleAnswerOption(content);
@@ -124,16 +125,30 @@ const AssessmentContent = ({
       );
       formData.append("maxMarks", assessmentExtras.marks);
       formData.append("createdBy", currentAssessment?.createdBy?._id);
+      if (type === "quiz") {
+        formData.append(
+          "timeLimit",
+          JSON.stringify({
+            value: Number(timeLimit.value),
+            unit: timeLimit.unit,
+          })
+        );
+      }
 
       try {
-        const assignmentId = currentAssessment._id;
-        if (assignmentId) {
-          const editResult = await editAssignment(formData, assignmentId);
-          setMessage(editResult.data.message);
-          if (editResult.status === 200) {
-            const editedAssignment = editResult.data.assignment;
+        const assessmentId = currentAssessment._id;
+        if (assessmentId) {
+          const editResult =
+            type === "assignment"
+              ? await editAssignment(formData, assessmentId)
+              : await editQuiz(formData, assessmentId);
+
+          if (editResult.error) {
+            setMessage(editResult.error);
+          } else {
+            const editedAssessment = editResult.data?.[type];
             resetAssessmentContent();
-            handleOpenExistingAssessment(editedAssignment);
+            handleOpenExistingAssessment(editedAssessment);
           }
         }
         assignmentFiles.resetFiles();
@@ -212,7 +227,7 @@ const AssessmentContent = ({
               canEdit,
               setShowButton,
               setAssessmentExtras,
-              handleEditAssignment,
+              handleEditAssessment,
               message,
               assessmentExtras,
               assignmentFiles,
@@ -275,7 +290,7 @@ const AssessmentContent = ({
         <div className={styles.extras}>
           <SubmissionTools
             {...{
-              handleSubmitAssignment,
+              handleSubmitAssessment,
               currentAssessment,
               openSubmission,
               message,

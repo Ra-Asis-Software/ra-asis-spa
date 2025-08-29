@@ -131,7 +131,7 @@ const Assessments = ({
       time: assessment.deadLine.slice(11),
       marks: assessment.maxMarks,
     });
-    setTimeLimit();
+    setTimeLimit(assessment?.timeLimit);
     setCurrentAssessment(assessment);
 
     //check student submission on that assignment

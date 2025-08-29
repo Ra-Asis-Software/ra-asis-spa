@@ -4,7 +4,7 @@ import { studentBar } from "../css/SideBarStyles.module.css";
 
 export const SubmissionTools = ({
   currentAssessment,
-  handleSubmitAssignment,
+  handleSubmitAssessment,
   openSubmission,
   message,
 }) => {
@@ -41,7 +41,7 @@ export const SubmissionTools = ({
           )}
           <button
             className={`${styles.studentSubmit} ${studentBar}`}
-            onClick={handleSubmitAssignment}
+            onClick={handleSubmitAssessment}
           >
             Submit {type ?? "Assessment"}
           </button>

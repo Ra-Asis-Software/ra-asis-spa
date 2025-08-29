@@ -98,3 +98,117 @@ export const createQuiz = asyncHandler(async (req, res) => {
     quiz: populatedQuiz,
   });
 });
+
+// @desc    edit quiz
+// @route   PATCH /api/:quizId/edit
+// @access  Private (Teachers)
+export const editQuiz = asyncHandler(async (req, res) => {
+  const { maxMarks, content, deadLine, createdBy, timeLimit } = req.body;
+  const { quizId } = req.params;
+
+  //check existence of quiz
+  //ensure the creator is the editor
+  const quiz = await Quiz.findOne({
+    _id: quizId,
+    createdBy: req.user._id,
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ message: "Quiz not found" });
+  }
+
+  //check the changes made
+  const parsedContent = JSON.parse(content);
+  let currentAnswers = JSON.parse(quiz.answers);
+
+  const { changedContent, changedAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      if (!item.id) {
+        item.id = crypto.randomUUID(); //create id for new question items
+      }
+      if (item?.answer) {
+        acc.changedAnswers.push({
+          id: item.id,
+          newAnswer: item.answer,
+          marks: item.marks,
+        });
+      }
+      const { answer, ...rest } = item; //separate answer from the object
+      acc.changedContent.push(rest);
+
+      return acc;
+    },
+    { changedContent: [], changedAnswers: [] }
+  );
+
+  //remove from the db answers whose question was deleted from the assignment
+  currentAnswers = currentAnswers.filter((answer) => {
+    return changedContent.some((question) => question.id === answer.id);
+  });
+
+  //update the current answers with the incoming edits (their new values)
+  const replaceAnswers = currentAnswers.map((answer) => {
+    const isAnswerModified = changedAnswers.find(
+      (newAnswer) => newAnswer.id === answer.id
+    );
+
+    if (!isAnswerModified) {
+      return answer;
+    } else {
+      return {
+        id: isAnswerModified.id,
+        answer: isAnswerModified.newAnswer,
+        marks: isAnswerModified.marks,
+      };
+    }
+  });
+
+  //include edits that are bringing in new questions, or answers currently not present
+  const veryNewAnswers = changedAnswers
+    .filter(
+      (newAnswer) =>
+        !currentAnswers.some((answer) => answer.id === newAnswer.id)
+    )
+    .map((newAnswer) => ({
+      id: newAnswer.id,
+      answer: newAnswer.newAnswer,
+      marks: newAnswer.marks,
+    }));
+
+  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+
+  quiz.maxMarks = maxMarks;
+  quiz.content = JSON.stringify(changedContent);
+  quiz.answers = JSON.stringify(newAnswers);
+  quiz.deadLine = deadLine;
+  quiz.timeLimit = JSON.parse(timeLimit);
+
+  //clear existing files
+  if (req.files?.length > 0 && quiz.files?.length > 0) {
+    await Promise.all(
+      quiz.files.map((file) =>
+        fs
+          .unlink(file.filePath)
+          .catch((err) => console.error("File delete error:", err))
+      )
+    );
+  }
+
+  //add new files
+  quiz.files = req.files?.map((file) => ({
+    filePath: file.path,
+    fileName: file.originalname,
+    fileSize: file.size,
+    mimetype: file.mimetype,
+  }));
+
+  await quiz.save();
+
+  //populate the quiz with unitName and code before sending back
+  const populatedQuiz = await quiz.populate("unit");
+
+  return res.status(200).json({
+    message: "Quiz Edited Successfully",
+    quiz: populatedQuiz,
+  });
+});

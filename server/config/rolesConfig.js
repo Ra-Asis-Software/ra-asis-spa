@@ -70,6 +70,7 @@ export const ROLES = {
   teacher: {
     permissions: [
       "create:quiz",
+      "edit:quiz",
       "edit:own-profile",
       "create:assignment",
       "view:assignment",

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { stripHTML, useUrlParams } from "../../../utils/assessments";
 import { FileSelector } from "./FileSelector";
 
-export const TeacherAssignmentContent = ({
+export const TeacherAssessmentContent = ({
   content,
   setContent,
   showButton,

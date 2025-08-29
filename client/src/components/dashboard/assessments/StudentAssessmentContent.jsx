@@ -3,7 +3,7 @@ import { stripHTML, timeLeft } from "../../../utils/assessments";
 import styles from "../css/Assessments.module.css";
 import { FileSelector } from "./FileSelector";
 
-export const StudentAssignmentContent = ({
+export const StudentAssessmentContent = ({
   content,
   currentAssessment,
   studentAnswers,
