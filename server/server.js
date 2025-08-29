@@ -9,6 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import unitRoutes from "./routes/unitRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import assignmentRoutes from "./routes/assignmentRoutes.js";
+import quizRoutes from "./routes/quizRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 
 // Load environment variables
@@ -51,6 +52,9 @@ app.use("/api/unit", unitRoutes); // Unit routes: handles all unit-related reque
 
 // Assignment/Submission routes
 app.use("/api/assignments", assignmentRoutes);
+
+// Assignment/Submission routes
+app.use("/api/quizzes", quizRoutes);
 
 //Global error handling
 app.use((err, req, res, next) => {
