@@ -3,7 +3,10 @@ import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
 import { StudentAssignmentContent } from "./StudentAssignmentContent";
 import styles from "../css/Assignments.module.css";
 import {
+  correctAnswerNotSet,
   handleDueDate,
+  hasSingleAnswerOption,
+  isAnyAnswerEmpty,
   timeLeft,
   useFileUploads,
   useUrlParams,
@@ -44,19 +47,21 @@ const AssignmentContent = ({
   const submissionFiles = useFileUploads();
 
   const checkEmptyAnswerFields = (studentAnswers, content) => {
+    let questionNumber = 0;
     for (const item of content) {
       if (item.type === "question" || item.type === "textArea") {
+        questionNumber++;
         const answer = studentAnswers[item.id];
 
         // multiple choice
         if (item?.answers?.length > 0) {
           if (!answer || !item.answers.includes(answer)) {
-            return item.data; // return first unanswered multiple-choice
+            return questionNumber; // return first unanswered multiple-choice
           }
         } else {
           // open-ended question or textArea
           if (!answer || answer.trim() === "") {
-            return item.data; // return first unanswered open-ended
+            return questionNumber; // return first unanswered open-ended
           }
         }
       }
@@ -66,8 +71,9 @@ const AssignmentContent = ({
   };
 
   const handleSubmitAssignment = async () => {
-    if (checkEmptyAnswerFields(studentAnswers, content)) {
-      setMessage("Some questions have not been answered");
+    const lacksAnswer = checkEmptyAnswerFields(studentAnswers, content);
+    if (lacksAnswer) {
+      setMessage(`Question ${lacksAnswer} has not been answered`);
       clearMessage();
     } else {
       const formData = new FormData();
@@ -87,37 +93,53 @@ const AssignmentContent = ({
       } else {
         window.location.reload();
       }
+      submissionFiles.resetFiles();
     }
   };
 
   const handleEditAssignment = async () => {
-    const formData = new FormData();
+    //check if all auto-grade answers are still intact
+    const answerNotSet = correctAnswerNotSet(content);
+    const singleAnswerOption = hasSingleAnswerOption(content);
+    const answerIsEmpty = isAnyAnswerEmpty(content);
+    if (singleAnswerOption) {
+      setMessage(`Question ${singleAnswerOption} has only one answer option`);
+    } else if (answerIsEmpty) {
+      setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+    } else if (answerNotSet) {
+      setMessage(
+        `You have not set the correct answer for question ${answerNotSet}`
+      );
+    } else {
+      const formData = new FormData();
 
-    assignmentFiles.files.forEach((file) => formData.append("files", file));
-    const newContent = JSON.stringify(content);
-    formData.append("content", newContent);
-    formData.append(
-      "deadLine",
-      `${assignmentExtras.date}T${assignmentExtras.time}`
-    );
-    formData.append("maxMarks", assignmentExtras.marks);
-    formData.append("createdBy", currentAssignment?.createdBy?._id);
+      assignmentFiles.files.forEach((file) => formData.append("files", file));
+      const newContent = JSON.stringify(content);
+      formData.append("content", newContent);
+      formData.append(
+        "deadLine",
+        `${assignmentExtras.date}T${assignmentExtras.time}`
+      );
+      formData.append("maxMarks", assignmentExtras.marks);
+      formData.append("createdBy", currentAssignment?.createdBy?._id);
 
-    try {
-      const assignmentId = currentAssignment._id;
-      if (assignmentId) {
-        const editResult = await editAssignment(formData, assignmentId);
-        setMessage(editResult.data.message);
-        if (editResult.status === 200) {
-          const editedAssignment = editResult.data.assignment;
-          resetAssignmentContent();
-          handleOpenExistingAssignment(editedAssignment);
+      try {
+        const assignmentId = currentAssignment._id;
+        if (assignmentId) {
+          const editResult = await editAssignment(formData, assignmentId);
+          setMessage(editResult.data.message);
+          if (editResult.status === 200) {
+            const editedAssignment = editResult.data.assignment;
+            resetAssignmentContent();
+            handleOpenExistingAssignment(editedAssignment);
+          }
         }
+        assignmentFiles.resetFiles();
+      } catch (error) {
+        console.log(error);
       }
-      clearMessage();
-    } catch (error) {
-      console.log(error);
     }
+    clearMessage();
   };
 
   const handleRemoveSubmission = async () => {
@@ -129,6 +151,7 @@ const AssignmentContent = ({
       window.location.reload();
     }
   };
+
   return (
     <>
       <RoleRestricted allowedRoles={["teacher"]}>
@@ -176,6 +199,7 @@ const AssignmentContent = ({
                 assignmentFiles,
                 setMessage,
                 clearMessage,
+                setAssignmentExtras,
               }}
             />
           </div>

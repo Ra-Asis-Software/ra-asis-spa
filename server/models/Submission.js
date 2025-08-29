@@ -14,7 +14,14 @@ const submissionSchema = new mongoose.Schema({
   },
   content: { type: String },
   // We will need middleware for file uploads and a service like Firebase to store files and return URLs
-  files: [{ type: String }], // For now let's use local storage
+  files: [
+    {
+      filePath: { type: String, required: true },
+      fileName: { type: String, required: true },
+      fileSize: { type: Number },
+      mimetype: { type: String },
+    },
+  ], // For now let's use local storage
   marks: { type: Number },
   feedBack: { type: String },
   submissionStatus: {
