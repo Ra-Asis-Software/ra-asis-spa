@@ -26,7 +26,23 @@ export const editQuiz = async (data, id) => {
   } catch (error) {
     if (error.response.data) {
       return {
-        error: error.response.data.error.message,
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const startQuiz = async (data) => {
+  try {
+    const response = await api.post(`${QUIZ_PATH}/start`, data);
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
         status: error.response.status,
       };
     } else {

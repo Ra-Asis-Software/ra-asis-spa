@@ -18,17 +18,17 @@ const quizSubmissionSchema = new mongoose.Schema({
   submissionStatus: {
     //this has to do with the time student submitted
     type: String,
-    enum: ["on-time", "locked-out"],
-    default: "on-time",
+    enum: ["started", "on-time", "locked-out"],
+    default: "started",
   },
   gradingStatus: {
     //this has to do with where the teacher has reached in grading
     type: String,
-    enum: ["submitted", "graded", "in-progress"],
-    default: "submitted",
+    enum: ["pending", "graded", "in-progress"],
+    default: "pending",
   },
   startedAt: { type: Date, default: Date.now() },
-  submittedAt: { type: Date, default: Date.now() },
+  submittedAt: { type: Date },
 });
 
 // Indexes for frequently queried quizzes, student and status fields

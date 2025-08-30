@@ -127,6 +127,7 @@ export const ROLES = {
   },
   student: {
     permissions: [
+      "upload:quiz-submission",
       "edit:own-profile",
       "view:self-stats",
       "view:assignment",

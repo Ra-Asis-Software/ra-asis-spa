@@ -19,7 +19,8 @@ import {
 } from "../../../services/assignmentService";
 import AssessmentTools from "./AssessmentTools";
 import { SubmissionTools } from "./SubmissionTools";
-import { editQuiz } from "../../../services/quizService";
+import { editQuiz, startQuiz } from "../../../services/quizService";
+import StartQuiz from "./StartQuiz";
 
 const AssessmentContent = ({
   content,
@@ -169,6 +170,17 @@ const AssessmentContent = ({
     }
   };
 
+  const handleStartQuiz = async () => {
+    const quizStarted = await startQuiz({ quizId: currentAssessment._id });
+
+    if (quizStarted.error) {
+      //
+    } else {
+      setTrigger(!trigger);
+      handleOpenExistingAssessment(quizStarted.data.quiz);
+    }
+  };
+
   return (
     <>
       <RoleRestricted allowedRoles={["teacher"]}>
@@ -238,65 +250,75 @@ const AssessmentContent = ({
         </div>
       </RoleRestricted>
       <RoleRestricted allowedRoles={["student"]}>
-        <div
-          className={`${styles.assignmentsBox} ${styles.assignmentsBoxOpened}`}
-        >
-          <div className={styles.assignmentsHeader}>
-            <button
-              className={styles.addAssignment}
-              onClick={handleCloseAssessment}
+        {!openSubmission && type === "quiz" ? (
+          <StartQuiz quiz={currentAssessment} {...{ handleStartQuiz }} />
+        ) : (
+          <>
+            <div
+              className={`${styles.assignmentsBox} ${styles.assignmentsBoxOpened}`}
             >
-              <i className="fa-solid fa-left-long"></i>
-              <p>Back</p>
-            </button>
-          </div>
-          {openSubmission ? (
-            <div className={styles.submittedBox}>
-              <h3>
-                Assignment submitted{" "}
-                {openSubmission?.submissionStatus === "overdue" && "late"}
-              </h3>
-              <div className={styles.divFlex}>
-                Deadline:{" "}
-                <p className={styles.cerulianText}>
-                  {handleDueDate(currentAssessment.deadLine)}
-                </p>
-              </div>
-              <div className={styles.divFlex}>
-                Grade: <p className={styles.cerulianText}>Not yet graded</p>
-              </div>
-              {/* restrict reattempts to when deadline is in > 20 minutes */}
-              {timeLeft(currentAssessment.deadLine) > 20 && (
+              <div className={styles.assignmentsHeader}>
                 <button
-                  className={styles.removeSubmission}
-                  onClick={handleRemoveSubmission}
+                  className={styles.addAssignment}
+                  onClick={handleCloseAssessment}
                 >
-                  REMOVE SUBMISSION
+                  <i className="fa-solid fa-left-long"></i>
+                  <p>Back</p>
                 </button>
+              </div>
+              {openSubmission && type === "assignment" ? (
+                <div className={styles.submittedBox}>
+                  <h3>
+                    {type} submitted{" "}
+                    {openSubmission?.submissionStatus === "overdue" && "late"}
+                  </h3>
+                  <div className={styles.divFlex}>
+                    Deadline:{" "}
+                    <p className={styles.cerulianText}>
+                      {handleDueDate(currentAssessment.deadLine)}
+                    </p>
+                  </div>
+                  <div className={styles.divFlex}>
+                    Grade: <p className={styles.cerulianText}>Not yet graded</p>
+                  </div>
+                  {/* restrict reattempts to when deadline is in > 20 minutes */}
+                  {type === "assignment" &&
+                    timeLeft(currentAssessment.deadLine) > 20 && (
+                      <button
+                        className={styles.removeSubmission}
+                        onClick={handleRemoveSubmission}
+                      >
+                        REMOVE SUBMISSION
+                      </button>
+                    )}
+                </div>
+              ) : (
+                <>
+                  <StudentAssessmentContent
+                    {...{
+                      currentAssessment,
+                      content,
+                      studentAnswers,
+                      setStudentAnswers,
+                      submissionFiles,
+                    }}
+                  />
+                  <div></div>
+                </>
               )}
             </div>
-          ) : (
-            <StudentAssessmentContent
-              {...{
-                currentAssessment,
-                content,
-                studentAnswers,
-                setStudentAnswers,
-                submissionFiles,
-              }}
-            />
-          )}
-        </div>
-        <div className={styles.extras}>
-          <SubmissionTools
-            {...{
-              handleSubmitAssessment,
-              currentAssessment,
-              openSubmission,
-              message,
-            }}
-          />
-        </div>
+            <div className={styles.extras}>
+              <SubmissionTools
+                {...{
+                  handleSubmitAssessment,
+                  currentAssessment,
+                  openSubmission,
+                  message,
+                }}
+              />
+            </div>
+          </>
+        )}
       </RoleRestricted>
     </>
   );

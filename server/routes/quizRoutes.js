@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { upload } from "../config/multerConfig.js";
 import { hasPermission } from "../middleware/checkUserRole.js";
-import { createQuiz, editQuiz } from "../controllers/quizController.js";
+import {
+  createQuiz,
+  editQuiz,
+  startQuiz,
+} from "../controllers/quizController.js";
 
 const router = Router();
 
@@ -34,5 +38,20 @@ router.patch(
   },
   editQuiz
 );
+
+// router.post(
+//   "/:quizId/submit",
+//   hasPermission("upload:quiz-submission"),
+//   (req, res, next) => {
+//     upload.array("files", 5)(req, res, (err) => {
+//       if (err) {
+//         return res.status(400).json({ message: err.message });
+//       }
+//       next();
+//     });
+//   },
+// );
+
+router.post("/start", hasPermission("upload:quiz-submission"), startQuiz);
 
 export default router;

@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import Unit from "../models/Unit.js";
 import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
+import QuizSubmission from "../models/QuizSubmission.js";
+import Student from "../models/Student.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quiz
@@ -211,4 +213,46 @@ export const editQuiz = asyncHandler(async (req, res) => {
     message: "Quiz Edited Successfully",
     quiz: populatedQuiz,
   });
+});
+
+export const startQuiz = asyncHandler(async (req, res) => {
+  const { quizId } = req.body;
+
+  //confirm student exists
+  const student = await Student.findOne({ bio: req.user._id });
+
+  if (!student)
+    return res
+      .status(404)
+      .json({ message: "An error occurred while validating your details" });
+
+  const quiz = await Quiz.findById(quizId);
+  if (!quiz)
+    return res
+      .status(404)
+      .json({ message: "The quiz for this submission does not exist" });
+
+  //check existing submission
+  const submissionExists = await QuizSubmission.findOne({ quiz: quizId });
+
+  if (submissionExists)
+    return res.status(409).json({ message: "You already submitted this quiz" });
+
+  //create a submission with the startTime
+  const submission = await QuizSubmission.create({
+    quiz: quizId,
+    student: req.user._id,
+    startedAt: Date.now(),
+  });
+
+  //save the submission to the Student model to be used when retrieving student details
+  student.quizSubmissions.push(submission._id);
+  await student.save();
+
+  //separate answers from the quiz
+  const { answers, ...restOfQuiz } = quiz.toObject();
+
+  return res
+    .status(201)
+    .json({ message: "The quiz has started", quiz: restOfQuiz });
 });

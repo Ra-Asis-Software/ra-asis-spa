@@ -8,7 +8,6 @@ import Teacher from "../models/Teacher.js";
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
 export const createAssignment = asyncHandler(async (req, res) => {
-
   const { title, unitId, submissionType, deadLine, maxMarks, content } =
     req.body;
 
@@ -217,7 +216,8 @@ export const getAssignments = asyncHandler(async (req, res) => {
     .populate({
       path: "enrolledStudentsCount",
       select: "_id",
-    });
+    })
+    .select("-answers");
 
   res.status(200).json(assignments);
 });
@@ -238,7 +238,8 @@ export const getAssignmentDetails = asyncHandler(async (req, res) => {
     .populate({
       path: "unit",
       select: "unitCode unitName _id",
-    });
+    })
+    .select("-answers");
 
   if (!assignment) {
     return res.status(404).json({ message: "Assignment not found" });

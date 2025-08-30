@@ -49,7 +49,6 @@ const Assessments = ({
 
   //keep tabs of url to see whether its new/open/all
   const { isNew, isOpened, type } = useUrlParams();
-  const openAssessmentFromThisPageRef = useRef(null); //this should track open assessments from teacher/student page
 
   //useEffect for refreshing everything (assessments, units)
   //triggered with the state variable "trigger" during certain ops
@@ -74,8 +73,7 @@ const Assessments = ({
         setAllAssessments(tempAssessments);
         setUnits(myData.data.data.units || []);
 
-        //when the assignment is opened from teacher/student
-        if (isOpened && !openAssessmentFromThisPageRef.current) {
+        if (isOpened) {
           const toBeOpenedId = isOpened;
           const toBeOpenedData = tempAssessments.find(
             (assignment) => assignment._id === toBeOpenedId
@@ -124,7 +122,6 @@ const Assessments = ({
 
   //open existing assignment
   const handleOpenExistingAssessment = (assessment) => {
-    openAssessmentFromThisPageRef.current = true;
     setAssessmentExtras({
       ...assessmentExtras,
       date: assessment.deadLine.slice(0, 10),
@@ -137,7 +134,7 @@ const Assessments = ({
     //check student submission on that assignment
     if (user.role === "student") {
       const tempSubmission = submissions.current.find(
-        (submission) => submission.assignment === assessment._id
+        (submission) => submission?.[type] === assessment._id
       );
       setOpenSubmission(tempSubmission);
     }
@@ -246,7 +243,7 @@ const Assessments = ({
                 onClick={handleCreateNewAssessment}
               >
                 <i className="fa-solid fa-plus"></i>
-                <p>Create New</p>
+                <p>New {type}</p>
               </button>
             </RoleRestricted>
           </div>
@@ -299,7 +296,7 @@ const Assessments = ({
                 );
               })}
             {assessments.length === 0 && (
-              <p>You have no assignments for this selection</p>
+              <p>You have no {type} for this selection</p>
             )}
           </div>
         </div>

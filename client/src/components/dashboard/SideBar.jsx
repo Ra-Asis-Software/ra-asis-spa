@@ -84,12 +84,26 @@ const SideBar = ({ show, logout, role }) => {
         <RoleRestricted allowedRoles={["student", "teacher"]}>
           <li>
             <Link
-              to="/dashboard/assessments"
-              onClick={() => setActive("assessments")}
-              className={`${active === "assessments" && styles.active}`}
+              to="/dashboard/assessments?type=assignment"
+              onClick={() => setActive("assignments")}
+              className={`${active === "assignments" && styles.active}`}
             >
               <i className={`${styles.sideBarIcon} fa-solid fa-file-pen`}></i>
-              <span className={styles.linkLabel}>Assessments</span>
+              <span className={styles.linkLabel}>Assignments</span>
+            </Link>
+          </li>
+        </RoleRestricted>
+        <RoleRestricted allowedRoles={["student", "teacher"]}>
+          <li>
+            <Link
+              to="/dashboard/assessments?type=quiz"
+              onClick={() => setActive("quizzes")}
+              className={`${active === "quizzes" && styles.active}`}
+            >
+              <i
+                className={`${styles.sideBarIcon} fa-solid fa-stopwatch-20`}
+              ></i>
+              <span className={styles.linkLabel}>Quizzes</span>
             </Link>
           </li>
         </RoleRestricted>
