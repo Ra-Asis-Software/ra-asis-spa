@@ -1,22 +1,13 @@
-
 .gradingContainer {
   padding: 2rem;
   background-color: var(--foam-color);
   min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .header {
   margin-bottom: 2rem;
 }
-
-/* .title {
-  color: var(--black-pearl-color);
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  text-align: center;
-} */
 
 .stats {
   display: flex;
@@ -72,15 +63,6 @@
   box-shadow: 0 4px 6px rgba(4, 6, 31, 0.1);
   overflow-y: auto;
 }
-/* 
-.sectionTitle {
-  color: var(--black-pearl-color);
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid var(--aqua-color);
-  padding-bottom: 0.5rem;
-} */
 
 .assignmentsList {
   display: flex;
@@ -329,12 +311,12 @@
     grid-template-columns: 1fr;
     height: auto;
   }
-  
+
   .stats {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .statCard {
     min-width: 250px;
   }
@@ -344,22 +326,22 @@
   .gradingContainer {
     padding: 1rem;
   }
-  
+
   .title {
     font-size: 2rem;
   }
-  
+
   .assignmentHeader {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .submissionCard {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
-  
+
   .progress {
     flex-direction: column;
     gap: 0.5rem;
