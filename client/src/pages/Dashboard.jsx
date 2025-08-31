@@ -13,6 +13,7 @@ import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
 import ParentMain from "../components/dashboard/parent/ParentMain";
 import { getParentDetails } from "../services/userService";
+import Grading from "../components/dashboard/grading/Grading";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -191,6 +192,7 @@ const Dashboard = () => {
             <Route path="/students" element={<Students {...{ user }} />} />
 
             <Route path="/profile" element={<ProfileContent {...{ user }} />} />
+            <Route path="grading" element={<Grading />} />
           </Routes>
         </div>
       </div>
