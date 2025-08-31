@@ -61,7 +61,8 @@
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(4, 6, 31, 0.1);
-  overflow-y: auto;
+  overflow-y: scroll;
+  margin-bottom: 2rem;
 }
 
 .assignmentsList {
