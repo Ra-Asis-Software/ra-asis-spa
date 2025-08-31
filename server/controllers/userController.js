@@ -53,8 +53,14 @@ export const getStudent = asyncHandler(async (req, res) => {
         ],
       },
     })
-    .populate("submissions")
-    .populate("quizSubmissions");
+    .populate({
+      path: "submissions",
+      select: "-content",
+    })
+    .populate({
+      path: "quizSubmissions",
+      select: "-content",
+    });
 
   if (!student) {
     //get profile only if the specific user model has not been instantiated

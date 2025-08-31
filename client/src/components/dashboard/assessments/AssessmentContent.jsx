@@ -282,14 +282,21 @@ const AssessmentContent = ({
                     {type} submitted{" "}
                     {openSubmission?.submissionStatus === "overdue" && "late"}
                   </h3>
+                  {type === "assignment" && (
+                    <div className={styles.divFlex}>
+                      Deadline:{" "}
+                      <p className={styles.cerulianText}>
+                        {handleDueDate(currentAssessment.deadLine)}
+                      </p>
+                    </div>
+                  )}
                   <div className={styles.divFlex}>
-                    Deadline:{" "}
+                    Score:{" "}
                     <p className={styles.cerulianText}>
-                      {handleDueDate(currentAssessment.deadLine)}
+                      {openSubmission.gradingStatus === "graded"
+                        ? `${openSubmission.marks} / ${currentAssessment.maxMarks}`
+                        : openSubmission.gradingStatus}
                     </p>
-                  </div>
-                  <div className={styles.divFlex}>
-                    Grade: <p className={styles.cerulianText}>Not yet graded</p>
                   </div>
                   {/* restrict reattempts to when deadline is in > 20 minutes */}
                   {type === "assignment" &&
