@@ -1,0 +1,367 @@
+
+.gradingContainer {
+  padding: 2rem;
+  background-color: var(--foam-color);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+/* .title {
+  color: var(--black-pearl-color);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+} */
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 6px rgba(4, 6, 31, 0.1);
+  border-left: 4px solid var(--aqua-color);
+  min-width: 200px;
+}
+
+.statCard i {
+  font-size: 2rem;
+  color: var(--cerulean-color);
+}
+
+.statNumber {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black-pearl-color);
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--pale-sky-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  height: calc(100vh - 200px);
+}
+
+.assignmentsSection,
+.submissionsSection {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(4, 6, 31, 0.1);
+  overflow-y: auto;
+}
+/* 
+.sectionTitle {
+  color: var(--black-pearl-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--aqua-color);
+  padding-bottom: 0.5rem;
+} */
+
+.assignmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.assignmentCard {
+  border: 2px solid var(--french-gray-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--foam-color);
+}
+
+.assignmentCard:hover {
+  border-color: var(--aqua-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(90, 224, 215, 0.2);
+}
+
+.assignmentCard.selected {
+  border-color: var(--cerulean-color);
+  background: rgba(1, 160, 226, 0.05);
+}
+
+.assignmentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.assignmentTitle {
+  color: var(--black-pearl-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subject {
+  background: var(--bright-sun-color);
+  color: var(--west-coast-color);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.assignmentDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.dueDate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--pale-sky-color);
+  font-size: 0.9rem;
+}
+
+.dueDate i {
+  color: var(--cerulean-color);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progressBar {
+  flex: 1;
+  height: 8px;
+  background: var(--light-gray);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.9rem;
+  color: var(--gray);
+  white-space: nowrap;
+}
+
+.submissionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.submissionCard {
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.submissionCard:hover {
+  border-color: var(--teal);
+  box-shadow: 0 2px 4px rgba(90, 224, 215, 0.2);
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.studentAvatar {
+  width: 50px;
+  height: 50px;
+  background: var(--blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.studentDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.studentName {
+  color: var(--dark-blue);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.submissionTime {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.gradeSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.grade {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.excellent {
+  background: var(--teal);
+  color: white;
+}
+
+.good {
+  background: var(--blue);
+  color: white;
+}
+
+.average {
+  background: var(--yellow);
+  color: var(--brown);
+}
+
+.needsImprovement {
+  background: var(--red);
+  color: white;
+}
+
+.gradeButton {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gradeButton:hover {
+  background: var(--dark-teal);
+  transform: translateY(-1px);
+}
+
+.status {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status.graded {
+  background: rgba(90, 224, 215, 0.2);
+  color: var(--dark-teal);
+}
+
+.status.pending {
+  background: rgba(253, 209, 66, 0.2);
+  color: var(--brown);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: var(--gray);
+  gap: 1rem;
+}
+
+.emptyState i {
+  font-size: 4rem;
+  color: var(--light-gray);
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  
+  .stats {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .statCard {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gradingContainer {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .assignmentHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .submissionCard {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .progress {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
