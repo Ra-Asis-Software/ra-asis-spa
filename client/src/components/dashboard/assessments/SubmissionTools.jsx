@@ -11,7 +11,10 @@ export const SubmissionTools = ({
   const { type } = useUrlParams();
   return (
     <>
-      {currentAssessment && !openSubmission && (
+      {((currentAssessment && !openSubmission) ||
+        (type === "quiz" &&
+          currentAssessment &&
+          openSubmission.submissionStatus === "started")) && (
         <div className={styles.studentTools}>
           <div className={styles.studentFiles}>
             <h5 className={styles.divFlex}>

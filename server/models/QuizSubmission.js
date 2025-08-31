@@ -12,7 +12,14 @@ const quizSubmissionSchema = new mongoose.Schema({
     required: true,
   },
   content: { type: String },
-  files: [{ type: String }], // For now let's use local storage
+  files: [
+    {
+      filePath: { type: String, required: true },
+      fileName: { type: String, required: true },
+      fileSize: { type: Number },
+      mimetype: { type: String },
+    },
+  ],
   marks: { type: Number },
   feedBack: { type: String },
   submissionStatus: {

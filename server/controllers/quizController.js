@@ -4,6 +4,7 @@ import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
 import QuizSubmission from "../models/QuizSubmission.js";
 import Student from "../models/Student.js";
+import { submissionMadeOnTime } from "../utils/assignment.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quiz
@@ -57,9 +58,10 @@ export const createQuiz = asyncHandler(async (req, res) => {
           type: item.type,
           data: item.data,
           answers: item.answers,
+          marks: item.marks,
           id,
         }); // question with new ID
-        acc.newAnswers.push({ id, answer: item.answer }); // matching answer
+        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
       } else {
         acc.newContent.push({ ...item, id }); //if not a question with answers, return original
       }
@@ -255,4 +257,121 @@ export const startQuiz = asyncHandler(async (req, res) => {
   return res
     .status(201)
     .json({ message: "The quiz has started", quiz: restOfQuiz });
+});
+
+// @desc    Submit a quiz
+// @route   POST /api/quizzes/:quizId/submit
+// @access  Private (Student)
+export const submitQuiz = asyncHandler(async (req, res) => {
+  const { quizId } = req.params;
+  const { content, time, autoSubmitted, submissionId } = req.body;
+
+  //check if the quiz was started
+  const submission = await QuizSubmission.findOne({
+    _id: submissionId,
+    student: req.user._id,
+    quiz: quizId,
+  });
+
+  if (!submission)
+    return res.status(404).json({ message: "You have not started this quiz!" });
+
+  if (["on-time", "locked-out"].includes(submission.submissionStatus))
+    return res.status(409).json({ message: "You already submitted this quiz" });
+
+  // fetch the quiz
+  const quiz = await Quiz.findById(quizId);
+
+  if (!quiz)
+    return res
+      .status(404)
+      .json({ message: "The specified quiz does not exist" });
+
+  //ensure that the submission has been made within the specified time
+  const { timeLimit } = quiz.toObject();
+  const { startedAt } = submission.toObject();
+
+  if (!submissionMadeOnTime(startedAt, timeLimit))
+    return res.status(403).json({
+      message: "Your submission could not be accepted because it is late",
+    });
+
+  // Validate submission type
+  if (quiz.submissionType === "text" && !content) {
+    return res
+      .status(400)
+      .json({ message: "Text submission requires content" });
+  }
+
+  if (quiz.submissionType === "file" && !req.files) {
+    return res.status(400).json({ message: "File submission requires upload" });
+  }
+
+  if (quiz.submissionType === "mixed" && !req.files && !content) {
+    return res
+      .status(400)
+      .json({ message: "No text or files detected in the submission" });
+  }
+
+  //start the auto-grading process
+  const parsedContent = JSON.parse(content);
+  const markedContent = {};
+  const answers = JSON.parse(quiz.answers);
+  if (parsedContent) {
+    for (const [questionId, userAnswer] of Object.entries(parsedContent)) {
+      const answerIsThere = answers.find((answer) => answer.id === questionId);
+
+      if (answerIsThere) {
+        markedContent[questionId] = {
+          userAnswer,
+          correctAnswer: answerIsThere.answer,
+          marks: userAnswer === answerIsThere.answer ? answerIsThere.marks : 0, //to be changed appropriately later
+        };
+        //markedContent is taking this form for confirmations and corrections later, if needed
+      } else {
+        markedContent[questionId] = {
+          userAnswer,
+          marks: null, //the assumption is that these are questions to be manually marked
+        };
+      }
+    }
+  }
+
+  // compute total marks and grading completeness
+  let total = 0;
+  let complete = true;
+
+  if (JSON.stringify(markedContent) === "{}") {
+    complete = null;
+  }
+  for (const { marks } of Object.values(markedContent)) {
+    if (marks === null) {
+      complete = false; //questions to be manually marked are here, if true... the submission is 100% auto-graded
+    } else {
+      total += marks;
+      //for questions that will be manually marked later, the new marks will be added to this
+    }
+  }
+
+  //load submission details
+  submission.content = JSON.stringify(markedContent);
+  submission.submittedAt = Date.now();
+  submission.files = req.files?.map((file) => ({
+    filePath: file.path,
+    fileName: file.originalname,
+    fileSize: file.size,
+    mimetype: file.mimetype,
+  }));
+  submission.gradingStatus =
+    complete === true
+      ? "graded"
+      : complete === false
+      ? "in-progress"
+      : "pending";
+  submission.submissionStatus =
+    autoSubmitted === "true" ? "locked-out" : "on-time";
+
+  await submission.save();
+
+  res.status(201).json({ success: "Quiz successfully submitted", submission });
 });

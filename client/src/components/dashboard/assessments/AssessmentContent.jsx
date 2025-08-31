@@ -19,8 +19,10 @@ import {
 } from "../../../services/assignmentService";
 import AssessmentTools from "./AssessmentTools";
 import { SubmissionTools } from "./SubmissionTools";
-import { editQuiz, startQuiz } from "../../../services/quizService";
+import { editQuiz, startQuiz, submitQuiz } from "../../../services/quizService";
 import StartQuiz from "./StartQuiz";
+import QuizTimer from "./QuizTimer";
+import { useRef } from "react";
 
 const AssessmentContent = ({
   content,
@@ -45,6 +47,7 @@ const AssessmentContent = ({
   setTimeLimit,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
+  const quizSystemSubmitted = useRef(false); //if student was locked out of the quiz or not
   const { isOpened, type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
@@ -76,7 +79,7 @@ const AssessmentContent = ({
 
   const handleSubmitAssessment = async () => {
     const lacksAnswer = checkEmptyAnswerFields(studentAnswers, content);
-    if (lacksAnswer) {
+    if (lacksAnswer && type === "assignment") {
       setMessage(`Question ${lacksAnswer} has not been answered`);
       clearMessage();
     } else {
@@ -86,14 +89,20 @@ const AssessmentContent = ({
       const answerSheet = JSON.stringify(studentAnswers);
       formData.append("content", answerSheet);
       formData.append("time", Date.now());
+      if (type === "quiz") {
+        formData.append("autoSubmitted", quizSystemSubmitted.current);
+        formData.append("submissionId", openSubmission._id);
+      }
 
-      const submissionResults = await submitAssignment(
-        formData,
-        currentAssessment._id
-      );
+      const submissionResults =
+        type === "assignment"
+          ? await submitAssignment(formData, currentAssessment._id)
+          : type === "quiz" &&
+            (await submitQuiz(formData, currentAssessment._id));
 
       if (submissionResults.error) {
-        //
+        setMessage(submissionResults.error);
+        clearMessage();
       } else {
         window.location.reload();
       }
@@ -266,7 +275,8 @@ const AssessmentContent = ({
                   <p>Back</p>
                 </button>
               </div>
-              {openSubmission && type === "assignment" ? (
+              {(openSubmission && type === "assignment") ||
+              (type === "quiz" && openSubmission?.submittedAt) ? (
                 <div className={styles.submittedBox}>
                   <h3>
                     {type} submitted{" "}
@@ -303,7 +313,15 @@ const AssessmentContent = ({
                       submissionFiles,
                     }}
                   />
-                  <div></div>
+                  {type === "quiz" && (
+                    <QuizTimer
+                      startedAt={openSubmission.startedAt}
+                      timeLimit={currentAssessment.timeLimit}
+                      onTimeIsUp={handleSubmitAssessment}
+                      submissionStatus={openSubmission.submissionStatus}
+                      {...{ quizSystemSubmitted, studentAnswers }}
+                    />
+                  )}
                 </>
               )}
             </div>

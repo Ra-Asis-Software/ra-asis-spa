@@ -50,3 +50,19 @@ export const startQuiz = async (data) => {
     }
   }
 };
+
+export const submitQuiz = async (data, id) => {
+  try {
+    const response = await api.post(`${QUIZ_PATH}/${id}/submit`, data);
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};

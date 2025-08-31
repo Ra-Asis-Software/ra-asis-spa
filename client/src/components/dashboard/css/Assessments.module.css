@@ -8,6 +8,7 @@
 }
 
 .assignmentsBox {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -445,6 +446,7 @@
 /* AssignmentTools */
 .extras {
   width: max-content;
+  max-width: 400px;
   transition: width 0.4s ease-in-out;
 }
 
@@ -616,6 +618,16 @@
   color: #fff;
 }
 
+/* Quiz Timer */
+.quizTimer {
+  height: 4vh;
+  width: 120px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--alizarin-crimson-color);
+}
+
 .startQuizButton:hover {
   background-color: var(--cerulean-color);
   color: var(--black-pearl-color);
@@ -661,6 +673,7 @@
 
   .extras {
     width: 100%;
+    max-width: max-content;
     height: 10vh;
     overflow-x: scroll;
   }

@@ -5,6 +5,7 @@ import {
   createQuiz,
   editQuiz,
   startQuiz,
+  submitQuiz,
 } from "../controllers/quizController.js";
 
 const router = Router();
@@ -39,19 +40,20 @@ router.patch(
   editQuiz
 );
 
-// router.post(
-//   "/:quizId/submit",
-//   hasPermission("upload:quiz-submission"),
-//   (req, res, next) => {
-//     upload.array("files", 5)(req, res, (err) => {
-//       if (err) {
-//         return res.status(400).json({ message: err.message });
-//       }
-//       next();
-//     });
-//   },
-// );
-
 router.post("/start", hasPermission("upload:quiz-submission"), startQuiz);
+
+router.post(
+  "/:quizId/submit",
+  hasPermission("upload:quiz-submission"),
+  (req, res, next) => {
+    upload.array("files", 5)(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({ message: err.message });
+      }
+      next();
+    });
+  },
+  submitQuiz
+);
 
 export default router;

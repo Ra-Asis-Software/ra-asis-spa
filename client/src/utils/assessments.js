@@ -111,3 +111,13 @@ export const isAnyAnswerEmpty = (content) => {
   }
   return false;
 };
+
+export const getMilliSeconds = (time) => {
+  const { value, unit } = time;
+
+  return unit === "minutes"
+    ? value * 60 * 1000
+    : unit === "hours"
+    ? value * 60 * 60 * 1000
+    : unit === "seconds" && value * 1000;
+};

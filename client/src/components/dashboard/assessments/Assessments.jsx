@@ -148,9 +148,7 @@ const Assessments = ({
   };
 
   const submissionExists = (id) => {
-    return submissions.current.some(
-      (submission) => submission.assignment === id
-    );
+    return submissions.current.some((submission) => submission?.[type] === id);
   };
 
   const clearMessage = () => {
@@ -249,16 +247,16 @@ const Assessments = ({
           </div>
           <div className={styles.assignmentsBody}>
             {assessments
-              .filter((assignment) => {
+              .filter((assessment) => {
                 if (selectedUnit.id === "all") {
-                  return assignment;
+                  return assessment;
                 }
-                return assignment.unit._id === selectedUnit.id;
+                return assessment.unit._id === selectedUnit.id;
               })
-              .map((assignment) => {
+              .map((assessment) => {
                 return (
                   <button
-                    key={assignment._id}
+                    key={assessment._id}
                     className={`${styles.assignment} ${
                       user.role === "student"
                         ? studentBar
@@ -272,12 +270,12 @@ const Assessments = ({
                         ? styles.teacherAssignment
                         : ""
                     }`}
-                    onClick={() => handleOpenExistingAssessment(assignment)}
+                    onClick={() => handleOpenExistingAssessment(assessment)}
                   >
-                    <p>{assignment.title}</p>
+                    <p>{assessment.title}</p>
                     <RoleRestricted allowedRoles={["student"]}>
                       <p>
-                        {submissionExists(assignment._id) ? (
+                        {submissionExists(assessment._id) ? (
                           <i
                             className={`fa-regular fa-circle-check ${styles.faSubmission} ${styles.faSubmitted}`}
                           ></i>
@@ -289,9 +287,9 @@ const Assessments = ({
                       </p>
                     </RoleRestricted>
                     <RoleRestricted allowedRoles={["teacher"]}>
-                      <p>{assignment.status}</p>
+                      <p>{assessment.status}</p>
                     </RoleRestricted>
-                    <p>{handleDueDate(assignment.deadLine)}</p>
+                    <p>{handleDueDate(assessment.deadLine)}</p>
                   </button>
                 );
               })}
