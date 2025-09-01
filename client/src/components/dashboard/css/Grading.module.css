@@ -234,12 +234,10 @@
 
 .excellent {
   background: var(--teal);
-  color: white;
 }
 
 .good {
   background: var(--blue);
-  color: white;
 }
 
 .average {
