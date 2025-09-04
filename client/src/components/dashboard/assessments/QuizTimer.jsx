@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../css/Assessments.module.css";
 import { getMilliSeconds } from "../../../utils/assessments";
-import { useEffect } from "react";
 
 const QuizTimer = ({
   startedAt,
@@ -9,7 +8,7 @@ const QuizTimer = ({
   submissionStatus,
   quizSystemSubmitted,
   onTimeIsUp,
-  studentAnswers
+  studentAnswers,
 }) => {
   const [timeLeft, setTimeLeft] = useState(
     getMilliSeconds(timeLimit) - (Date.now() - new Date(startedAt).getTime())

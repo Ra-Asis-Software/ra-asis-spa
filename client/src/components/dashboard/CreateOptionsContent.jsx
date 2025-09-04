@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styles from "../dashboard/css/CreateOptionsContent.module.css";
+import styles from "./css/CreateOptionsContent.module.css";
 
 const CreateOptionsContent = ({ open = false }) => {
   const navigate = useNavigate();
@@ -24,14 +24,14 @@ const CreateOptionsContent = ({ open = false }) => {
             onClick={handleQuiz}
             className={`${styles.button} ${styles.quizButton}`}
           >
-            <span>📝</span>
+            <i className={`fa-solid fa-stopwatch-20`}></i>
             <span>Quiz</span>
           </button>
           <button
             onClick={handleAssignment}
             className={`${styles.button} ${styles.assignmentButton}`}
           >
-            <span>📚</span>
+            <i className={`fa-solid fa-file-pen`}></i>
             <span>Assignment</span>
           </button>
         </div>
