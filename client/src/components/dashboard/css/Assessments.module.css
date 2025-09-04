@@ -597,6 +597,10 @@
   margin: 0;
 }
 
+.submissionDetails {
+  width: 250px;
+}
+
 /* Start Quiz */
 .startQuizContainer {
   height: 100%;

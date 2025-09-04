@@ -175,7 +175,6 @@ export const NewAssessment = ({
             timeLimit,
             setTimeLimit,
           }}
-          canEdit={true}
         />
       </div>
     </>
