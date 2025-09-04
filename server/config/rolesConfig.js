@@ -79,6 +79,8 @@ export const ROLES = {
     permissions: [
       "create:quiz",
       "edit:quiz",
+      "view:quiz",
+      "manage:quiz",
       "edit:own-profile",
       "create:assignment",
       "view:assignment",
