@@ -88,10 +88,10 @@ export const createAssignment = asyncHandler(async (req, res) => {
 });
 
 // @desc    edit assignment
-// @route   PATCH /api/:assignmentId/edit
+// @route   PATCH /api/assignments/:assignmentId/edit
 // @access  Private (Teachers)
 export const editAssignment = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine, createdBy } = req.body;
+  const { maxMarks, content, deadLine } = req.body;
   const { assignmentId } = req.params;
 
   //check existence of assignment
@@ -201,7 +201,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get assignments for a unit
-// @route   GET /api/:unitId/assignments
+// @route   GET /api/assignments/:unitId/assignments
 // @access  Private (Students/Teachers/Admins)
 export const getAssignments = asyncHandler(async (req, res) => {
   const assignments = await Assignment.find({ unit: req.params.unitId })

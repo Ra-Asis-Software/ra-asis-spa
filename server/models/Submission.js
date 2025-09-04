@@ -13,7 +13,7 @@ const submissionSchema = new mongoose.Schema({
     required: true,
   },
   content: { type: String },
-  // We will need middleware for file uploads and a service like Firebase to store files and return URLs
+  // Multer handles file uploads
   files: [
     {
       filePath: { type: String, required: true },
@@ -21,7 +21,7 @@ const submissionSchema = new mongoose.Schema({
       fileSize: { type: Number },
       mimetype: { type: String },
     },
-  ], // For now let's use local storage
+  ],
   marks: { type: Number },
   feedBack: { type: String },
   submissionStatus: {
@@ -42,7 +42,7 @@ const submissionSchema = new mongoose.Schema({
 // Indexes for frequently queried assignment, student and status fields
 submissionSchema.index({ assignment: 1, student: 1, status: 1 });
 
-// Here I ensure content is required for submissionType: "text" and files for submissionType: "file".
+// Ensure content is required for submissionType: "text" and files for submissionType: "file".
 submissionSchema.pre("validate", function (next) {
   const assignment = mongoose.model("Assignment").findById(this.assignment);
   if (assignment.submissionType === "text" && !this.content) {
@@ -57,7 +57,7 @@ submissionSchema.pre("validate", function (next) {
   next();
 });
 
-// Here I automatically set status: "overdue" if submission is late
+// Automatically set status: "overdue" if submission is late
 submissionSchema.pre("save", async function (next) {
   if (this.isNew) {
     const assignment = await mongoose

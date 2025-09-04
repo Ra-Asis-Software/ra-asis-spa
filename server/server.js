@@ -53,10 +53,10 @@ app.use("/api/unit", unitRoutes); // Unit routes: handles all unit-related reque
 // Assignment/Submission routes
 app.use("/api/assignments", assignmentRoutes);
 
-// Assignment/Submission routes
+// Quiz routes
 app.use("/api/quizzes", quizRoutes);
 
-//Global error handling
+// Global error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: err.message });

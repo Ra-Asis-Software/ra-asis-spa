@@ -10,7 +10,6 @@ import {
 
 const router = Router();
 
-// Quiz routes
 router.post(
   "/",
   hasPermission("create:quiz"),

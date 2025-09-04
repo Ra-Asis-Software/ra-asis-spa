@@ -136,7 +136,7 @@ export const getSubmissions = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete submission for an assignment
-// @route   DELETE /api/assignments/:assignmentId/submissions
+// @route   DELETE /api/assignments/submissions/:submissionId
 // @access  Private (Student/Admin)
 export const deleteSubmission = asyncHandler(async (req, res) => {
   const { submissionId } = req.params;

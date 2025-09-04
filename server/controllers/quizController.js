@@ -7,7 +7,7 @@ import Student from "../models/Student.js";
 import { submissionMadeOnTime } from "../utils/assignment.js";
 
 // @desc    Create a quiz
-// @route   POST /api/quiz
+// @route   POST /api/quizzes
 // @access  Private (Admin/Teacher)
 export const createQuiz = asyncHandler(async (req, res) => {
   const {
@@ -104,8 +104,8 @@ export const createQuiz = asyncHandler(async (req, res) => {
 });
 
 // @desc    edit quiz
-// @route   PATCH /api/:quizId/edit
-// @access  Private (Teachers)
+// @route   PATCH /api/quizzes/:quizId/edit
+// @access  Private (Teachers, Admins)
 export const editQuiz = asyncHandler(async (req, res) => {
   const { maxMarks, content, deadLine, createdBy, timeLimit } = req.body;
   const { quizId } = req.params;
@@ -217,6 +217,9 @@ export const editQuiz = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    start quiz
+// @route   PATCH /api/quizzes/start
+// @access  Private (Students)
 export const startQuiz = asyncHandler(async (req, res) => {
   const { quizId } = req.body;
 
