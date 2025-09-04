@@ -49,10 +49,11 @@ export const stripHTML = (html) => {
 export const useUrlParams = () => {
   const params = new URLSearchParams(location.search);
 
+  const type = params.get("type");
   const isNew = params.get("new");
   const isOpened = params.get("open");
 
-  return { isNew, isOpened };
+  return { isNew, isOpened, type };
 };
 
 export const correctAnswerNotSet = (content) => {
@@ -110,3 +111,17 @@ export const isAnyAnswerEmpty = (content) => {
   }
   return false;
 };
+
+export const getMilliSeconds = (time) => {
+  const { value, unit } = time;
+
+  return unit === "minutes"
+    ? value * 60 * 1000
+    : unit === "hours"
+    ? value * 60 * 60 * 1000
+    : unit === "seconds" && value * 1000;
+};
+
+export const CapitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

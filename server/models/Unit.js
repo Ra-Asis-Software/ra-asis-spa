@@ -6,6 +6,7 @@ const unitSchema = new mongoose.Schema({
   unitCode: { type: String, unique: true, required: true },
   unitName: { type: String, require: true },
   assignments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Assignment" }],
+  quizzes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }],
   teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Teacher" }],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

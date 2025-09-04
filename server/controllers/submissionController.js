@@ -91,7 +91,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     if (marks === null) {
       complete = false; //questions to be manually marked are here, if true... the submission is 100% auto-graded
     } else {
-      total += marks;
+      total += Number(marks);
       //for questions that will be manually marked later, the new marks will be added to this
     }
   }
@@ -107,6 +107,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
       fileSize: file.size,
       mimetype: file.mimetype,
     })),
+    marks: total,
     gradingStatus:
       complete === true
         ? "graded"

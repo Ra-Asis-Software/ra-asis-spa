@@ -41,6 +41,10 @@
   width: 0;
 }
 
+.sideBarIcon {
+  font-size: 17px;
+}
+
 .siteIcon {
   width: 70px;
   height: 70px;

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { stripHTML, timeLeft } from "../../../utils/assignments";
-import styles from "../css/Assignments.module.css";
+import { stripHTML, timeLeft } from "../../../utils/assessments";
+import styles from "../css/Assessments.module.css";
 import { FileSelector } from "./FileSelector";
 
-export const StudentAssignmentContent = ({
+export const StudentAssessmentContent = ({
   content,
-  currentAssignment,
+  currentAssessment,
   studentAnswers,
   setStudentAnswers,
   submissionFiles,
@@ -36,11 +36,11 @@ export const StudentAssignmentContent = ({
   return (
     <>
       <p className={styles.lateSubmission}>
-        {timeLeft(currentAssignment.deadLine) < 0 &&
+        {timeLeft(currentAssessment.deadLine) < 0 &&
           "This assignment is overdue, it will be flagged as late and penalized"}
       </p>
-      <h3>Assignment: {currentAssignment.title}</h3>
-      {["file", "mixed"].includes(currentAssignment.submissionType) && (
+      <h3>Assignment: {currentAssessment.title}</h3>
+      {["file", "mixed"].includes(currentAssessment.submissionType) && (
         <>
           <div className={styles.studentFileUpload}>
             <button

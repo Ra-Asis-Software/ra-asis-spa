@@ -1,0 +1,378 @@
+import asyncHandler from "express-async-handler";
+import Unit from "../models/Unit.js";
+import Quiz from "../models/Quiz.js";
+import Teacher from "../models/Teacher.js";
+import QuizSubmission from "../models/QuizSubmission.js";
+import Student from "../models/Student.js";
+import { submissionMadeOnTime } from "../utils/assignment.js";
+
+// @desc    Create a quiz
+// @route   POST /api/quiz
+// @access  Private (Admin/Teacher)
+export const createQuiz = asyncHandler(async (req, res) => {
+  const {
+    title,
+    unitId,
+    submissionType,
+    deadLine,
+    maxMarks,
+    content,
+    timeLimit,
+  } = req.body;
+
+  // Validate the requested unit exists
+  const unit = await Unit.findById(unitId);
+  if (!unit) {
+    return res.status(404).json({ message: "Unit not found" });
+  }
+
+  // If the user is a teacher, here I confirm they are assigned to the unit first
+  if (req.user.role === "teacher") {
+    const teacherAssigned = await Teacher.findOne({
+      bio: req.user._id,
+      units: unitId,
+    });
+
+    if (!teacherAssigned) {
+      return res
+        .status(403)
+        .json({ message: "You are not assigned to this unit" });
+    }
+  }
+
+  const parsedTimeLimit = JSON.parse(timeLimit);
+  //ensure time limit is set
+  if (!parsedTimeLimit.value || !parsedTimeLimit.unit) {
+    return res.status(422).json({ message: "The time limit is not set" });
+  }
+
+  //get answers from auto graded questions
+  const parsedContent = JSON.parse(content);
+
+  const { newContent, newAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      const id = crypto.randomUUID();
+
+      if (item.type === "question" && item.answer) {
+        acc.newContent.push({
+          type: item.type,
+          data: item.data,
+          answers: item.answers,
+          marks: item.marks,
+          id,
+        }); // question with new ID
+        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
+      } else {
+        acc.newContent.push({ ...item, id }); //if not a question with answers, return original
+      }
+
+      return acc;
+    },
+    { newContent: [], newAnswers: [] }
+  );
+
+  // Create quiz
+  const quiz = await Quiz.create({
+    title,
+    unit: unitId,
+    submissionType,
+    deadLine,
+    maxMarks,
+    timeLimit: parsedTimeLimit,
+    content: JSON.stringify(newContent),
+    answers: JSON.stringify(newAnswers),
+    createdBy: req.user._id,
+    files: req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    })), // Multer saves files to "uploads/"
+  });
+
+  // Link quiz to unit
+  unit.quizzes.push(quiz._id);
+  await unit.save();
+
+  //populate the quiz before sending back
+  const populatedQuiz = await quiz.populate("unit");
+
+  res.status(201).json({
+    message: "Quiz created successfully",
+    quiz: populatedQuiz,
+  });
+});
+
+// @desc    edit quiz
+// @route   PATCH /api/:quizId/edit
+// @access  Private (Teachers)
+export const editQuiz = asyncHandler(async (req, res) => {
+  const { maxMarks, content, deadLine, createdBy, timeLimit } = req.body;
+  const { quizId } = req.params;
+
+  //check existence of quiz
+  //ensure the creator is the editor
+  const quiz = await Quiz.findOne({
+    _id: quizId,
+    createdBy: req.user._id,
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ message: "Quiz not found" });
+  }
+
+  //check the changes made
+  const parsedContent = JSON.parse(content);
+  let currentAnswers = JSON.parse(quiz.answers);
+
+  const { changedContent, changedAnswers } = parsedContent.reduce(
+    (acc, item) => {
+      if (!item.id) {
+        item.id = crypto.randomUUID(); //create id for new question items
+      }
+      if (item?.answer) {
+        acc.changedAnswers.push({
+          id: item.id,
+          newAnswer: item.answer,
+          marks: item.marks,
+        });
+      }
+      const { answer, ...rest } = item; //separate answer from the object
+      acc.changedContent.push(rest);
+
+      return acc;
+    },
+    { changedContent: [], changedAnswers: [] }
+  );
+
+  //remove from the db answers whose question was deleted from the assignment
+  currentAnswers = currentAnswers.filter((answer) => {
+    return changedContent.some((question) => question.id === answer.id);
+  });
+
+  //update the current answers with the incoming edits (their new values)
+  const replaceAnswers = currentAnswers.map((answer) => {
+    const isAnswerModified = changedAnswers.find(
+      (newAnswer) => newAnswer.id === answer.id
+    );
+
+    if (!isAnswerModified) {
+      return answer;
+    } else {
+      return {
+        id: isAnswerModified.id,
+        answer: isAnswerModified.newAnswer,
+        marks: isAnswerModified.marks,
+      };
+    }
+  });
+
+  //include edits that are bringing in new questions, or answers currently not present
+  const veryNewAnswers = changedAnswers
+    .filter(
+      (newAnswer) =>
+        !currentAnswers.some((answer) => answer.id === newAnswer.id)
+    )
+    .map((newAnswer) => ({
+      id: newAnswer.id,
+      answer: newAnswer.newAnswer,
+      marks: newAnswer.marks,
+    }));
+
+  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+
+  quiz.maxMarks = maxMarks;
+  quiz.content = JSON.stringify(changedContent);
+  quiz.answers = JSON.stringify(newAnswers);
+  quiz.deadLine = deadLine;
+  quiz.timeLimit = JSON.parse(timeLimit);
+
+  //clear existing files
+  if (req.files?.length > 0 && quiz.files?.length > 0) {
+    await Promise.all(
+      quiz.files.map((file) =>
+        fs
+          .unlink(file.filePath)
+          .catch((err) => console.error("File delete error:", err))
+      )
+    );
+  }
+
+  //add new files
+  quiz.files = req.files?.map((file) => ({
+    filePath: file.path,
+    fileName: file.originalname,
+    fileSize: file.size,
+    mimetype: file.mimetype,
+  }));
+
+  await quiz.save();
+
+  //populate the quiz with unitName and code before sending back
+  const populatedQuiz = await quiz.populate("unit");
+
+  return res.status(200).json({
+    message: "Quiz Edited Successfully",
+    quiz: populatedQuiz,
+  });
+});
+
+export const startQuiz = asyncHandler(async (req, res) => {
+  const { quizId } = req.body;
+
+  //confirm student exists
+  const student = await Student.findOne({ bio: req.user._id });
+
+  if (!student)
+    return res
+      .status(404)
+      .json({ message: "An error occurred while validating your details" });
+
+  const quiz = await Quiz.findById(quizId);
+  if (!quiz)
+    return res
+      .status(404)
+      .json({ message: "The quiz for this submission does not exist" });
+
+  //check existing submission
+  const submissionExists = await QuizSubmission.findOne({ quiz: quizId });
+
+  if (submissionExists)
+    return res.status(409).json({ message: "You already submitted this quiz" });
+
+  //create a submission with the startTime
+  const submission = await QuizSubmission.create({
+    quiz: quizId,
+    student: req.user._id,
+    startedAt: Date.now(),
+  });
+
+  //save the submission to the Student model to be used when retrieving student details
+  student.quizSubmissions.push(submission._id);
+  await student.save();
+
+  //separate answers from the quiz
+  const { answers, ...restOfQuiz } = quiz.toObject();
+
+  return res
+    .status(201)
+    .json({ message: "The quiz has started", quiz: restOfQuiz });
+});
+
+// @desc    Submit a quiz
+// @route   POST /api/quizzes/:quizId/submit
+// @access  Private (Student)
+export const submitQuiz = asyncHandler(async (req, res) => {
+  const { quizId } = req.params;
+  const { content, time, autoSubmitted, submissionId } = req.body;
+
+  //check if the quiz was started
+  const submission = await QuizSubmission.findOne({
+    _id: submissionId,
+    student: req.user._id,
+    quiz: quizId,
+  });
+
+  if (!submission)
+    return res.status(404).json({ message: "You have not started this quiz!" });
+
+  if (["on-time", "locked-out"].includes(submission.submissionStatus))
+    return res.status(409).json({ message: "You already submitted this quiz" });
+
+  // fetch the quiz
+  const quiz = await Quiz.findById(quizId);
+
+  if (!quiz)
+    return res
+      .status(404)
+      .json({ message: "The specified quiz does not exist" });
+
+  //ensure that the submission has been made within the specified time
+  const { timeLimit } = quiz.toObject();
+  const { startedAt } = submission.toObject();
+
+  if (!submissionMadeOnTime(startedAt, timeLimit))
+    return res.status(403).json({
+      message: "Your submission could not be accepted because it is late",
+    });
+
+  // Validate submission type
+  if (quiz.submissionType === "text" && !content) {
+    return res
+      .status(400)
+      .json({ message: "Text submission requires content" });
+  }
+
+  if (quiz.submissionType === "file" && !req.files) {
+    return res.status(400).json({ message: "File submission requires upload" });
+  }
+
+  if (quiz.submissionType === "mixed" && !req.files && !content) {
+    return res
+      .status(400)
+      .json({ message: "No text or files detected in the submission" });
+  }
+
+  //start the auto-grading process
+  const parsedContent = JSON.parse(content);
+  const markedContent = {};
+  const answers = JSON.parse(quiz.answers);
+  if (parsedContent) {
+    for (const [questionId, userAnswer] of Object.entries(parsedContent)) {
+      const answerIsThere = answers.find((answer) => answer.id === questionId);
+
+      if (answerIsThere) {
+        markedContent[questionId] = {
+          userAnswer,
+          correctAnswer: answerIsThere.answer,
+          marks: userAnswer === answerIsThere.answer ? answerIsThere.marks : 0, //to be changed appropriately later
+        };
+        //markedContent is taking this form for confirmations and corrections later, if needed
+      } else {
+        markedContent[questionId] = {
+          userAnswer,
+          marks: null, //the assumption is that these are questions to be manually marked
+        };
+      }
+    }
+  }
+
+  // compute total marks and grading completeness
+  let total = 0;
+  let complete = true;
+
+  if (JSON.stringify(markedContent) === "{}") {
+    complete = null;
+  }
+  for (const { marks } of Object.values(markedContent)) {
+    if (marks === null) {
+      complete = false; //questions to be manually marked are here, if true... the submission is 100% auto-graded
+    } else {
+      total += Number(marks);
+      //for questions that will be manually marked later, the new marks will be added to this
+    }
+  }
+
+  //load submission details
+  submission.content = JSON.stringify(markedContent);
+  submission.submittedAt = Date.now();
+  submission.files = req.files?.map((file) => ({
+    filePath: file.path,
+    fileName: file.originalname,
+    fileSize: file.size,
+    mimetype: file.mimetype,
+  }));
+  submission.marks = total;
+  submission.gradingStatus =
+    complete === true
+      ? "graded"
+      : complete === false
+      ? "in-progress"
+      : "pending";
+  submission.submissionStatus =
+    autoSubmitted === "true" ? "locked-out" : "on-time";
+
+  await submission.save();
+
+  res.status(201).json({ success: "Quiz successfully submitted", submission });
+});

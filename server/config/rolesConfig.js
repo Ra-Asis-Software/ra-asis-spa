@@ -69,6 +69,8 @@ export const ROLES = {
   },
   teacher: {
     permissions: [
+      "create:quiz",
+      "edit:quiz",
       "edit:own-profile",
       "create:assignment",
       "view:assignment",
@@ -125,6 +127,7 @@ export const ROLES = {
   },
   student: {
     permissions: [
+      "upload:quiz-submission",
       "edit:own-profile",
       "view:self-stats",
       "view:assignment",

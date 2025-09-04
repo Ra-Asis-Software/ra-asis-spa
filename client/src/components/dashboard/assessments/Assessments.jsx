@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import styles from "../css/Assignments.module.css";
+import styles from "../css/Assessments.module.css";
 import {
   studentBar,
   teacherBar,
@@ -8,24 +8,26 @@ import {
 import { getUserDetails } from "../../../services/userService";
 import RoleRestricted from "../../ui/RoleRestricted";
 import { useNavigate } from "react-router-dom";
-import AssignmentContent from "./AssignmentContent";
-import { handleDueDate, useUrlParams } from "../../../utils/assignments";
-import { NewAssignment } from "./NewAssignment";
+import AssessmentContent from "./AssessmentContent";
+import { handleDueDate, useUrlParams } from "../../../utils/assessments";
+import { NewAssessment } from "./NewAssessment";
+import Modal from "../../ui/Modal";
+import CreateOptionsContent from "../CreateOptionsContent";
 
-const Assignments = ({
+const Assessments = ({
   showNav,
   user,
   selectedUnit,
-  assignments,
-  setAssignments,
+  assessments,
+  setAssessments,
   setUnits,
   canEdit,
   setCanEdit,
   persistSelectedUnit,
 }) => {
-  const [allAssignments, setAllAssignments] = useState([]);
+  const [allAssessments, setAllAssessments] = useState([]);
   const submissions = useRef([]);
-  const [currentAssignment, setCurrentAssignment] = useState(null);
+  const [currentAssessment, setCurrentAssessment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
   const [message, setMessage] = useState("");
 
@@ -33,19 +35,22 @@ const Assignments = ({
 
   const [trigger, setTrigger] = useState(false);
   const navigate = useNavigate();
-  const [assignmentExtras, setAssignmentExtras] = useState({
+  const [assessmentExtras, setAssessmentExtras] = useState({
     marks: 0,
     date: "",
     time: "",
+  });
+  const [timeLimit, setTimeLimit] = useState({
+    value: 0,
+    unit: "minutes",
   });
   const [loading, setLoading] = useState(true);
   const [openSubmission, setOpenSubmission] = useState(null);
 
   //keep tabs of url to see whether its new/open/all
-  const { isNew, isOpened } = useUrlParams();
-  const openAssignmentFromThisPageRef = useRef(null); //this should track open assignments from teacher/student page
+  const { isNew, isOpened, type } = useUrlParams();
 
-  //useEffect for refreshing everything (assignments, units)
+  //useEffect for refreshing everything (assessments, units)
   //triggered with the state variable "trigger" during certain ops
   //also triggered when url changes (open, new, all)
   useEffect(() => {
@@ -54,88 +59,96 @@ const Assignments = ({
       setLoading(false);
 
       if (myData.data.message) {
-        const tempAssignments = myData.data.data.assignments || [];
-        const tempSubmissions = myData.data.data.submissions || [];
-        setAssignments(tempAssignments);
+        const tempAssessments =
+          myData.data.data?.[
+            type === "assignment" ? "assignments" : "quizzes"
+          ] || [];
+        const tempSubmissions =
+          myData.data.data?.[
+            type === "assignment" ? "submissions" : "quizSubmissions"
+          ] || [];
+
+        setAssessments(tempAssessments);
         submissions.current = tempSubmissions;
-        setAllAssignments(tempAssignments);
+        setAllAssessments(tempAssessments);
         setUnits(myData.data.data.units || []);
 
-        //when the assignment is opened from teacher/student
-        if (isOpened && !openAssignmentFromThisPageRef.current) {
+        if (isOpened) {
           const toBeOpenedId = isOpened;
-          const toBeOpenedData = tempAssignments.find(
+          const toBeOpenedData = tempAssessments.find(
             (assignment) => assignment._id === toBeOpenedId
           );
-          if (toBeOpenedData) handleOpenExistingAssignment(toBeOpenedData);
-          else navigate("/dashboard/assignments");
+          if (toBeOpenedData) handleOpenExistingAssessment(toBeOpenedData);
+          else navigate(`/dashboard/assessments?type=${type}`);
         }
       }
     };
     fetchData();
     persistSelectedUnit();
-  }, [trigger, location.search]);
+  }, [trigger, location.search, type]);
 
-  //useEffect for displaying assignments only tied to the currently selected unit
+  //useEffect for displaying assessments only tied to the currently selected unit
   useEffect(() => {
     const unitId = selectedUnit.id;
     if (unitId === "all") {
-      setAssignments(allAssignments);
+      setAssessments(allAssessments);
     } else {
-      setAssignments(allAssignments.filter((a) => a.unit._id === unitId));
+      setAssessments(allAssessments.filter((a) => a.unit._id === unitId));
     }
-  }, [selectedUnit, allAssignments]);
+  }, [selectedUnit, allAssessments]);
 
-  const resetAssignmentContent = () => {
+  const resetAssessmentContent = () => {
     setContent([]);
-    setAssignmentExtras({
+    setAssessmentExtras({
       date: "",
       time: "",
       marks: 0,
+    });
+    setTimeLimit({
+      value: 0,
+      unit: "minutes",
     });
     setTrigger((prev) => !prev);
   };
 
   //create new assignment
-  const handleCreateNewAssignment = () => {
-    resetAssignmentContent();
+  const handleCreateNewAssessment = () => {
+    resetAssessmentContent();
     setCanEdit(true);
-    navigate("/dashboard/assignments?new=true", {
+    navigate(`/dashboard/assessments?type=${type}&new=true`, {
       replace: true,
     });
   };
 
   //open existing assignment
-  const handleOpenExistingAssignment = (assignment) => {
-    openAssignmentFromThisPageRef.current = true;
-    setAssignmentExtras({
-      ...assignmentExtras,
-      date: assignment.deadLine.slice(0, 10),
-      time: assignment.deadLine.slice(11),
-      marks: assignment.maxMarks,
+  const handleOpenExistingAssessment = (assessment) => {
+    setAssessmentExtras({
+      ...assessmentExtras,
+      date: assessment.deadLine.slice(0, 10),
+      time: assessment.deadLine.slice(11),
+      marks: assessment.maxMarks,
     });
-    setCurrentAssignment(assignment);
+    setTimeLimit(assessment?.timeLimit);
+    setCurrentAssessment(assessment);
 
     //check student submission on that assignment
     if (user.role === "student") {
       const tempSubmission = submissions.current.find(
-        (submission) => submission.assignment === assignment._id
+        (submission) => submission?.[type] === assessment._id
       );
       setOpenSubmission(tempSubmission);
     }
 
     //assign numbers to questions before displaying
-    const tempAssignmentContent = JSON.parse(assignment.content);
+    const tempAssessmentContent = JSON.parse(assessment.content);
 
-    setContent(tempAssignmentContent);
+    setContent(tempAssessmentContent);
     setCanEdit(false);
-    navigate(`/dashboard/assignments?open=${assignment._id}`);
+    navigate(`/dashboard/assessments?type=${type}&open=${assessment._id}`);
   };
 
   const submissionExists = (id) => {
-    return submissions.current.some(
-      (submission) => submission.assignment === id
-    );
+    return submissions.current.some((submission) => submission?.[type] === id);
   };
 
   const clearMessage = () => {
@@ -144,9 +157,9 @@ const Assignments = ({
     }, 5000);
   };
 
-  const handleCloseAssignment = () => {
-    resetAssignmentContent();
-    navigate("/dashboard/assignments");
+  const handleCloseAssessment = () => {
+    resetAssessmentContent();
+    navigate(`/dashboard/assessments?type=${type}`);
     setShowButton(null);
   };
 
@@ -154,37 +167,47 @@ const Assignments = ({
     return <p>Loading...</p>;
   }
 
+  if (!type) {
+    return (
+      <Modal isOpen={true} onClose={() => navigate(-1)}>
+        <CreateOptionsContent open={true} />
+      </Modal>
+    );
+  }
+
   return (
     <div
       className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}
     >
-      {isNew ? ( //for teachers to create assignments
+      {isNew ? ( //for teachers to create assessments
         <RoleRestricted allowedRoles={["teacher"]}>
-          <NewAssignment
+          <NewAssessment
             {...{
-              handleCloseAssignment,
-              resetAssignmentContent,
+              handleCloseAssessment,
+              resetAssessmentContent,
               showButton,
               setShowButton,
               trigger,
               setTrigger,
               user,
               selectedUnit,
-              handleOpenExistingAssignment,
+              handleOpenExistingAssessment,
               canEdit,
-              currentAssignment,
+              currentAssessment,
               message,
               setMessage,
               clearMessage,
-              assignmentExtras,
-              setAssignmentExtras
+              assessmentExtras,
+              setAssessmentExtras,
+              timeLimit,
+              setTimeLimit,
             }}
           />
         </RoleRestricted>
       ) : isOpened ? (
-        <AssignmentContent
+        <AssessmentContent
           {...{
-            handleCloseAssignment,
+            handleCloseAssessment,
             content,
             setContent,
             showButton,
@@ -192,46 +215,48 @@ const Assignments = ({
             trigger,
             setTrigger,
             openSubmission,
-            resetAssignmentContent,
-            currentAssignment,
-            assignmentExtras,
-            setAssignmentExtras,
-            handleOpenExistingAssignment,
+            resetAssessmentContent,
+            currentAssessment,
+            assessmentExtras,
+            setAssessmentExtras,
+            handleOpenExistingAssessment,
             canEdit,
             setCanEdit,
             message,
             setMessage,
             clearMessage,
+            timeLimit,
+            setTimeLimit,
           }}
         />
       ) : (
         <div className={`${styles.assignmentsBox}`}>
-          <h3>Assignments</h3>
+          <h3>{type === "assignment" ? "Assignments" : "Quizzes"}</h3>
           <div className={styles.assignmentsHeader}>
-            <h3>{selectedUnit.name || "All assignments"}</h3>
+            <h3>{selectedUnit.name || "All assessments"}</h3>
 
             <RoleRestricted allowedRoles={["teacher"]}>
               <button
                 className={styles.addAssignment}
-                onClick={handleCreateNewAssignment}
+                onClick={handleCreateNewAssessment}
               >
                 <i className="fa-solid fa-plus"></i>
-                <p>Create New</p>
+                <p>New {type}</p>
               </button>
             </RoleRestricted>
           </div>
           <div className={styles.assignmentsBody}>
-            {assignments
-              .filter((assignment) => {
+            {assessments
+              .filter((assessment) => {
                 if (selectedUnit.id === "all") {
-                  return assignment;
+                  return assessment;
                 }
-                return assignment.unit._id === selectedUnit.id;
+                return assessment.unit._id === selectedUnit.id;
               })
-              .map((assignment) => {
+              .map((assessment) => {
                 return (
                   <button
-                    key={assignment._id}
+                    key={assessment._id}
                     className={`${styles.assignment} ${
                       user.role === "student"
                         ? studentBar
@@ -245,12 +270,12 @@ const Assignments = ({
                         ? styles.teacherAssignment
                         : ""
                     }`}
-                    onClick={() => handleOpenExistingAssignment(assignment)}
+                    onClick={() => handleOpenExistingAssessment(assessment)}
                   >
-                    <p>{assignment.title}</p>
+                    <p>{assessment.title}</p>
                     <RoleRestricted allowedRoles={["student"]}>
                       <p>
-                        {submissionExists(assignment._id) ? (
+                        {submissionExists(assessment._id) ? (
                           <i
                             className={`fa-regular fa-circle-check ${styles.faSubmission} ${styles.faSubmitted}`}
                           ></i>
@@ -262,14 +287,14 @@ const Assignments = ({
                       </p>
                     </RoleRestricted>
                     <RoleRestricted allowedRoles={["teacher"]}>
-                      <p>{assignment.status}</p>
+                      <p>{assessment.status}</p>
                     </RoleRestricted>
-                    <p>{handleDueDate(assignment.deadLine)}</p>
+                    <p>{handleDueDate(assessment.deadLine)}</p>
                   </button>
                 );
               })}
-            {assignments.length === 0 && (
-              <p>You have no assignments for this selection</p>
+            {assessments.length === 0 && (
+              <p>You have no {type} for this selection</p>
             )}
           </div>
         </div>
@@ -278,4 +303,4 @@ const Assignments = ({
   );
 };
 
-export default Assignments;
+export default Assessments;

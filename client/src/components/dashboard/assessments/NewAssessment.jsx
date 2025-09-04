@@ -1,5 +1,5 @@
-import styles from "../css/Assignments.module.css";
-import AssignmentTools from "./AssignmentTools";
+import styles from "../css/Assessments.module.css";
+import AssessmentTools from "./AssessmentTools";
 import { useState } from "react";
 import { createAssignment } from "../../../services/assignmentService";
 import {
@@ -7,40 +7,45 @@ import {
   hasSingleAnswerOption,
   isAnyAnswerEmpty,
   useFileUploads,
-} from "../../../utils/assignments";
-import { TeacherAssignmentContent } from "./TeacherAssignmentContent";
+  useUrlParams,
+} from "../../../utils/assessments";
+import { TeacherAssessmentContent } from "./TeacherAssessmentContent";
 import { FileSelector } from "./FileSelector";
+import { createQuiz } from "../../../services/quizService";
 
-export const NewAssignment = ({
-  resetAssignmentContent,
+export const NewAssessment = ({
+  resetAssessmentContent,
   showButton,
   setShowButton,
   trigger,
   setTrigger,
   selectedUnit,
-  handleOpenExistingAssignment,
-  currentAssignment,
-  handleCloseAssignment,
+  handleOpenExistingAssessment,
+  currentAssessment,
+  handleCloseAssessment,
   message,
   setMessage,
   clearMessage,
-  assignmentExtras,
-  setAssignmentExtras,
+  assessmentExtras,
+  setAssessmentExtras,
+  timeLimit,
+  setTimeLimit,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
+  const { type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
 
   //handles publishing assignment
-  const handlePublishAssignment = async () => {
+  const handlePublishAssessment = async () => {
     if (!selectedUnit.id || selectedUnit.id === "all") {
       setMessage("No unit Selected");
     } else if (content.length === 0 && assignmentFiles.files.length === 0) {
       setMessage("No content or files exist for the assignment");
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
-      setMessage("Ensure both Assignment Title and Submission Type are set");
+      setMessage(`Ensure both ${type} Title and Submission Type are set`);
     } else {
       //check if all auto-grade answers are set
       const answerNotSet = correctAnswerNotSet(content);
@@ -57,8 +62,8 @@ export const NewAssignment = ({
       } else {
         //setup deadlines for those not set
         let tempDate, tempTime;
-        tempDate = assignmentExtras.date || `${new Date().getFullYear()}-12-31`;
-        tempTime = assignmentExtras.time || "23:59";
+        tempDate = assessmentExtras.date || `${new Date().getFullYear()}-12-31`;
+        tempTime = assessmentExtras.time || "23:59";
 
         const formData = new FormData();
 
@@ -66,19 +71,34 @@ export const NewAssignment = ({
         formData.append("title", assignmentTitle);
         formData.append("submissionType", submissionType);
         formData.append("deadLine", `${tempDate}T${tempTime}`);
-        formData.append("maxMarks", assignmentExtras.marks);
+        formData.append("maxMarks", assessmentExtras.marks);
         formData.append("content", JSON.stringify(content));
         formData.append("unitId", selectedUnit.id);
+        if (type === "quiz") {
+          formData.append(
+            "timeLimit",
+            JSON.stringify({
+              value: Number(timeLimit.value),
+              unit: timeLimit.unit,
+            })
+          );
+        }
 
         try {
-          const creationResult = await createAssignment(formData);
-          setMessage(creationResult.data.message);
-          if (creationResult.status === 201) {
-            const createdAssignment = creationResult.data.assignment;
-            resetAssignmentContent();
-            handleOpenExistingAssignment(createdAssignment);
+          const creationResult =
+            type === "quiz"
+              ? await createQuiz(formData)
+              : type === "assignment" && (await createAssignment(formData));
+
+          if (creationResult.error) {
+            setMessage(creationResult.error);
+          } else {
+            const createdAssessment = creationResult.data?.[type];
+            resetAssessmentContent();
+            handleOpenExistingAssessment(createdAssessment);
           }
-          assignmentFiles.resetFiles()
+
+          assignmentFiles.resetFiles();
         } catch (error) {
           setMessage(error);
         }
@@ -96,16 +116,16 @@ export const NewAssignment = ({
         <div className={styles.assignmentsHeader}>
           <button
             className={styles.addAssignment}
-            onClick={handleCloseAssignment}
+            onClick={handleCloseAssessment}
           >
             <i className="fa-solid fa-left-long"></i>
             <p>Back</p>
           </button>
-          <h3>Create New Assignment</h3>
+          <h3>New {type}</h3>
         </div>
         <div className={styles.assignmentTop}>
           <input
-            placeholder="Assignment title here..."
+            placeholder={`${type} title here...`}
             className={styles.assignmentTitle}
             type="text"
             onChange={(e) => setAssignmentTitle(e.target.value)}
@@ -123,7 +143,7 @@ export const NewAssignment = ({
             {content.length === 0 && (
               <p>Use the tools on the right to add content</p>
             )}
-            <TeacherAssignmentContent
+            <TeacherAssessmentContent
               {...{
                 content,
                 setContent,
@@ -131,12 +151,12 @@ export const NewAssignment = ({
                 setShowButton,
                 trigger,
                 setTrigger,
-                currentAssignment,
+                currentAssessment,
                 assignmentFiles,
                 message,
                 setMessage,
                 clearMessage,
-                setAssignmentExtras,
+                setAssessmentExtras,
               }}
               canEdit={true}
             />
@@ -144,17 +164,18 @@ export const NewAssignment = ({
         </div>
       </div>
       <div className={styles.extras}>
-        <AssignmentTools
+        <AssessmentTools
           {...{
             setShowButton,
-            setAssignmentExtras,
-            handlePublishAssignment,
+            setAssessmentExtras,
+            handlePublishAssessment,
             message,
-            assignmentExtras,
+            assessmentExtras,
             assignmentFiles,
+            timeLimit,
+            setTimeLimit,
           }}
           canEdit={true}
-          handleEditAssignment={null}
         />
       </div>
     </>
