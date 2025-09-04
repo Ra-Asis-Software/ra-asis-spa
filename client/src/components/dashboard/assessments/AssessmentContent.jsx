@@ -3,6 +3,7 @@ import { TeacherAssessmentContent } from "./TeacherAssessmentContent";
 import { StudentAssessmentContent } from "./StudentAssessmentContent";
 import styles from "../css/Assessments.module.css";
 import {
+  CapitalizeFirstLetter,
   correctAnswerNotSet,
   handleDueDate,
   hasSingleAnswerOption,
@@ -204,7 +205,9 @@ const AssessmentContent = ({
                 <p>Back</p>
               </button>
 
-              <h3>Assignment: {currentAssessment.title}</h3>
+              <h3>
+                {CapitalizeFirstLetter(type)} : {currentAssessment.title}
+              </h3>
 
               {canEdit ? (
                 <button

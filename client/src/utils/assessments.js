@@ -121,3 +121,7 @@ export const getMilliSeconds = (time) => {
     ? value * 60 * 60 * 1000
     : unit === "seconds" && value * 1000;
 };
+
+export const CapitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

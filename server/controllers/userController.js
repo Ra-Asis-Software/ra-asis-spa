@@ -39,7 +39,7 @@ export const getStudent = asyncHandler(async (req, res) => {
     .populate({
       path: "units",
       populate: {
-        path: "quiz",
+        path: "quizzes",
         select: "-answers",
         populate: [
           {
@@ -94,7 +94,7 @@ export const getStudent = asyncHandler(async (req, res) => {
         return { id: unit._id, name: unit.unitName, code: unit.unitCode };
       }),
       assignments: student.units.flatMap((unit) => unit.assignments),
-      quizzes: student.units.flatMap((unit) => unit.quiz),
+      quizzes: student.units.flatMap((unit) => unit.quizzes),
       submissions: student.submissions,
       quizSubmissions: student.quizSubmissions,
       events: student.calendar,
@@ -265,7 +265,7 @@ export const getTeacher = asyncHandler(async (req, res) => {
     .populate({
       path: "units",
       populate: {
-        path: "quiz",
+        path: "quizzes",
         populate: [
           {
             path: "unit",
@@ -317,7 +317,7 @@ export const getTeacher = asyncHandler(async (req, res) => {
         return { id: unit._id, name: unit.unitName, code: unit.unitCode };
       }),
       assignments: teacher.units.flatMap((unit) => unit.assignments),
-      quizzes: teacher.units.flatMap((unit) => unit.quiz),
+      quizzes: teacher.units.flatMap((unit) => unit.quizzes),
       events: teacher.calendar,
     },
   });

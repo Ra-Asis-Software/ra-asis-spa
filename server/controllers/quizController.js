@@ -91,7 +91,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
   });
 
   // Link quiz to unit
-  unit.quiz.push(quiz._id);
+  unit.quizzes.push(quiz._id);
   await unit.save();
 
   //populate the quiz before sending back

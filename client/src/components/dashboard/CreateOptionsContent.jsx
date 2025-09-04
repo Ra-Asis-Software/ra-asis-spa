@@ -24,14 +24,14 @@ const CreateOptionsContent = ({ open = false }) => {
             onClick={handleQuiz}
             className={`${styles.button} ${styles.quizButton}`}
           >
-            <i className={`fa-solid fa-stopwatch-20`}></i>
+            <i className={`${styles.faIcon} fa-solid fa-stopwatch-20`}></i>
             <span>Quiz</span>
           </button>
           <button
             onClick={handleAssignment}
             className={`${styles.button} ${styles.assignmentButton}`}
           >
-            <i className={`fa-solid fa-file-pen`}></i>
+            <i className={`${styles.faIcon}  fa-solid fa-file-pen`}></i>
             <span>Assignment</span>
           </button>
         </div>

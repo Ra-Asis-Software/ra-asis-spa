@@ -32,3 +32,8 @@
   background: #fff;
   color: var(--cerulean-color);
 }
+
+.faIcon {
+  color: var(--bright-sun-color);
+  font-size: 24px;
+}
