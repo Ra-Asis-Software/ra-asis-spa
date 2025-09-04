@@ -1,25 +1,26 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { getUserDetails } from "../../../services/userService";
-import AssignmentCard from "../assignments/AssignmentCard";
+import AssessmentCard from "../assessments/AssessmentCard";
 import CustomCalendar from "../CustomCalendar";
-import { useNavigate } from "react-router-dom";
 import RecentActivities from "../RecentActivities";
 import WelcomeBoard from "../WelcomeBoard";
 import Progress from "../Progress";
+import Modal from "../../ui/Modal";
+import CreateOptionsContent from "../CreateOptionsContent";
 
 const TeacherMain = ({
   showNav,
   profile,
   units,
   setUnits,
-  assignments,
-  setAssignments,
+  assessments,
+  setAssessments,
   selectedUnit,
   setCanEdit,
   persistSelectedUnit,
 }) => {
-  const navigate = useNavigate();
+  const [newAssessment, setNewAssessment] = useState(false);
 
   //get today at midnight
   const today = new Date();
@@ -30,8 +31,8 @@ const TeacherMain = ({
       const teacherData = await getUserDetails(profile.role, profile.id);
 
       if (teacherData.data.message) {
-        const tempAssignments = teacherData.data.data.assignments || [];
-        setAssignments(tempAssignments);
+        const tempAssessments = teacherData.data.data.assignments || [];
+        setAssessments(tempAssessments);
         setUnits(teacherData.data.data.units);
         persistSelectedUnit();
       }
@@ -41,12 +42,12 @@ const TeacherMain = ({
 
   const filteredAssignments = useMemo(() => {
     if (selectedUnit.id === "all" || !selectedUnit.id) {
-      return assignments;
+      return assessments;
     }
-    return assignments.filter(
+    return assessments.filter(
       (assignment) => assignment.unit._id === selectedUnit.id
     );
-  }, [assignments, selectedUnit.id]);
+  }, [assessments, selectedUnit.id]);
 
   const convertDateTime = (date, time) => {
     const fullDateTimeStr = `${date}T${time}:00`;
@@ -77,13 +78,23 @@ const TeacherMain = ({
     (event) => convertDateTime(event.date, event.time) <= todayTimeStamp
   );
 
+  const handleChooseNewAssessment = () => {
+    setCanEdit(true);
+    setNewAssessment(true);
+  };
+
   return (
     <>
+      <Modal isOpen={newAssessment} onClose={() => setNewAssessment(false)}>
+        <CreateOptionsContent />
+      </Modal>
       {units.length === 0 ? (
         <WelcomeBoard firstName={profile?.firstName} />
       ) : (
         <div
-          className={`${styles.teacherContainer} ${showNav ? "" : styles.marginCollapsed}`}
+          className={`${styles.teacherContainer} ${
+            showNav ? "" : styles.marginCollapsed
+          }`}
         >
           <div className={styles.containerLeft}>
             <div className={styles.assignmentsOverview}>
@@ -103,10 +114,7 @@ const TeacherMain = ({
                     <h4>{selectedUnit.name} Assignments</h4>
                     <button
                       className={styles.addAssignment}
-                      onClick={() => {
-                        setCanEdit(true);
-                        navigate("/dashboard/assignments?new=true");
-                      }}
+                      onClick={handleChooseNewAssessment}
                     >
                       <i className="fa-solid fa-plus"></i>
                       <p>Create</p>
@@ -115,7 +123,7 @@ const TeacherMain = ({
                   <div className={styles.assignments}>
                     {filteredAssignments.map((assignment) => {
                       return (
-                        <AssignmentCard
+                        <AssessmentCard
                           key={assignment._id}
                           unitName={assignment.unit.unitName}
                           title={assignment.title}
@@ -129,7 +137,7 @@ const TeacherMain = ({
                     {filteredAssignments.length === 0 && (
                       <div className={styles.message}>
                         <p>
-                          You don't have any existing assignments for this unit
+                          You don't have any existing assessments for this unit
                         </p>
                       </div>
                     )}

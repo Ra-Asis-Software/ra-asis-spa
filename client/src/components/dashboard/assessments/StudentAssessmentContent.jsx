@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { stripHTML, timeLeft } from "../../../utils/assignments";
-import styles from "../css/Assignments.module.css";
+import { stripHTML, timeLeft } from "../../../utils/assessments";
+import styles from "../css/Assessments.module.css";
 import { FileSelector } from "./FileSelector";
 
-export const StudentAssignmentContent = ({
+export const StudentAssessmentContent = ({
   content,
-  currentAssignment,
+  currentAssessment,
   studentAnswers,
   setStudentAnswers,
   submissionFiles,
@@ -36,11 +36,11 @@ export const StudentAssignmentContent = ({
   return (
     <>
       <p className={styles.lateSubmission}>
-        {timeLeft(currentAssignment.deadLine) < 0 &&
+        {timeLeft(currentAssessment.deadLine) < 0 &&
           "This assignment is overdue, it will be flagged as late and penalized"}
       </p>
-      <h3>Assignment: {currentAssignment.title}</h3>
-      {currentAssignment.submissionType === "file" && (
+      <h3>Assignment: {currentAssessment.title}</h3>
+      {["file", "mixed"].includes(currentAssessment.submissionType) && (
         <>
           <div className={styles.studentFileUpload}>
             <button
@@ -81,12 +81,17 @@ export const StudentAssignmentContent = ({
                 className={`${styles.questionContainer} ${styles.questionContainerWork}`}
               >
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable} ${styles.textQuestionWork}`}
-                  >
-                    {stripHTML(item.data)}
-                  </p>
+                  <div className={styles.questionContent}>
+                    {" "}
+                    <p>{`${questionNumber++}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${styles.textQuestionWork}`}
+                    >
+                      {stripHTML(item.data)}
+                    </p>
+                  </div>
+
+                  <p className={styles.marksArea}>({item.marks} marks)</p>
                 </div>
 
                 {item.answers.map((ans, answerIndex) => {
@@ -142,12 +147,15 @@ export const StudentAssignmentContent = ({
             {item.type === "textArea" && (
               <div className={styles.questionAnswerBox}>
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <div
-                    className={`${styles.textLong} ${styles.editable} ${styles.textLongWork}`}
-                  >
-                    {stripHTML(item.data)}
+                  <div className={styles.questionContent}>
+                    <p>{`${questionNumber++}.) `}</p>
+                    <div
+                      className={`${styles.textLong} ${styles.editable} ${styles.textLongWork}`}
+                    >
+                      {stripHTML(item.data)}
+                    </div>
                   </div>
+                  <p className={styles.marksArea}>({item.marks} marks)</p>
                 </div>
 
                 {openAnswerArea !== item.id ? (

@@ -9,6 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import unitRoutes from "./routes/unitRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import assignmentRoutes from "./routes/assignmentRoutes.js";
+import quizRoutes from "./routes/quizRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 
 // Load environment variables
@@ -34,6 +35,7 @@ app.get("/", (req, res) =>
   res.send("API is running, try outrunning it, your breath will run out...")
 );
 
+// User progress routes
 app.use("/api/progress", progressRoutes);
 
 // Admin actions routes
@@ -51,7 +53,10 @@ app.use("/api/unit", unitRoutes); // Unit routes: handles all unit-related reque
 // Assignment/Submission routes
 app.use("/api/assignments", assignmentRoutes);
 
-//Global error handling
+// Quiz routes
+app.use("/api/quizzes", quizRoutes);
+
+// Global error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: err.message });

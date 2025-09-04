@@ -8,6 +8,7 @@
 }
 
 .assignmentsBox {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -95,6 +96,12 @@
 }
 
 .questionHolder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.questionContent {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -199,6 +206,10 @@
 
 .textContent h3 {
   margin: 0;
+}
+
+.marksArea {
+  align-self: right;
 }
 
 /* AssignmentTools & AssignmentContent Styling */
@@ -310,7 +321,6 @@
   gap: 3px;
   align-self: flex-end;
   border-radius: 7px;
-  margin-right: 10px;
 }
 
 .addAnswer:hover {
@@ -371,10 +381,26 @@
   height: 4vh;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.edBtnsLeft,
+.edBtnsRight {
   width: 150px;
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   cursor: pointer;
+}
+
+.edBtnsRight input {
+  height: 4vh;
+  width: 80px;
+  border-radius: 5px;
+  border: none;
+  padding-left: 5px;
 }
 
 .faArrow {
@@ -408,15 +434,19 @@
   height: max-content;
   padding: 2px 8px;
   font-size: 0.9rem;
+  color: var(--cerulean-color);
+  background-color: var(--black-pearl-color);
 }
 
 .answerArea button:hover {
   background-color: var(--cerulean-color);
+  color: var(--black-pearl-color);
 }
 
 /* AssignmentTools */
 .extras {
   width: max-content;
+  max-width: 400px;
   transition: width 0.4s ease-in-out;
 }
 
@@ -461,7 +491,8 @@
   width: 100px;
 }
 
-.deadline input {
+.deadline input,
+.timerSelect {
   color: var(--cerulean-color);
   border: 1px solid var(--cerulean-color);
   border-radius: 7px;
@@ -501,9 +532,14 @@
   font-size: 0.9rem;
 }
 
+.whiteText {
+  color: #fff;
+}
+
 .cerulianText {
   color: var(--cerulean-color);
 }
+
 .foamBackground {
   background-color: var(--foam-color);
 }
@@ -561,6 +597,42 @@
   margin: 0;
 }
 
+/* Start Quiz */
+.startQuizContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10vh;
+  gap: 20px;
+}
+
+.startQuizContainer * {
+  margin: 0;
+}
+
+.startQuizButton {
+  background-color: var(--black-pearl-color);
+  color: #fff;
+}
+
+/* Quiz Timer */
+.quizTimer {
+  height: 4vh;
+  width: 120px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--alizarin-crimson-color);
+}
+
+.startQuizButton:hover {
+  background-color: var(--cerulean-color);
+  color: var(--black-pearl-color);
+}
+
 /* RESPONSIVE BREAKPOINTS */
 
 @media screen and (max-width: 1200px) {
@@ -601,6 +673,7 @@
 
   .extras {
     width: 100%;
+    max-width: max-content;
     height: 10vh;
     overflow-x: scroll;
   }
