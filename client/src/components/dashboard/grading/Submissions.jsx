@@ -3,10 +3,10 @@ import styles from "../css/Grading.module.css";
 import Grade from "./Grade";
 
 const Submissions = () => {
-  // Dummy data for assignments and students
+  // Dummy assignments
   const [assignments] = useState([
     {
-      id: 1,
+      _id: "68b8036677c0e98218ea2cb6",
       title: "Math Quiz Chapter 5",
       subject: "Mathematics",
       dueDate: "2025-09-10",
@@ -14,81 +14,65 @@ const Submissions = () => {
       totalStudents: 25,
       gradedCount: 20,
     },
-    {
-      id: 2,
-      title: "Science Lab Report",
-      subject: "Physics",
-      dueDate: "2025-09-15",
-      totalMarks: 80,
-      totalStudents: 28,
-      gradedCount: 15,
-    },
-    {
-      id: 3,
-      title: "English Essay",
-      subject: "English",
-      dueDate: "2025-09-08",
-      totalMarks: 50,
-      totalStudents: 30,
-      gradedCount: 30,
-    },
   ]);
 
-  const [questions] = useState([
-    { id: 1, question: "What is the derivative of x² + 3x + 2?", maxMarks: 20 },
-    { id: 2, question: "Solve the quadratic equation: 2x² - 5x + 3 = 0", maxMarks: 25 },
-    { id: 3, question: "Explain the chain rule in calculus with an example.", maxMarks: 30 },
-    { id: 4, question: "Calculate the area under the curve y = x² from x = 0 to x = 3", maxMarks: 25 },
-  ]);
-
-  const [students] = useState([
+  // Dummy submissions structure
+  const [submissions] = useState([
     {
-      id: 1,
-      name: "John Smith",
-      grade: 85,
-      status: "graded",
-      submittedAt: "2025-09-08 10:30 AM",
-      isLate: false,
-      answers: [
-        { questionId: 1, answer: "The derivative of x² + 3x + 2 is 2x + 3", marks: 18 },
-        { questionId: 2, answer: "x = 1.5 or x = 1", marks: 20 },
-        { questionId: 3, answer: "Chain rule explained with example", marks: 25 },
-        { questionId: 4, answer: "∫₀³ x² dx = 9", marks: 22 },
-      ],
+      _id: "68ba93b913ee2270ec54b68d",
+      assignment: "68b8036677c0e98218ea2cb6",
+      student: {
+        _id: "68b6a78cfc12d04dde873aab",
+        name: "John Smith",
+      },
+      content: {
+        "4ed86615-d24c-43ad-b378-36a693847d48": {
+          userAnswer: "The derivative of x² + 3x + 2 is 2x + 3",
+          correctAnswer: "2x + 3",
+          marks: 18,
+        },
+        "c223d62f-62d8-4e51-9dcb-45a4d4eaad29": {
+          userAnswer: "x = 1.5 or x = 1",
+          correctAnswer: "x = 3/2 or x = 1",
+          marks: 20,
+        },
+      },
+      files: [],
+      marks: 0,
+      submissionStatus: "on-time",
+      gradingStatus: "in-progress",
+      submittedAt: "2025-09-05T07:39:37.592+00:00",
     },
     {
-      id: 2,
-      name: "Emma Johnson",
-      grade: 92,
-      status: "graded",
-      submittedAt: "2025-09-08 09:15 AM",
-      isLate: false,
-      answers: [
-        { questionId: 1, answer: "2x + 3", marks: 20 },
-        { questionId: 2, answer: "x = 3/2 or x = 1", marks: 25 },
-        { questionId: 3, answer: "Chain rule definition", marks: 28 },
-        { questionId: 4, answer: "Area = 9", marks: 19 },
-      ],
-    },
-    {
-      id: 3,
-      name: "Sarah Davis",
-      grade: null,
-      status: "pending",
-      submittedAt: "2025-09-11 02:20 PM",
-      isLate: true,
-      answers: [
-        { questionId: 1, answer: "The derivative is 2x + 3", marks: null },
-        { questionId: 2, answer: "x = 1.5 and x = 1", marks: null },
-        { questionId: 3, answer: "Chain rule with sin(x²) example", marks: null },
-        { questionId: 4, answer: "Integral of x² from 0 to 3 equals 9", marks: null },
-      ],
+      _id: "68ba93b913ee2270ec54b68e",
+      assignment: "68b8036677c0e98218ea2cb6",
+      student: {
+        _id: "68b6a78cfc12d04dde873aac",
+        name: "Emma Johnson",
+      },
+      content: {
+        "4ed86615-d24c-43ad-b378-36a693847d48": {
+          userAnswer: "2x + 3",
+          correctAnswer: "2x + 3",
+          marks: 20,
+        },
+        "c223d62f-62d8-4e51-9dcb-45a4d4eaad29": {
+          userAnswer: "x = 3/2 or x = 1",
+          correctAnswer: "x = 3/2 or x = 1",
+          marks: 25,
+        },
+      },
+      files: [],
+      marks: 0,
+      submissionStatus: "on-time",
+      gradingStatus: "graded",
+      submittedAt: "2025-09-05T08:15:00.000+00:00",
     },
   ]);
 
   const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [openSubmissions, setOpenSubmissions] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState(null);
 
   const getProgressPercentage = (gradedCount, totalStudents) =>
     Math.round((gradedCount / totalStudents) * 100);
@@ -101,26 +85,26 @@ const Submissions = () => {
   const handleCloseSubmissions = () => {
     setSelectedAssignment(null);
     setOpenSubmissions(false);
-    setSelectedStudent(null);
+    setSelectedSubmission(null);
   };
 
-  const handleStudentClick = (student) => setSelectedStudent(student);
+  const handleSubmissionClick = (submission) => {
+    setSelectedSubmission(submission);
+  };
 
-  const handleBackToSubmissions = () => setSelectedStudent(null);
+  const handleBackToSubmissions = () => setSelectedSubmission(null);
 
-  // If grading page open
-  if (selectedStudent) {
+  // If grading a submission
+  if (selectedSubmission) {
     return (
       <Grade
-        student={selectedStudent}
+        submission={selectedSubmission}
         assignment={selectedAssignment}
-        questions={questions}
         onBack={handleBackToSubmissions}
       />
     );
   }
 
-  // Main Submissions Page
   return (
     <div className={styles.gradingContainer}>
       <div className={styles.left}>
@@ -139,16 +123,15 @@ const Submissions = () => {
           )}
         </div>
 
-        {/* Assignments List */}
         <div className={styles.assignmentsSection}>
           <h3>{openSubmissions ? selectedAssignment.title : "Assessments"}</h3>
           <div className={styles.assignmentsList}>
             {!openSubmissions &&
               assignments.map((assignment) => (
                 <div
-                  key={assignment.id}
+                  key={assignment._id}
                   className={`${styles.assignmentCard} ${
-                    selectedAssignment?.id === assignment.id ? styles.selected : ""
+                    selectedAssignment?._id === assignment._id ? styles.selected : ""
                   }`}
                   onClick={() => handleOpenForGrading(assignment)}
                 >
@@ -180,22 +163,10 @@ const Submissions = () => {
             {openSubmissions && (
               <div className={styles.extraDetails}>
                 <div className={styles.extraItem}>
-                  <h4>Submissions:</h4> <p>30/40</p>
+                  <h4>Submissions:</h4> <p>{submissions.length}</p>
                 </div>
                 <div className={styles.extraItem}>
-                  <h4>Time to deadline:</h4> <p>4 hours</p>
-                </div>
-                <div className={styles.extraItem}>
-                  <h4>Status:</h4> <p>Not ready for marking</p>
-                </div>
-                <div className={styles.extraItem}>
-                  <h4>Marked:</h4> <p>0</p>
-                </div>
-                <div className={styles.extraItem}>
-                  <h4>Not marked:</h4> <p>40</p>
-                </div>
-                <div className={styles.extraItem}>
-                  <h4>In Progress:</h4> <p>0</p>
+                  <h4>Status:</h4> <p>In Progress</p>
                 </div>
               </div>
             )}
@@ -203,7 +174,6 @@ const Submissions = () => {
         </div>
       </div>
 
-      {/* Submissions List */}
       <div className={styles.right}>
         <div className={styles.header}>
           <h3>Submissions</h3>
@@ -226,28 +196,28 @@ const Submissions = () => {
           )}
           {selectedAssignment && (
             <div className={styles.submissionsList}>
-              {students.map((student) => (
+              {submissions.map((submission) => (
                 <div
-                  key={student.id}
+                  key={submission._id}
                   className={styles.submissionCard}
-                  onClick={() => handleStudentClick(student)}
+                  onClick={() => handleSubmissionClick(submission)}
                 >
                   <div className={styles.studentInfo}>
                     <div className={styles.studentAvatar}>
                       <i className="fas fa-user"></i>
                     </div>
                     <div className={styles.studentDetails}>
-                      <h4 className={styles.studentName}>{student.name}</h4>
+                      <h4 className={styles.studentName}>{submission.student.name}</h4>
                       <p className={styles.submissionTime}>
-                        Submitted: {student.submittedAt}
+                        Submitted: {new Date(submission.submittedAt).toLocaleString()}
                       </p>
                     </div>
                   </div>
                   <div className={styles.gradeSection}>
                     <span
-                      className={`${styles.status} ${styles[student.status]}`}
+                      className={`${styles.status} ${styles[submission.gradingStatus]}`}
                     >
-                      {student.status === "graded" ? "Graded" : "Pending"}
+                      {submission.gradingStatus}
                     </span>
                   </div>
                 </div>
