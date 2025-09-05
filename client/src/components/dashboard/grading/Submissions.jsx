@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "../css/Grading.module.css";
+import Grade from "./Grade";
 
 const Submissions = () => {
   // Dummy data for assignments and students
@@ -31,43 +32,14 @@ const Submissions = () => {
       totalStudents: 30,
       gradedCount: 30,
     },
-    {
-      id: 3,
-      title: "English Essay",
-      subject: "English",
-      dueDate: "2025-09-08",
-      totalMarks: 50,
-      totalStudents: 30,
-      gradedCount: 30,
-    },
-    {
-      id: 3,
-      title: "English Essay",
-      subject: "English",
-      dueDate: "2025-09-08",
-      totalMarks: 50,
-      totalStudents: 30,
-      gradedCount: 30,
-    },
-    {
-      id: 3,
-      title: "English Essay",
-      subject: "English",
-      dueDate: "2025-09-08",
-      totalMarks: 50,
-      totalStudents: 30,
-      gradedCount: 30,
-    },
   ]);
 
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [gradingData, setGradingData] = useState({
-    marks: "",
-    penalty: "",
-    comment: "",
-  });
-  const [openSubmissions, setOpenSubmissions] = useState(false);
+  const [questions] = useState([
+    { id: 1, question: "What is the derivative of x² + 3x + 2?", maxMarks: 20 },
+    { id: 2, question: "Solve the quadratic equation: 2x² - 5x + 3 = 0", maxMarks: 25 },
+    { id: 3, question: "Explain the chain rule in calculus with an example.", maxMarks: 30 },
+    { id: 4, question: "Calculate the area under the curve y = x² from x = 0 to x = 3", maxMarks: 25 },
+  ]);
 
   const [students] = useState([
     {
@@ -77,8 +49,12 @@ const Submissions = () => {
       status: "graded",
       submittedAt: "2025-09-08 10:30 AM",
       isLate: false,
-      penalty: 0,
-      comment: "Great work! Clear understanding of concepts.",
+      answers: [
+        { questionId: 1, answer: "The derivative of x² + 3x + 2 is 2x + 3", marks: 18 },
+        { questionId: 2, answer: "x = 1.5 or x = 1", marks: 20 },
+        { questionId: 3, answer: "Chain rule explained with example", marks: 25 },
+        { questionId: 4, answer: "∫₀³ x² dx = 9", marks: 22 },
+      ],
     },
     {
       id: 2,
@@ -87,91 +63,35 @@ const Submissions = () => {
       status: "graded",
       submittedAt: "2025-09-08 09:15 AM",
       isLate: false,
-      penalty: 0,
-      comment: "Excellent performance. Well structured answers.",
+      answers: [
+        { questionId: 1, answer: "2x + 3", marks: 20 },
+        { questionId: 2, answer: "x = 3/2 or x = 1", marks: 25 },
+        { questionId: 3, answer: "Chain rule definition", marks: 28 },
+        { questionId: 4, answer: "Area = 9", marks: 19 },
+      ],
     },
     {
       id: 3,
-      name: "Michael Brown",
-      grade: 78,
-      status: "graded",
-      submittedAt: "2025-09-08 11:45 AM",
-      isLate: false,
-      penalty: 0,
-      comment: "Good effort. Review chapter 3 concepts.",
-    },
-    {
-      id: 4,
       name: "Sarah Davis",
       grade: null,
       status: "pending",
       submittedAt: "2025-09-11 02:20 PM",
       isLate: true,
-      penalty: 10,
-      comment: "",
-    },
-    {
-      id: 5,
-      name: "David Wilson",
-      grade: 88,
-      status: "graded",
-      submittedAt: "2025-09-08 08:30 AM",
-      isLate: false,
-      penalty: 0,
-      comment: "Very good work. Minor calculation errors in Q3.",
-    },
-    {
-      id: 6,
-      name: "Lisa Anderson",
-      grade: null,
-      status: "pending",
-      submittedAt: "2025-09-12 03:45 PM",
-      isLate: true,
-      penalty: 15,
-      comment: "",
+      answers: [
+        { questionId: 1, answer: "The derivative is 2x + 3", marks: null },
+        { questionId: 2, answer: "x = 1.5 and x = 1", marks: null },
+        { questionId: 3, answer: "Chain rule with sin(x²) example", marks: null },
+        { questionId: 4, answer: "Integral of x² from 0 to 3 equals 9", marks: null },
+      ],
     },
   ]);
 
-  const getGradeColor = (grade) => {
-    if (grade >= 90) return styles.excellent;
-    if (grade >= 80) return styles.good;
-    if (grade >= 70) return styles.average;
-    return styles.needsImprovement;
-  };
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [openSubmissions, setOpenSubmissions] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
-  const getProgressPercentage = (gradedCount, totalStudents) => {
-    return Math.round((gradedCount / totalStudents) * 100);
-  };
-
-  const handleStudentClick = (student) => {
-    setSelectedStudent(student);
-    setGradingData({
-      marks: student.grade || "",
-      penalty: student.penalty || "",
-      comment: student.comment || "",
-    });
-  };
-
-  const handleGradingSubmit = () => {
-    console.log("Grading submitted:", {
-      studentId: selectedStudent.id,
-      marks: gradingData.marks,
-      penalty: gradingData.penalty,
-      comment: gradingData.comment,
-      finalGrade: gradingData.marks - gradingData.penalty,
-    });
-
-    // Close the grading panel
-    setSelectedStudent(null);
-    setGradingData({ marks: "", penalty: "", comment: "" });
-  };
-
-  const handleInputChange = (field, value) => {
-    setGradingData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  const getProgressPercentage = (gradedCount, totalStudents) =>
+    Math.round((gradedCount / totalStudents) * 100);
 
   const handleOpenForGrading = (assignment) => {
     setSelectedAssignment(assignment);
@@ -181,26 +101,38 @@ const Submissions = () => {
   const handleCloseSubmissions = () => {
     setSelectedAssignment(null);
     setOpenSubmissions(false);
+    setSelectedStudent(null);
   };
 
+  const handleStudentClick = (student) => setSelectedStudent(student);
+
+  const handleBackToSubmissions = () => setSelectedStudent(null);
+
+  // If grading page open
+  if (selectedStudent) {
+    return (
+      <Grade
+        student={selectedStudent}
+        assignment={selectedAssignment}
+        questions={questions}
+        onBack={handleBackToSubmissions}
+      />
+    );
+  }
+
+  // Main Submissions Page
   return (
     <div className={styles.gradingContainer}>
       <div className={styles.left}>
         <div className={styles.header}>
           <h2>Grade Assessments</h2>
           {!openSubmissions ? (
-            <select
-              className={styles.filterAssessments}
-              defaultValue={"Assignments"}
-            >
+            <select className={styles.filterAssessments}>
               <option>Assignments</option>
               <option>Quizzes</option>
             </select>
           ) : (
-            <button
-              className={styles.closeSubmissions}
-              onClick={handleCloseSubmissions}
-            >
+            <button className={styles.closeSubmissions} onClick={handleCloseSubmissions}>
               <i className="fa-solid fa-left-long"></i>
               <p>Back</p>
             </button>
@@ -216,9 +148,7 @@ const Submissions = () => {
                 <div
                   key={assignment.id}
                   className={`${styles.assignmentCard} ${
-                    selectedAssignment?.id === assignment.id
-                      ? styles.selected
-                      : ""
+                    selectedAssignment?.id === assignment.id ? styles.selected : ""
                   }`}
                   onClick={() => handleOpenForGrading(assignment)}
                 >
@@ -240,32 +170,32 @@ const Submissions = () => {
                         ></div>
                       </div>
                       <span className={styles.progressText}>
-                        {assignment.gradedCount}/{assignment.totalStudents}{" "}
-                        graded
+                        {assignment.gradedCount}/{assignment.totalStudents} graded
                       </span>
                     </div>
                   </div>
                 </div>
               ))}
+
             {openSubmissions && (
               <div className={styles.extraDetails}>
                 <div className={styles.extraItem}>
-                  <h4>Submissions : </h4> <p>30/40</p>
+                  <h4>Submissions:</h4> <p>30/40</p>
                 </div>
                 <div className={styles.extraItem}>
-                  <h4>Time to deadline : </h4> <p>4 hours</p>
+                  <h4>Time to deadline:</h4> <p>4 hours</p>
                 </div>
                 <div className={styles.extraItem}>
-                  <h4>Status : </h4> <p>Not ready for marking</p>
+                  <h4>Status:</h4> <p>Not ready for marking</p>
                 </div>
                 <div className={styles.extraItem}>
-                  <h4>Marked : </h4> <p>0</p>
+                  <h4>Marked:</h4> <p>0</p>
                 </div>
                 <div className={styles.extraItem}>
-                  <h4>Not marked : </h4> <p>40</p>
+                  <h4>Not marked:</h4> <p>40</p>
                 </div>
                 <div className={styles.extraItem}>
-                  <h4>In Progress : </h4> <p>0</p>
+                  <h4>In Progress:</h4> <p>0</p>
                 </div>
               </div>
             )}
@@ -273,6 +203,7 @@ const Submissions = () => {
         </div>
       </div>
 
+      {/* Submissions List */}
       <div className={styles.right}>
         <div className={styles.header}>
           <h3>Submissions</h3>
@@ -285,14 +216,12 @@ const Submissions = () => {
             </select>
           )}
         </div>
-        {/* Student Submissions */}
+
         <div className={styles.submissionsSection}>
           {!selectedAssignment && (
             <div className={styles.emptyState}>
               <i className="fas fa-clipboard-check"></i>
-              <p>
-                Select an assignment from the list to view student submissions
-              </p>
+              <p>Select an assignment from the list to view student submissions</p>
             </div>
           )}
           {selectedAssignment && (
@@ -314,7 +243,6 @@ const Submissions = () => {
                       </p>
                     </div>
                   </div>
-
                   <div className={styles.gradeSection}>
                     <span
                       className={`${styles.status} ${styles[student.status]}`}
