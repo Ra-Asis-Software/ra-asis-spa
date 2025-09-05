@@ -73,10 +73,10 @@ export const deleteAssignment = async (assignmentId) => {
   }
 };
 
-export const getAssignmentSubmissions = async (assignmentId) => {
+export const getAssignmentSubmissions = async (assignmentId, page) => {
   try {
     const response = await api.get(
-      `${ASSIGNMENTS_PATH}/${assignmentId}/submissions`
+      `${ASSIGNMENTS_PATH}/${assignmentId}/submissions?page=${page}&limit=50`
     );
 
     return response;
@@ -86,6 +86,25 @@ export const getAssignmentSubmissions = async (assignmentId) => {
         message: "Failed to get assignment submissions",
       }
     );
+  }
+};
+
+export const getSubmissionDetails = async (assignmentId, submissionId) => {
+  try {
+    const response = await api.get(
+      `${ASSIGNMENTS_PATH}/${assignmentId}/submissions/${submissionId}`
+    );
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
   }
 };
 

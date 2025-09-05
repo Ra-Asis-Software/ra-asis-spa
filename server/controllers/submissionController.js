@@ -45,7 +45,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
   //check if the student already submitted this assignment
   const submissionExists = await Submission.findOne({
     assignment: assignment._id,
-    student: req.user._id,
+    student: student._id,
   });
 
   if (submissionExists)
@@ -98,7 +98,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
 
   const submission = await Submission.create({
     assignment: assignmentId,
-    student: req.user._id,
+    student: student._id,
     content: JSON.stringify(markedContent),
     submittedAt: time,
     files: req.files?.map((file) => ({
@@ -126,13 +126,57 @@ export const submitAssignment = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get submissions for an assignment
-// @route   GET /api/assignments/:assignmentId/submissions
+// @route   GET /api/assignments/:assignmentId/submissions?page=page&limit=limit
 // @access  Private (Teacher/Admin)
 export const getSubmissions = asyncHandler(async (req, res) => {
+  //implementing pagination to cater for a class with many students
+  const page = Number(req.query.page) ?? 1;
+  const limit = Number(req.query.limit) ?? 50;
+
+  const skip = (page - 1) * limit;
+
   const submissions = await Submission.find({
     assignment: req.params.assignmentId,
+  })
+    .skip(skip)
+    .limit(limit)
+    .populate({
+      path: "student",
+      select: "bio",
+      populate: { path: "bio", select: "firstName lastName email" },
+    })
+    .lean();
+
+  const formatted = submissions.map((sub) => ({
+    ...sub,
+    student: {
+      ...sub.student.bio, // merge user info into student
+    },
+  }));
+
+  res.status(200).json(formatted);
+});
+
+//@desc   Get a single submission for an assignment
+// @route   GET /api/assignments/:assignmentId/submissions/:submissionId
+// @access  Private (Teacher/Admin)
+export const getSubmission = asyncHandler(async (req, res) => {
+  const { assignmentId, submissionId } = req.params;
+
+  const submission = await Submission.findOne({
+    _id: submissionId,
+    assignment: assignmentId,
+  }).populate({
+    path: "student",
+    select: "bio",
+    populate: { path: "bio", select: "firstName lastName email" },
   });
-  res.status(200).json(submissions);
+
+  if (!submission) {
+    return res.status(404).json({ message: "Submission not found" });
+  }
+
+  res.status(200).json(submission);
 });
 
 // @desc    Delete submission for an assignment

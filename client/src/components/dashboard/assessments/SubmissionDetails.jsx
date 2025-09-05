@@ -1,7 +1,14 @@
-import { handleDueDate } from "../../../utils/assessments";
+import { handleDueDate, useUrlParams } from "../../../utils/assessments";
 import styles from "../css/Assessments.module.css";
+import { useNavigate } from "react-router-dom";
 
 const SubmissionDetails = ({ currentAssessment }) => {
+  const { type, isOpened } = useUrlParams();
+  const navigate = useNavigate();
+
+  const handleOpenSubmissions = () => {
+    navigate(`/dashboard/grading?type=${type}&open=${isOpened}`);
+  };
   return (
     <div className={styles.tools}>
       <div className={styles.toolsArea}>
@@ -18,7 +25,12 @@ const SubmissionDetails = ({ currentAssessment }) => {
             {`${currentAssessment.submissionCount} / ${currentAssessment.enrolledStudentsCount}`}
           </p>
         </span>
-        <button className={styles.addAssignment}>Open submissions</button>
+        <button
+          className={styles.addAssignment}
+          onClick={handleOpenSubmissions}
+        >
+          Open submissions
+        </button>
       </div>
     </div>
   );

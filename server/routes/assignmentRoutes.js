@@ -11,6 +11,7 @@ import {
   submitAssignment,
   getSubmissions,
   deleteSubmission,
+  getSubmission,
 } from "../controllers/submissionController.js";
 import { hasPermission } from "../middleware/checkUserRole.js";
 
@@ -77,8 +78,15 @@ router.post(
 
 router.get(
   "/:assignmentId/submissions",
-  hasPermission("manage:assignments"),
+  hasPermission("manage:assessment"),
   getSubmissions
+);
+
+//get submission
+router.get(
+  "/:assignmentId/submissions/:submissionId",
+  hasPermission("manage:assignment"),
+  getSubmission
 );
 
 router.delete(

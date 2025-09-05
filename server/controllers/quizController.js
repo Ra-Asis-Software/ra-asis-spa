@@ -246,7 +246,7 @@ export const startQuiz = asyncHandler(async (req, res) => {
   //create a submission with the startTime
   const submission = await QuizSubmission.create({
     quiz: quizId,
-    student: req.user._id,
+    student: student._id,
     startedAt: Date.now(),
   });
 
@@ -269,10 +269,18 @@ export const submitQuiz = asyncHandler(async (req, res) => {
   const { quizId } = req.params;
   const { content, time, autoSubmitted, submissionId } = req.body;
 
+  //confirm student exists
+  const student = await Student.findOne({ bio: req.user._id });
+
+  if (!student)
+    return res
+      .status(404)
+      .json({ message: "An error occurred while validating your details" });
+
   //check if the quiz was started
   const submission = await QuizSubmission.findOne({
     _id: submissionId,
-    student: req.user._id,
+    student: student._id,
     quiz: quizId,
   });
 
@@ -380,6 +388,66 @@ export const submitQuiz = asyncHandler(async (req, res) => {
   res.status(201).json({ success: "Quiz successfully submitted", submission });
 });
 
+//@desc   Get a single submission for a quiz
+// @route   GET /api/quizzes/:quizId/submissions/:submissionId
+// @access  Private (Teacher/Admin)
+export const getSubmission = asyncHandler(async (req, res) => {
+  const { quizId, submissionId } = req.params;
+
+  const submission = await QuizSubmission.findOne({
+    _id: submissionId,
+    quiz: quizId,
+  }).populate({
+    path: "student",
+    select: "bio",
+    populate: { path: "bio", select: "firstName lastName email" },
+  });
+
+  if (!submission) {
+    return res.status(404).json({ message: "Submission not found" });
+  }
+
+  res.status(200).json(submission);
+});
+
+//@desc GET quiz details
+// @route   GET /api/quizzes/:id/details
+// @access  Private
+export const getQuizDetails = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const quiz = await Quiz.findById(id)
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    })
+    .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName _id",
+    })
+    .select("-answers");
+
+  if (!quiz) {
+    return res.status(404).json({ message: "Quiz not found" });
+  }
+
+  res.status(200).json({
+    ...quiz.toObject(),
+  });
+});
+
 // @desc    Get quizzes for a unit
 // @route   GET /api/quizzes/:unitId/quizzes
 // @access  Private (Students/Teachers/Admins)
@@ -394,12 +462,20 @@ export const getQuizzes = asyncHandler(async (req, res) => {
       select: "_id",
     })
     .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
       path: "enrolledStudentsCount",
       select: "_id",
     })
     .select("-answers");
 
-  res.status(200).json({ success: true, quizzes });
+  res.status(200).json(quizzes);
 });
 
 // @desc    Get submissions for a quiz
@@ -408,7 +484,7 @@ export const getQuizzes = asyncHandler(async (req, res) => {
 export const getSubmissions = asyncHandler(async (req, res) => {
   //implementing pagination to cater for a class with many students
   const page = Number(req.query.page) ?? 1;
-  const limit = Number(req.query.limit) ?? 20;
+  const limit = Number(req.query.limit) ?? 50;
 
   const skip = (page - 1) * limit;
 
@@ -416,7 +492,20 @@ export const getSubmissions = asyncHandler(async (req, res) => {
     quiz: req.params.quizId,
   })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate({
+      path: "student",
+      select: "bio",
+      populate: { path: "bio", select: "firstName lastName email" },
+    })
+    .lean();
 
-  res.status(200).json({ success: true, submissions });
+  const formatted = submissions.map((sub) => ({
+    ...sub,
+    student: {
+      ...sub.student.bio, // merge user info into student
+    },
+  }));
+
+  res.status(200).json(formatted);
 });

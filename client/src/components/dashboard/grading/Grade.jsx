@@ -1,10 +1,14 @@
 import styles from "../css/Grading.module.css";
-const Grade = () => {
+
+const Grade = ({ selectedSubmission, selectedAssessment, setGradeNow }) => {
   return (
     <div className={styles.gradingContainer}>
       <div className={styles.contentArea}>
         <div className={styles.gradeHeader}>
-          <button className={styles.closeSubmissions}>
+          <button
+            className={styles.closeSubmissions}
+            onClick={() => setGradeNow(false)}
+          >
             <i className="fa-solid fa-left-long"></i>
             <p>Back</p>
           </button>
@@ -15,19 +19,18 @@ const Grade = () => {
       </div>
       <div className={styles.gradeArea}>
         <div className={styles.gradingPanel}>
-          <div className={styles.gradingHeader}>
-            <h3 className={styles.gradingTitle}>Grade Submission</h3>
-          </div>
-
           <div className={styles.gradingContent}>
             <div className={styles.studentSummary}>
               <div className={styles.summaryItem}>
                 <label>Student:</label>
-                <span>John Doe</span>
+                <span>
+                  {selectedSubmission.student.firstName}{" "}
+                  {selectedSubmission.student.lastName}
+                </span>
               </div>
               <div className={styles.summaryItem}>
                 <label>Submitted:</label>
-                {/* <span>{selectedStudent.submittedAt}</span> */}
+                <span>{selectedSubmission.submittedAt.slice(0, 10)}</span>
               </div>
               <div className={styles.summaryItem}>
                 <label>Status:</label>
@@ -36,7 +39,7 @@ const Grade = () => {
                 // selectedStudent.isLate ? styles.late : styles.onTime
                 // }`}
                 >
-                  {/* {selectedStudent.isLate ? "Late Submission" : "On Time"} */}
+                  {selectedSubmission.gradingStatus}
                 </span>
               </div>
             </div>

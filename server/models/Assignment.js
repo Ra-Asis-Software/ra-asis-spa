@@ -46,6 +46,22 @@ assignmentSchema.virtual("submissionCount", {
   count: true,
 });
 
+assignmentSchema.virtual("gradedCount", {
+  ref: "Submission",
+  localField: "_id",
+  foreignField: "assignment",
+  count: true,
+  match: { gradingStatus: "graded" },
+});
+
+assignmentSchema.virtual("inProgressCount", {
+  ref: "Submission",
+  localField: "_id",
+  foreignField: "assignment",
+  count: true,
+  match: { gradingStatus: "in-progress" },
+});
+
 assignmentSchema.virtual("enrolledStudentsCount", {
   ref: "Student",
   localField: "unit",

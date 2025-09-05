@@ -4,7 +4,9 @@ import { hasPermission } from "../middleware/checkUserRole.js";
 import {
   createQuiz,
   editQuiz,
+  getQuizDetails,
   getQuizzes,
+  getSubmission,
   getSubmissions,
   startQuiz,
   submitQuiz,
@@ -58,6 +60,20 @@ router.post(
 );
 
 router.get("/:unitId/quizzes", hasPermission("view:quiz"), getQuizzes);
+
+//get quiz details
+router.get(
+  "/:id/details",
+  hasPermission("view:quiz"),
+  getQuizDetails
+);
+
+//get single quiz submission
+router.get(
+  "/:quizId/submissions/:submissionId",
+  hasPermission("manage:quiz"),
+  getSubmission
+);
 
 router.get(
   "/:quizId/submissions",

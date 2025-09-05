@@ -8,17 +8,17 @@ export const handleDueDate = (dateTime) => {
   const diff = milliSeconds - today;
   if (diff < 0) return "Overdue";
   const minutes = diff / (1000 * 60);
-  if (minutes < 60) return `due in ${Math.floor(minutes)} minutes `;
+  if (minutes < 60) return `${Math.floor(minutes)} minutes `;
   const hours = minutes / 60;
-  if (hours < 24) return `due in ${Math.floor(hours)} hours `;
+  if (hours < 24) return `${Math.floor(hours)} hours `;
   const days = hours / 24;
-  if (days < 7) return `due in ${Math.floor(days)} days`;
+  if (days < 7) return `${Math.floor(days)} days`;
   const weeks = days / 7;
-  if (weeks < 4) return `due in ${Math.floor(weeks)} weeks`;
+  if (weeks < 4) return `${Math.floor(weeks)} weeks`;
   const months = weeks / 4;
-  if (months < 12) return `due in ${Math.floor(months)} months`;
+  if (months < 12) return `${Math.floor(months)} months`;
   const years = months / 12;
-  return `due in ${Math.floor(years)} years`;
+  return `${Math.floor(years)} years`;
 };
 
 export const timeLeft = (dueDate) => {
@@ -54,6 +54,18 @@ export const useUrlParams = () => {
   const isOpened = params.get("open");
 
   return { isNew, isOpened, type };
+};
+
+export const pushUrlParams = (key, value) => {
+  const params = new URLSearchParams(location.search);
+
+  params.set(`${key}`, value);
+
+  return window.history.pushState(
+    {},
+    "",
+    `${window.location.pathname}?${params.toString()}`
+  );
 };
 
 export const correctAnswerNotSet = (content) => {
@@ -124,4 +136,8 @@ export const getMilliSeconds = (time) => {
 
 export const CapitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
+
+export const getAssessmentType = (type) => {
+  return type === "assignment" ? "Assignments" : type === "quiz" && "Quizzes";
+};

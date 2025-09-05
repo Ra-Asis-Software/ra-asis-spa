@@ -116,7 +116,7 @@ h3 {
   height: 10vh;
   border: 2px solid var(--french-gray-color);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   background: var(--foam-color);
@@ -518,12 +518,16 @@ h3 {
 }
 
 .gradeArea {
-  flex: 0.35;
+  flex: 0.32;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .gradingPanel {
-  height: 100%;
-  width: 98%;
+  height: 90%;
+  width: 95%;
   background: white;
   box-shadow: -4px 0 20px rgba(4, 6, 31, 0.15);
   border-radius: 12px;

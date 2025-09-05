@@ -112,7 +112,7 @@ const SideBar = ({ show, logout, role }) => {
         <RoleRestricted allowedRoles={["teacher", "administrator"]}>
           <li>
             <Link
-              to="/dashboard/grading"
+              to="/dashboard/grading?type=assignment"
               onClick={() => setActive("grading")}
               className={`${active === "grading" && styles.active}`}
             >
