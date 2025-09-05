@@ -1,11 +1,4 @@
-.gradingContainer {
-  height: 100%;
-  width: 100%;
-  overflow-y: hidden;
-  background-color: var(--foam-color);
-  display: flex;
-  justify-content: space-between;
-}
+
 
 .left {
   flex: 0.4;
@@ -380,7 +373,8 @@ h3 {
   text-align: center;
 }
 
-/* Grading Panel Styles */
+
+
 
 /* Close Button */
 .closeButton {
@@ -415,6 +409,7 @@ h3 {
 .inputGroup {
   display: flex;
   flex-direction: column;
+  
   gap: 0.5rem;
   position: relative;
 }
@@ -443,10 +438,8 @@ h3 {
 }
 
 .maxMarks {
-  position: absolute;
-  right: 0.8rem;
+  width: 40%;;
   top: 50%;
-  transform: translateY(-50%);
   color: var(--pale-sky-color);
   font-weight: 600;
   pointer-events: none;
@@ -502,7 +495,16 @@ h3 {
   box-shadow: none;
 }
 
-/* Grade */
+/* Grading Panel Styles */
+.gradingContainer {
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  background-color: var(--foam-color);
+  display: flex;
+  justify-content: space-between;
+}
+
 .contentArea {
   flex: 0.64;
   display: flex;
@@ -515,10 +517,12 @@ h3 {
   justify-content: flex-start;
   align-items: center;
   gap: 150px;
+  margin-bottom: 1rem;
 }
 
 .gradeArea {
   flex: 0.35;
+  margin-bottom: 0.5rem;
 }
 
 .gradingPanel {
@@ -543,6 +547,12 @@ h3 {
   align-items: center;
   padding-left: 10px;
   border-bottom: 3px solid var(--aqua-color);
+}
+
+.MarksGroup {
+  display: flex;
+ align-items: start;
+  gap: 0rem,
 }
 
 @keyframes slideInRight {
@@ -641,6 +651,12 @@ h3 {
     padding: 1rem;
   }
 
+  .assignmentContent{
+     max-height: 80vh;   /* or calc(100% - headerHeight) */
+
+  padding-right: 0.5rem; /* small space for scrollbar */
+  margin-bottom: 2rem;
+  }
   .assignmentHeader {
     flex-direction: column;
     gap: 0.5rem;
@@ -656,4 +672,69 @@ h3 {
     flex-direction: column;
     gap: 0.5rem;
   }
+}
+
+.questionCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.assignmentContainer{
+padding: 0.5rem;
+    overflow-y: scroll;
+
+}
+.questionText {
+  color: var(--pale-sky-color);
+  margin-bottom: 1rem;
+}
+
+.studentAnswerContainer {
+  background-color: var(--foam-color);
+  padding: 0.14rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.studentAnswer {
+  color: var(--pale-sky-color);
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .inputGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+
+.inputLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--pale-sky-color);
+  margin-bottom: 0.5rem;
+}
+
+.marksInput {
+  width: 10%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--french-gray-color);
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+
+
+.marksInput::placeholder {
+  color: var(--french-gray-color);
 }
