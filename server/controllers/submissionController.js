@@ -65,7 +65,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
         markedContent[questionId] = {
           userAnswer,
           correctAnswer: answerIsThere.answer,
-          marks: userAnswer === answerIsThere.answer ? 1 : 0, //to be changed appropriately later
+          marks: userAnswer === answerIsThere.answer ? answerIsThere.marks : 0, //to be changed appropriately later
         };
         //markedContent is taking this form for confirmations and corrections later, if needed
       } else {
@@ -91,7 +91,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     if (marks === null) {
       complete = false; //questions to be manually marked are here, if true... the submission is 100% auto-graded
     } else {
-      total += marks;
+      total += Number(marks);
       //for questions that will be manually marked later, the new marks will be added to this
     }
   }
@@ -101,7 +101,13 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     student: req.user._id,
     content: JSON.stringify(markedContent),
     submittedAt: time,
-    files: req.files?.map((file) => file.path),
+    files: req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    })),
+    marks: total,
     gradingStatus:
       complete === true
         ? "graded"
@@ -130,7 +136,7 @@ export const getSubmissions = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete submission for an assignment
-// @route   DELETE /api/assignments/:assignmentId/submissions
+// @route   DELETE /api/assignments/submissions/:submissionId
 // @access  Private (Student/Admin)
 export const deleteSubmission = asyncHandler(async (req, res) => {
   const { submissionId } = req.params;

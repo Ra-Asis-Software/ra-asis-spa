@@ -1,21 +1,26 @@
-import styles from "../css/Assignments.module.css";
+import { useUrlParams } from "../../../utils/assessments";
+import styles from "../css/Assessments.module.css";
 import { studentBar } from "../css/SideBarStyles.module.css";
 
 export const SubmissionTools = ({
-  currentAssignment,
-  handleSubmitAssignment,
+  currentAssessment,
+  handleSubmitAssessment,
   openSubmission,
   message,
 }) => {
+  const { type } = useUrlParams();
   return (
     <>
-      {currentAssignment && !openSubmission && (
+      {((currentAssessment && !openSubmission) ||
+        (type === "quiz" &&
+          currentAssessment &&
+          openSubmission.submissionStatus === "started")) && (
         <div className={styles.studentTools}>
           <div className={styles.studentFiles}>
             <h5 className={styles.divFlex}>
-              Files : {currentAssignment.files.length === 0 && <p>none</p>}
+              Files : {currentAssessment.files.length === 0 && <p>none</p>}
             </h5>
-            {currentAssignment.files.map((file, index) => {
+            {currentAssessment.files.map((file, index) => {
               return (
                 <div className={`${styles.chosenFile} `} key={index}>
                   {file.fileName}
@@ -25,23 +30,23 @@ export const SubmissionTools = ({
             })}
           </div>
           <p className={styles.normalText}>
-            Unit: {currentAssignment.unit.unitName}
+            Unit: {currentAssessment.unit.unitName}
           </p>
           <p className={styles.normalText}>
-            Deadline: {currentAssignment.deadLine.slice(0, 10)} at{" "}
-            {currentAssignment.deadLine.slice(11)}
+            Deadline: {currentAssessment.deadLine.slice(0, 10)} at{" "}
+            {currentAssessment.deadLine.slice(11)}
           </p>
           <p className={styles.normalText}>
-            Max Mark: {currentAssignment.maxMarks}
+            Max Mark: {currentAssessment.maxMarks}
           </p>
           {message !== "" && (
             <p className={styles.submissionAlert}>{message}</p>
           )}
           <button
             className={`${styles.studentSubmit} ${studentBar}`}
-            onClick={handleSubmitAssignment}
+            onClick={handleSubmitAssessment}
           >
-            Submit Assignment
+            Submit {type ?? "Assessment"}
           </button>
         </div>
       )}

@@ -43,9 +43,10 @@ export const createAssignment = asyncHandler(async (req, res) => {
           type: item.type,
           data: item.data,
           answers: item.answers,
+          marks: item.marks,
           id,
         }); // question with new ID
-        acc.newAnswers.push({ id, answer: item.answer }); // matching answer
+        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
       } else {
         acc.newContent.push({ ...item, id }); //if not a question with answers, return original
       }
@@ -87,10 +88,10 @@ export const createAssignment = asyncHandler(async (req, res) => {
 });
 
 // @desc    edit assignment
-// @route   PATCH /api/:assignmentId/edit
+// @route   PATCH /api/assignments/:assignmentId/edit
 // @access  Private (Teachers)
 export const editAssignment = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine, createdBy } = req.body;
+  const { maxMarks, content, deadLine } = req.body;
   const { assignmentId } = req.params;
 
   //check existence of assignment
@@ -117,6 +118,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
         acc.changedAnswers.push({
           id: item.id,
           newAnswer: item.answer,
+          marks: item.marks,
         });
       }
       const { answer, ...rest } = item; //separate answer from the object
@@ -141,7 +143,11 @@ export const editAssignment = asyncHandler(async (req, res) => {
     if (!isAnswerModified) {
       return answer;
     } else {
-      return { id: isAnswerModified.id, answer: isAnswerModified.newAnswer };
+      return {
+        id: isAnswerModified.id,
+        answer: isAnswerModified.newAnswer,
+        marks: isAnswerModified.marks,
+      };
     }
   });
 
@@ -154,6 +160,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
     .map((newAnswer) => ({
       id: newAnswer.id,
       answer: newAnswer.newAnswer,
+      marks: newAnswer.marks,
     }));
 
   const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
@@ -194,7 +201,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get assignments for a unit
-// @route   GET /api/:unitId/assignments
+// @route   GET /api/assignments/:unitId/assignments
 // @access  Private (Students/Teachers/Admins)
 export const getAssignments = asyncHandler(async (req, res) => {
   const assignments = await Assignment.find({ unit: req.params.unitId })
@@ -209,7 +216,8 @@ export const getAssignments = asyncHandler(async (req, res) => {
     .populate({
       path: "enrolledStudentsCount",
       select: "_id",
-    });
+    })
+    .select("-answers");
 
   res.status(200).json(assignments);
 });
@@ -230,7 +238,8 @@ export const getAssignmentDetails = asyncHandler(async (req, res) => {
     .populate({
       path: "unit",
       select: "unitCode unitName _id",
-    });
+    })
+    .select("-answers");
 
   if (!assignment) {
     return res.status(404).json({ message: "Assignment not found" });

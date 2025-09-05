@@ -61,6 +61,7 @@
   white-space: nowrap;
   cursor: pointer;
   transition: all 400ms ease-in-out;
+  z-index: 2;
 }
 
 .dropdownOption:hover {

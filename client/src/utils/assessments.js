@@ -49,8 +49,79 @@ export const stripHTML = (html) => {
 export const useUrlParams = () => {
   const params = new URLSearchParams(location.search);
 
+  const type = params.get("type");
   const isNew = params.get("new");
   const isOpened = params.get("open");
 
-  return { isNew, isOpened };
+  return { isNew, isOpened, type };
 };
+
+export const correctAnswerNotSet = (content) => {
+  let questionNumber = 0;
+  for (const item of content) {
+    if (item.type === "question" || item.type === "textArea") {
+      questionNumber++;
+    }
+    if (item.type === "question") {
+      if (item.answers.length > 0) {
+        //check if the correct answer has been set
+        if (
+          item.answer == null ||
+          item.answer === "" ||
+          item.answer == undefined
+        ) {
+          return questionNumber;
+        }
+      }
+    }
+  }
+  return false;
+};
+
+export const hasSingleAnswerOption = (content) => {
+  let questionNumber = 0;
+
+  for (const item of content) {
+    if (item.type === "question" || item.type === "textArea") {
+      questionNumber++;
+    }
+
+    if (item.type === "question" && item.answers.length === 1) {
+      return questionNumber;
+    }
+  }
+  return false;
+};
+
+export const isAnyAnswerEmpty = (content) => {
+  let questionNumber = 0;
+
+  for (const item of content) {
+    if (item.type === "question" || item.type === "textArea") {
+      questionNumber++;
+    }
+
+    if (item.type === "question" && item.answers.length > 0) {
+      for (const answer of item.answers) {
+        if (!answer) {
+          return questionNumber;
+        }
+      }
+    }
+  }
+  return false;
+};
+
+export const getMilliSeconds = (time) => {
+  const { value, unit } = time;
+
+  return unit === "minutes"
+    ? value * 60 * 1000
+    : unit === "hours"
+    ? value * 60 * 60 * 1000
+    : unit === "seconds" && value * 1000;
+};
+
+export const CapitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

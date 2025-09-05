@@ -128,7 +128,7 @@ const DashboardHeader = ({
                     className={styles.dropdownOption}
                     onClick={() => {
                       setSelectedUnit(unit);
-                      window.location.reload(); // Simple for now, to refine in the next commit
+                      // window.location.reload(); // Simple for now, to refine in the next commit
                       setShowUnitDropdown(false);
                       localStorage.setItem("focusUnit", JSON.stringify(unit));
                     }}

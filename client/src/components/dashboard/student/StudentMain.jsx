@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import styles from "../css/StudentMain.module.css";
-import AssignmentCard from "../assignments/AssignmentCard";
+import AssessmentCard from "../assessments/AssessmentCard";
 import CustomCalendar from "../CustomCalendar";
 import DeadlineCard from "./DeadlineCard";
 import Summary from "./Summary";
@@ -25,8 +25,8 @@ const StudentMain = ({
   selectedUnit,
   setUnits,
   profile,
-  assignments,
-  setAssignments,
+  assessments,
+  setAssessments,
   persistSelectedUnit,
 }) => {
   useEffect(() => {
@@ -37,7 +37,7 @@ const StudentMain = ({
 
       // Check for valid data before setting state
       if (studentData?.data?.data) {
-        setAssignments(studentData.data.data.assignments || []);
+        setAssessments(studentData.data.data.assignments || []);
         setUnits(studentData.data.data.units || []);
         persistSelectedUnit();
       }
@@ -47,16 +47,16 @@ const StudentMain = ({
   }, [profile?.id, profile?.role]);
 
   const filteredAssignments = useMemo(() => {
-    if (!assignments) return [];
+    if (!assessments) return [];
     if (selectedUnit.id === "all") {
-      return assignments;
+      return assessments;
     }
-    return assignments.filter(
+    return assessments.filter(
       (assignment) => assignment.unit._id === selectedUnit.id
     );
-  }, [assignments, selectedUnit.id]);
+  }, [assessments, selectedUnit.id]);
 
-  // `deadlines` are derived directly from filtered assignments
+  // `deadlines` are derived directly from filtered assessments
   const deadlines = useMemo(() => {
     return filteredAssignments.map((assignment) => {
       const deadLineStr = assignment.deadLine || "";
@@ -89,7 +89,7 @@ const StudentMain = ({
           <div className={styles.assignmentCardContainer}>
             {filteredAssignments.length > 0 ? (
               filteredAssignments.map((assignment) => (
-                <AssignmentCard
+                <AssessmentCard
                   key={assignment._id}
                   unitName={assignment.unit.unitName}
                   title={assignment.title}
@@ -98,7 +98,7 @@ const StudentMain = ({
                 />
               ))
             ) : (
-              <p>No assignments found for this selection.</p>
+              <p>No assessments found for this selection.</p>
             )}
           </div>
           <div className={styles.summaryAndDeadlineRow}>

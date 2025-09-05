@@ -1,20 +1,21 @@
-import styles from "../css/Assignments.module.css";
-import { useState } from "react";
-import { stripHTML, useUrlParams } from "../../../utils/assignments";
+import styles from "../css/Assessments.module.css";
+import { useEffect, useState } from "react";
+import { stripHTML, useUrlParams } from "../../../utils/assessments";
 import { FileSelector } from "./FileSelector";
 
-export const TeacherAssignmentContent = ({
+export const TeacherAssessmentContent = ({
   content,
   setContent,
   showButton,
   setShowButton,
   trigger,
   setTrigger,
-  currentAssignment,
+  currentAssessment,
   canEdit,
   assignmentFiles,
   setMessage,
   clearMessage,
+  setAssessmentExtras,
 }) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
@@ -24,8 +25,40 @@ export const TeacherAssignmentContent = ({
     title: "",
   });
   const [showAnswerButton, setShowAnswerButton] = useState(null);
-
+  const [recalculateMarks, setRecalculateMarks] = useState(false);
   const { isOpened } = useUrlParams();
+
+  //match answers to their questions during editing
+  useEffect(() => {
+    if (isOpened) {
+      const parsedAnswers = JSON.parse(currentAssessment?.answers);
+      const tempContent = content.map((item) => {
+        if (item.type === "question" && item.answers.length > 0) {
+          const answerExists = parsedAnswers.find(
+            (answer) => answer.id === item.id
+          );
+
+          if (answerExists) {
+            return { ...item, answer: answerExists.answer };
+          }
+        }
+        return item;
+      });
+
+      setContent(tempContent);
+    }
+  }, [currentAssessment]);
+
+  //recalculate max marks when a question is added and when marks is changed
+  useEffect(() => {
+    const tempContent = [...content];
+
+    const total = tempContent.reduce((cumulative, current) => {
+      return cumulative + Number(current.marks ?? 0);
+    }, 0);
+
+    setAssessmentExtras((prev) => ({ ...prev, marks: total }));
+  }, [recalculateMarks]);
 
   //make changes to an already added section
   const handleChangeText = (e, index) => {
@@ -46,8 +79,12 @@ export const TeacherAssignmentContent = ({
 
   const handleChangeAnswerExists = (e, questionIndex, answerIndex) => {
     const tempArray = [...content];
-    tempArray[questionIndex].answers[answerIndex] = e.target.innerHTML;
-
+    const newValue = e.currentTarget.textContent;
+    const prevValue = tempArray[questionIndex].answers[answerIndex];
+    tempArray[questionIndex].answers[answerIndex] = newValue;
+    if (tempArray[questionIndex].answer === prevValue) {
+      tempArray[questionIndex].answer = newValue;
+    }
     setContent(tempArray);
   };
 
@@ -63,13 +100,18 @@ export const TeacherAssignmentContent = ({
   };
 
   const handleAddAnswer = (index) => {
-    const tempArray = [...content];
-    tempArray[index].answers.push(sectionData.answer);
+    if (!sectionData.answer) {
+      setMessage("Cannot add an empty answer");
+      clearMessage();
+    } else {
+      const tempArray = [...content];
+      tempArray[index].answers.push(sectionData.answer);
 
-    setContent(tempArray);
+      setContent(tempArray);
 
-    setSectionData({ ...sectionData, answer: "" }); //return answer to empty
-    setShowAnswerButton(null); // hide the add answer input
+      setSectionData({ ...sectionData, answer: "" }); //return answer to empty
+      setShowAnswerButton(null); // hide the add answer input
+    }
   };
 
   //move an item in the assignment either up or down
@@ -105,6 +147,7 @@ export const TeacherAssignmentContent = ({
     tempArray.splice(index, 1);
     setContent(tempArray);
     setTrigger(!trigger); //trigger a rerender of the page
+    setRecalculateMarks(!recalculateMarks);
   };
 
   //handles adding an instructions section to the assignment
@@ -148,10 +191,14 @@ export const TeacherAssignmentContent = ({
       setMessage("Cannot add an empty field");
       clearMessage();
     } else {
-      console.log(type, data);
       setContent((prev) => [...prev, { type, data, ...extra }]);
       setSectionData({ ...sectionData, [type]: "" });
       setShowButton(null);
+
+      //recalculate max marks
+      if (["question", "textArea"].includes(type)) {
+        setRecalculateMarks(!recalculateMarks);
+      }
     }
   };
 
@@ -161,22 +208,31 @@ export const TeacherAssignmentContent = ({
   const handleAddTitle = () => addBlock("title", sectionData.title);
 
   const handleAddQuestion = () =>
-    addBlock("question", sectionData.question, { answers: [] });
+    addBlock("question", sectionData.question, { answers: [], marks: "1" });
 
-  const handleAddTextArea = () => addBlock("textArea", sectionData.textArea);
+  const handleAddTextArea = () =>
+    addBlock("textArea", sectionData.textArea, { marks: "1" });
+
+  const handleChangeMark = (value, questionIndex) => {
+    const tempArray = [...content];
+
+    tempArray[questionIndex].marks = value;
+
+    setContent(tempArray);
+    setRecalculateMarks(!recalculateMarks);
+  };
 
   let questionNumber = 1;
   return (
     <div className={styles.textContent}>
-      {isOpened && (
+      {(isOpened || assignmentFiles.length > 0) && (
         <>
-          {assignmentFiles.files.length > 0 && (
-            <FileSelector selector={assignmentFiles} />
-          )}
-          {currentAssignment?.files?.length > 0 && (
+          <FileSelector selector={assignmentFiles} />
+
+          {currentAssessment?.files?.length > 0 && (
             <div className={styles.selectedFiles}>
               <p>{assignmentFiles.files.length > 0 && "Old"} files: </p>
-              {currentAssignment.files.map((file, index) => {
+              {currentAssessment.files.map((file, index) => {
                 return (
                   <div
                     className={`${styles.chosenFile} ${
@@ -233,17 +289,22 @@ export const TeacherAssignmentContent = ({
                 }`}
               >
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <p
-                    className={`${styles.textQuestion} ${styles.editable} ${
-                      !canEdit && styles.textQuestionWork
-                    }`}
-                    contentEditable={canEdit}
-                    suppressContentEditableWarning
-                    onBlur={(e) => handleChangeText(e, index)}
-                  >
-                    {stripHTML(item.data)}
-                  </p>
+                  <div className={styles.questionContent}>
+                    <p>{`${questionNumber++}.) `}</p>
+                    <p
+                      className={`${styles.textQuestion} ${styles.editable} ${
+                        !canEdit && styles.textQuestionWork
+                      }`}
+                      contentEditable={canEdit}
+                      suppressContentEditableWarning
+                      onBlur={(e) => handleChangeText(e, index)}
+                    >
+                      {stripHTML(item.data)}
+                    </p>
+                  </div>
+                  {!canEdit && (
+                    <p className={styles.marksArea}>({item.marks} marks)</p>
+                  )}
                 </div>
 
                 {item.answers.map((ans, answerIndex) => {
@@ -253,7 +314,7 @@ export const TeacherAssignmentContent = ({
                         <input
                           type="radio"
                           name={`question${index}Answer`}
-                          defaultChecked={item?.answer === ans}
+                          checked={item?.answer === ans}
                           onChange={() => handleSetCorrectAnswer(ans, index)}
                         />
                       )}
@@ -264,7 +325,7 @@ export const TeacherAssignmentContent = ({
                         }`}
                         contentEditable={canEdit}
                         suppressContentEditableWarning
-                        onChange={(e) =>
+                        onBlur={(e) =>
                           handleChangeAnswerExists(e, index, answerIndex)
                         }
                       >
@@ -308,38 +369,58 @@ export const TeacherAssignmentContent = ({
             {item.type === "textArea" && (
               <div className={styles.questionAnswerBox}>
                 <div className={styles.questionHolder}>
-                  <p>{`${questionNumber++}.) `}</p>
-                  <div
-                    className={`${styles.textLong} ${styles.editable} ${
-                      !canEdit && styles.textLongWork
-                    }`}
-                    contentEditable={canEdit}
-                    suppressContentEditableWarning
-                    onBlur={(e) => handleChangeText(e, index)}
-                  >
-                    {stripHTML(item.data)}
+                  <div className={styles.questionContent}>
+                    {" "}
+                    <p>{`${questionNumber++}.) `}</p>
+                    <div
+                      className={`${styles.textLong} ${styles.editable} ${
+                        !canEdit && styles.textLongWork
+                      }`}
+                      contentEditable={canEdit}
+                      suppressContentEditableWarning
+                      onBlur={(e) => handleChangeText(e, index)}
+                    >
+                      {stripHTML(item.data)}
+                    </div>
                   </div>
+                  {!canEdit && (
+                    <p className={styles.marksArea}>({item.marks} marks)</p>
+                  )}
                 </div>
               </div>
             )}
 
             {canEdit && (
               <div className={styles.edBtns}>
-                <i
-                  className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
-                  onClick={() => handleMoveItemUp(index)}
-                  title="Move block up"
-                ></i>
-                <i
-                  className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
-                  onClick={() => handleMoveItemDown(index)}
-                  title="Move block down"
-                ></i>
-                <i
-                  className={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
-                  onClick={() => handleDeleteNoteItem(index)}
-                  title="Delete block"
-                ></i>
+                <div className={styles.edBtnsLeft}>
+                  {" "}
+                  <i
+                    className={`fa-solid fa-arrow-up ${styles.faSolid}  ${styles.faArrow}`}
+                    onClick={() => handleMoveItemUp(index)}
+                    title="Move block up"
+                  ></i>
+                  <i
+                    className={`fa-solid fa-arrow-down ${styles.faSolid}  ${styles.faArrow}`}
+                    onClick={() => handleMoveItemDown(index)}
+                    title="Move block down"
+                  ></i>
+                  <i
+                    className={`fa-solid fa-trash ${styles.faSolid}  ${styles.faTrash}`}
+                    onClick={() => handleDeleteNoteItem(index)}
+                    title="Delete block"
+                  ></i>
+                </div>
+                {(item.type === "question" || item.type === "textArea") && (
+                  <div className={styles.edBtnsRight}>
+                    <label className={styles.whiteText}>Marks: </label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={item?.marks}
+                      onChange={(e) => handleChangeMark(e.target.value, index)}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
