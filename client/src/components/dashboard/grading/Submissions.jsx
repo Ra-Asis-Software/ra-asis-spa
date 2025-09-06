@@ -70,15 +70,17 @@ const Submissions = () => {
 
       if (id) {
         if (!selectedAssessment) {
+          // when opened from another page, fetch the assessment details
           const assessment =
             type === "assignment"
-              ? await getAssignmentDetails(id)
-              : await getQuizDetails(id);
+              ? assessments.find((assessment) => assessment._id === id) ||
+                (await getAssignmentDetails(id))
+              : assessments.find((assessment) => assessment._id === id) ||
+                (await getQuizDetails(id));
 
           if (assessment.error) {
             //
           } else {
-            setSelectedAssessment(assessment.data);
             handleOpenSubmissions(assessment.data);
           }
         }
@@ -110,7 +112,7 @@ const Submissions = () => {
 
   const handleOpenSubmissions = (assessment) => {
     setSelectedAssessment(assessment);
-    pushUrlParams("open", assessment._id);
+    !isOpened && pushUrlParams("open", assessment._id);
     setOpenSubmissions(true);
   };
 
@@ -118,6 +120,8 @@ const Submissions = () => {
     navigate(`/dashboard/grading?type=${type}`);
     setSelectedAssessment(null);
     setOpenSubmissions(false);
+    setSubmissions([]);
+    setSubmissionsPage(1);
   };
 
   const handleGetAssessments = (assessmentType) => {
