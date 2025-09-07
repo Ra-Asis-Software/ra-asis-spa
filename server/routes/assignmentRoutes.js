@@ -12,6 +12,7 @@ import {
   getSubmissions,
   deleteSubmission,
   getSubmission,
+  gradeAssignmentSubmission,
 } from "../controllers/submissionController.js";
 import { hasPermission } from "../middleware/checkUserRole.js";
 
@@ -93,6 +94,13 @@ router.delete(
   "/submissions/:submissionId",
   hasPermission("remove:assignment-submission"),
   deleteSubmission
+);
+
+//grade assignment
+router.patch(
+  "/:assignmentId/submissions/:submissionId/grade",
+  hasPermission("grade:assignment"),
+  gradeAssignmentSubmission
 );
 
 export default router;

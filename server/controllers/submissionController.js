@@ -234,3 +234,72 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
 
   return res.status(200).json({ message: "Submission has been removed" });
 });
+
+// @desc    Grade an assignment (Teacher only)
+// @route   PATCH /api/assignments/:assignmentId/submissions/:submissionId/grade
+// @access  Private (Teacher)
+export const gradeAssignmentSubmission = asyncHandler(async (req, res) => {
+  const { studentAnswers, comments } = req.body;
+  const { assignmentId, submissionId } = req.params;
+
+  const submission = await Submission.findOne({
+    _id: submissionId,
+    assignment: assignmentId,
+  });
+
+  const assignment = await Assignment.findById(assignmentId);
+
+  if (!submission || !assignment)
+    return res
+      .status(404)
+      .json({ message: "Could not find the assessment details" });
+
+  if (timeLeft(assignment.deadLine) > 0)
+    return res.status(403).json({ message: "This Assignment is not yet due" });
+
+  if (submission.gradingStatus === "graded")
+    return res
+      .status(403)
+      .json({ message: "This submission is already graded" });
+
+  const content = JSON.parse(submission.content);
+
+  //calculate total marks
+  let total = 0;
+  for (const q of Object.entries(content)) {
+    //we exclude auto-graded questions, check questions with no mark beforehand, and that an incoming mark is present
+    //q[0] is the id, q[1] is an object with { marks, ||correctAnswer, userAnswer }
+    const questionDetails = q[1];
+    const questionId = q[0];
+    if (
+      !questionDetails.correctAnswer &&
+      questionDetails.marks === null &&
+      !studentAnswers[questionId].marks
+    ) {
+      return res
+        .status(422)
+        .json({ message: "Some questions have not been assigned marks" });
+    }
+
+    if (
+      !questionDetails.correctAnswer &&
+      questionDetails.marks === null &&
+      studentAnswers[questionId].marks
+    ) {
+      questionDetails.marks = Number(studentAnswers[questionId].marks);
+      content[questionId].marks = questionDetails.marks; //update the content with the new marks
+    }
+
+    total +=
+      Number(questionDetails.marks) >= 0 ? Number(questionDetails.marks) : 0; //compute total marks
+  }
+
+  submission.content = JSON.stringify(content);
+  submission.marks = total;
+  submission.feedBack = comments;
+  submission.gradingStatus = "graded";
+
+  await submission.save();
+
+  return res.status(200).json({ success: "Graded successfully" });
+});

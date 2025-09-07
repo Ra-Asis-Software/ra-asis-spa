@@ -4,7 +4,7 @@ import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
 import QuizSubmission from "../models/QuizSubmission.js";
 import Student from "../models/Student.js";
-import { submissionMadeOnTime } from "../utils/assignment.js";
+import { submissionMadeOnTime, timeLeft } from "../utils/assignment.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
@@ -508,4 +508,73 @@ export const getSubmissions = asyncHandler(async (req, res) => {
   }));
 
   res.status(200).json(formatted);
+});
+
+// @desc    Grade a quiz (Teacher only)
+// @route   PATCH /api/quizzes/:quizId/submissions/:submissionId/grade
+// @access  Private (Teacher)
+export const gradeQuizSubmission = asyncHandler(async (req, res) => {
+  const { studentAnswers, comments } = req.body;
+  const { quizId, submissionId } = req.params;
+
+  const submission = await QuizSubmission.findOne({
+    _id: submissionId,
+    quiz: quizId,
+  });
+
+  const quiz = await Quiz.findById(quizId);
+
+  if (!submission || !quiz)
+    return res
+      .status(404)
+      .json({ message: "Could not find the assessment details" });
+
+  if (timeLeft(quiz.deadLine) > 0)
+    return res.status(403).json({ message: "This Quiz is not yet due" });
+
+  if (submission.gradingStatus === "graded")
+    return res
+      .status(403)
+      .json({ message: "This submission is already graded" });
+
+  const content = JSON.parse(submission.content);
+
+  //calculate total marks
+  let total = 0;
+  for (const q of Object.entries(content)) {
+    //we exclude auto-graded questions, check questions with no mark beforehand, and that an incoming mark is present
+    //q[0] is the id, q[1] is an object with { marks, ||correctAnswer, userAnswer }
+    const questionDetails = q[1];
+    const questionId = q[0];
+    if (
+      !questionDetails.correctAnswer &&
+      questionDetails.marks === null &&
+      !studentAnswers[questionId].marks
+    ) {
+      return res
+        .status(422)
+        .json({ message: "Some questions have not been assigned marks" });
+    }
+
+    if (
+      !questionDetails.correctAnswer &&
+      questionDetails.marks === null &&
+      studentAnswers[questionId].marks
+    ) {
+      questionDetails.marks = Number(studentAnswers[questionId].marks);
+      content[questionId].marks = questionDetails.marks; //update the content with the new marks
+    }
+
+    total +=
+      Number(questionDetails.marks) >= 0 ? Number(questionDetails.marks) : 0; //compute total marks
+  }
+
+  submission.content = JSON.stringify(content);
+  submission.marks = total;
+  submission.feedBack = comments;
+  submission.gradingStatus = "graded";
+
+  await submission.save();
+
+  return res.status(200).json({ success: "Graded successfully" });
 });
