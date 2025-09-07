@@ -52,8 +52,9 @@ export const useUrlParams = () => {
   const type = params.get("type");
   const isNew = params.get("new");
   const isOpened = params.get("open");
+  const submission = params.get("submission");
 
-  return { isNew, isOpened, type };
+  return { isNew, isOpened, type, submission };
 };
 
 export const pushUrlParams = (key, value) => {
@@ -66,6 +67,12 @@ export const pushUrlParams = (key, value) => {
     "",
     `${window.location.pathname}?${params.toString()}`
   );
+};
+
+export const removeUrlParams = (key) => {
+  const url = new URL(window.location);
+  url.searchParams.delete(key);
+  window.history.replaceState({}, document.title, url);
 };
 
 export const correctAnswerNotSet = (content) => {

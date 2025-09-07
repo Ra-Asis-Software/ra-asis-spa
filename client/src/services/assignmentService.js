@@ -113,9 +113,9 @@ export const submitAssignment = async (data, id) => {
     const response = await api.post(`${ASSIGNMENTS_PATH}/${id}/submit`, data);
     return response;
   } catch (error) {
-    if (error.response && error.response.data) {
+    if (error.response.data) {
       return {
-        error: error.response.data.error.message,
+        error: error.response.data.message,
         status: error.response.status,
       };
     } else {
@@ -134,6 +134,30 @@ export const deleteSubmission = async (submissionId) => {
     if (error.response && error.response.data) {
       return {
         error: error.response.data.error.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const gradeAssignmentSubmission = async (
+  assignmentId,
+  submissionId,
+  data
+) => {
+  try {
+    const response = await api.patch(
+      `${ASSIGNMENTS_PATH}/${assignmentId}/submissions/${submissionId}/grade`,
+      data
+    );
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
         status: error.response.status,
       };
     } else {

@@ -15,6 +15,7 @@ import {
   getAssessmentType,
   handleDueDate,
   pushUrlParams,
+  removeUrlParams,
   useUrlParams,
 } from "../../../utils/assessments";
 import {
@@ -40,7 +41,7 @@ const Submissions = () => {
   const [openSubmissions, setOpenSubmissions] = useState(false);
   const [gradeNow, setGradeNow] = useState(false);
   const selectedUnit = JSON.parse(localStorage.getItem("focusUnit"));
-  const { type, isOpened } = useUrlParams();
+  const { type, isOpened, submission } = useUrlParams();
 
   //useEffect to fetch assessments when component mounts
   useEffect(() => {
@@ -65,8 +66,7 @@ const Submissions = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       let id = selectedAssessment?._id || isOpened;
-      //selectedAssessment._id is for when opened from this page
-      //iOpened is for when opened from another page, say from SubmissionDetails.jsx
+      //isOpened here is for assessments opened from another page, like SubmissionDetails.jsx
 
       if (id) {
         if (!selectedAssessment) {
@@ -78,9 +78,7 @@ const Submissions = () => {
               : assessments.find((assessment) => assessment._id === id) ||
                 (await getQuizDetails(id));
 
-          if (assessment.error) {
-            //
-          } else {
+          if (!assessment.error) {
             handleOpenSubmissions(assessment.data);
           }
         }
@@ -90,6 +88,19 @@ const Submissions = () => {
           type === "assignment"
             ? await getAssignmentSubmissions(id, submissionsPage)
             : await getSubmissionsForQuiz(id, submissionsPage);
+
+        //this runs if the page is reloaded while grading a submission
+        //we assign the selected submission based on the url param
+        if (submission && !selectedSubmission && !submissions.error) {
+          const tempSubmission = submissions.data.find(
+            (sub) => sub._id === submission
+          );
+
+          if (tempSubmission) {
+            setSelectedSubmission(tempSubmission);
+            setGradeNow(true);
+          }
+        }
 
         setSubmissions(!submissions.error ? submissions.data : []);
       }
@@ -131,13 +142,26 @@ const Submissions = () => {
 
   const handleOpenForGrading = (submission) => {
     setSelectedSubmission(submission);
+    pushUrlParams("submission", submission._id);
     setGradeNow(true);
+  };
+
+  const handleCloseGradingSession = () => {
+    removeUrlParams("submission");
+    setSelectedSubmission(null);
+    setGradeNow(false);
   };
 
   return (
     <>
       {gradeNow ? (
-        <Grade {...{ selectedAssessment, selectedSubmission, setGradeNow }} />
+        <Grade
+          {...{
+            selectedAssessment,
+            selectedSubmission,
+            handleCloseGradingSession,
+          }}
+        />
       ) : (
         <div className={styles.gradingContainer}>
           <div className={styles.left}>
@@ -204,14 +228,14 @@ const Submissions = () => {
                               className={styles.progressFill}
                               style={{
                                 width: `${getProgressPercentage(
-                                  assessment.submissionCount,
+                                  assessment.gradedCount,
                                   assessment.enrolledStudentsCount
                                 )}%`,
                               }}
                             ></div>
                           </div>
                           <span className={styles.progressText}>
-                            {assessment.submissionCount}/
+                            {assessment.gradedCount}/
                             {assessment.enrolledStudentsCount} graded
                           </span>
                         </div>

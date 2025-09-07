@@ -367,25 +367,31 @@ export const TeacherAssessmentContent = ({
             )}
 
             {item.type === "textArea" && (
-              <div className={styles.questionAnswerBox}>
-                <div className={styles.questionHolder}>
-                  <div className={styles.questionContent}>
-                    {" "}
-                    <p>{`${questionNumber++}.) `}</p>
-                    <div
-                      className={`${styles.textLong} ${styles.editable} ${
-                        !canEdit && styles.textLongWork
-                      }`}
-                      contentEditable={canEdit}
-                      suppressContentEditableWarning
-                      onBlur={(e) => handleChangeText(e, index)}
-                    >
-                      {stripHTML(item.data)}
+              <div
+                className={`${styles.questionContainer} ${
+                  !canEdit && styles.questionContainerWork
+                }`}
+              >
+                <div className={styles.questionAnswerBox}>
+                  <div className={styles.questionHolder}>
+                    <div className={styles.questionContent}>
+                      {" "}
+                      <p>{`${questionNumber++}.) `}</p>
+                      <div
+                        className={`${styles.textLong} ${styles.editable} ${
+                          !canEdit && styles.textLongWork
+                        }`}
+                        contentEditable={canEdit}
+                        suppressContentEditableWarning
+                        onBlur={(e) => handleChangeText(e, index)}
+                      >
+                        {stripHTML(item.data)}
+                      </div>
                     </div>
+                    {!canEdit && (
+                      <p className={styles.marksArea}>({item.marks} marks)</p>
+                    )}
                   </div>
-                  {!canEdit && (
-                    <p className={styles.marksArea}>({item.marks} marks)</p>
-                  )}
                 </div>
               </div>
             )}

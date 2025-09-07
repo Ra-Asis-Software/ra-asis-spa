@@ -135,3 +135,23 @@ export const getSubmissionsForQuiz = async (quizId, page) => {
     }
   }
 };
+
+export const gradeQuizSubmission = async (quizId, submissionId, data) => {
+  try {
+    const response = await api.patch(
+      `${QUIZ_PATH}/${quizId}/submissions/${submissionId}/grade`,
+      data
+    );
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
