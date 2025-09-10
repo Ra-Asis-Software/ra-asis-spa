@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["administrator", "teacher", "student", "parent"],
       required: true,
+      default: "student",
     },
     isVerified: {
       type: Boolean,
@@ -48,6 +49,10 @@ const userSchema = new mongoose.Schema(
     },
     lockUntil: {
       type: Date,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   {

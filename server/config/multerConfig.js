@@ -14,12 +14,20 @@ const storage = multer.diskStorage({
 
 // File filter to allow only specific types (PDFs, JPEG and PNG images for now)
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+  const allowedTypes = [
+    "application/pdf",
+    "application/docx",
+    "application/doc",
+    "image/jpeg",
+    "image/png",
+  ];
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true); // Accept file
   } else {
     cb(
-      new Error("Invalid file type. Only PDF, JPEG, or PNG types are allowed."),
+      new Error(
+        "Invalid file type. Only PDF, DOCX, JPEG, or PNG types are allowed."
+      ),
       false
     );
   }
@@ -29,7 +37,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Specify limit: 10MB for now
+  limits: { fileSize: 2 * 1024 * 1024 }, // Specify limit: 2MB for now
 });
 
 export { upload };
