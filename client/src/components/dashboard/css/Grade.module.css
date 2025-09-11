@@ -10,38 +10,45 @@
   flex: 0.4;
   height: 100%;
   overflow-y: auto;
+  min-width: 280px;
 }
+
 .right {
   flex: 0.55;
   height: 100%;
   overflow-y: auto;
+  min-width: 300px;
 }
+
 .header {
   height: 20vh;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 10px;
   position: sticky;
   top: -10vh;
- color: var(--cerulean);
- background-color: #fff;
   z-index: 1;
 }
 
 .closeSubmissions {
   height: 6vh;
+  min-height: 40px;
   width: 100px;
+  min-width: 80px;
   background-color: var(--cerulean-color);
+  color: var(--bright-sun-color);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
-/* h2,
-h3 {
-  margin: 0;
-} */
+.closeSubmissions:hover {
+  color: var(--cerulean);
+  background-color: #fff;
+}
 
 .filterAssessments {
   height: 6vh;
@@ -49,6 +56,7 @@ h3 {
   color: #fff;
   background-color: var(--cerulean-color);
   font-weight: 700;
+  padding: 5px;
 }
 
 .content {
@@ -84,93 +92,73 @@ h3 {
 }
 
 .extraDetails {
-  height: 50vh;
-  width: 350px;
+  height: auto;
+  min-height: 300px;
+  max-height: 50vh;
+  width: 100%;
+  max-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   gap: 10px;
   background-color: #fff;
   border-radius: 7px;
-   transition :0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
   padding: 10px;
+  overflow-y: auto;
 }
 
 .extraItem {
   height: 5vh;
+  min-height: 40px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
 .extraItem p {
   color: var(--cerulean-color);
   margin-left: 5px;
+  font-size: clamp(0.8rem, 2vw, 1rem);
 }
+
 .extraItem h4 {
   margin-right: 5px;
+  font-size: 1.1rem;
 }
-￼
+
 .assignmentCard {
-  height: 10vh;
-  border: 2px solid var(--french-gray-color);
+  height: auto;
+  min-height: 80px;
+  border: 2px solid var(--cerulean);
   border-radius: 7px;
   padding: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background: var(--foam-color);
+  transition: all 0.4s ease;
 }
 
-.assignmentCard,.assignmentCard.selected:hover {
+.assignmentCard:hover,
+.assignmentCard.selected:hover {
   border-color: var(--aqua-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(90, 224, 215, 0.2);
 }
-
-/* .assignmentCard.selected {
-  border-color: var(--cerulean-color);
-  background: rgba(1, 160, 226, 0.05);
-} */
 
 .assignmentHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
-/* .assignmentTitle {
-  color: var(--black-pearl-color);
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin: 0;
-} */
-/* 
-.subject {
-  background: var(--bright-sun-color);
-  color: var(--west-coast-color);
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-} */
 
 .assignmentDetails {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 }
-
-/* .dueDate {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--pale-sky-color);
-  font-size: 0.9rem;
-}
-
-.dueDate i {
-  color: var(--cerulean-color);
-} */
 
 .progress {
   display: flex;
@@ -210,14 +198,15 @@ h3 {
 }
 
 .submissionCard {
-  height: 8vh;
+  height: auto;
+  min-height: 70px;
   border: 1px solid var(--cerulean-color);
   border-radius: 7px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease-in-out;
   cursor: pointer;
 }
 
@@ -252,6 +241,8 @@ h3 {
 .studentAvatar {
   width: 50px;
   height: 50px;
+  min-width: 40px;
+  min-height: 40px;
   background: var(--cerulean-color);
   border-radius: 7px;
   display: flex;
@@ -277,9 +268,15 @@ h3 {
 }
 
 .gradeSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  text-align: right;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .grade {
@@ -315,7 +312,9 @@ h3 {
   background-color: var(--cerulean-color);
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 6vh;
+  min-height: 40px;
   gap: 10px;
 }
 
@@ -350,11 +349,13 @@ h3 {
   height: 300px;
   color: var(--pine-green-color);
   gap: 1rem;
+  text-align: center;
+  padding: 20px;
 }
 
 .emptyState i {
   font-size: 4rem;
-  color: var(--french-gray-color);
+  color: var(--pale-sky-color);
 }
 
 .emptyState p {
@@ -362,21 +363,6 @@ h3 {
 }
 
 /* Grading Panel Styles */
-
-.closeButton {
-  position: absolute;
-  top: 12px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--alizarin-crimson-red);
-  cursor: pointer;
-  z-index: 10;
-}
-
-
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -397,6 +383,8 @@ h3 {
   border-radius: 7px;
   font-size: 0.9rem;
   transition: 0.4s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .inputGroup input:focus,
@@ -527,7 +515,7 @@ h3 {
   padding: 0.4rem 0.55rem;
   border: 1px solid var(--black-pearl-color);
   border-radius: 7px;
-  transition: all 0.2s;
+  transition: all 0.4s ease-in-out;
 }
 
 .marksInput::placeholder {
@@ -537,6 +525,7 @@ h3 {
 .confirmMark,
 .marked {
   height: 4vh;
+  min-height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -569,7 +558,7 @@ h3 {
 }
 
 .gradeHeader {
-  height: 8vh;
+  height: auto;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -578,6 +567,7 @@ h3 {
 
 .gradeArea {
   flex: 0.32;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -624,6 +614,7 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow-y: auto;
 }
 
 .summaryItem {
@@ -655,52 +646,227 @@ h3 {
   flex-direction: column;
   gap: 1rem;
   max-height: 100%;
+  overflow-y: auto;
 }
 
-/* Responsive adjustments for grading panel */
-@media (max-width: 1024px) {
-  .content {
-    grid-template-columns: 1fr;
-    height: auto;
+/* Responsive Media Queries */
+@media (max-width: 1200px) {
+  .gradingContainer {
+    padding: 0.25rem;
   }
 
-  .stats {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .statCard {
+  .left {
+    flex: 0.45;
     min-width: 250px;
+  }
+
+  .right {
+    flex: 0.5;
+    min-width: 280px;
+  }
+
+  .content {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .gradingContainer {
+    flex-direction: column;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .left,
+  .right {
+    flex: none;
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+
+  .header {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    top: 0;
+  }
+
+  .gradeArea {
+    flex: none;
+    width: 100%;
+    min-width: unset;
+  }
+
+  .gradingPanel {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+  }
+
+  .assignmentCard {
+    min-height: 100px;
+  }
+
+  .submissionCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    text-align: left;
+  }
+
+  .gradeSection {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .studentInfo {
+    width: 100%;
+  }
+
+  .extraDetails {
+    max-width: none;
+    width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   .gradingContainer {
-    padding: 1rem;
+    padding: 0.125rem;
+    margin-bottom: 1rem;
   }
 
   .assignmentHeader {
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  .submissionCard {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
+    align-items: flex-start;
   }
 
   .progress {
     flex-direction: column;
     gap: 0.5rem;
+    align-items: flex-start;
   }
 
-  .gradingPanel {
+  .progressBar {
     width: 100%;
-    right: 0;
+    min-width: unset;
+  }
+
+  .closeSubmissions,
+  .filterAssessments {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .marksGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .marksContent {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .finalGrade {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .gradingContent {
+    padding: 0.5rem;
+  }
+
+  .studentSummary {
+    padding: 0.5rem;
+  }
+
+  .assignmentContent {
+    padding: 10px;
+  }
+
+  .questionCard {
+    padding: 0.4rem;
+  }
+
+  .studentAnswerContainer {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .nextPrev {
+    justify-content: center;
+  }
+
+  .nextPrev button {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .summaryItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .summaryItem span {
+    text-align: left;
+  }
+
+  .studentAvatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .gradeHeader {
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .closeButton {
+    top: 8px;
+    right: 8px;
+  }
+}
+
+/* Landscape orientation on mobile devices */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .gradingContainer {
+    flex-direction: row;
+    height: 100vh;
+    overflow-y: hidden;
+  }
+
+  .left,
+  .right {
+    flex: 0.48;
+    height: 100%;
+    overflow-y: auto;
   }
 
   .content {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - 120px);
+  }
+
+  .header {
+    height: auto;
+    min-height: 80px;
   }
 }
