@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../css/Grading.module.css";
+import styles from "../css/Grade.module.css";
 import { handleDueDate, useUrlParams } from "../../../utils/assessments";
 import { gradeAssignmentSubmission } from "../../../services/assignmentService";
 import { gradeQuizSubmission } from "../../../services/quizService";
@@ -174,7 +174,7 @@ const Grade = ({
                 )}
 
                 {item?.marks && (
-                  <div className={styles.MarksGroup}>
+                  <div className={styles.marksGroup}>
                     <div className={styles.marksContent}>
                       <label className={styles.inputLabel}>Marks</label>
                       <input

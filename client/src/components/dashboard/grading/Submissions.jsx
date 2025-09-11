@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../css/Grading.module.css";
+import styles from "../css/Grade.module.css";
 import {
   getAssignmentDetails,
   getAssignmentsForUnit,
@@ -324,7 +324,7 @@ const Submissions = () => {
                           <i className="fas fa-user"></i>
                         </div>
                         <div className={styles.studentDetails}>
-                          <h4 className={styles.studentName}>
+                          <h4>
                             {submission.student.firstName}{" "}
                             {submission.student.lastName}
                           </h4>
