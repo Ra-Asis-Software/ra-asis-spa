@@ -199,7 +199,7 @@ const Dashboard = () => {
             <Route path="/students" element={<Students {...{ user }} />} />
 
             <Route path="/profile" element={<ProfileContent {...{ user }} />} />
-            <Route path="grading" element={<Submissions />} />
+            <Route path="/grading" element={<Submissions />} />
           </Routes>
         </div>
       </div>
