@@ -276,7 +276,16 @@ const Grade = ({
               </div>
               <div className={styles.summaryItem}>
                 <label>Status:</label>
-                <span>{selectedSubmission.gradingStatus}</span>
+                <span
+                  className={
+                    selectedSubmission.gradingStatus === "graded"
+                      ? styles.alertSuccess
+                      : selectedSubmission.gradingStatus === "in-progress" &&
+                        styles.yellowText
+                  }
+                >
+                  {selectedSubmission.gradingStatus}
+                </span>
               </div>
             </div>
 

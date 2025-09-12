@@ -118,7 +118,8 @@ const Submissions = () => {
   }, [type]);
 
   const getProgressPercentage = (gradedCount, totalStudents) => {
-    return Math.round((gradedCount / totalStudents) * 100);
+    const fraction = gradedCount / totalStudents;
+    return Math.round(fraction * 100);
   };
 
   const handleOpenSubmissions = (assessment) => {
@@ -225,7 +226,19 @@ const Submissions = () => {
                         <div className={styles.progress}>
                           <div className={styles.progressBar}>
                             <div
-                              className={styles.progressFill}
+                              className={`${styles.progressFill} ${
+                                getProgressPercentage(
+                                  assessment.gradedCount,
+                                  assessment.enrolledStudentsCount
+                                ) < 40
+                                  ? styles.sunBackground
+                                  : getProgressPercentage(
+                                      assessment.gradedCount,
+                                      assessment.enrolledStudentsCount
+                                    ) < 100
+                                  ? styles.ceruleanBackground
+                                  : styles.pineBackground
+                              }`}
                               style={{
                                 width: `${getProgressPercentage(
                                   assessment.gradedCount,

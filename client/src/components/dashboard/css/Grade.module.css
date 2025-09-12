@@ -13,14 +13,6 @@
   align-items: center;
 }
 
-.alertError {
-  color: var(--alizarin-crimson-color);
-}
-
-.alertsuccess {
-  color: var(--pine-green-color);
-}
-
 .left {
   flex: 0.4;
   height: 100%;
@@ -53,7 +45,7 @@
   width: 100px;
   min-width: 80px;
   background-color: var(--cerulean-color);
-  color: var(--bright-sun-color);
+  color: var(--black-pearl-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +53,7 @@
 }
 
 .closeSubmissions:hover {
-  color: var(--cerulean);
+  color: var(--cerulean-color);
   background-color: #fff;
 }
 
@@ -89,7 +81,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 10px;
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
 }
 
 .submissionsSection {
@@ -146,7 +138,7 @@
 .assignmentCard {
   height: auto;
   min-height: 80px;
-  border: 2px solid var(--cerulean);
+  border: 2px solid var(--cerulean-color);
   border-radius: 7px;
   padding: 10px;
   cursor: pointer;
@@ -191,7 +183,6 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--aqua-color), var(--cerulean-color));
   border-radius: 7px;
   transition: width 0.3s ease;
 }
@@ -274,7 +265,7 @@
 }
 
 .submissionTime {
-  color: var(--bright-sun-color);
+  color: var(--cerulean-color);
   font-size: 0.9rem;
   margin: 0;
   display: flex;
@@ -394,12 +385,16 @@
 .inputGroup input,
 .inputGroup textarea {
   padding: 0.8rem;
-  border: 2px solid var(--cerulean);
+  border: 2px solid var(--cerulean-color);
   border-radius: 7px;
   font-size: 0.9rem;
   transition: 0.4s ease-in-out;
   width: 100%;
   box-sizing: border-box;
+}
+
+.inputGroup textarea {
+  resize: none;
 }
 
 .inputGroup input:focus,
@@ -487,8 +482,12 @@
   gap: 3px;
 }
 
+.questionHeader h3 {
+  margin: 0;
+}
+
 .questionText {
-  color: var(--cerulean);
+  color: var(--black-pearl-color);
   padding-top: 3px;
   margin: 0;
   word-break: break-all;
@@ -522,15 +521,16 @@
 .inputLabel {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--black-pearl-color);
+  color: var(--cerulean-color);
 }
 
 .marksInput {
   width: 40px;
   padding: 0.4rem 0.55rem;
-  border: 1px solid var(--black-pearl-color);
+  border: 1px solid var(--cerulean-color);
   border-radius: 7px;
   transition: all 0.4s ease-in-out;
+  color: var(--cerulean-color);
 }
 
 .marksInput::placeholder {
@@ -664,6 +664,30 @@
   overflow-y: auto;
 }
 
+.alertError {
+  color: var(--alizarin-crimson-color);
+}
+
+.alertSuccess {
+  color: var(--pine-green-color) !important;
+}
+
+.yellowText {
+  color: var(--bright-sun-color) !important;
+}
+
+.sunBackground {
+  background-color: var(--bright-sun-color);
+}
+
+.ceruleanBackground {
+  background-color: var(--cerulean-color);
+}
+
+.pineBackground {
+  background-color: var(--pine-green-color);
+}
+
 /* Responsive Media Queries */
 @media (max-width: 1200px) {
   .gradingContainer {
@@ -757,7 +781,7 @@
 @media (max-width: 768px) {
   .gradingContainer {
     padding: 0.125rem;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
 
   .assignmentHeader {
