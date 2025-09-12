@@ -6,6 +6,21 @@
   justify-content: space-between;
 }
 
+.alertBox {
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alertError {
+  color: var(--alizarin-crimson-color);
+}
+
+.alertsuccess {
+  color: var(--pine-green-color);
+}
+
 .left {
   flex: 0.4;
   height: 100%;

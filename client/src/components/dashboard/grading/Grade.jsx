@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Grade.module.css";
-import { handleDueDate, useUrlParams } from "../../../utils/assessments";
+import {
+  handleDueDate,
+  removeUrlParams,
+  useUrlParams,
+} from "../../../utils/assessments";
 import { gradeAssignmentSubmission } from "../../../services/assignmentService";
 import { gradeQuizSubmission } from "../../../services/quizService";
+import Modal from "../../ui/Modal";
 
 const Grade = ({
   selectedSubmission,
@@ -16,6 +21,7 @@ const Grade = ({
   const [totalMarks, setTotalMarks] = useState(0);
   const [comments, setComments] = useState("");
   const { submission, type } = useUrlParams();
+  const [alertMessage, setAlertMessage] = useState({ text: "", type: "" });
 
   //for checking if both assessment and submission are present
   useEffect(() => {
@@ -81,10 +87,16 @@ const Grade = ({
           setStudentAnswers(tempStudentAnswers);
           fuseAnswersToQuestions(questions, tempStudentAnswers);
         } else {
-          alert("Invalid marks"); //to be changed appropriately
+          setAlertMessage({
+            text: "You cannot assign a mark less than zero",
+            type: "bad",
+          });
         }
       } else {
-        alert("Mark assigned exceeds the allocated marks"); //to be changed appropriately
+        setAlertMessage({
+          text: "Mark assigned exceeds the allocated marks",
+          type: "bad",
+        });
       }
     }
   };
@@ -124,17 +136,48 @@ const Grade = ({
               );
 
         if (!gradeSubmitted.error) {
-          window.location.reload(); //to be changed appropriately
+          removeUrlParams("submission");
+          window.location.reload();
         }
       }
     } else {
-      alert("Some questions have not been graded"); //to be changed appropriately
+      setAlertMessage({
+        text: "Some questions have not been graded",
+        type: "bad",
+      });
     }
   };
 
   let questionNumber = 1;
   return (
     <div className={styles.gradingContainer}>
+      <Modal
+        isOpen={alertMessage.text.length > 0}
+        onClose={() => setAlertMessage({ text: "", type: "" })}
+      >
+        <div className={styles.alertBox}>
+          <h3
+            className={
+              alertMessage.type === "bad"
+                ? styles.alertError
+                : styles.alertSuccess
+            }
+          >
+            {alertMessage.type === "bad"
+              ? "ERROR!"
+              : alertMessage.type === "good" && "SUCCESS"}
+          </h3>
+          <p
+            className={
+              alertMessage.type === "bad"
+                ? styles.alertError
+                : styles.alertSuccess
+            }
+          >
+            {alertMessage.text}
+          </p>
+        </div>
+      </Modal>
       <div className={styles.contentArea}>
         <div className={styles.gradeHeader}>
           <button
