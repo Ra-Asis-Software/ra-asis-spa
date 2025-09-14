@@ -66,3 +66,92 @@ export const submitQuiz = async (data, id) => {
     }
   }
 };
+
+export const getQuizzesForUnit = async (unitId) => {
+  try {
+    const response = await api.get(`${QUIZ_PATH}/${unitId}/quizzes`);
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const getQuizDetails = async (quizId) => {
+  try {
+    const response = await api.get(`${QUIZ_PATH}/${quizId}/details`);
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const getSubmissionDetailsForQuiz = async (quizId, submissionId) => {
+  try {
+    const response = await api.get(
+      `${QUIZ_PATH}/${quizId}/submissions/${submissionId}`
+    );
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const getSubmissionsForQuiz = async (quizId, page) => {
+  try {
+    const response = await api.get(
+      `${QUIZ_PATH}/${quizId}/submissions?page=${page}&limit=50`
+    );
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const gradeQuizSubmission = async (quizId, submissionId, data) => {
+  try {
+    const response = await api.patch(
+      `${QUIZ_PATH}/${quizId}/submissions/${submissionId}/grade`,
+      data
+    );
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};

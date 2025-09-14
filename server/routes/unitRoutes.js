@@ -8,6 +8,7 @@ import {
   getAssignmentSummaryByUnit,
   getStudents,
   getTeachers,
+  getUnitsForUser,
 } from "../controllers/unitController.js";
 import {
   validateNewUnit,
@@ -64,6 +65,9 @@ router.get(
 
 // Route for getting assignment summary for a unit
 router.get("/assignment-summary/:unitCode", getAssignmentSummaryByUnit);
+
+//get units by user
+router.get("/get-units-by-user", hasPermission("view:units"), getUnitsForUser);
 
 // Route for getting all units
 router.get("/get-all-units", getAllUnits);

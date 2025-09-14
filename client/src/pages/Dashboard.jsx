@@ -13,6 +13,8 @@ import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
 import ParentMain from "../components/dashboard/parent/ParentMain";
 import { getParentDetails } from "../services/userService";
+import Submissions from "../components/dashboard/grading/Submissions";
+import { getUnitsForUser } from "../services/unitService";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -47,6 +49,12 @@ const Dashboard = () => {
           navigate("/login");
         }
 
+        //fetch units here to ensure unit-dropdown appears across all pages
+        const fetchUnits = await getUnitsForUser();
+        if (!fetchUnits.error) {
+          setUnits(fetchUnits.data);
+          persistSelectedUnit();
+        }
         const { firstName, lastName, role, id } = decoded;
 
         // Set the user's data in state
@@ -191,6 +199,7 @@ const Dashboard = () => {
             <Route path="/students" element={<Students {...{ user }} />} />
 
             <Route path="/profile" element={<ProfileContent {...{ user }} />} />
+            <Route path="/grading" element={<Submissions />} />
           </Routes>
         </div>
       </div>

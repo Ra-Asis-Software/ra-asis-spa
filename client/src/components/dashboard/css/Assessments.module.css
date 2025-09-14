@@ -93,18 +93,25 @@
 .textLongWork {
   margin: 0;
   border: none;
+  text-wrap: wrap;
 }
 
 .questionHolder {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 }
 
 .questionContent {
+  margin: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 3px;
+  word-break: break-all;
+}
+
+.questionContent p {
+  margin: 0;
 }
 
 .studentTools {
@@ -209,7 +216,11 @@
 }
 
 .marksArea {
+  min-width: max-content;
   align-self: right;
+  color: var(--bright-sun-color);
+  margin: 0;
+  margin-left: 10px;
 }
 
 /* AssignmentTools & AssignmentContent Styling */
@@ -595,6 +606,10 @@
 .lateSubmission {
   color: var(--alizarin-crimson-color);
   margin: 0;
+}
+
+.submissionDetails {
+  width: 250px;
 }
 
 /* Start Quiz */

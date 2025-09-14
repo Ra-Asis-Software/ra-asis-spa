@@ -107,6 +107,23 @@ const SideBar = ({ show, logout, role }) => {
             </Link>
           </li>
         </RoleRestricted>
+
+        {/* New Grading Route */}
+        <RoleRestricted allowedRoles={["teacher", "administrator"]}>
+          <li>
+            <Link
+              to="/dashboard/grading?type=assignment"
+              onClick={() => setActive("grading")}
+              className={`${active === "grading" && styles.active}`}
+            >
+              <i
+                className={`${styles.sideBarIcon} fa-solid fa-clipboard-check`}
+              ></i>
+              <span className={styles.linkLabel}>Grading</span>
+            </Link>
+          </li>
+        </RoleRestricted>
+
         <li>
           <Link
             to="/dashboard/profile"

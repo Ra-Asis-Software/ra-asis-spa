@@ -1,4 +1,4 @@
-import { useUrlParams } from "../../../utils/assessments";
+import { handleDueDate, useUrlParams } from "../../../utils/assessments";
 import styles from "../css/Assessments.module.css";
 import { studentBar } from "../css/SideBarStyles.module.css";
 
@@ -33,8 +33,7 @@ export const SubmissionTools = ({
             Unit: {currentAssessment.unit.unitName}
           </p>
           <p className={styles.normalText}>
-            Deadline: {currentAssessment.deadLine.slice(0, 10)} at{" "}
-            {currentAssessment.deadLine.slice(11)}
+            Deadline: {handleDueDate(currentAssessment.deadLine)}
           </p>
           <p className={styles.normalText}>
             Max Mark: {currentAssessment.maxMarks}

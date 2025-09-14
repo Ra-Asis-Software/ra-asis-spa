@@ -247,3 +247,30 @@ export const getAssignmentSummaryByUnit = asyncHandler(async (req, res) => {
     overdue: Math.round((overdue / total) * 100),
   });
 });
+
+// @desc    Get units for a user
+// @route   GET /api/unit/get-units-by-user
+// @access  Public
+export const getUnitsForUser = asyncHandler(async (req, res) => {
+  const units =
+    req.user.role === "teacher"
+      ? await Teacher.findOne({ bio: req.user._id }, "units").populate({
+          path: "units",
+          select: "_id unitName unitCode",
+        })
+      : req.user.role === "student" &&
+        (await Student.findOne({ bio: req.user._id }, "units").populate({
+          path: "units",
+          select: "_id unitName unitCode",
+        }));
+
+  if (!units) return res.status(404).json({ message: "Units not found" });
+
+  return res.status(200).json(
+    units.units.map((unit) => ({
+      id: unit._id,
+      name: unit.unitName,
+      code: unit.unitCode,
+    }))
+  );
+});

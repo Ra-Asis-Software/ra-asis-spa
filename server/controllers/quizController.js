@@ -4,7 +4,7 @@ import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
 import QuizSubmission from "../models/QuizSubmission.js";
 import Student from "../models/Student.js";
-import { submissionMadeOnTime } from "../utils/assignment.js";
+import { submissionMadeOnTime, timeLeft } from "../utils/assignment.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
@@ -246,7 +246,7 @@ export const startQuiz = asyncHandler(async (req, res) => {
   //create a submission with the startTime
   const submission = await QuizSubmission.create({
     quiz: quizId,
-    student: req.user._id,
+    student: student._id,
     startedAt: Date.now(),
   });
 
@@ -269,10 +269,18 @@ export const submitQuiz = asyncHandler(async (req, res) => {
   const { quizId } = req.params;
   const { content, time, autoSubmitted, submissionId } = req.body;
 
+  //confirm student exists
+  const student = await Student.findOne({ bio: req.user._id });
+
+  if (!student)
+    return res
+      .status(404)
+      .json({ message: "An error occurred while validating your details" });
+
   //check if the quiz was started
   const submission = await QuizSubmission.findOne({
     _id: submissionId,
-    student: req.user._id,
+    student: student._id,
     quiz: quizId,
   });
 
@@ -378,4 +386,195 @@ export const submitQuiz = asyncHandler(async (req, res) => {
   await submission.save();
 
   res.status(201).json({ success: "Quiz successfully submitted", submission });
+});
+
+//@desc   Get a single submission for a quiz
+// @route   GET /api/quizzes/:quizId/submissions/:submissionId
+// @access  Private (Teacher/Admin)
+export const getSubmission = asyncHandler(async (req, res) => {
+  const { quizId, submissionId } = req.params;
+
+  const submission = await QuizSubmission.findOne({
+    _id: submissionId,
+    quiz: quizId,
+  }).populate({
+    path: "student",
+    select: "bio",
+    populate: { path: "bio", select: "firstName lastName email" },
+  });
+
+  if (!submission) {
+    return res.status(404).json({ message: "Submission not found" });
+  }
+
+  res.status(200).json(submission);
+});
+
+//@desc GET quiz details
+// @route   GET /api/quizzes/:id/details
+// @access  Private
+export const getQuizDetails = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const quiz = await Quiz.findById(id)
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    })
+    .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName _id",
+    })
+    .select("-answers");
+
+  if (!quiz) {
+    return res.status(404).json({ message: "Quiz not found" });
+  }
+
+  res.status(200).json({
+    ...quiz.toObject(),
+  });
+});
+
+// @desc    Get quizzes for a unit
+// @route   GET /api/quizzes/:unitId/quizzes
+// @access  Private (Students/Teachers/Admins)
+export const getQuizzes = asyncHandler(async (req, res) => {
+  const quizzes = await Quiz.find({ unit: req.params.unitId })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName",
+    })
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    })
+    .select("-answers");
+
+  res.status(200).json(quizzes);
+});
+
+// @desc    Get submissions for a quiz
+// @route   GET /api/quizzes/:quizId/submissions?page=page&limit=limit
+// @access  Private (Teacher/Admin)
+export const getSubmissions = asyncHandler(async (req, res) => {
+  //implementing pagination to cater for a class with many students
+  const page = Number(req.query.page) ?? 1;
+  const limit = Number(req.query.limit) ?? 50;
+
+  const skip = (page - 1) * limit;
+
+  const submissions = await QuizSubmission.find({
+    quiz: req.params.quizId,
+  })
+    .skip(skip)
+    .limit(limit)
+    .populate({
+      path: "student",
+      select: "bio",
+      populate: { path: "bio", select: "firstName lastName email" },
+    })
+    .lean();
+
+  const formatted = submissions.map((sub) => ({
+    ...sub,
+    student: {
+      ...sub.student.bio, // merge user info into student
+    },
+  }));
+
+  res.status(200).json(formatted);
+});
+
+// @desc    Grade a quiz (Teacher only)
+// @route   PATCH /api/quizzes/:quizId/submissions/:submissionId/grade
+// @access  Private (Teacher)
+export const gradeQuizSubmission = asyncHandler(async (req, res) => {
+  const { studentAnswers, comments } = req.body;
+  const { quizId, submissionId } = req.params;
+
+  const submission = await QuizSubmission.findOne({
+    _id: submissionId,
+    quiz: quizId,
+  });
+
+  const quiz = await Quiz.findById(quizId);
+
+  if (!submission || !quiz)
+    return res
+      .status(404)
+      .json({ message: "Could not find the assessment details" });
+
+  if (timeLeft(quiz.deadLine) > 0)
+    return res.status(403).json({ message: "This Quiz is not yet due" });
+
+  if (submission.gradingStatus === "graded")
+    return res
+      .status(403)
+      .json({ message: "This submission is already graded" });
+
+  const content = JSON.parse(submission.content);
+
+  //calculate total marks
+  let total = 0;
+  for (const q of Object.entries(content)) {
+    //we exclude auto-graded questions, check questions with no mark beforehand, and that an incoming mark is present
+    //q[0] is the id, q[1] is an object with { marks, ||correctAnswer, userAnswer }
+    const questionDetails = q[1];
+    const questionId = q[0];
+    if (
+      !questionDetails.correctAnswer &&
+      questionDetails.marks === null &&
+      !studentAnswers[questionId].marks
+    ) {
+      return res
+        .status(422)
+        .json({ message: "Some questions have not been assigned marks" });
+    }
+
+    if (
+      !questionDetails.correctAnswer &&
+      questionDetails.marks === null &&
+      studentAnswers[questionId].marks
+    ) {
+      questionDetails.marks = Number(studentAnswers[questionId].marks);
+      content[questionId].marks = questionDetails.marks; //update the content with the new marks
+    }
+
+    total +=
+      Number(questionDetails.marks) >= 0 ? Number(questionDetails.marks) : 0; //compute total marks
+  }
+
+  submission.content = JSON.stringify(content);
+  submission.marks = total;
+  submission.feedBack = comments;
+  submission.gradingStatus = "graded";
+
+  await submission.save();
+
+  return res.status(200).json({ success: "Graded successfully" });
 });

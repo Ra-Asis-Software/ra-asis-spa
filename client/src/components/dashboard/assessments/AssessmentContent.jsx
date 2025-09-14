@@ -24,6 +24,7 @@ import { editQuiz, startQuiz, submitQuiz } from "../../../services/quizService";
 import StartQuiz from "./StartQuiz";
 import QuizTimer from "./QuizTimer";
 import { useRef } from "react";
+import SubmissionDetails from "./SubmissionDetails";
 
 const AssessmentContent = ({
   content,
@@ -246,19 +247,23 @@ const AssessmentContent = ({
           </div>
         </div>
         <div className={styles.extras}>
-          <AssessmentTools
-            {...{
-              canEdit,
-              setShowButton,
-              setAssessmentExtras,
-              handleEditAssessment,
-              message,
-              assessmentExtras,
-              assignmentFiles,
-              timeLimit,
-              setTimeLimit,
-            }}
-          />
+          {/* show this only when creating a new assignment or opening an existing one, and when editing is set to true */}
+          {canEdit ? (
+            <AssessmentTools
+              {...{
+                setShowButton,
+                setAssessmentExtras,
+                handleEditAssessment,
+                message,
+                assessmentExtras,
+                assignmentFiles,
+                timeLimit,
+                setTimeLimit,
+              }}
+            />
+          ) : (
+            <SubmissionDetails {...{ currentAssessment }} />
+          )}
         </div>
       </RoleRestricted>
       <RoleRestricted allowedRoles={["student"]}>

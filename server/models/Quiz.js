@@ -53,6 +53,22 @@ quizSchema.virtual("submissionCount", {
   count: true,
 });
 
+quizSchema.virtual("gradedCount", {
+  ref: "QuizSubmission",
+  localField: "_id",
+  foreignField: "quiz",
+  count: true,
+  match: { gradingStatus: "graded" },
+});
+
+quizSchema.virtual("inProgressCount", {
+  ref: "QuizSubmission",
+  localField: "_id",
+  foreignField: "quiz",
+  count: true,
+  match: { gradingStatus: "in-progress" },
+});
+
 quizSchema.virtual("enrolledStudentsCount", {
   ref: "Student",
   localField: "unit",

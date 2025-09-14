@@ -214,6 +214,14 @@ export const getAssignments = asyncHandler(async (req, res) => {
       select: "_id",
     })
     .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
       path: "enrolledStudentsCount",
       select: "_id",
     })
@@ -236,6 +244,14 @@ export const getAssignmentDetails = asyncHandler(async (req, res) => {
       select: "_id",
     })
     .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
       path: "unit",
       select: "unitCode unitName _id",
     })
@@ -247,8 +263,6 @@ export const getAssignmentDetails = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     ...assignment.toObject(),
-    submissionCount: assignment.submissionCount?.length || 0,
-    enrolledStudentsCount: assignment.enrolledStudentsCount?.length || 0,
   });
 });
 

@@ -86,6 +86,20 @@ const getAssignmentSummary = async (unitCode) => {
   }
 };
 
+const getUnitsForUser = async () => {
+  try {
+    const response = await api.get(`${UNITS_PATH}/get-units-by-user`);
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return { error: error.response.data.message };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
 const getAllUnits = async () => {
   try {
     const response = await api.get(`${UNITS_PATH}/get-all-units`);
@@ -121,4 +135,5 @@ export {
   getAssignmentSummary,
   getAllUnits,
   enrollToUnit,
+  getUnitsForUser,
 };
