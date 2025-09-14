@@ -64,6 +64,8 @@
   background-color: var(--cerulean-color);
   font-weight: 700;
   padding: 5px;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
 .content {
@@ -182,15 +184,25 @@
 }
 
 .progressFill {
+  background: linear-gradient(90deg, var(--aqua-color), var(--cerulean-color));
   height: 100%;
   border-radius: 7px;
-  transition: width 0.3s ease;
+  transition: all 0.4s ease-in-out;
 }
 
 .progressText {
-  font-size: 0.9rem;
-  color: var(--aqua-color);
+  color: var(--cerulean-color);
+  font-size: 0.9em;
+  font-weight: 600;
   white-space: nowrap;
+}
+
+.gradedCount {
+  color: var(--aqua-color);
+}
+
+.enrolledStudentsCount {
+  color: var(--cerulean-color);
 }
 
 .right .header {
@@ -428,7 +440,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 6vh;
   gap: 10px;
 }
 

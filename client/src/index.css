@@ -105,6 +105,12 @@ textarea::placeholder {
   color: var(--pale-sky-color);
 }
 
+select,
+input {
+  outline: none;
+  border: none;
+}
+
 input:focus,
 textarea:focus,
 select:focus {

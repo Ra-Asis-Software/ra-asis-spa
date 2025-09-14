@@ -247,10 +247,12 @@ const Submissions = () => {
                               }}
                             ></div>
                           </div>
-                          <span className={styles.progressText}>
-                            {assessment.gradedCount}/
-                            {assessment.enrolledStudentsCount} graded
-                          </span>
+                          <div className={styles.progressText}>
+                            <span className={styles.gradedCount}>
+                              {assessment.gradedCount}
+                            </span>
+                            /{assessment.enrolledStudentsCount} graded
+                          </div>
                         </div>
                       </div>
                     </div>
