@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-width: 100%;
   overflow: hidden;
   background-color: var(--foam-color);
 }
@@ -9,8 +10,9 @@
 .content {
   display: flex;
   width: 100%;
-  height: 92vh;
+  height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   transition: width 0.4s ease-in-out;
   animation: fadeIn 400ms ease-in-out;
 }
@@ -20,72 +22,6 @@
   transition: width 0.4s ease-in-out;
   display: flex;
   max-width: 100%;
-}
-
-p.userSpecific {
-  font-weight: 500;
-  padding: 10px;
-  font-size: 14px;
-}
-
-p.UserSpecific {
-  font-weight: 500;
-  font-size: 14px;
-  padding: 10px;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-p.StudentSpecific {
-  background: rgb(145, 163, 241, 0.2);
-  color: rgb(92, 92, 247);
-}
-
-p.adminSpecific {
-  background: var(--pine-green-color);
-  color: var(--bright-sun-color);
-}
-
-p.teacherSpecific {
-  background: var(--black-pearl-color);
-  color: var(--aqua-color);
-}
-
-p.studentSpecific {
-  background: var(--west-coast-color);
-  color: var(--bright-sun-color);
-}
-
-p.parentSpecific {
-  background: var(--pale-sky-color);
-  color: var(--black-pearl-color);
-}
-
-.logoutButton {
-  background: var(--black-pearl-color);
-  color: var(--alizarin-crimson-color);
-  max-width: fit-content;
-  border: none;
-  outline: none;
-}
-
-.logoutButton:hover {
-  background: var(--alizarin-crimson-color);
-  color: var(--black-pearl-colorr);
-  max-width: fit-content;
-}
-
-.dashboardContainer {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.contentWrapper {
-  display: flex;
-  flex: 1;
-  position: relative;
 }
 
 /* ANIMATIONS */

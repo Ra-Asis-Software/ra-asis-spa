@@ -1,0 +1,243 @@
+.tableContainer {
+  background: #fff;
+  max-width: 1050px;
+  border-radius: 7px;
+  overflow-x: auto;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.containerLoader {
+  width: 70px;
+  height: 70px;
+}
+
+.tableHelpTexts {
+  color: var(--cerulean-color);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 0.75em;
+}
+
+.tableSummary {
+  padding: 10px 0 0 5px;
+}
+
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usersTable th,
+.usersTable td {
+  text-align: left;
+  padding: 15px;
+  border-bottom: 1px solid var(--foam-color);
+}
+
+.usersTable th {
+  color: var(--cerulean-color);
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.emailLink {
+  color: var(--black-pearl-color);
+}
+
+.emailLink:hover {
+  color: var(--cerulean-color);
+}
+
+.role {
+  background: var(--foam-color);
+  color: var(--cerulean-color);
+}
+
+.role,
+.status {
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 6px 30px;
+  border-radius: 7px;
+  text-align: left;
+}
+
+.status {
+  color: #fff;
+  transition: all 400ms ease-in-out;
+  cursor: pointer;
+}
+
+.status.active {
+  background: var(--pine-green-color);
+}
+
+.status.active:hover {
+  color: var(--french-gray-color);
+}
+
+.status.inactive {
+  background: var(--french-gray-color);
+}
+
+.status.inactive:hover {
+  color: var(--pine-green-color);
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+}
+
+.actionsCell button {
+  background: inherit;
+}
+
+.buttonLoader {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+
+.editButton {
+  color: var(--cerulean-color);
+}
+
+.editButton:hover {
+  color: var(--cerulean-color);
+}
+
+.activateButton {
+  color: var(--pine-green-color);
+}
+
+.activateButton:hover {
+  color: var(--french-gray-color);
+}
+
+.deactivateButton {
+  color: var(--french-gray-color);
+}
+
+.deactivateButton:hover {
+  color: var(--pine-green-color);
+}
+
+.deleteButton {
+  color: var(--alizarin-crimson-color);
+}
+
+.deleteModalActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.deleteModalActions button {
+  width: 30%;
+  font-size: 0.875em;
+  font-weight: 700;
+  border-radius: 7px;
+}
+
+.confirmDeleteButton {
+  background: var(--cerulean-color);
+  color: var(--foam-color);
+  align-items: center;
+}
+
+.confirmDeleteButton:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
+.cancelDeleteButton {
+  background: var(--alizarin-crimson-color);
+  color: var(--foam-color);
+}
+
+.cancelDeleteButton:hover {
+  color: #ff0000;
+}
+
+.resultModal h3 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.resultModal h3 i {
+  color: var(--pine-green-color);
+  font-size: 2em;
+}
+
+.modalCloseBtn {
+  background: var(--cerulean-color);
+  color: #fff;
+}
+
+.modalCloseBtn:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
+.pagination {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 10px 0 0 5px;
+}
+
+.pageBtn {
+  background: inherit;
+  color: var(--cerulean-color);
+  font-size: 0.9em;
+  padding: 0;
+  font-weight: 500;
+}
+
+.pageBtn:disabled {
+  color: var(--french-gray-color);
+  cursor: not-allowed;
+}
+
+.pageBtn.active {
+  font-weight: 700;
+}
+
+.rotateScreenText {
+  display: none;
+  padding: 0 5px;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 768px) {
+  .tableContainer {
+    max-width: 768px;
+  }
+
+  .rotateScreenText {
+    display: block;
+  }
+}
+
+@media (max-width: 520px) {
+  .deleteModalActions {
+    flex-direction: column;
+  }
+
+  .cancelDeleteButton,
+  .confirmDeleteButton {
+    width: 100%;
+  }
+}

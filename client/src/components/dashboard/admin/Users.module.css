@@ -1,0 +1,35 @@
+.usersContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.containerHeader {
+  margin-bottom: 20px;
+}
+
+.createButton {
+  background: var(--cerulean-color);
+  color: var(--foam-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.createButton:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
+.errorMessage {
+  color: var(--alizarin-crimson-color);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 520px) {
+  .usersContainer {
+    padding: 10px;
+  }
+}

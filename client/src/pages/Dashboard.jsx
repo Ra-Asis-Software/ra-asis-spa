@@ -3,6 +3,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
+import { getParentDetails } from "../services/userService";
+import { getUnitsForUser } from "../services/unitService";
 import Sidebar from "../components/dashboard/SideBar";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import TeacherMain from "../components/dashboard/teacher/TeacherMain";
@@ -12,9 +14,8 @@ import Assessments from "../components/dashboard/assessments/Assessments";
 import Units from "../components/dashboard/Units";
 import ProfileContent from "../components/dashboard/ProfileContent";
 import ParentMain from "../components/dashboard/parent/ParentMain";
-import { getParentDetails } from "../services/userService";
 import Submissions from "../components/dashboard/grading/Submissions";
-import { getUnitsForUser } from "../services/unitService";
+import Users from "../components/dashboard/admin/Users";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -175,6 +176,10 @@ const Dashboard = () => {
               }
             />
 
+            <Route path="/users" element={<Users />} />
+
+            <Route path="/units" element={<Units {...{ user }} />} />
+
             <Route
               path="/assessments"
               element={
@@ -194,12 +199,11 @@ const Dashboard = () => {
               }
             />
 
-            <Route path="/units" element={<Units {...{ user }} />} />
-
             <Route path="/students" element={<Students {...{ user }} />} />
 
-            <Route path="/profile" element={<ProfileContent {...{ user }} />} />
             <Route path="/grading" element={<Submissions />} />
+
+            <Route path="/profile" element={<ProfileContent {...{ user }} />} />
           </Routes>
         </div>
       </div>

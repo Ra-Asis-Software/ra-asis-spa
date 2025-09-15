@@ -1,0 +1,103 @@
+.userForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 400px;
+}
+
+.formTitle {
+  margin: 20px 0 10px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formGroup label {
+  color: var(--cerulean-color);
+  font-size: 0.75em;
+  font-weight: 700;
+}
+
+.input {
+  background: #fff;
+  color: var(--cerulean-color);
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  font-size: 0.75em;
+}
+
+.error,
+.errorText {
+  color: var(--alizarin-crimson-color);
+}
+
+.errorText {
+  font-size: 0.6875em;
+  position: relative;
+  left: 5px;
+}
+
+.error,
+.successMessage {
+  text-align: center;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.successMessage {
+  color: var(--pine-green-color);
+}
+
+.formActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.formActions button {
+  width: 50%;
+  font-size: 0.875em;
+  font-weight: 700;
+  border-radius: 7px;
+}
+
+.submitButton {
+  background: var(--cerulean-color);
+  color: var(--foam-color);
+}
+
+.submitButton:hover {
+  background: #fff;
+  color: var(--cerulean-color);
+}
+
+.cancelButton {
+  background: var(--alizarin-crimson-color);
+  color: var(--foam-color);
+}
+
+.cancelButton:hover {
+  color: #ff0000;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 520px) {
+  .userForm {
+    width: 300px;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}
