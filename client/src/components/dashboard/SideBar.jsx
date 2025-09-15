@@ -1,10 +1,11 @@
-import styles from "./css/SideBarStyles.module.css";
-import { Link } from "react-router-dom";
-import RoleRestricted from "../ui/RoleRestricted";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import styles from "./css/SideBarStyles.module.css";
+import RoleRestricted from "../ui/RoleRestricted";
 
 const SideBar = ({ show, logout, role }) => {
   const [active, setActive] = useState("dashboard");
+
   return (
     <div
       className={`${styles.sidebar} ${
@@ -14,7 +15,11 @@ const SideBar = ({ show, logout, role }) => {
           ? styles.studentBar
           : role === "teacher"
           ? styles.teacherBar
-          : role === "parent" && styles.parentBar
+          : role === "parent"
+          ? styles.parentBar
+          : role === "administrator"
+          ? styles.adminBar
+          : ""
       }`}
     >
       <Link to="/">
@@ -41,7 +46,7 @@ const SideBar = ({ show, logout, role }) => {
         <RoleRestricted allowedRoles={["administrator"]}>
           <li>
             <Link
-              to="/dashboard"
+              to="/dashboard/users"
               className={`${active === "users" && styles.active}`}
               onClick={() => setActive("users")}
             >

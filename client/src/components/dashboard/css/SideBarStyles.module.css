@@ -77,6 +77,16 @@ ul li a.active {
   background: var(--cerulean-color);
 }
 
+.adminBar ul li a {
+  color: var(--cerulean-color);
+}
+
+.adminBar ul li a:hover,
+.adminBar ul li a.active {
+  background: var(--cerulean-color);
+  color: var(--foam-color);
+}
+
 .logout {
   margin-top: auto;
   border-top: 1px solid var(--alizarin-crimson-color);
@@ -116,10 +126,13 @@ ul li a.active {
 }
 
 /* RESPONSIVE BREAKPOINTS */
-
 @media (max-width: 991px) {
   .sidebar {
     position: fixed;
     height: 50vh;
+  }
+
+  .adminBar {
+    background: #fff;
   }
 }
