@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, validationResult } from "express-validator";
 
 export const validateNewUnit = [
   body("unitCode")
@@ -39,6 +39,30 @@ export const validateAssignUnit = [
     .withMessage("Unit code cannot contain symbols")
     .escape()
     .toLowerCase(),
+];
+
+export const validateUpdateUnit = [
+  body("unitCode")
+    .optional()
+    .trim()
+    .isLength({ min: 3 })
+    .withMessage("Unit code must be at least 3 characters")
+    .matches(/^[A-Za-z0-9]+$/)
+    .withMessage("Unit code can only contain letters and numbers"),
+
+  body("unitName")
+    .optional()
+    .trim()
+    .isLength({ min: 5 })
+    .withMessage("Unit name must be at least 5 characters"),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
 ];
 
 export const validateUnitCode = [

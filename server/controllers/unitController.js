@@ -5,6 +5,7 @@ import Unit from "../models/Unit.js";
 import Teacher from "../models/Teacher.js";
 import User from "../models/User.js";
 import Student from "../models/Student.js";
+import UnitRequest from "../models/UnitRequest.js";
 
 // @desc    Create a new unit
 // @route   POST /api/unit/add-unit
@@ -77,6 +78,55 @@ export const assignUnit = asyncHandler(async (req, res) => {
   return res
     .status(201)
     .json({ message: "Unit has been successfully Assigned" });
+});
+
+// @desc    Update a unit
+// @route   PUT /api/unit/update-unit/:id
+// @access  Private (Admin)
+export const updateUnit = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { id } = req.params;
+  const { unitCode, unitName } = matchedData(req);
+
+  // Find the unit to update
+  const unit = await Unit.findById(id);
+  if (!unit) {
+    return res.status(404).json({ message: "Unit not found" });
+  }
+
+  // Check if new unit code conflicts with existing units (excluding current unit)
+  if (unitCode && unitCode !== unit.unitCode) {
+    const unitExists = await Unit.findOne({
+      unitCode: { $regex: `^${unitCode}$`, $options: "i" },
+      _id: { $ne: id },
+    });
+
+    if (unitExists) {
+      return res.status(409).json({
+        message: `Unit Code ${unitCode} already exists`,
+        conflict: "unitCode",
+      });
+    }
+  }
+
+  // Update the unit
+  if (unitCode) unit.unitCode = unitCode;
+  if (unitName) unit.unitName = unitName;
+
+  await unit.save();
+
+  res.status(200).json({
+    message: "Unit updated successfully",
+    unit: {
+      _id: unit._id,
+      unitCode: unit.unitCode,
+      unitName: unit.unitName,
+    },
+  });
 });
 
 // @desc    Delete a unit
@@ -273,4 +323,162 @@ export const getUnitsForUser = asyncHandler(async (req, res) => {
       code: unit.unitCode,
     }))
   );
+});
+
+// @desc    Get all unit assignment requests
+// @route   GET /api/unit/requests
+// @access  Private (Admin)
+export const getUnitRequests = asyncHandler(async (req, res) => {
+  try {
+    const requests = await UnitRequest.find()
+      .populate("teacher", "firstName lastName email")
+      .populate("unit", "unitCode unitName")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ requests });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch unit requests" });
+  }
+});
+
+// @desc    Create unit assignment request (for teachers)
+// @route   POST /api/unit/requests
+// @access  Private (Teacher)
+export const createUnitRequest = asyncHandler(async (req, res) => {
+  const { unitCode } = req.body;
+
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({
+      message: "Authentication required. Please log in again.",
+    });
+  }
+
+  const teacherId = req.user.id;
+
+  // Check if user is actually a teacher
+  const user = await User.findById(teacherId);
+  if (!user || user.role !== "teacher") {
+    return res.status(403).json({
+      message: "Only teachers can request unit assignments",
+    });
+  }
+
+  // Check if teacher already has 5 units
+  const teacher = await Teacher.findOne({ bio: teacherId }).populate("units");
+
+  if (!teacher) {
+    return res.status(404).json({
+      message: "Your details could not be found. Please contact administrator.",
+    });
+  }
+
+  if (teacher.units.length >= 5) {
+    return res.status(400).json({
+      message: "You can only be assigned to a maximum of 5 units",
+    });
+  }
+
+  // Check if unit exists
+  const unit = await Unit.findOne({ unitCode });
+  if (!unit) {
+    return res.status(404).json({ message: "Unit not found" });
+  }
+
+  // Check if teacher is already assigned to this unit
+  const alreadyAssigned = teacher.units.some(
+    (assignedUnit) => assignedUnit._id.toString() === unit._id.toString()
+  );
+
+  if (alreadyAssigned) {
+    return res.status(400).json({
+      message: "You are already assigned to this unit",
+    });
+  }
+
+  // Check if request already exists
+  const existingRequest = await UnitRequest.findOne({
+    teacher: teacherId,
+    unit: unit._id,
+    status: "pending",
+  });
+
+  if (existingRequest) {
+    return res.status(400).json({ message: "Request already submitted" });
+  }
+
+  // Create new request
+  const request = await UnitRequest.create({
+    teacher: teacherId,
+    unit: unit._id,
+    status: "pending",
+  });
+
+  // Populate the request
+  await request.populate("teacher", "firstName lastName email");
+  await request.populate("unit", "unitCode unitName");
+
+  res.status(201).json({
+    message: "Unit request submitted successfully",
+    request,
+  });
+});
+
+// @desc    Approve unit assignment request
+// @route   PATCH /api/unit/requests/:requestId/approve
+// @access  Private (Admin)
+export const approveUnitRequest = asyncHandler(async (req, res) => {
+  const { requestId } = req.params;
+
+  const request = await UnitRequest.findById(requestId)
+    .populate("teacher")
+    .populate("unit");
+
+  if (!request) {
+    return res.status(404).json({ message: "Request not found" });
+  }
+
+  if (request.status !== "pending") {
+    return res.status(400).json({ message: "Request already processed" });
+  }
+
+  // Check if teacher already has 5 units
+  const teacher = await Teacher.findOne({ bio: request.teacher._id });
+  if (teacher.units.length >= 5) {
+    return res.status(400).json({
+      message: "Teacher already has maximum allowed units (5)",
+    });
+  }
+
+  // Assign unit to teacher
+  await Teacher.updateOne(
+    { bio: request.teacher._id },
+    { $addToSet: { units: request.unit._id } }
+  );
+
+  // Update request status
+  request.status = "approved";
+  await request.save();
+
+  res.status(200).json({ message: "Unit request approved successfully" });
+});
+
+// @desc    Reject unit assignment request
+// @route   PATCH /api/unit/requests/:requestId/reject
+// @access  Private (Admin)
+export const rejectUnitRequest = asyncHandler(async (req, res) => {
+  const { requestId } = req.params;
+
+  const request = await UnitRequest.findById(requestId);
+  if (!request) {
+    return res.status(404).json({ message: "Request not found" });
+  }
+
+  if (request.status !== "pending") {
+    return res.status(400).json({ message: "Request already processed" });
+  }
+
+  request.status = "rejected";
+  await request.save();
+
+  res.status(200).json({ message: "Unit request rejected successfully" });
 });
