@@ -5,6 +5,19 @@
   padding: 20px;
 }
 
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.loadingVideo {
+  align-self: center;
+  width: 70px;
+  height: 70px;
+}
+
 .containerHeader {
   margin-bottom: 20px;
 }

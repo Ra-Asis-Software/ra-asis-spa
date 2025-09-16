@@ -58,7 +58,7 @@ const SideBar = ({ show, logout, role }) => {
           </li>
         </RoleRestricted>
 
-        <RoleRestricted allowedRoles={["student", "teacher"]}>
+        <RoleRestricted allowedRoles={["student", "teacher", "administrator"]}>
           <li>
             <Link
               to="/dashboard/units"

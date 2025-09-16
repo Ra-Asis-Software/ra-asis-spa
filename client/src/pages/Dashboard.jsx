@@ -178,7 +178,16 @@ const Dashboard = () => {
 
             <Route path="/users" element={<Users />} />
 
-            <Route path="/units" element={<Units {...{ user }} />} />
+            <Route
+              path="/units"
+              element={
+                <>
+                  <RoleRestricted allowedRoles={["student", "teacher"]}>
+                    <Units {...{ user }} />
+                  </RoleRestricted>
+                </>
+              }
+            />
 
             <Route
               path="/assessments"

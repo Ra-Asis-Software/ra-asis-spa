@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
-import { Link, useLocation } from "react-router-dom";
 import { navItems } from "../../data/headerNavData";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Check if user is logged in
   useEffect(() => {
