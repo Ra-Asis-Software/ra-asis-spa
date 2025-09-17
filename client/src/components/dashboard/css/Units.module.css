@@ -176,6 +176,10 @@
   color: var(--alizarin-crimson-color);
 }
 
+.pGreen {
+  color: var(--pine-green-color);
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media screen and (max-width: 1255px) {
   .container {

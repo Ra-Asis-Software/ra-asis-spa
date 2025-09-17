@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./css/Units.module.css";
 import { studentBar, teacherBar } from "./css/SideBarStyles.module.css";
-import { enrollToUnit, getAllUnits } from "../../services/unitService";
+import {
+  createUnitRequest,
+  enrollToUnit,
+  getAllUnits,
+} from "../../services/unitService";
 import { getUserDetails } from "../../services/userService";
 import RoleRestricted from "../ui/RoleRestricted";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +17,9 @@ const Units = ({ user }) => {
   const [unitsHolder, setUnitsHolder] = useState([]);
   const [searchParam, setSearchParam] = useState("");
   const [message, setMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +27,8 @@ const Units = ({ user }) => {
       //fetch all units
       const unitsFetched = await getAllUnits();
 
-      if (unitsFetched.data.success) {
-        const tempAllUnits = unitsFetched.data.data;
+      if (unitsFetched) {
+        const tempAllUnits = unitsFetched.data;
 
         //get units i already have
         const myUnits = await getUserDetails(user.role, user.id);
@@ -98,6 +104,30 @@ const Units = ({ user }) => {
     setTrigger(!trigger);
   };
 
+  // Handle creating unit assignment requests
+  const handleRequestUnits = async (unitCodes) => {
+    try {
+      setLoading(true);
+      for (const unitCode of unitCodes) {
+        await createUnitRequest(unitCode);
+      }
+      setMessage("");
+      setSuccessMessage("Unit assignment request submitted successfully!");
+      setSelectedUnits([]);
+      setTrigger(!trigger);
+    } catch (error) {
+      setSuccessMessage("");
+      setMessage(error.message || "Failed to submit unit requests");
+    } finally {
+      setLoading(false);
+    }
+
+    setTimeout(() => {
+      setSuccessMessage("");
+      setMessage("");
+    }, 5000);
+  };
+
   const handleClickUnit = async (unit) => {
     localStorage.setItem("focusUnit", JSON.stringify(unit));
     navigate("/dashboard");
@@ -157,9 +187,10 @@ const Units = ({ user }) => {
             <>
               <RoleRestricted allowedRoles={["teacher"]}>
                 <button
+                  onClick={() => handleRequestUnits(selectedUnits)}
                   className={`${styles.requestUnits} ${teacherBar} ${styles.teacherBtn}`}
                 >
-                  Request Units
+                  {loading ? "Requesting..." : "Request Units"}
                 </button>
               </RoleRestricted>
               <RoleRestricted allowedRoles={["student"]}>
@@ -173,6 +204,7 @@ const Units = ({ user }) => {
             </>
           )}
           {message !== "" && <p className={styles.pRed}>{message}</p>}
+          {successMessage && <p className={styles.pGreen}>{successMessage}</p>}
         </div>
       </div>
       <div className={styles.containerRight}>
