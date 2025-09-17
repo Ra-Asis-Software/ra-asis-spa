@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./UnitsTable.module.css";
 import tableStyles from "./UsersTable.module.css";
+import modalStyles from "./UnitRequestsTable.module.css";
 import Modal from "../../ui/Modal";
 import { deleteUnit } from "../../../services/unitService";
 
@@ -8,6 +9,7 @@ const UnitsTable = ({ units, onEditUnit, onUnitUpdated }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
   const [showResultModal, setShowResultModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [loadingStates, setLoadingStates] = useState({});
 
@@ -26,12 +28,15 @@ const UnitsTable = ({ units, onEditUnit, onUnitUpdated }) => {
 
     try {
       await deleteUnit(selectedUnit._id);
-      setResultMessage(`Unit ${selectedUnit.unitName} deleted successfully!`);
+      setResultMessage(
+        `The unit ${selectedUnit.unitName} was deleted successfully!`
+      );
+      setIsSuccess(true);
       setShowResultModal(true);
       setDeleteModalOpen(false);
-      onUnitUpdated();
     } catch (err) {
       setResultMessage(err.message || "Failed to delete unit");
+      setIsSuccess(false);
       setShowResultModal(true);
     } finally {
       setLoadingStates((prev) => ({ ...prev, [selectedUnit._id]: null }));
@@ -42,6 +47,8 @@ const UnitsTable = ({ units, onEditUnit, onUnitUpdated }) => {
   const closeResultModal = () => {
     setShowResultModal(false);
     setResultMessage("");
+    setIsSuccess(true);
+    onUnitUpdated();
   };
 
   if (safeUnits.length === 0) {
@@ -135,11 +142,27 @@ const UnitsTable = ({ units, onEditUnit, onUnitUpdated }) => {
       {/* Result Modal */}
       <Modal isOpen={showResultModal} onClose={closeResultModal}>
         <div className={tableStyles.resultModal}>
-          <h3>
-            <i className="fa-solid fa-circle-check" />
-            Operation Completed
+          <h3
+            className={
+              isSuccess ? modalStyles.successHeading : modalStyles.errorHeading
+            }
+          >
+            <i
+              className={
+                isSuccess
+                  ? "fa-solid fa-circle-check"
+                  : "fa-solid fa-circle-exclamation"
+              }
+            />
+            {isSuccess ? "Operation Completed" : "Operation Failed"}
           </h3>
-          <p>{resultMessage}</p>
+          <p
+            className={
+              isSuccess ? modalStyles.successMessage : modalStyles.errorMessage
+            }
+          >
+            {resultMessage}
+          </p>
           <div className={tableStyles.resultModalActions}>
             <button
               onClick={closeResultModal}

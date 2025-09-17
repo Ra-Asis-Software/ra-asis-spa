@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./UnitAssignment.module.css";
 import modalStyles from "./UsersTable.module.css";
+import extraModalStyles from "./UnitRequestsTable.module.css";
 import {
   assignUnit,
   getAvailableStudents,
@@ -16,6 +17,7 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
 
   // Ensure units is always an array
@@ -91,6 +93,7 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
   const handleAssignUsers = async () => {
     if (selectedUnits.length === 0 || selectedUsers.length === 0) {
       setResultMessage("Please select at least one unit and one user");
+      setIsSuccess(false);
       setShowResultModal(true);
       return;
     }
@@ -114,12 +117,13 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
       await multipleAssignUnit(assignmentData);
 
       setResultMessage("Users assigned to units successfully!");
+      setIsSuccess(true);
       setShowResultModal(true);
       setSelectedUnits([]);
       setSelectedUsers([]);
-      onAssignmentComplete();
     } catch (err) {
       setResultMessage(err.message || "Failed to assign users to units");
+      setIsSuccess(false);
       setShowResultModal(true);
     } finally {
       setLoading(false);
@@ -129,6 +133,8 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
   const closeResultModal = () => {
     setShowResultModal(false);
     setResultMessage("");
+    setIsSuccess(true);
+    onAssignmentComplete();
   };
 
   const filteredUsers = getFilteredUsers();
@@ -208,11 +214,31 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
       {/* Result Modal */}
       <Modal isOpen={showResultModal} onClose={closeResultModal}>
         <div className={modalStyles.resultModal}>
-          <h3>
-            <i className="fa-solid fa-circle-check" />
-            Operation Completed
+          <h3
+            className={
+              isSuccess
+                ? extraModalStyles.successHeading
+                : extraModalStyles.errorHeading
+            }
+          >
+            <i
+              className={
+                isSuccess
+                  ? "fa-solid fa-circle-check"
+                  : "fa-solid fa-circle-exclamation"
+              }
+            />
+            {isSuccess ? "Operation Completed" : "Operation Failed"}
           </h3>
-          <p>{resultMessage}</p>
+          <p
+            className={
+              isSuccess
+                ? extraModalStyles.successMessage
+                : extraModalStyles.errorMessage
+            }
+          >
+            {resultMessage}
+          </p>
           <div className={modalStyles.resultModalActions}>
             <button
               onClick={closeResultModal}

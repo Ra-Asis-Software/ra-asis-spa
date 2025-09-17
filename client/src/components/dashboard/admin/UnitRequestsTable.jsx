@@ -10,6 +10,7 @@ import {
 const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
   const [resultMessage, setResultMessage] = useState("");
   const [showResultModal, setShowResultModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [loadingStates, setLoadingStates] = useState({});
 
   // Filter requests to show only pending ones
@@ -23,10 +24,11 @@ const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
     try {
       await approveUnitRequest(requestId);
       setResultMessage("Unit request approved successfully!");
+      setIsSuccess(true);
       setShowResultModal(true);
-      onRequestProcessed();
     } catch (err) {
       setResultMessage(err.message || "Failed to approve request");
+      setIsSuccess(false);
       setShowResultModal(true);
     } finally {
       setLoadingStates((prev) => ({ ...prev, [requestId]: null }));
@@ -39,10 +41,11 @@ const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
     try {
       await rejectUnitRequest(requestId);
       setResultMessage("Unit request rejected successfully!");
+      setIsSuccess(true);
       setShowResultModal(true);
-      onRequestProcessed();
     } catch (err) {
       setResultMessage(err.message || "Failed to reject request");
+      setIsSuccess(false);
       setShowResultModal(true);
     } finally {
       setLoadingStates((prev) => ({ ...prev, [requestId]: null }));
@@ -52,6 +55,8 @@ const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
   const closeResultModal = () => {
     setShowResultModal(false);
     setResultMessage("");
+    setIsSuccess(true);
+    onRequestProcessed();
   };
 
   if (pendingRequests.length === 0) {
@@ -157,11 +162,27 @@ const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
           {/* Result Modal */}
           <Modal isOpen={showResultModal} onClose={closeResultModal}>
             <div className={tableStyles.resultModal}>
-              <h3>
-                <i className="fa-solid fa-circle-check" />
-                Operation Completed
+              <h3
+                className={
+                  isSuccess ? styles.successHeading : styles.errorHeading
+                }
+              >
+                <i
+                  className={
+                    isSuccess
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }
+                />
+                {isSuccess ? "Operation Completed" : "Operation Failed"}
               </h3>
-              <p>{resultMessage}</p>
+              <p
+                className={
+                  isSuccess ? styles.successMessage : styles.errorMessage
+                }
+              >
+                {resultMessage}
+              </p>
               <div className={tableStyles.resultModalActions}>
                 <button
                   onClick={closeResultModal}

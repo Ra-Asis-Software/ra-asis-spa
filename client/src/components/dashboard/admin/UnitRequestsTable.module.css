@@ -16,3 +16,12 @@
 .rejectButton:hover {
   color: #ff0000;
 }
+
+.errorHeading i,
+.errorMessage {
+  color: var(--alizarin-crimson-color) !important;
+}
+
+.successMessage {
+  color: var(--pine-green-color) !important;
+}
