@@ -16,6 +16,7 @@ import ProfileContent from "../components/dashboard/ProfileContent";
 import ParentMain from "../components/dashboard/parent/ParentMain";
 import Submissions from "../components/dashboard/grading/Submissions";
 import Users from "../components/dashboard/admin/Users";
+import AdminUnits from "../components/dashboard/admin/AdminUnits";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -182,6 +183,10 @@ const Dashboard = () => {
               path="/units"
               element={
                 <>
+                  <RoleRestricted allowedRoles={["administrator"]}>
+                    <AdminUnits />
+                  </RoleRestricted>
+
                   <RoleRestricted allowedRoles={["student", "teacher"]}>
                     <Units {...{ user }} />
                   </RoleRestricted>

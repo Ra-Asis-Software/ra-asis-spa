@@ -1,0 +1,18 @@
+.actionsCell button {
+  font-weight: 600;
+}
+
+.approveButton {
+  color: var(--cerulean-color);
+}
+.approveButton:hover {
+  color: var(--pine-green-color);
+}
+
+.rejectButton {
+  color: var(--alizarin-crimson-color);
+}
+
+.rejectButton:hover {
+  color: #ff0000;
+}

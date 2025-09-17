@@ -1,0 +1,73 @@
+.unitAssignmentContainer {
+  max-width: fit-content;
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.assignmentGrid {
+  background: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 7px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.column:first-child {
+  border-right: 1px solid var(--cerulean-color);
+}
+
+.column:last-child {
+  border-left: 1px solid var(--cerulean-color);
+}
+
+.column h4 {
+  color: var(--cerulean-color);
+  text-align: center;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.labelInputGroup input,
+.labelInputGroup label {
+  cursor: pointer;
+}
+
+.assignButton {
+  background: var(--pine-green-color);
+  color: var(--foam-color);
+  font-weight: 600;
+}
+
+.assignButton:hover {
+  background: #fff;
+  color: var(--pine-green-color);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 768px) {
+  .assignmentGrid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .column:first-child {
+    border-right: none;
+    border-bottom: 1px solid var(--cerulean-color);
+  }
+
+  .column:last-child {
+    border-left: none;
+    border-top: 1px solid var(--cerulean-color);
+  }
+}
