@@ -1,17 +1,39 @@
 import api from "./api";
 
 const UNITS_PATH = "/unit";
-const addUnit = async () => {
+const addUnit = async (unitData) => {
   try {
-    const response = await api.post(`${UNITS_PATH}/add-unit`);
+    const response = await api.post(`${UNITS_PATH}/add-unit`, unitData);
 
-    return response;
+    return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
-      return { error: error.response.data.error.message };
+      throw error.response.data;
     } else {
-      return { error: "Sorry, an unexpected error occurred" };
+      throw { message: "Sorry, an unexpected error occurred" };
     }
+  }
+};
+
+const getAvailableTeachers = async () => {
+  try {
+    const response = await api.get(`${UNITS_PATH}/available-teachers`);
+    return response.data;
+  } catch (error) {
+    throw (
+      error.response?.data || { message: "Failed to fetch available teachers" }
+    );
+  }
+};
+
+const getAvailableStudents = async () => {
+  try {
+    const response = await api.get(`${UNITS_PATH}/available-students`);
+    return response.data;
+  } catch (error) {
+    throw (
+      error.response?.data || { message: "Failed to fetch available students" }
+    );
   }
 };
 
@@ -29,9 +51,42 @@ const assignUnit = async () => {
   }
 };
 
-const deleteUnit = async () => {
+const multipleAssignUnit = async (assignmentData) => {
   try {
-    const response = await api.delete(`${UNITS_PATH}/delete-unit`);
+    const response = await api.patch(
+      `${UNITS_PATH}/multiple-assign-unit`,
+      assignmentData
+    );
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw error.response.data;
+    } else {
+      throw { message: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+const updateUnit = async (unitId, unitData) => {
+  try {
+    const response = await api.put(
+      `${UNITS_PATH}/update-unit/${unitId}`,
+      unitData
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw error.response.data;
+    } else {
+      throw { message: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+const deleteUnit = async (unitId) => {
+  try {
+    const response = await api.delete(`${UNITS_PATH}/delete-unit/${unitId}`);
 
     return response;
   } catch (error) {
@@ -103,13 +158,12 @@ const getUnitsForUser = async () => {
 const getAllUnits = async () => {
   try {
     const response = await api.get(`${UNITS_PATH}/get-all-units`);
-
-    return response;
+    return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
-      return { error: error.response.data.error.message };
+      throw error.response.data;
     } else {
-      return { error: "Sorry, an unexpected error occurred" };
+      throw { message: "Sorry, an unexpected error occurred" };
     }
   }
 };
@@ -126,9 +180,53 @@ const enrollToUnit = async (unitCodes) => {
   }
 };
 
+const getUnitRequests = async () => {
+  try {
+    const response = await api.get(`${UNITS_PATH}/requests`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to fetch unit requests" };
+  }
+};
+
+const createUnitRequest = async (unitCode) => {
+  try {
+    const response = await api.post(`${UNITS_PATH}/requests`, { unitCode });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to create unit request" };
+  }
+};
+
+const approveUnitRequest = async (requestId) => {
+  try {
+    const response = await api.patch(
+      `${UNITS_PATH}/requests/${requestId}/approve`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to approve request" };
+  }
+};
+
+const rejectUnitRequest = async (requestId) => {
+  try {
+    const response = await api.patch(
+      `${UNITS_PATH}/requests/${requestId}/reject`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to reject request" };
+  }
+};
+
 export {
   addUnit,
+  getAvailableStudents,
+  getAvailableTeachers,
   assignUnit,
+  multipleAssignUnit,
+  updateUnit,
   deleteUnit,
   getStudentsOfUnit,
   getTeachersOfUnit,
@@ -136,4 +234,8 @@ export {
   getAllUnits,
   enrollToUnit,
   getUnitsForUser,
+  getUnitRequests,
+  createUnitRequest,
+  approveUnitRequest,
+  rejectUnitRequest,
 };

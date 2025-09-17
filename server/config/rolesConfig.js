@@ -10,6 +10,7 @@ export const ROLES = {
       "delete:user",
       "manage:users",
       "manage:roles",
+      "view:units",
       "create:assignment",
       "view:assignment",
       "edit:assignment",

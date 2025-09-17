@@ -80,6 +80,105 @@ export const assignUnit = asyncHandler(async (req, res) => {
     .json({ message: "Unit has been successfully Assigned" });
 });
 
+// @desc    Assign users to units
+// @route   PATCH /api/unit/multiple-assign-unit
+// @access  Private (Admin)
+export const multipleAssignUnit = asyncHandler(async (req, res) => {
+  const { unitIds, userIds } = req.body;
+
+  if (
+    !unitIds ||
+    !userIds ||
+    !Array.isArray(unitIds) ||
+    !Array.isArray(userIds)
+  ) {
+    return res.status(400).json({ message: "Invalid request data" });
+  }
+
+  try {
+    // Get the units
+    const units = await Unit.find({ _id: { $in: unitIds } });
+    if (units.length !== unitIds.length) {
+      return res.status(404).json({ message: "One or more units not found" });
+    }
+
+    // Get the users and their roles
+    const users = await User.find({ _id: { $in: userIds } });
+    if (users.length !== userIds.length) {
+      return res.status(404).json({ message: "One or more users not found" });
+    }
+
+    // Assign users to units based on their role
+    for (const user of users) {
+      if (user.role === "teacher") {
+        // Check if teacher already has 5 units
+        const teacher = await Teacher.findOne({ bio: user._id }).populate(
+          "units"
+        );
+        if (teacher && teacher.units.length >= 5) {
+          return res.status(400).json({
+            message: `Teacher ${user.firstName} ${user.lastName} already has maximum allowed units (5)`,
+          });
+        }
+
+        // Add units to teacher
+        await Teacher.updateOne(
+          { bio: user._id },
+          { $addToSet: { units: { $each: unitIds } } },
+          { upsert: true }
+        );
+      } else if (user.role === "student") {
+        // Add units to student
+        await Student.updateOne(
+          { bio: user._id },
+          { $addToSet: { units: { $each: unitIds } } },
+          { upsert: true }
+        );
+      }
+    }
+
+    res.status(200).json({ message: "Users assigned to units successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to assign users to units" });
+  }
+});
+
+// @desc    Get available teachers for unit assignment (with less than 5 units)
+// @route   GET /api/unit/available-teachers
+// @access  Private (Admin)
+export const getAvailableTeachers = asyncHandler(async (req, res) => {
+  try {
+    // Get all teachers to filter those with less than 5 units
+    const teachers = await Teacher.find()
+      .populate("bio", "firstName lastName email role")
+      .populate("units", "unitCode unitName");
+
+    // Filter teachers with less than 5 units
+    const availableTeachers = teachers.filter(
+      (teacher) => teacher.units.length < 5
+    );
+
+    res.status(200).json({ teachers: availableTeachers });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch available teachers" });
+  }
+});
+
+// @desc    Get available students for unit assignment (not in all units)
+// @route   GET /api/unit/available-students
+// @access  Private (Admin)
+export const getAvailableStudents = asyncHandler(async (req, res) => {
+  try {
+    const students = await Student.find()
+      .populate("bio", "firstName lastName email role")
+      .populate("units", "unitCode unitName");
+
+    res.status(200).json({ students });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch available students" });
+  }
+});
+
 // @desc    Update a unit
 // @route   PUT /api/unit/update-unit/:id
 // @access  Private (Admin)
@@ -130,17 +229,16 @@ export const updateUnit = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete a unit
-// @route   DELETE /api/unit/delete-unit
+// @route   DELETE /api/unit/delete-unit/:id
 // @access  Private (Admin)
 export const deleteUnit = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+  const { id } = req.params;
+
+  if (req.user.role !== "administrator") {
+    return res.status(403).json({ message: "Unauthorized access" });
   }
 
-  const { unitCode } = matchedData(req);
-
-  const unit = await Unit.findOne({ unitCode });
+  const unit = await Unit.findById(id);
 
   if (!unit) {
     return res
@@ -148,10 +246,20 @@ export const deleteUnit = asyncHandler(async (req, res) => {
       .json({ message: "The specified unit does not exist" });
   }
 
-  await unit.deleteOne();
+  await Promise.all([
+    // Update teachers where this unit is referenced as units
+    Teacher.updateMany({ units: id }, { $pull: { units: id } }),
+
+    // Update students where this unit is referenced as units
+    Student.updateMany({ units: id }, { $pull: { units: id } }),
+
+    // Finally delete the unit
+    Unit.deleteOne({ _id: id }),
+  ]);
+
   return res
     .status(200)
-    .json({ message: `Unit ${unitCode} has successfully been deleted` });
+    .json({ message: `Unit has successfully been deleted` });
 });
 
 // @desc    Get students by unit

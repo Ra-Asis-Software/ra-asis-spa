@@ -8,10 +8,13 @@ import {
   enrollUnit,
   getAllUnits,
   getAssignmentSummaryByUnit,
+  getAvailableStudents,
+  getAvailableTeachers,
   getStudents,
   getTeachers,
   getUnitRequests,
   getUnitsForUser,
+  multipleAssignUnit,
   rejectUnitRequest,
   updateUnit,
 } from "../controllers/unitController.js";
@@ -27,19 +30,33 @@ import { hasPermission, hasRole } from "../middleware/checkUserRole.js";
 const router = Router();
 
 // Route for creating a new unit
-router.post(
-  "/add-unit",
-  hasPermission("create:unit"),
-  validateNewUnit,
-  addUnit
+router.post("/add-unit", hasRole("administrator"), validateNewUnit, addUnit);
+
+// Routes for getting available users for unit assignment
+router.get(
+  "/available-teachers",
+  hasRole("administrator"),
+  getAvailableTeachers
+);
+router.get(
+  "/available-students",
+  hasRole("administrator"),
+  getAvailableStudents
 );
 
 // Route for assigning a unit to a teacher
 router.patch(
   "/assign-unit",
-  hasPermission("assign:unit"),
+  hasRole("administrator"),
   validateAssignUnit,
   assignUnit
+);
+
+// Route for assigning multiple units to multiple users
+router.patch(
+  "/multiple-assign-unit",
+  hasRole("administrator"),
+  multipleAssignUnit
 );
 
 // Route for enrolling for a unit (student)
@@ -53,12 +70,7 @@ router.put(
 );
 
 // Route for deleting a unit
-router.delete(
-  "/delete-unit",
-  hasPermission("delete:unit"),
-  validateUnitCode,
-  deleteUnit
-);
+router.delete("/delete-unit/:id", hasRole("administrator"), deleteUnit);
 
 // Route for retrieving students by unit
 router.get(
