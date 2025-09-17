@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./UnitAssignment.module.css";
 import modalStyles from "./UsersTable.module.css";
-import extraModalStyles from "./UnitRequestsTable.module.css";
 import {
-  assignUnit,
   getAvailableStudents,
   getAvailableTeachers,
   multipleAssignUnit,
@@ -216,9 +214,7 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
         <div className={modalStyles.resultModal}>
           <h3
             className={
-              isSuccess
-                ? extraModalStyles.successHeading
-                : extraModalStyles.errorHeading
+              isSuccess ? modalStyles.successHeading : modalStyles.errorHeading
             }
           >
             <i
@@ -232,9 +228,7 @@ const UnitAssignment = ({ units, onAssignmentComplete }) => {
           </h3>
           <p
             className={
-              isSuccess
-                ? extraModalStyles.successMessage
-                : extraModalStyles.errorMessage
+              isSuccess ? modalStyles.successMessage : modalStyles.errorMessage
             }
           >
             {resultMessage}

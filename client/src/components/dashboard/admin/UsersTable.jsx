@@ -19,6 +19,7 @@ const UsersTable = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
   const [showResultModal, setShowResultModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
   const [loadingStates, setLoadingStates] = useState({});
 
@@ -59,11 +60,13 @@ const UsersTable = ({
       setResultMessage(
         response.data?.message || "The user was deleted successfully!"
       );
+      setIsSuccess(true);
       setShowResultModal(true);
       setDeleteModalOpen(false);
     } catch (err) {
       // Show error in result modal
       setResultMessage(err.response?.data?.message || "Failed to delete user");
+      setIsSuccess(false);
       setShowResultModal(true);
     } finally {
       setLoadingStates((prev) => ({ ...prev, [selectedUser._id]: null }));
@@ -75,6 +78,7 @@ const UsersTable = ({
   const closeResultModal = () => {
     setShowResultModal(false);
     setResultMessage("");
+    setIsSuccess(true);
   };
 
   return (
@@ -270,8 +274,11 @@ const UsersTable = ({
             <div className={styles.deleteModal}>
               <h3>Confirm Deletion</h3>
               <p>
-                Are you sure you want to delete user {selectedUser?.firstName}{" "}
-                {selectedUser?.lastName}? This action cannot be undone.
+                Are you sure you want to delete user{" "}
+                <strong>
+                  {selectedUser?.firstName} {selectedUser?.lastName}
+                </strong>
+                ? This action cannot be undone.
               </p>
               <div className={styles.deleteModalActions}>
                 <button
@@ -296,11 +303,27 @@ const UsersTable = ({
           {/* Delete Result Modal */}
           <Modal isOpen={showResultModal} onClose={closeResultModal}>
             <div className={styles.resultModal}>
-              <h3>
-                <i className="fa-solid fa-circle-check" />
-                Operation Completed
+              <h3
+                className={
+                  isSuccess ? styles.successHeading : styles.errorHeading
+                }
+              >
+                <i
+                  className={
+                    isSuccess
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }
+                />
+                {isSuccess ? "Operation Completed" : "Operation Failed"}
               </h3>
-              <p>{resultMessage}</p>
+              <p
+                className={
+                  isSuccess ? styles.successMessage : styles.errorMessage
+                }
+              >
+                {resultMessage}
+              </p>
               <div className={styles.resultModalActions}>
                 <button
                   onClick={closeResultModal}

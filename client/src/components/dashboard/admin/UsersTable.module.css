@@ -177,8 +177,20 @@
 }
 
 .resultModal h3 i {
-  color: var(--pine-green-color);
   font-size: 2em;
+}
+
+.successHeading i {
+  color: var(--pine-green-color);
+}
+
+.errorHeading i,
+.errorMessage {
+  color: var(--alizarin-crimson-color);
+}
+
+.successMessage {
+  color: var(--pine-green-color);
 }
 
 .modalCloseBtn {

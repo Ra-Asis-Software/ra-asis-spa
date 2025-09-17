@@ -164,7 +164,9 @@ const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
             <div className={tableStyles.resultModal}>
               <h3
                 className={
-                  isSuccess ? styles.successHeading : styles.errorHeading
+                  isSuccess
+                    ? tableStyles.successHeading
+                    : tableStyles.errorHeading
                 }
               >
                 <i
@@ -178,7 +180,9 @@ const UnitRequestsTable = ({ requests, onRequestProcessed, loading }) => {
               </h3>
               <p
                 className={
-                  isSuccess ? styles.successMessage : styles.errorMessage
+                  isSuccess
+                    ? tableStyles.successMessage
+                    : tableStyles.errorMessage
                 }
               >
                 {resultMessage}

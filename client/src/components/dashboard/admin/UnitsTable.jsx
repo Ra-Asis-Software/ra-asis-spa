@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styles from "./UnitsTable.module.css";
 import tableStyles from "./UsersTable.module.css";
-import modalStyles from "./UnitRequestsTable.module.css";
 import Modal from "../../ui/Modal";
 import { deleteUnit } from "../../../services/unitService";
 
@@ -144,7 +143,7 @@ const UnitsTable = ({ units, onEditUnit, onUnitUpdated }) => {
         <div className={tableStyles.resultModal}>
           <h3
             className={
-              isSuccess ? modalStyles.successHeading : modalStyles.errorHeading
+              isSuccess ? tableStyles.successHeading : tableStyles.errorHeading
             }
           >
             <i
@@ -158,7 +157,7 @@ const UnitsTable = ({ units, onEditUnit, onUnitUpdated }) => {
           </h3>
           <p
             className={
-              isSuccess ? modalStyles.successMessage : modalStyles.errorMessage
+              isSuccess ? tableStyles.successMessage : tableStyles.errorMessage
             }
           >
             {resultMessage}
