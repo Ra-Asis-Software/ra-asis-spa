@@ -11,6 +11,7 @@ import userRoutes from "./routes/userRoutes.js";
 import assignmentRoutes from "./routes/assignmentRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
+import testimonialRoutes from "./routes/testimonialRoutes.js";
 
 // Load environment variables
 config();
@@ -55,6 +56,9 @@ app.use("/api/assignments", assignmentRoutes);
 
 // Quiz routes
 app.use("/api/quizzes", quizRoutes);
+
+// Testimonial routes
+app.use("/api/testimonials", testimonialRoutes);
 
 // Global error handling
 app.use((err, req, res, next) => {
