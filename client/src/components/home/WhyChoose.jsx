@@ -1,18 +1,22 @@
-import { whyChooseReasons } from "../../data/whyChooseReasonsData";
+import { whyChooseReasons } from "../../data/whyChooseReasonsData.js";
+import styles from "./WhyChoose.module.css";
 
 const WhyChoose = () => {
   return (
-    <div className="why-choose">
-      <div className="why-choose-heading">
+    <div className={styles.whyChoose}>
+      <div className={styles.whyChooseHeading}>
         <h2>Why Choose Ra'Asis Analytica</h2>
       </div>
-      <div className="why-choose-reasons">
+      <div className={styles.whyChooseReasons}>
         {whyChooseReasons.map((reason) => (
-          <div key={reason.id} className={`reason-box ${reason.className}`}>
-            <div className="reason-image">
-              <img src={reason.image} alt={reason.title} />
+          <div
+            key={reason.id}
+            className={`${styles.reasonBox} ${reason.className}`}
+          >
+            <div className={styles.reasonImageContainer}>
+              <img src={reason.image} alt={reason.title} className={styles.reasonImage} />
             </div>
-            <div className="reason-texts">
+            <div className={styles.reasonTexts}>
               <h3>{reason.title}</h3>
               <p>{reason.description}</p>
             </div>

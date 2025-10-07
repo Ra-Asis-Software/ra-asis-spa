@@ -1,0 +1,94 @@
+.whyChoose {
+  background: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.whyChooseHeading {
+  margin-left: 70px;
+}
+
+.whyChooseReasons {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.reasonBox {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 5px 20px;
+}
+
+.accessibilityReason {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+}
+
+.setupReason {
+  background: var(--cerulean-color);
+  color: var(--black-pearl-color);
+}
+
+.trainingReason {
+  background: var(--aqua-color);
+  color: var(--cerulean-color);
+}
+
+.supportReason {
+  background: var(--black-pearl-color);
+  color: var(--foam-color);
+}
+
+.secureReason {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+  margin-bottom: 50px;
+}
+
+.reasonImage {
+  width: 120px;
+  height: 120px;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 991px) {
+  .whyChooseHeading {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .whyChooseHeading {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .whyChooseHeading {
+    margin-right: 20px;
+  }
+
+  .whyChooseReasons {
+    gap: 20px;
+  }
+
+  .reasonBox {
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 7px;
+  }
+}
+
+@media (max-width: 462px) {
+  .reasonBox {
+    padding: 5px;
+  }
+
+  .reasonImage {
+    width: 100px;
+    height: 100px;
+  }
+}

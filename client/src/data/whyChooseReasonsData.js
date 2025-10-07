@@ -1,4 +1,5 @@
-// Data for WhyChoose component (landing page)
+import styles from "../components/home/WhyChoose.module.css";
+
 export const whyChooseReasons = [
   {
     id: 1,
@@ -6,7 +7,7 @@ export const whyChooseReasons = [
     description:
       "Experience a lighting-fast mobile-friendly system that keeps you connected and productive wherever you go.",
     image: "/assets/anytime_anywhere.webp",
-    className: "accessibility-reason",
+    className: styles.accessibilityReason,
   },
   {
     id: 2,
@@ -14,7 +15,7 @@ export const whyChooseReasons = [
     description:
       "Get started in minutes. No technical expertise needed. Designed for simplicity, tailored for results.",
     image: "/assets/easy.webp",
-    className: "setup-reason",
+    className: styles.setupReason,
   },
   {
     id: 3,
@@ -22,7 +23,7 @@ export const whyChooseReasons = [
     description:
       "Empowering hands-on, personalised training designed to give you the maximum potential of application.",
     image: "/assets/expert_training.webp",
-    className: "training-reason",
+    className: styles.trainingReason,
   },
   {
     id: 4,
@@ -30,7 +31,7 @@ export const whyChooseReasons = [
     description:
       "Count on our dedicated support team, available around the clock to assist you with any questions or challenges.",
     image: "/assets/expert_support.webp",
-    className: "support-reason",
+    className: styles.supportReason,
   },
   {
     id: 5,
@@ -38,6 +39,6 @@ export const whyChooseReasons = [
     description:
       "Rest easy knowing you have robust and secure cloud servers that protect your data from loss and ensure seamless accessibility.",
     image: "/assets/secure_hosting.webp",
-    className: "secure-reason",
+    className: styles.secureReason,
   },
 ];

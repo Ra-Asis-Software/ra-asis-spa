@@ -67,63 +67,6 @@ a {
 
 /* Landing Page Styling */
 
-/* WhyChoose */
-
-.why-choose {
-  background: var(--foam-color);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.why-choose-heading {
-  margin-left: 70px;
-}
-
-.why-choose-reasons {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
-
-.why-choose-reasons .reason-box {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 5px 20px;
-}
-
-.why-choose-reasons .accessibility-reason {
-  background: var(--pine-green-color);
-  color: var(--bright-sun-color);
-}
-
-.why-choose-reasons .setup-reason {
-  background: var(--cerulean-color);
-  color: var(--black-pearl-color);
-}
-
-.why-choose-reasons .training-reason {
-  background: var(--aqua-color);
-  color: var(--cerulean-color);
-}
-
-.why-choose-reasons .support-reason {
-  background: var(--black-pearl-color);
-  color: var(--foam-color);
-}
-
-.why-choose-reasons .secure-reason {
-  background: var(--bright-sun-color);
-  color: var(--pine-green-color);
-  margin-bottom: 50px;
-}
-
-.why-choose-reasons .reason-box .reason-image img {
-  width: 120px;
-  height: 120px;
-}
-
 /* Testimonials */
 
 .testimonials {
@@ -1422,12 +1365,6 @@ a {
 @media (max-width: 991px) {
   /* Landing Page Responsive Styling */
 
-  /* WhyChoose */
-
-  .why-choose-heading {
-    margin-left: 30px;
-  }
-
   /* Testimonials */
 
   .testimonials .user-details {
@@ -1561,12 +1498,6 @@ a {
   }
 
   /* Landing Page Responsive Styling */
-
-  /* WhyChoose */
-
-  .why-choose-heading {
-    margin-left: 20px;
-  }
 
   /* Testimonials */
 
@@ -1710,22 +1641,6 @@ a {
 
   /* Landing Page Responsive Styling */
 
-  /* WhyChoose */
-
-  .why-choose-heading {
-    margin-right: 20px;
-  }
-
-  .why-choose-reasons {
-    gap: 20px;
-  }
-
-  .why-choose-reasons .reason-box {
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 7px;
-  }
-
   /* Lead Generation */
 
   .lead-generation-image img {
@@ -1843,17 +1758,6 @@ a {
 
 @media (max-width: 462px) {
   /* Landing Page Responsive Styling */
-
-  /* WhyChoose */
-
-  .why-choose-reasons .reason-box {
-    padding: 5px;
-  }
-
-  .why-choose-reasons .reason-box .reason-image img {
-    width: 100px;
-    height: 100px;
-  }
 
   /* Lead Generation */
 
