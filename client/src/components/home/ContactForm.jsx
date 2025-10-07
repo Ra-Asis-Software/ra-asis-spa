@@ -1,67 +1,71 @@
+import styles from "./ContactForm.module.css";
+
 const ContactForm = () => {
   return (
-    <div className="contact-form">
-      <div className="contact-form-intro">
+    <div className={styles.contactFormContainer}>
+      <div className={styles.contactFormIntro}>
         <h2>Let's Connect</h2>
         <p>
-          Fill out the form below to connect with our sales team and discuss how
-          Ra'Asis Analytica can help your school or you as an individual.
+          Fill out the form below to make an inquiry or start a discussion on
+          how Ra'Asis Analytica can help your school, your group or just you.
         </p>
       </div>
-      <div className="contact-form-fields">
-        <form id="landing_contact_form">
-          <div className="contact-names form-section">
-            <div className="input-container">
+      <div className={styles.contactFormFields}>
+        <form className={styles.landingContactForm}>
+          <div className={`${styles.contactNames} ${styles.formSection}`}>
+            <div className={styles.inputContainer}>
               <label>
-                First Name<span className="required-star">*</span>
+                First Name<span className={styles.requiredStar}>*</span>
               </label>
               <input type="text" name="firstName" size="30" />
             </div>
-            <div className="input-container">
+            <div className={styles.inputContainer}>
               <label>
-                Last Name<span className="required-star">*</span>
+                Last Name<span className={styles.requiredStar}>*</span>
               </label>
               <input type="text" name="lastName" size="30" />
             </div>
           </div>
-          <div className="contact-email-phone form-section">
-            <div className="input-container">
+          <div className={`${styles.contactEmailPhone} ${styles.formSection}`}>
+            <div className={styles.inputContainer}>
               <label>
-                Email Address<span className="required-star">*</span>
+                Email Address<span className={styles.requiredStar}>*</span>
               </label>
               <input type="email" name="email" size="30" />
             </div>
-            <div className="input-container">
+            <div className={styles.inputContainer}>
               <label>
-                Phone Number<span className="required-star">*</span>
+                Phone Number<span className={styles.requiredStar}>*</span>
               </label>
               <input type="text" name="phoneNumber" size="30" />
             </div>
           </div>
-          <div className="contact-title-school form-section">
-            <div className="input-container">
+          <div className={`${styles.contactTitleSchool} ${styles.formSection}`}>
+            <div className={styles.inputContainer}>
               <label>
-                Title<span className="required-star">*</span>
+                Title<span className={styles.requiredStar}>*</span>
               </label>
               <input type="text" name="title" size="30" />
             </div>
-            <div className="input-container">
+            <div className={styles.inputContainer}>
               <label>
-                School<span className="required-star">*</span>
+                School/Group<span className={styles.requiredStar}>*</span>
               </label>
               <input type="text" name="school" size="30" />
             </div>
           </div>
-          <div className="contact-message">
-            <div className="input-container">
+          <div className={styles.contactMessage}>
+            <div className={styles.inputContainer}>
               <textarea
                 name="message"
                 placeholder="How can we be of help to you"
               ></textarea>
             </div>
           </div>
-          <div className="submit-button">
-            <button type="submit">Submit</button>
+          <div className={styles.submitButtonContainer}>
+            <button type="submit" className={styles.submitButton}>
+              Submit
+            </button>
           </div>
         </form>
       </div>
