@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./Testimonials.module.css";
 
 const Testimonials = () => {
   const users = [
@@ -30,24 +31,24 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="testimonials">
-      <div className="user-details">
+    <div className={styles.testimonialsContainer}>
+      <div className={styles.userDetails}>
         <h2>{selectedUser.name}</h2>
         <p>{selectedUser.title}</p>
       </div>
-      <div className="user-testimonials">
+      <div className={styles.userTestimonials}>
         <p>{selectedUser.testimonial}</p>
-        <div className="testimonial-buttons">
+        <div className={styles.testimonialButtons}>
           {users.map((user) => (
             <button
               key={user.name}
               onClick={() => handleClick(user)}
-              className={selectedUser.name === user.name ? "active" : ""}
+              className={selectedUser.name === user.name ? styles.active : ""}
             ></button>
           ))}
         </div>
       </div>
-      <div className="user-details user-details-mobile">
+      <div className={`${styles.userDetails} ${styles.userDetailsMobile}`}>
         <h2>{selectedUser.name}</h2>
         <p>{selectedUser.title}</p>
       </div>

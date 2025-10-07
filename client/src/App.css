@@ -67,87 +67,6 @@ a {
 
 /* Landing Page Styling */
 
-/* Testimonials */
-
-.testimonials {
-  background: var(--foam-color);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0;
-}
-
-.testimonials > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 100px;
-}
-
-.testimonials .user-details {
-  background: var(--aqua-color);
-  border-bottom-right-radius: 20px;
-  height: 300px;
-  box-sizing: border-box;
-  position: relative;
-  left: 70px;
-  z-index: 1;
-}
-
-.testimonials .user-details::before {
-  content: "";
-  background: var(--aqua-color);
-  position: absolute;
-  right: 70px;
-  padding: inherit;
-  height: inherit;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: -1;
-}
-
-.testimonials .user-details p {
-  margin-top: -20px;
-}
-
-.testimonials .user-testimonials {
-  background: var(--black-pearl-color);
-  color: var(--aqua-color);
-  border-bottom-left-radius: 20px;
-  align-items: flex-start;
-  max-height: 350px;
-}
-
-.testimonials .user-testimonials .testimonial-buttons {
-  display: flex;
-  gap: 5px;
-  position: relative;
-  top: 50px;
-}
-
-.testimonials .user-testimonials .testimonial-buttons button {
-  background: var(--black-pearl-color);
-  outline: none;
-  border: 1.5px solid var(--aqua-color);
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 400ms ease-in-out;
-}
-
-.testimonials .user-testimonials .testimonial-buttons button:hover {
-  background: var(--pine-green-color);
-}
-
-.testimonials .user-testimonials .testimonial-buttons button.active {
-  background: var(--pine-green-color);
-  border-color: var(--black-pearl-color);
-}
-
-.testimonials .user-details-mobile {
-  display: none;
-}
-
 /* Lead Generation */
 
 .lead-generation {
@@ -1365,21 +1284,6 @@ a {
 @media (max-width: 991px) {
   /* Landing Page Responsive Styling */
 
-  /* Testimonials */
-
-  .testimonials .user-details {
-    padding: 0;
-    left: 50px;
-  }
-
-  .testimonials .user-details::before {
-    right: 50px;
-  }
-
-  .testimonials .user-testimonials .testimonial-buttons {
-    top: 20px;
-  }
-
   /* Lead Generation */
 
   .lead-generation-image img {
@@ -1498,44 +1402,6 @@ a {
   }
 
   /* Landing Page Responsive Styling */
-
-  /* Testimonials */
-
-  .testimonials {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .testimonials > div {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 50px 20px;
-  }
-
-  .testimonials .user-details,
-  .testimonials .user-details::before {
-    display: none;
-  }
-
-  .testimonials .user-testimonials {
-    border-radius: 7px;
-  }
-
-  .testimonials .user-testimonials .testimonial-buttons {
-    left: 100px;
-  }
-
-  .testimonials .user-details-mobile {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-end;
-    width: 300px;
-    height: fit-content;
-    padding: 20px;
-    border-radius: 7px;
-    left: 0;
-    bottom: 20px;
-  }
 
   /* Lead Generation */
 
