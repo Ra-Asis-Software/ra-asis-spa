@@ -24,9 +24,21 @@ const Testimonials = ({ isAuthenticated }) => {
   ];
 
   const [selectedUser, setSelectedUser] = useState(users[0]);
+  const [showModal, setShowModal] = useState(false);
+  const [testimonialText, setTestimonialText] = useState("");
 
   const handleClick = (user) => {
     setSelectedUser(user);
+  };
+
+  const handleSubmit = () => {
+    if (!testimonialText.trim()) {
+      alert("Please write something!");
+      return;
+    }
+    console.log("Testimonial submitted", testimonialText);
+    setTestimonialText("");
+    setShowModal(false);
   };
 
   return (
@@ -47,9 +59,41 @@ const Testimonials = ({ isAuthenticated }) => {
           ))}
         </div>
       </div>
+
+      {/* Only Show button if user is authentictated */}
       {isAuthenticated && (
         <div className={styles.LeaveTestimonialButtonContainer}>
-          <button className={styles.leaveTestimonialButton}>Leave Testimonial</button>
+          <button
+            className={styles.leaveTestimonialButton}
+            onClick={() => setShowModal(true)}
+          >
+            Leave a Testimonial
+          </button>
+        </div>
+      )}
+
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox}>
+            <h2>Leave a Testimonial</h2>
+            <textarea
+              value={testimonialText}
+              onChange={(e) => setTestimonialText(e.target.value)}
+              placeholder="Write your testimonial here"
+              className={styles.modalTextarea}
+            />
+            <div className={styles.modalActions}>
+              <button className={styles.submitButton} onClick={handleSubmit}>
+                Submit
+              </button>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
