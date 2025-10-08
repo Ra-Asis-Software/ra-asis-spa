@@ -48,8 +48,7 @@ export const getAllTestimonials = asyncHandler(async (req, res) => {
 
   const flattenedTestimonials = testimonials.map((t) => ({
     ...t,
-    firstName: t.user?.firstName,
-    lastName: t.user?.lastName,
+    name: `${t.user?.firstName} ${t.user?.lastName}`,
     user: undefined,
   }));
 
@@ -69,8 +68,7 @@ export const getUnApprovedTestimonials = asyncHandler(async (req, res) => {
 
   const flattenedTestimonials = testimonials.map((t) => ({
     ...t,
-    firstName: t.user?.firstName,
-    lastName: t.user?.lastName,
+    name: `${t.user?.firstName} ${t.user?.lastName}`,
     user: undefined,
   }));
 
@@ -90,8 +88,7 @@ export const getApprovedTestimonials = asyncHandler(async (req, res) => {
 
   const flattenedTestimonials = testimonials.map((t) => ({
     ...t,
-    firstName: t.user?.firstName,
-    lastName: t.user?.lastName,
+    name: `${t.user?.firstName} ${t.user?.lastName}`,
     user: undefined,
   }));
 

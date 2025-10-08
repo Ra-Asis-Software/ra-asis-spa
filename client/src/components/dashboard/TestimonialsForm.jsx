@@ -1,10 +1,12 @@
 import { useState } from "react";
 import styles from "./css/TestimonialsForm.module.css";
+import { submitTestimonial } from "../../services/testimonialService";
 
-const TestimonialForm = ({ onSubmit, onCancel }) => {
+const TestimonialForm = ({ setShowModal }) => {
   const [title, setTitle] = useState("");
   const [testimonial, setTestimonial] = useState("");
   const [errors, setErrors] = useState({ title: "", testimonial: "" });
+  const [message, setMessage] = useState("");
 
   const validate = () => {
     const newErrors = { title: "", testimonial: "" };
@@ -25,18 +27,27 @@ const TestimonialForm = ({ onSubmit, onCancel }) => {
     return !newErrors.title && !newErrors.testimonial;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    onSubmit({
-      title: title.trim(),
-      testimonial: testimonial.trim(),
+    const testimonialSubmitted = await submitTestimonial({
+      title,
+      testimonial,
     });
 
-    setTitle("");
-    setTestimonial("");
-    setErrors({ title: "", testimonial: "" });
+    if (testimonialSubmitted.error) {
+      setMessage(testimonialSubmitted.error);
+    } else {
+      setShowModal(false);
+      setTitle("");
+      setTestimonial("");
+      setErrors({ title: "", testimonial: "" });
+    }
+
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
   };
 
   return (
@@ -83,10 +94,15 @@ const TestimonialForm = ({ onSubmit, onCancel }) => {
           <button type="submit" className={styles.submitBtn}>
             Submit
           </button>
-          <button type="button" onClick={onCancel} className={styles.cancelBtn}>
+          <button
+            type="button"
+            onClick={() => setShowModal(false)}
+            className={styles.cancelBtn}
+          >
             Cancel
           </button>
         </div>
+        <h4 className={styles.errorMessage}>{message}</h4>
       </form>
     </div>
   );
