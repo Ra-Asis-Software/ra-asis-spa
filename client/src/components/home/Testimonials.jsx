@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./Testimonials.module.css";
+import TestimonialForm from "../dashboard/TestimonialsForm";
 
 const Testimonials = ({ isAuthenticated }) => {
   const users = [
@@ -25,27 +26,13 @@ const Testimonials = ({ isAuthenticated }) => {
 
   const [selectedUser, setSelectedUser] = useState(users[0]);
   const [showModal, setShowModal] = useState(false);
-  const [testimonialText, setTestimonialText] = useState("");
-  const [name, setName] = useState("");
-  const [department, setDepartment] = useState("");
-
+  const [testimonials, setTestimonial] = useState([]);
   const handleClick = (user) => {
     setSelectedUser(user);
   };
 
-  const handleSubmit = () => {
-    if (!name.trim() || !department.trim() || !testimonialText.trim()) {
-      alert("Please fill in all fields before submitting.");
-      return;
-    }
-    console.log("New Testimonial Submitted:", {
-      name,
-      department,
-      testimonialText,
-    });
-    setName("");
-    setDepartment("");
-    setTestimonialText("");
+  const handleAddTestimonial = (text) => {
+    setTestimonial((prev) => [...prev, text]);
     setShowModal(false);
   };
 
@@ -81,54 +68,21 @@ const Testimonials = ({ isAuthenticated }) => {
         </div>
       )}
 
-      {/* Modal */}
       {showModal && (
         <div
           className={styles.modalOverlay}
           onClick={() => setShowModal(false)}
         >
-          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
-            <h2>Leave a Testimonial</h2>
-
-            <div className={styles.titleFields}>
-              <input
-                type="text"
-                placeholder="Enter your Names"
-                className={styles.titleFieldsInputs}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Title"
-                className={styles.titleFieldsInputs}
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-              />
-            </div>
-
-            <textarea
-              value={testimonialText}
-              onChange={(e) => setTestimonialText(e.target.value)}
-              placeholder="Write your testimonial here"
-              className={styles.modalTextarea}
+          <div
+            onClick={(e) => e.stopPropagation()}
+          >
+            <TestimonialForm
+              onSubmit={handleAddTestimonial}
+              onCancel={() => setShowModal(false)}
             />
-
-            <div className={styles.modalActions}>
-              <button className={styles.submitButton} onClick={handleSubmit}>
-                Submit
-              </button>
-              <button
-                className={styles.cancelButton}
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
           </div>
         </div>
       )}
-
       <div className={`${styles.userDetails} ${styles.userDetailsMobile}`}>
         <h2>{selectedUser.name}</h2>
         <p>{selectedUser.title}</p>
