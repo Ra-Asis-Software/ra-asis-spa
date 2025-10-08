@@ -77,15 +77,22 @@
   display: none;
 }
 
-.submitButton {
+.LeaveTestimonialButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.leaveTestimonialButton {
   background: var(--black-pearl-color);
-  color: var(--foam-color);
+  color: var(--aqua-color);
   font-weight: 700;
   padding: 15px 100px;
 }
 
-.submitButton:hover {
-  background: var(--foam-color);
+.leaveTestimonialButton:hover {
+  background: var(--aqua-color);
   color: var(--black-pearl-color);
 }
 
