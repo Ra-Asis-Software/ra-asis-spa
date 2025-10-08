@@ -9,6 +9,7 @@ import Quiz from "../models/Quiz.js";
 import Submission from "../models/Submission.js";
 import QuizSubmission from "../models/QuizSubmission.js";
 import Parent from "../models/Parent.js";
+import Testimonial from "../models/Testimonial.js";
 
 // @desc    Create a new user
 // @route   POST /api/admin
@@ -317,6 +318,9 @@ export const deleteUser = asyncHandler(async (req, res) => {
 
     // Delete quiz submissions by the user
     QuizSubmission.deleteMany({ student: id }),
+
+    // Delete User testimonial
+    Testimonial.deleteOne({ user: id }),
 
     // Finally delete the user
     User.deleteOne({ _id: id }),
