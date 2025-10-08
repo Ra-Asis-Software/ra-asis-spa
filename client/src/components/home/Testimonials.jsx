@@ -48,10 +48,11 @@ const Testimonials = ({ isAuthenticated }) => {
         </div>
       </div>
       {isAuthenticated && (
-        <div className={styles.submitButtonContainer}>
-          <button className={styles.submitButton}>Leave Testimonial</button>
+        <div className={styles.LeaveTestimonialButtonContainer}>
+          <button className={styles.leaveTestimonialButton}>Leave Testimonial</button>
         </div>
       )}
+
       <div className={`${styles.userDetails} ${styles.userDetailsMobile}`}>
         <h2>{selectedUser.name}</h2>
         <p>{selectedUser.title}</p>
