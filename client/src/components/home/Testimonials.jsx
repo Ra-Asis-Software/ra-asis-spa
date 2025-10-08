@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Testimonials.module.css";
 
-const Testimonials = () => {
+const Testimonials = ({ isAuthenticated }) => {
   const users = [
     {
       name: "Allan Kimutai",
@@ -23,7 +23,6 @@ const Testimonials = () => {
     },
   ];
 
-  // Default selected user is the first user in the array
   const [selectedUser, setSelectedUser] = useState(users[0]);
 
   const handleClick = (user) => {
@@ -48,6 +47,11 @@ const Testimonials = () => {
           ))}
         </div>
       </div>
+      {isAuthenticated && (
+        <div className={styles.submitButtonContainer}>
+          <button className={styles.submitButton}>Leave Testimonial</button>
+        </div>
+      )}
       <div className={`${styles.userDetails} ${styles.userDetailsMobile}`}>
         <h2>{selectedUser.name}</h2>
         <p>{selectedUser.title}</p>
