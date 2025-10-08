@@ -96,96 +96,11 @@
   color: var(--black-pearl-color);
 }
 
-/* Modal Overlay */
 .modalOverlay {
   position: fixed;
-  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
   z-index: 50;
-}
-
-.modalBox {
-  background-color: var(--foam-color);
-  padding: 1.5rem;
-  border-radius: 8px;
-  width: 30rem;
-  gap: 2rem;
-  max-width: 90%;
-  box-shadow: 0 4px 20px var(--black-pearl-color);
-  animation: fadeInUp 0.25s ease;
-}
-
-.titleFields{
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.titleFieldsInputs{
-  border-radius: 6px;
-  padding: 0.5rem;
-  outline: none;
-   border: 1px solid var(--aqua-color);
-  margin-bottom: 10px;
-}
-
-.titleFieldsInputs:focus {
-  border-color: var(--west-coast-color);
-}
-
-.modalTextarea {
-  width: 100%;
-  height: 7rem;
-  padding: 0.5rem;
-  border: 1px solid var(--aqua-color);
-  border-radius: 4px;
-  resize: vertical;
-  margin-bottom: 1rem;
-  font-family: inherit;
-  font-size: 0.95rem;
-  outline: none;
-}
-
-.modalTextarea:focus {
-  border-color: var(--west-coast-color);
-}
-
-.modalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.submitButton {
-  background: var(--pine-green-color);
-  color: var(--foam-color);
-  font-weight: 700;
-}
-
-.submitButton:hover {
-  background: var(--aqua-color);
-  color: var(--black-pearl-color);
-}
-
-.cancelButton {
-  background-color: var(--french-gray-color);
-  font-weight: 700;
-}
-
-/* ===== Animation ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* RESPONSIVE BREAKPOINTS */
