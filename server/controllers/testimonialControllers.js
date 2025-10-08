@@ -7,7 +7,7 @@ import User from "../models/User.js";
 // @route   POST /api/testimonial/submit
 // @access  Private (Student, Teacher, Parent)
 export const submitTestimonial = asyncHandler(async (req, res) => {
-  const { name, title, testimonial } = matchedData(req);
+  const { title, testimonial } = matchedData(req);
   const { id } = req.user;
 
   const user = await User.findById(id);
@@ -24,7 +24,6 @@ export const submitTestimonial = asyncHandler(async (req, res) => {
 
   await Testimonial.create({
     user: id,
-    name,
     title,
     testimonial,
     approved: false,
@@ -40,27 +39,63 @@ export const submitTestimonial = asyncHandler(async (req, res) => {
 // @route   GET /api/testimonials/all
 // @access  Private (Admin)
 export const getAllTestimonials = asyncHandler(async (req, res) => {
-  const testimonials = await Testimonial.find({});
+  const testimonials = await Testimonial.find({})
+    .populate({
+      path: "user",
+      select: "firstName lastName ",
+    })
+    .lean();
 
-  return res.status(200).json(testimonials);
+  const flattenedTestimonials = testimonials.map((t) => ({
+    ...t,
+    firstName: t.user?.firstName,
+    lastName: t.user?.lastName,
+    user: undefined,
+  }));
+
+  return res.status(200).json(flattenedTestimonials);
 });
 
 // @desc    Get testimonials not approved
 // @route   GET /api/testimonials/not-approved
 // @access  Private (Admin)
 export const getUnApprovedTestimonials = asyncHandler(async (req, res) => {
-  const testimonials = await Testimonial.find({ approved: false });
+  const testimonials = await Testimonial.find({ approved: false })
+    .populate({
+      path: "user",
+      select: "firstName lastName ",
+    })
+    .lean();
 
-  return res.status(200).json(testimonials);
+  const flattenedTestimonials = testimonials.map((t) => ({
+    ...t,
+    firstName: t.user?.firstName,
+    lastName: t.user?.lastName,
+    user: undefined,
+  }));
+
+  return res.status(200).json(flattenedTestimonials);
 });
 
 // @desc    Get approved testimonials
 // @route   GET /api/testimonials/approved
 // @access  Public
 export const getApprovedTestimonials = asyncHandler(async (req, res) => {
-  const testimonials = await Testimonial.find({ approved: true });
+  const testimonials = await Testimonial.find({ approved: true })
+    .populate({
+      path: "user",
+      select: "firstName lastName ",
+    })
+    .lean();
 
-  return res.status(200).json(testimonials);
+  const flattenedTestimonials = testimonials.map((t) => ({
+    ...t,
+    firstName: t.user?.firstName,
+    lastName: t.user?.lastName,
+    user: undefined,
+  }));
+
+  return res.status(200).json(flattenedTestimonials);
 });
 
 // @desc    Approve testimonials
