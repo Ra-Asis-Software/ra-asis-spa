@@ -77,6 +77,18 @@
   display: none;
 }
 
+.submitButton {
+  background: var(--black-pearl-color);
+  color: var(--foam-color);
+  font-weight: 700;
+  padding: 15px 100px;
+}
+
+.submitButton:hover {
+  background: var(--foam-color);
+  color: var(--black-pearl-color);
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media (max-width: 991px) {
   .testimonialsContainer .userDetails {
