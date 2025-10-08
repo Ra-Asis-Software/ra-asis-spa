@@ -5,8 +5,8 @@ export const validateTestimonial = [
 
   body("testimonial")
     .trim()
-    .isLength({ min: 175 })
-    .withMessage("Please provide a testimonial longer than 175 characters"),
+    .isLength({ min: 20, max: 175 })
+    .withMessage("Please provide a testimonial between 20 and 175 characters"),
 
   (req, res, next) => {
     const errors = validationResult(req);

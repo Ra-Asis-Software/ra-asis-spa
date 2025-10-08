@@ -42,7 +42,7 @@ export const getAllTestimonials = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find({})
     .populate({
       path: "user",
-      select: "firstName lastName ",
+      select: "firstName lastName",
     })
     .lean();
 
@@ -63,7 +63,7 @@ export const getUnApprovedTestimonials = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find({ approved: false })
     .populate({
       path: "user",
-      select: "firstName lastName ",
+      select: "firstName lastName",
     })
     .lean();
 
@@ -84,7 +84,7 @@ export const getApprovedTestimonials = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find({ approved: true })
     .populate({
       path: "user",
-      select: "firstName lastName ",
+      select: "firstName lastName",
     })
     .lean();
 
