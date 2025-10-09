@@ -4,10 +4,10 @@ import Testimonial from "../models/Testimonial.js";
 import User from "../models/User.js";
 
 // @desc    Submit a testimonial
-// @route   POST /api/testimonial/submit
+// @route   POST /api/testimonials/submit
 // @access  Private (Student, Teacher, Parent)
 export const submitTestimonial = asyncHandler(async (req, res) => {
-  const { title, testimonial } = matchedData(req);
+  const { groupName, testimonial } = matchedData(req);
   const { id } = req.user;
 
   const user = await User.findById(id);
@@ -24,7 +24,7 @@ export const submitTestimonial = asyncHandler(async (req, res) => {
 
   await Testimonial.create({
     user: id,
-    title,
+    groupName,
     testimonial,
     approved: false,
   });

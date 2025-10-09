@@ -1,12 +1,16 @@
 import { body, validationResult } from "express-validator";
 
 export const validateTestimonial = [
-  body("title").trim(),
+  body("groupName")
+    .optional()
+    .trim()
+    .isLength({ min: 3, max: 50 })
+    .withMessage("Group name must be between 3 and 50 characters"),
 
   body("testimonial")
     .trim()
-    .isLength({ min: 20, max: 175 })
-    .withMessage("Please provide a testimonial between 20 and 175 characters"),
+    .isLength({ min: 20, max: 250 })
+    .withMessage("Please provide a testimonial between 20 and 250 characters"),
 
   (req, res, next) => {
     const errors = validationResult(req);

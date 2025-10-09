@@ -1,6 +1,7 @@
 import api from "./api";
 
 const TESTIMONIAL_PATH = "/testimonials";
+
 export const submitTestimonial = async (data) => {
   try {
     const response = await api.post(`${TESTIMONIAL_PATH}/submit`, data);

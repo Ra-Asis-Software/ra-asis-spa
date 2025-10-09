@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { hasRole } from "../middleware/checkUserRole.js";
+import { validateTestimonial } from "../validators/testimonialValidator.js";
 import {
   approveTestimonial,
   deleteTestimonial,
@@ -6,9 +8,7 @@ import {
   getApprovedTestimonials,
   getUnApprovedTestimonials,
   submitTestimonial,
-} from "../controllers/testimonialControllers.js";
-import { hasRole } from "../middleware/checkUserRole.js";
-import { validateTestimonial } from "../validators/testimonialValidator.js";
+} from "../controllers/testimonialController.js";
 
 const router = Router();
 
