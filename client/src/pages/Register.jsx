@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import styles from "./Register.module.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -140,29 +141,33 @@ const Register = () => {
 
   return (
     <>
-      <header id="register_header">
+      <header className={styles.registerHeader}>
         <div className="app-logo">
           <Link to="/">
             <img src="/assets/spa_logo.webp" alt="SPA logo" />
           </Link>
         </div>
       </header>
-      <div className="registration-container">
-        <div className="registration-content">
-          <div className="registration-intro">
+      <div className={styles.registrationContainer}>
+        <div className={styles.registrationContent}>
+          <div className={styles.registrationIntro}>
             <h2>Register</h2>
           </div>
-          <div className="registration-form">
-            <form onSubmit={onSubmit} noValidate>
-              <div className="user-category">
-                <div className="user-category-heading">
+          <div className={styles.registrationFormContainer}>
+            <form
+              onSubmit={onSubmit}
+              className={styles.registrationForm}
+              noValidate
+            >
+              <div className={styles.userCategory}>
+                <div className={styles.userCategoryHeading}>
                   <p>Please select a user category</p>
                 </div>
-                <div className="user-category-choices">
-                  <label className="radio-restyle">
+                <div className={styles.userCategoryChoices}>
+                  <label className={styles.radioRestyle}>
                     <input
                       type="radio"
-                      className="radio-restyle"
+                      className={styles.radioRestyle}
                       name="role"
                       value="student"
                       checked={role === "student"}
@@ -170,10 +175,10 @@ const Register = () => {
                     />
                     <span>Student</span>
                   </label>
-                  <label className="radio-restyle">
+                  <label className={styles.radioRestyle}>
                     <input
                       type="radio"
-                      className="radio-restyle"
+                      className={styles.radioRestyle}
                       name="role"
                       value="teacher"
                       checked={role === "teacher"}
@@ -181,10 +186,10 @@ const Register = () => {
                     />
                     <span>Teacher</span>
                   </label>
-                  <label className="radio-restyle">
+                  <label className={styles.radioRestyle}>
                     <input
                       type="radio"
-                      className="radio-restyle"
+                      className={styles.radioRestyle}
                       name="role"
                       value="parent"
                       checked={role === "parent"}
@@ -194,15 +199,15 @@ const Register = () => {
                   </label>
                 </div>
               </div>
-              <div className="details">
-                <div className="personal-details">
-                  <div className="details-heading personal-details-heading">
-                    <h4>Personal Details</h4>
+              <div className={styles.details}>
+                <div className={styles.personalDetails}>
+                  <div className={styles.personalDetailsHeading}>
+                    <h4 className={styles.detailsHeading}>Personal Details</h4>
                   </div>
-                  <div className="personal-details-inputs">
-                    <div className="input-container">
+                  <div className={styles.personalDetailsInputs}>
+                    <div className={styles.inputContainer}>
                       <label>
-                        First Name<span className="required-star">*</span>
+                        First Name<span className={styles.requiredStar}>*</span>
                       </label>
                       <input
                         type="text"
@@ -213,12 +218,14 @@ const Register = () => {
                         onChange={onChange}
                       />
                       {errors.firstName && (
-                        <small className="error">{errors.firstName}</small>
+                        <small className={styles.error}>
+                          {errors.firstName}
+                        </small>
                       )}
                     </div>
-                    <div className="input-container">
+                    <div className={styles.inputContainer}>
                       <label>
-                        Last Name<span className="required-star">*</span>
+                        Last Name<span className={styles.requiredStar}>*</span>
                       </label>
                       <input
                         type="text"
@@ -229,12 +236,15 @@ const Register = () => {
                         onChange={onChange}
                       />
                       {errors.lastName && (
-                        <small className="error">{errors.lastName}</small>
+                        <small className={styles.error}>
+                          {errors.lastName}
+                        </small>
                       )}
                     </div>
-                    <div className="input-container">
+                    <div className={styles.inputContainer}>
                       <label>
-                        Phone Number<span className="required-star">*</span>
+                        Phone Number
+                        <span className={styles.requiredStar}>*</span>
                       </label>
                       <input
                         type="text"
@@ -245,19 +255,24 @@ const Register = () => {
                         onChange={onChange}
                       />
                       {errors.phoneNumber && (
-                        <small className="error">{errors.phoneNumber}</small>
+                        <small className={styles.error}>
+                          {errors.phoneNumber}
+                        </small>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="credential-details">
-                  <div className="details-heading credential-details-heading">
-                    <h4>Credential Details</h4>
+                <div className={styles.credentialDetails}>
+                  <div className={styles.credentialDetailsHeading}>
+                    <h4 className={styles.detailsHeading}>
+                      Credential Details
+                    </h4>
                   </div>
-                  <div className="credential-details-inputs">
-                    <div className="input-container">
+                  <div className={styles.credentialDetailsInputs}>
+                    <div className={styles.inputContainer}>
                       <label>
-                        Email Address<span className="required-star">*</span>
+                        Email Address
+                        <span className={styles.requiredStar}>*</span>
                       </label>
                       <input
                         type="email"
@@ -268,12 +283,12 @@ const Register = () => {
                         onChange={onChange}
                       />
                       {errors.email && (
-                        <small className="error">{errors.email}</small>
+                        <small className={styles.error}>{errors.email}</small>
                       )}
                     </div>
-                    <div className="input-container">
+                    <div className={styles.inputContainer}>
                       <label>
-                        Username<span className="required-star">*</span>
+                        Username<span className={styles.requiredStar}>*</span>
                       </label>
                       <input
                         type="text"
@@ -284,14 +299,16 @@ const Register = () => {
                         onChange={onChange}
                       />
                       {errors.username && (
-                        <small className="error">{errors.username}</small>
+                        <small className={styles.error}>
+                          {errors.username}
+                        </small>
                       )}
                     </div>
-                    <div className="input-container">
+                    <div className={styles.inputContainer}>
                       <label>
-                        Password<span className="required-star">*</span>
+                        Password<span className={styles.requiredStar}>*</span>
                       </label>
-                      <div className="password-input-container">
+                      <div className={styles.passwordInputContainer}>
                         <input
                           type={showPassword ? "text" : "password"}
                           name="password"
@@ -308,30 +325,43 @@ const Register = () => {
                         </i>
                       </div>
                       {errors.password && (
-                        <small className="error">{errors.password}</small>
+                        <small className={styles.error}>
+                          {errors.password}
+                        </small>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="submit-button">
-                  <button type="submit" disabled={isLoading}>
+                <div className={styles.submitButtonContainer}>
+                  <button
+                    type="submit"
+                    className={styles.submitButton}
+                    disabled={isLoading}
+                  >
                     {isLoading ? "Processing..." : "Submit"}
                   </button>
                 </div>
-                <div className="form-message">
+                <div className={styles.formMessage}>
                   {successMessage && (
-                    <small className="success-message">{successMessage}</small>
+                    <small className={styles.successMessage}>
+                      {successMessage}
+                    </small>
                   )}
                   {errorMessage && (
-                    <small className="error-message">{errorMessage}</small>
+                    <small className={styles.errorMessage}>
+                      {errorMessage}
+                    </small>
                   )}
                 </div>
               </div>
             </form>
           </div>
-          <div className="login-prompt">
+          <div className={styles.loginPrompt}>
             <p>
-              Already have an account ? <Link to="/login">Login</Link>
+              Already have an account ?{" "}
+              <Link className={styles.loginPromptLink} to="/login">
+                Login
+              </Link>
             </p>
           </div>
         </div>
