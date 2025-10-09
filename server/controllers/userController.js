@@ -7,6 +7,7 @@ import "../models/Submission.js";
 import "../models/QuizSubmission.js";
 import Teacher from "../models/Teacher.js";
 import Parent from "../models/Parent.js";
+import sendMail from "../utils/sendMail.js";
 
 // @desc get student details
 // @route   GET /api/users/student/:id
@@ -412,4 +413,33 @@ export const searchStudentByEmail = asyncHandler(async (req, res) => {
       message: "Error searching for student",
     });
   }
+});
+
+// @desc    Submit feedback
+// @route   POST /api/users/user-feedback
+// @access  Public
+export const reachOut = asyncHandler(async (req, res) => {
+  const { firstName, lastName, email, phoneNumber, title, school, message } =
+    req.body;
+
+  const mail = `
+          <h2>Sender:  ${firstName} ${lastName},</h2>
+          <h2>Email: ${email}</h2>
+          <h2>School: ${school}</h2>
+          <h2>Phone Number: ${phoneNumber}</h2>
+          <h2>About: ${title}</h2>
+          <h3>Message:</h3>
+          <p>${message}</p>
+          `;
+
+  // Send feedback
+  await sendMail({
+    email: process.env.FEEDBACK_EMAIL,
+    subject: "USER FEEDBACK",
+    message: mail,
+  });
+
+  return res
+    .status(200)
+    .json({ message: "Your feedback was sent successfully" });
 });
