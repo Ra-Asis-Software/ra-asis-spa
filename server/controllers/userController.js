@@ -434,7 +434,7 @@ export const reachOut = asyncHandler(async (req, res) => {
 
   // Send feedback
   await sendMail({
-    email: process.env.FEEDBACK_EMAIL,
+    email: process.env.INQUIRY_EMAIL,
     subject: "USER FEEDBACK",
     message: mail,
   });
