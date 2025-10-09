@@ -82,10 +82,11 @@ a:hover {
 
 button {
   background-color: var(--black-pearl-color);
+  color: var(--aqua-color);
   border-radius: 7px;
-  padding: 0.6em 1.2em;
+  padding: 10px 20px;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
   border: none;
   outline: none;
@@ -95,26 +96,27 @@ button {
 
 button:hover,
 button:focus,
-button:focus-visible {
+button:focus-visible,
+select,
+input,
+textarea {
   border: none;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
   outline: none;
 }
 
 input::placeholder,
 textarea::placeholder {
   color: var(--pale-sky-color);
-}
-
-select,
-input {
-  outline: none;
-  border: none;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
 }
 
 @media (prefers-color-scheme: light) {

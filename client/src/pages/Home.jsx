@@ -1,16 +1,16 @@
-import { useState } from "react";
-import Header from "../components/layout/Header";
-import Introduction from "../components/home/Introduction";
-import FeaturesOverview from "../components/home/FeaturesOverview";
-import WhyChoose from "../components/home/WhyChoose";
-import Testimonials from "../components/home/Testimonials";
-import LeadGeneration from "../components/home/LeadGeneration";
-import ContactForm from "../components/home/ContactForm";
-import Footer from "../components/layout/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Header from "../components/layout/Header.jsx";
+import Introduction from "../components/home/Introduction.jsx";
+import FeaturesOverview from "../components/home/FeaturesOverview.jsx";
+import WhyChoose from "../components/home/WhyChoose.jsx";
+import Testimonials from "../components/home/Testimonials.jsx";
+import LeadGeneration from "../components/home/LeadGeneration.jsx";
+import ContactForm from "../components/home/ContactForm.jsx";
+import Footer from "../components/layout/Footer.jsx";
 
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track if user === logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // Check localStorage for authentication token when component mounts
   useEffect(() => {
     const token = localStorage.getItem("authToken");

@@ -42,13 +42,14 @@ export const getAllTestimonials = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find({})
     .populate({
       path: "user",
-      select: "firstName lastName",
+      select: "firstName lastName role",
     })
     .lean();
 
   const flattenedTestimonials = testimonials.map((t) => ({
     ...t,
     name: `${t.user?.firstName} ${t.user?.lastName}`,
+    role: `${t.user?.role}`,
     user: undefined,
   }));
 
@@ -62,13 +63,14 @@ export const getUnApprovedTestimonials = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find({ approved: false })
     .populate({
       path: "user",
-      select: "firstName lastName",
+      select: "firstName lastName role",
     })
     .lean();
 
   const flattenedTestimonials = testimonials.map((t) => ({
     ...t,
     name: `${t.user?.firstName} ${t.user?.lastName}`,
+    role: `${t.user?.role}`,
     user: undefined,
   }));
 
@@ -82,13 +84,14 @@ export const getApprovedTestimonials = asyncHandler(async (req, res) => {
   const testimonials = await Testimonial.find({ approved: true })
     .populate({
       path: "user",
-      select: "firstName lastName",
+      select: "firstName lastName role",
     })
     .lean();
 
   const flattenedTestimonials = testimonials.map((t) => ({
     ...t,
     name: `${t.user?.firstName} ${t.user?.lastName}`,
+    role: `${t.user?.role}`,
     user: undefined,
   }));
 

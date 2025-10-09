@@ -1,4 +1,4 @@
-import styles from "../ui/Modal.module.css";
+import styles from "./Modal.module.css";
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;

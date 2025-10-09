@@ -1,11 +1,19 @@
 .testimonialsContainer {
   background: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.testimonialsGrid {
+  background: var(--foam-color);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0;
 }
 
-.testimonialsContainer > div {
+.testimonialsGrid > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,7 +21,7 @@
   padding: 100px;
 }
 
-.testimonialsContainer .userDetails {
+.testimonialsGrid .userDetails {
   background: var(--aqua-color);
   border-bottom-right-radius: 20px;
   height: 300px;
@@ -23,7 +31,7 @@
   z-index: 1;
 }
 
-.testimonialsContainer .userDetails::before {
+.testimonialsGrid .userDetails::before {
   content: "";
   background: var(--aqua-color);
   position: absolute;
@@ -35,7 +43,8 @@
   z-index: -1;
 }
 
-.testimonialsContainer .userDetails p {
+.testimonialsGrid .userDetails p {
+  text-transform: capitalize;
   margin-top: -20px;
 }
 
@@ -56,12 +65,9 @@
 
 .testimonialButtons button {
   background: var(--black-pearl-color);
-  outline: none;
   border: 1.5px solid var(--aqua-color);
   border-radius: 50%;
   padding: 10px;
-  cursor: pointer;
-  transition: all 400ms ease-in-out;
 }
 
 .testimonialButtons button:hover {
@@ -73,22 +79,17 @@
   border-color: var(--black-pearl-color);
 }
 
-.testimonialsContainer .userDetailsMobile {
+.testimonialsGrid .userDetailsMobile {
   display: none;
 }
 
-.LeaveTestimonialButtonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
+.leaveTestimonialButtonContainer {
+  text-align: center;
+  margin: 20px 0 40px;
 }
 
 .leaveTestimonialButton {
-  background: var(--black-pearl-color);
-  color: var(--aqua-color);
   font-weight: 700;
-  padding: 15px 100px;
 }
 
 .leaveTestimonialButton:hover {
@@ -96,21 +97,14 @@
   color: var(--black-pearl-color);
 }
 
-.modalOverlay {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
-  inset: 0;
-  z-index: 50;
-}
-
 /* RESPONSIVE BREAKPOINTS */
 @media (max-width: 991px) {
-  .testimonialsContainer .userDetails {
+  .testimonialsGrid .userDetails {
     padding: 0;
     left: 50px;
   }
 
-  .testimonialsContainer .userDetails::before {
+  .testimonialsGrid .userDetails::before {
     right: 50px;
   }
 
@@ -120,19 +114,19 @@
 }
 
 @media (max-width: 768px) {
-  .testimonialsContainer {
+  .testimonialsGrid {
     display: flex;
     flex-direction: column;
   }
 
-  .testimonialsContainer > div {
+  .testimonialsGrid > div {
     margin-left: 20px;
     margin-right: 20px;
     padding: 50px 20px;
   }
 
-  .testimonialsContainer .userDetails,
-  .testimonialsContainer .userDetails::before {
+  .testimonialsGrid .userDetails,
+  .testimonialsGrid .userDetails::before {
     display: none;
   }
 
@@ -144,7 +138,7 @@
     left: 100px;
   }
 
-  .testimonialsContainer .userDetailsMobile {
+  .testimonialsGrid .userDetailsMobile {
     display: flex;
     flex-direction: column;
     align-self: flex-end;

@@ -1,0 +1,80 @@
+.testimonialsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 85%;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.875em;
+}
+
+.input,
+.textarea {
+  color: var(--aqua-color);
+  width: 100%;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.errorText {
+  color: var(--alizarin-crimson-color);
+  font-size: 0.75em;
+  margin-left: 5px;
+}
+
+.countError {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.charCount {
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.submitButton:hover {
+  background: var(--aqua-color);
+  color: var(--black-pearl-color);
+}
+
+.cancelButton {
+  background: var(--alizarin-crimson-color);
+  color: var(--black-pearl-color);
+}
+
+.cancelButton:hover {
+  color: var(--aqua-color);
+}
+
+.formActions button:disabled {
+  cursor: not-allowed;
+}
+
+.errorMessage,
+.successMessage {
+  font-weight: 600;
+  font-size: 0.875em;
+}
+
+.successMessage {
+  color: var(--pine-green-color);
+}
+
+.errorMessage {
+  color: var(--alizarin-crimson-color);
+}
