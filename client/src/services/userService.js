@@ -1,6 +1,7 @@
 import api from "./api";
 
 const USERS_PATH = "/users";
+
 export const getUserDetails = async (role, id) => {
   try {
     const response = await api.get(`${USERS_PATH}/${role}/${id}`);
@@ -70,9 +71,9 @@ export const searchStudentByEmail = async (email) => {
   }
 };
 
-export const sendUserFeedback = async (data) => {
+export const sendUserInquiry = async (data) => {
   try {
-    const response = await api.post(`${USERS_PATH}/user-feedback`, data);
+    const response = await api.post(`${USERS_PATH}/inquiry`, data);
     return response;
   } catch (error) {
     if (error.response.data) {

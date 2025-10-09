@@ -415,31 +415,36 @@ export const searchStudentByEmail = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Submit feedback
-// @route   POST /api/users/user-feedback
+// @desc    Submit user inquiry
+// @route   POST /api/users/inquiry
 // @access  Public
-export const reachOut = asyncHandler(async (req, res) => {
+export const sendInquiry = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, phoneNumber, title, school, message } =
     req.body;
 
   const mail = `
-          <h2>Sender:  ${firstName} ${lastName},</h2>
-          <h2>Email: ${email}</h2>
-          <h2>School: ${school}</h2>
-          <h2>Phone Number: ${phoneNumber}</h2>
-          <h2>About: ${title}</h2>
-          <h3>Message:</h3>
+          <div style="padding:20px;">
+          <h6 style="color:#027a79;"><strong>Hello Ra'Asis SPA Support,</strong></h6>
+          <p>Someone filled your landing page inquiry form with data. The name of this particular someone is <strong style="color:#027a79;">${firstName} ${lastName}</strong>. Here are the details they gave us:</p>
+          <p><strong style="color:#027a79;">${firstName}'s Email:</strong> ${email}</p>
+          <p><strong style="color:#027a79;">${firstName}'s School/Group:</strong> ${school}</p>
+          <p><strong style="color:#027a79;">${firstName}'s Position:</strong> ${title}</p>
+          <p><strong style="color:#027a79;">${firstName}'s Phone Number:</strong> ${phoneNumber}</p>
+          <p style="color:#027a79;"><strong>${firstName}'s Message:</strong></p>
           <p>${message}</p>
+          <br />
+          <h6 style="color:#027a79;"><strong>Regards,<br />The Ra'Asis SPA Codebase.</strong></h6>
+          </div>
           `;
 
-  // Send feedback
+  // Send inquiry
   await sendMail({
     email: process.env.INQUIRY_EMAIL,
-    subject: "USER FEEDBACK",
+    subject: "New User Inquiry From Your Contact Form",
     message: mail,
   });
 
   return res
     .status(200)
-    .json({ message: "Your feedback was sent successfully" });
+    .json({ message: "Your inquiry message was sent successfully" });
 });
