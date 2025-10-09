@@ -63,38 +63,6 @@ a {
   max-height: 120px;
 }
 
-/*Email Verification Page Styling*/
-
-.email-verification {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.email-verification p {
-  margin-bottom: 70px;
-}
-
-.email-verification p span {
-  position: relative;
-  top: 15px;
-  font-size: 4.375em;
-}
-
-.email-verification a {
-  background: var(--aqua-color);
-  color: var(--black-pearl-color);
-  padding: 20px;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: all 400ms ease-in-out;
-}
-
-.email-verification a:hover {
-  background: var(--cerulean-color);
-}
-
 /*Login Page Styling*/
 
 #login_header {

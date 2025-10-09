@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import styles from "./VerifyEmail.module.css";
 
 const VerifyEmail = () => {
   const { token } = useParams(); // Get the token from the URL
@@ -24,13 +25,20 @@ const VerifyEmail = () => {
   }, [token]);
 
   return (
-    <div className="email-verification">
+    <div className={styles.emailVerification}>
       <h2>Email Verification</h2>
-      <p>
-        <span>✅</span>
+      <p className={styles.emailVerificationParagraph}>
+        <i
+          className={`fa-solid fa-user-check ${styles.emailVerificationIcon}`}
+        />
         {message}
       </p>
-      <Link to="/login" target="_blank" rel="noopener noreferrer">
+      <Link
+        to="/login"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.emailVerificationLink}
+      >
         Login To Your Account
       </Link>
     </div>
