@@ -39,11 +39,19 @@
   color: var(--aqua-color);
 }
 
+.requiredStar {
+  color: var(--alizarin-crimson-color);
+}
+
 .inputContainer input {
   background: inherit;
   border-bottom: 1px solid var(--aqua-color);
 }
 
+.inputContainer input::placeholder {
+  color: var(--foam-color);
+  font-style: italic;
+}
 .contactMessage .inputContainer {
   width: 870px;
 }
@@ -62,6 +70,26 @@
   color: var(--aqua-color);
 }
 
+.error {
+  color: var(--alizarin-crimson-color);
+  font-size: 0.625em;
+}
+
+
+small.successMessage {
+  color: var(--pine-green-color);
+}
+
+small.errorMessage {
+  color: var(--alizarin-crimson-color);
+}
+
+.formMessage {
+display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75em;
+}
 .submitButtonContainer {
   display: flex;
   justify-content: center;
