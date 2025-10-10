@@ -16,7 +16,11 @@ const sendMail = async (options) => {
     html: options.message, // Email content in HTML format
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw error;
+  }
 };
 
 export default sendMail;

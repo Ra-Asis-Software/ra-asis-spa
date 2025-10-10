@@ -63,7 +63,6 @@ const Testimonials = ({ isAuthenticated }) => {
       }
 
       setApprovedTestimonials(approvedData);
-      console.log(approvedData);
 
       // Set initial selected user
       const allTestimonials = [...approvedData, ...staticTestimonials];

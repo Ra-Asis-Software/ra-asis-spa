@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./ContactForm.module.css";
+import { sendUserInquiry } from "../../services/userService";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -94,12 +95,12 @@ const ContactForm = () => {
 
     setIsLoading(true);
 
-    try {
-      console.log("Contact Form Submission:", formData);
+    const inquirySubmitted = await sendUserInquiry(formData);
 
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+    if (inquirySubmitted.error) {
+      setErrorMessage("Something went wrong. Please try again!");
+      setSuccessMessage("");
+    } else {
       setSuccessMessage(
         "Your message has been sent successfully. We'll get back to you soon!"
       );
@@ -116,25 +117,14 @@ const ContactForm = () => {
         school: "",
         message: "",
       });
-    } catch (err) {
-      console.error("Error submitting form:", err);
-      setErrorMessage("Something went wrong. Please try again!");
+    }
+
+    setIsLoading(false);
+    setTimeout(() => {
       setSuccessMessage("");
-    } finally {
-      setIsLoading(false);
-    }
+      setErrorMessage("");
+    }, 7000);
   };
-
-  // Auto-clear success message after 7 seconds
-  useEffect(() => {
-    if (successMessage) {
-      const timer = setTimeout(() => {
-        setSuccessMessage("");
-      }, 7000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage]);
 
   return (
     <div className={styles.contactFormContainer}>
