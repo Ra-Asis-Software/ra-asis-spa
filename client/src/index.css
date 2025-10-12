@@ -1,11 +1,9 @@
 /* Imports */
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Lato");
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: Poppins, Lato, Inter, "Trebuchet MS", sans-serif;
   font-weight: 400;
 
   --foam-color: #edfdfd;
@@ -58,8 +56,20 @@ h2 {
   font-size: 1.75em;
 }
 
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.25em;
+}
+
 h5 {
   font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
 }
 
 button,
@@ -119,16 +129,19 @@ textarea::placeholder {
   color: var(--pale-sky-color);
 }
 
+/* RESPONSIVE */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: var(--black-pearl-color);
     background-color: #ffffff;
   }
+
   a:hover {
-    color: #747bff;
+    color: var(--alizarin-crimson-color);
   }
+
   button {
-    background-color: #f9f9f9;
+    background-color: var(--black-pearl-color);
   }
 }
 
@@ -147,8 +160,20 @@ textarea::placeholder {
     font-size: 1.625em;
   }
 
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 0.9em;
+  }
+
   h5 {
     font-size: 0.875em;
+  }
+
+  h6 {
+    font-size: 0.75em;
   }
 }
 
@@ -169,5 +194,9 @@ textarea::placeholder {
 
   h5 {
     font-size: 0.75em;
+  }
+
+  h6 {
+    font-size: 0.6875em;
   }
 }

@@ -1,0 +1,249 @@
+.loginHeader {
+  background: var(--cerulean-color);
+}
+
+.loginContainer {
+  background: var(--cerulean-color);
+  border-bottom: 10px solid var(--pine-green-color);
+  padding-top: 10px;
+}
+
+.loginContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-left: 50px;
+}
+
+.loginFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loginIntro h2 {
+  text-align: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.loginInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.loginInputs input {
+  background: var(--aqua-color);
+  padding: 10px;
+  font-family: Poppins;
+  text-align: center;
+  border-radius: 7px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.loginInputs input::placeholder {
+  color: var(--black-pearl-color);
+  font-family: Poppins;
+  font-size: 0.875em;
+}
+
+.passwordInput {
+  display: flex;
+  position: relative;
+}
+
+.passwordInput i {
+  font-size: inherit;
+  cursor: pointer;
+  position: absolute;
+  top: 13px;
+  right: 10px;
+}
+
+.passwordInput input:focus + i {
+  animation: pulse 400ms ease-in-out 3;
+}
+
+.submitBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 10px;
+  width: 100%;
+}
+
+.submitBtn {
+  font-family: Poppins;
+  font-weight: 700;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.submitBtn:hover {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+}
+
+.formMessage {
+  margin-bottom: 20px;
+}
+
+.formMessage small {
+  font-size: 0.75em;
+}
+
+small.errorMessage {
+  color: var(--alizarin-crimson-color);
+}
+
+small.successMessage {
+  color: var(--pine-green-color);
+}
+
+.rememberForgot {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.remember label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75em;
+}
+
+.remember label input {
+  display: none;
+}
+
+.remember label span {
+  background: var(--black-pearl-color);
+  color: var(--aqua-color);
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+
+.remember label [type="checkbox"]:checked + span:before {
+  content: "\2714";
+  position: absolute;
+  font-size: 16px;
+  top: -2px;
+  left: 4px;
+}
+
+.forgot a {
+  font-size: 0.75em;
+}
+
+.registerPrompt {
+  width: 100%;
+  text-align: center;
+}
+
+.registerPrompt p {
+  font-size: 0.75em;
+}
+
+.registerLink {
+  color: var(--alizarin-crimson-color);
+  font-weight: 700;
+}
+
+.registerLink:hover {
+  color: var(--black-pearl-color);
+}
+
+.loginImageContainer {
+  position: relative;
+  bottom: 0;
+  margin-top: 130px;
+}
+
+.loginImage {
+  width: 500px;
+  height: 50;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1200px) {
+  .loginContent {
+    gap: 5px;
+  }
+
+  .formMessage small {
+    font-size: 0.6875em;
+  }
+
+  .remember label {
+    gap: 5px;
+  }
+
+  .loginImage {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 991px) {
+  .loginContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .loginImageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .loginImage {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .loginImageContainer {
+    margin-top: -10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .loginImage {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ANIMATIONS */
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}

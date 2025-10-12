@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import styles from "./Login.module.css";
 
 const Login = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -79,22 +80,26 @@ const Login = () => {
 
   return (
     <>
-      <header id="login_header">
+      <header className={styles.loginHeader}>
         <div className="app-logo">
           <Link to="/">
             <img src="/assets/spa_logo.webp" alt="SPA logo" />
           </Link>
         </div>
       </header>
-      <div className="login-container">
-        <div className="login-content">
-          <div className="login-form">
-            <div className="login-intro">
+      <div className={styles.loginContainer}>
+        <div className={styles.loginContent}>
+          <div className={styles.loginFormContainer}>
+            <div className={styles.loginIntro}>
               <h2>Have An Account?</h2>
             </div>
-            <form onSubmit={handleLogin} noValidate>
-              <div className="login-inputs">
-                <div className="email-user-input">
+            <form
+              className={styles.loginForm}
+              onSubmit={handleLogin}
+              noValidate
+            >
+              <div className={styles.loginInputs}>
+                <div className={styles.emailUserInput}>
                   <input
                     type="text"
                     value={emailOrUsername}
@@ -103,7 +108,7 @@ const Login = () => {
                     onChange={(e) => setEmailOrUsername(e.target.value)}
                   />
                 </div>
-                <div className="password-input">
+                <div className={styles.passwordInput}>
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
@@ -119,46 +124,56 @@ const Login = () => {
                   </i>
                 </div>
               </div>
-              <div className="submit-btn">
-                <button type="submit" disabled={isLoading}>
+              <div className={styles.submitBtnContainer}>
+                <button
+                  className={styles.submitBtn}
+                  type="submit"
+                  disabled={isLoading}
+                >
                   {isLoading ? "SIGNING IN..." : "SIGN IN"}
                 </button>
               </div>
-              <div className="form-message">
+              <div className={styles.formMessage}>
                 {errorMessage && (
-                  <small className="error-message">{errorMessage}</small>
+                  <small className={styles.errorMessage}>{errorMessage}</small>
                 )}
                 {successMessage && (
-                  <small className="success-message">{successMessage}</small>
+                  <small className={styles.successMessage}>
+                    {successMessage}
+                  </small>
                 )}
               </div>
-              <div className="remember-forgot">
-                <div className="remember">
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                      />
-                      <span></span>
-                      Remember Me
-                    </label>
+              <div className={styles.rememberForgot}>
+                <div className={styles.remember}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <span></span>
+                    Remember Me
+                  </label>
                 </div>
-                <div className="forgot">
+                <div className={styles.forgot}>
                   <Link to="/reset-password">Forgot Password</Link>
                 </div>
               </div>
             </form>
-            <div className="register-prompt">
+            <div className={styles.registerPrompt}>
               <p>
-                Don"t Have An Account? <Link to="/register">Sign Up</Link>
+                Don't Have An Account?{" "}
+                <Link to="/register" className={styles.registerLink}>
+                  Sign Up
+                </Link>
               </p>
             </div>
           </div>
-          <div className="login-image">
+          <div className={styles.loginImageContainer}>
             <img
               src="/assets/login_image.webp"
               alt="an illustration of a young boy analysing statistics on his academic progress"
+              className={styles.loginImage}
             />
           </div>
         </div>
