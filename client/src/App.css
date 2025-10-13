@@ -70,7 +70,6 @@ a {
 }
 
 /* Logo Styling */
-
 .app-logo {
   position: relative;
   display: flex;
@@ -81,136 +80,9 @@ a {
   max-height: 120px;
 }
 
-/*Update Password Page Styling*/
-
-.update-password-container {
-  background: var(--french-gray-color);
-  min-height: 100vh;
-}
-
-.update-password-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.update-password-intro {
-  text-align: center;
-}
-
-.update-password-intro p {
-  margin-bottom: 30px;
-}
-
-.update-password-form {
-  max-width: 500px;
-}
-
-.update-password-form form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.update-password-form form .new-password-input,
-.update-password-form form .confirm-password-input {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-}
-
-.update-password-form form .new-password-input .input-icon {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  position: relative;
-}
-
-.update-password-form form .new-password-input .input-icon i {
-  font-size: inherit;
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  cursor: pointer;
-}
-
-.update-password-form form .new-password-input .input-icon input:focus + i {
-  animation: pulse 500ms ease-in-out 3;
-}
-
-.update-password-form form label {
-  font-size: 0.75em;
-}
-
-.update-password-form form input {
-  background: var(--bright-sun-color);
-  color: var(--black-pearl-color);
-  font-family: Poppins;
-  text-align: center;
-  border: none;
-  outline: none;
-  border-radius: 7px;
-  padding: 10px;
-}
-
-.reset-password-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.reset-password-btn button {
-  background: var(--bright-sun-color);
-  color: var(--black-pearl-color);
-  font-family: Poppins;
-  font-weight: 700;
-  border: none;
-  outline: none;
-  border-radius: 7px;
-  padding: 10px 20px;
-  width: 100%;
-  cursor: pointer;
-  transition: all 400ms ease-in-out;
-}
-
-.reset-password-btn button:hover {
-  background: var(--black-pearl-color);
-  color: var(--bright-sun-color);
-}
-
-.update-password-form form .form-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.update-password-form form .form-message small {
-  font-size: 0.75em;
-}
-
-.update-password-form form .form-message small.success-message {
-  color: var(--pine-green-color);
-}
-
-.update-password-form form .form-message small.error-message {
-  color: var(--alizarin-crimson-color);
-}
-
 /*RESPONSIVE BREAKPOINTS*/
-
-/*Devices Max. Screen Width 768px*/
-
 @media (max-width: 768px) {
   /* General Responsive Styling */
-
   body {
     font-size: 87.5%;
   }
@@ -240,11 +112,8 @@ a {
   }
 }
 
-/*Devices Max. Screen Width 520px*/
-
 @media (max-width: 520px) {
   /* General Responsive Styling */
-
   body {
     font-size: 75%;
   }
@@ -263,44 +132,5 @@ a {
 
   h6 {
     font-size: 0.6875em;
-  }
-
-  /*Update Password Page Styling*/
-
-  .update-password-form form input {
-    padding: 10px 30px;
-  }
-
-  .reset-password-btn button {
-    padding: 10px 100px;
-  }
-}
-
-/*Devices Max. Screen Width 391px*/
-
-@media (max-width: 391px) {
-  .update-password-intro {
-    margin-left: 20px;
-  }
-}
-
-/* ANIMATIONS */
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

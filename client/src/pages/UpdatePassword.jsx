@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import styles from "./UpdatePassword.module.css";
+import headerStyles from "./ResetPassword.module.css";
 
 const UpdatePassword = () => {
   const { token } = useParams();
@@ -85,26 +87,34 @@ const UpdatePassword = () => {
 
   return (
     <>
-      <header id="reset_password_header">
+      <header className={headerStyles.resetPasswordHeader}>
         <div className="app-logo">
           <Link to="/">
-            <img src="/assets/spa_logo.webp" alt="SPA logo" />
+            <img
+              src="/assets/spa_logo.webp"
+              alt="SPA logo"
+              className={headerStyles.resetPasswordLogo}
+            />
           </Link>
         </div>
       </header>
-      <div className="update-password-container">
-        <div className="update-password-content">
-          <div className="update-password-intro">
+      <div className={styles.updatePasswordContainer}>
+        <div className={styles.updatePasswordContent}>
+          <div className={styles.updatePasswordIntro}>
             <h2>Create New Password</h2>
             <p>
               Your new password must be different from previously used passwords
             </p>
           </div>
-          <div className="update-password-form">
-            <form onSubmit={handlePasswordUpdate} noValidate>
-              <div className="new-password-input">
+          <div className={styles.updatePasswordFormContainer}>
+            <form
+              className={styles.updatePasswordForm}
+              onSubmit={handlePasswordUpdate}
+              noValidate
+            >
+              <div className={styles.newPasswordInput}>
                 <label>New Password</label>
-                <div className="input-icon">
+                <div className={styles.inputIcon}>
                   <input
                     type={showNewPassword ? "text" : "password"}
                     value={newPassword}
@@ -118,7 +128,7 @@ const UpdatePassword = () => {
                   </i>
                 </div>
               </div>
-              <div className="confirm-password-input">
+              <div className={styles.confirmPasswordInput}>
                 <label>Confirm New Password</label>
                 <input
                   type="password"
@@ -126,20 +136,28 @@ const UpdatePassword = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-              <div className="reset-password-btn">
-                <button type="submit" disabled={isLoading}>
+              <div className={styles.resetPasswordBtnContainer}>
+                <button
+                  className={styles.resetPasswordBtn}
+                  type="submit"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Updating..." : "Reset Password"}
                 </button>
               </div>
-              <div className="form-message">
+              <div className={styles.formMessage}>
                 {message && (
-                  <small className="success-message">{message}</small>
+                  <small className={styles.successMessage}>{message}</small>
                 )}
                 {errors.password && (
-                  <small className="error-message">{errors.password}</small>
+                  <small className={styles.errorMessage}>
+                    {errors.password}
+                  </small>
                 )}
                 {errors.confirmPass && (
-                  <small className="error-message">{errors.confirmPass}</small>
+                  <small className={styles.errorMessage}>
+                    {errors.confirmPass}
+                  </small>
                 )}
               </div>
             </form>
