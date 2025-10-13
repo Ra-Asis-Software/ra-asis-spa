@@ -35,14 +35,32 @@ h1 {
   font-size: 2.1875em;
 }
 
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 600;
+}
+
 h2 {
   font-size: 1.75em;
-  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.25em;
 }
 
 h5 {
   font-size: 1em;
   font-weight: 600;
+}
+
+h6 {
+  font-size: 0.9em;
 }
 
 button,
@@ -61,182 +79,6 @@ a {
 
 .app-logo img {
   max-height: 120px;
-}
-
-/*Password Reset Page(s) Styling*/
-
-#reset_password_header {
-  background: var(--french-gray-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#reset_password_header .app-logo img {
-  max-height: 150px;
-}
-
-.reset-password {
-  background: var(--french-gray-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.request-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: 500px;
-}
-
-.request-reset-form form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.request-reset-form form .email-input {
-  width: 100%;
-}
-
-.request-reset-form form .email-input input {
-  background: var(--bright-sun-color);
-  border: none;
-  outline: none;
-  text-align: center;
-  font-family: Poppins;
-  border-radius: 7px;
-  padding: 10px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.request-reset-form form .get-link-btn {
-  width: 100%;
-}
-
-.request-reset-form form .get-link-btn button {
-  background: var(--black-pearl-color);
-  color: var(--bright-sun-color);
-  font-family: Poppins;
-  font-weight: 700;
-  border: none;
-  outline: none;
-  border-radius: 7px;
-  padding: 10px 20px;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: all 400ms ease-in-out;
-}
-
-.request-reset-form form .get-link-btn button:hover {
-  background: var(--bright-sun-color);
-  color: var(--black-pearl-color);
-}
-
-.request-reset-form form .form-message small {
-  font-size: 0.75em;
-}
-
-.request-reset-form form .form-message small.success-message {
-  color: var(--pine-green-color);
-}
-
-.request-reset-form form .form-message small.error-message {
-  color: var(--alizarin-crimson-color);
-}
-
-.reset-password-img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.reset-password-img img {
-  width: 500px;
-  height: 500px;
-}
-
-/*Request Success Styling*/
-
-.request-success {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-}
-
-.success-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: fit-content;
-}
-
-.success-icon img {
-  max-width: 100px;
-  max-height: 100px;
-}
-
-.success-text h2,
-.success-text p {
-  text-align: center;
-}
-
-.success-text h2 {
-  color: var(--bright-sun-color);
-  font-size: 1em;
-  font-weight: 700;
-}
-
-.success-text p {
-  font-size: 12px;
-}
-
-.mail-app-btn button {
-  background: var(--black-pearl-color);
-  color: var(--bright-sun-color);
-  font-family: Poppins;
-  padding: 10px 40px;
-  border: none;
-  outline: none;
-  border-radius: 7px;
-  cursor: pointer;
-  transition: all 400ms ease-in-out;
-}
-
-.mail-app-btn button:hover {
-  background: var(--bright-sun-color);
-  color: var(--black-pearl-color);
-}
-
-.try-again-text {
-  position: relative;
-  bottom: 20px;
-  margin-top: 50px;
-}
-
-.try-again-text p {
-  font-size: 0.75em;
-  text-align: center;
-}
-
-.try-again-text p a {
-  color: var(--alizarin-crimson-color);
-  transition: all 400ms ease-in-out;
-}
-
-.try-again-text p a:hover {
-  color: var(--bright-sun-color);
 }
 
 /*Update Password Page Styling*/
@@ -381,8 +223,20 @@ a {
     font-size: 1.625em;
   }
 
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 0.9em;
+  }
+
   h5 {
     font-size: 0.875em;
+  }
+
+  h6 {
+    font-size: 0.75em;
   }
 }
 
@@ -407,24 +261,8 @@ a {
     font-size: 0.75em;
   }
 
-  /*Password Reset Page(s) Responsive Styling*/
-
-  .request-container {
-    max-width: 330px;
-    padding-top: 60px;
-  }
-
-  .request-reset-form form .email-input input {
-    padding: 10px 50px;
-  }
-
-  .request-reset-form form .get-link-btn button {
-    padding: 10px 140px;
-  }
-
-  .reset-password-img img {
-    width: 340px;
-    height: 340px;
+  h6 {
+    font-size: 0.6875em;
   }
 
   /*Update Password Page Styling*/

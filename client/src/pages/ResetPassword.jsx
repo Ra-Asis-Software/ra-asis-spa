@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import styles from "./ResetPassword.module.css";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -45,30 +46,35 @@ const ResetPassword = () => {
 
   return (
     <>
-      <header id="reset_password_header">
+      <header className={styles.resetPasswordHeader}>
         <div className="app-logo">
           <Link to="/">
-            <img src="/assets/spa_logo.webp" alt="SPA logo" />
+            <img
+              src="/assets/spa_logo.webp"
+              alt="SPA logo"
+              className={styles.resetPasswordLogo}
+            />
           </Link>
         </div>
       </header>
-      <div className="reset-password">
+      <div className={styles.resetPassword}>
         {status === "success" ? (
-          <div className="request-success">
-            <div className="success-icon">
+          <div className={styles.requestSuccess}>
+            <div className={styles.successIconContainer}>
               <img
                 src="/assets/email_icon.webp"
                 alt="Envelope icon with an @ symbol to show sending mail was successfull"
+                className={styles.successIcon}
               />
             </div>
-            <div className="success-text">
-              <h2>Check Your Mail</h2>
+            <div className={styles.successText}>
+              <h5>Check Your Mail</h5>
               <p>We have sent password recovery instructions to your email</p>
             </div>
-            <div className="mail-app-btn">
-              <button onClick={handleOpenMailApp}>Open the mail app</button>
+            <div className={styles.mailAppBtnContainer}>
+              <button className={styles.mailAppBtn} onClick={handleOpenMailApp}>Open the mail app</button>
             </div>
-            <div className="try-again-text">
+            <div className={styles.tryAgainText}>
               <p>
                 Did not receive the email? Check your spam folder or{" "}
                 <Link to="/reset-password">try another email address</Link>
@@ -76,16 +82,16 @@ const ResetPassword = () => {
             </div>
           </div>
         ) : (
-          <div className="request-container">
-            <div className="reset-password-intro">
+          <div className={styles.requestContainer}>
+            <div className={styles.resetPasswordIntro}>
               <p>
                 Enter the email address associated with your account, and we
                 will send you a link to reset your password
               </p>
             </div>
-            <div className="request-reset-form">
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="email-input">
+            <div className={styles.requestResetFormContainer}>
+              <form className={styles.requestResetForm} onSubmit={handleSubmit} noValidate>
+                <div className={styles.emailInput}>
                   <input
                     type="email"
                     placeholder="Enter your email"
@@ -93,14 +99,14 @@ const ResetPassword = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-                <div className="get-link-btn">
-                  <button type="submit" disabled={loading}>
+                <div className={styles.getLinkBtnContainer}>
+                  <button className={styles.getLinkBtn} type="submit" disabled={loading}>
                     {loading ? "Preparing Link..." : "Get Link"}
                   </button>
                 </div>
-                <div className="form-message">
+                <div className={styles.formMessage}>
                   {status === "error" && (
-                    <small className="error-message">
+                    <small className={styles.errorMessage}>
                       Something went wrong when sending reset link. Please try
                       again.
                     </small>
@@ -108,10 +114,11 @@ const ResetPassword = () => {
                 </div>
               </form>
             </div>
-            <div className="reset-password-img">
+            <div className={styles.resetPasswordImgContainer}>
               <img
                 src="/assets/password_reset.webp"
                 alt="a boy holding a broken key which is stuck on the padlock in the background. An analogy of a lost password."
+                className={styles.resetPasswordImg}
               />
             </div>
           </div>
