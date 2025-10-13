@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import styles from "./VerifyEmail.module.css";
+import { verifyEmail } from "../services/authService.js";
 
 const VerifyEmail = () => {
   const { token } = useParams(); // Get the token from the URL
@@ -9,19 +9,19 @@ const VerifyEmail = () => {
 
   useEffect(() => {
     // Call the backend route to verify the email
-    const verifyEmail = async () => {
+    const verifyEmailToken = async () => {
       try {
-        const response = await axios.get(`/api/auth/verify-email/${token}`);
+        const response = await verifyEmail(token);
         setMessage(response.data.message);
       } catch (error) {
         setMessage(
-          error.response.data.message ||
+          error.response?.data?.message ||
             "Something went wrong during verification."
         );
       }
     };
 
-    verifyEmail();
+    verifyEmailToken();
   }, [token]);
 
   return (

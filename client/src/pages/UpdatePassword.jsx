@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "./UpdatePassword.module.css";
 import headerStyles from "./ResetPassword.module.css";
+import { resetPassword } from "../services/authService";
 
 const UpdatePassword = () => {
   const { token } = useParams();
@@ -69,9 +69,7 @@ const UpdatePassword = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`/api/auth/reset-password/${token}`, {
-        newPassword,
-      });
+      const response = await resetPassword(token, newPassword);
       setMessage(response.data.message);
       setErrors({ password: "", confirmPass: "" });
       setTimeout(() => navigate("/login"), 3000);

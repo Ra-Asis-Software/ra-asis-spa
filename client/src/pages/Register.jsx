@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import styles from "./Register.module.css";
+import { registerUser } from "../services/authService.js";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -103,7 +103,7 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      await axios.post("/api/auth/register", formData);
+      await registerUser(formData);
 
       // If registration is successful
       setSuccessMessage(

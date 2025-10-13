@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import styles from "./ResetPassword.module.css";
+import { requestPasswordReset } from "../services/authService.js";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -13,10 +13,7 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      await axios.post("/api/auth/reset-password", {
-        email,
-        frontendUrl: window.location.origin,
-      });
+      await requestPasswordReset(email, window.location.origin);
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -72,7 +69,9 @@ const ResetPassword = () => {
               <p>We have sent password recovery instructions to your email</p>
             </div>
             <div className={styles.mailAppBtnContainer}>
-              <button className={styles.mailAppBtn} onClick={handleOpenMailApp}>Open the mail app</button>
+              <button className={styles.mailAppBtn} onClick={handleOpenMailApp}>
+                Open the mail app
+              </button>
             </div>
             <div className={styles.tryAgainText}>
               <p>
@@ -90,7 +89,11 @@ const ResetPassword = () => {
               </p>
             </div>
             <div className={styles.requestResetFormContainer}>
-              <form className={styles.requestResetForm} onSubmit={handleSubmit} noValidate>
+              <form
+                className={styles.requestResetForm}
+                onSubmit={handleSubmit}
+                noValidate
+              >
                 <div className={styles.emailInput}>
                   <input
                     type="email"
@@ -100,7 +103,11 @@ const ResetPassword = () => {
                   />
                 </div>
                 <div className={styles.getLinkBtnContainer}>
-                  <button className={styles.getLinkBtn} type="submit" disabled={loading}>
+                  <button
+                    className={styles.getLinkBtn}
+                    type="submit"
+                    disabled={loading}
+                  >
                     {loading ? "Preparing Link..." : "Get Link"}
                   </button>
                 </div>

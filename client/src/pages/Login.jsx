@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "./Login.module.css";
+import { loginUser } from "../services/authService.js";
 
 const Login = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -33,10 +33,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("/api/auth/login", {
-        emailOrUsername,
-        password,
-      });
+      const response = await loginUser({ emailOrUsername, password });
 
       if (response.data) {
         setSuccessMessage("Sign in successful!");
