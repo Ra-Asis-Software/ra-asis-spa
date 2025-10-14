@@ -27,7 +27,7 @@ const FeaturesOverview = () => {
               className={styles.featureContentImage}
             />
             <div className={styles.descriptionsTexts}>
-              <h3>{featureContent.title}</h3>
+              <h4>{featureContent.title}</h4>
               <p>{featureContent.description}</p>
             </div>
           </div>

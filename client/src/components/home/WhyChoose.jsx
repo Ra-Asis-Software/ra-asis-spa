@@ -21,7 +21,7 @@ const WhyChoose = () => {
               />
             </div>
             <div className={styles.reasonTexts}>
-              <h3>{reason.title}</h3>
+              <h4>{reason.title}</h4>
               <p>{reason.description}</p>
             </div>
           </div>
