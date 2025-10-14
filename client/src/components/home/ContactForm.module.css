@@ -48,10 +48,12 @@
   border-bottom: 1px solid var(--aqua-color);
 }
 
-.inputContainer input::placeholder {
-  color: var(--foam-color);
-  font-style: italic;
+.error {
+  color: var(--alizarin-crimson-color);
+  font-size: 0.6875em;
+  margin: 5px 0 0 2px;
 }
+
 .contactMessage .inputContainer {
   width: 870px;
 }
@@ -70,31 +72,10 @@
   color: var(--aqua-color);
 }
 
-.error {
-  color: var(--alizarin-crimson-color);
-  font-size: 0.625em;
-}
-
-
-small.successMessage {
-  color: var(--pine-green-color);
-}
-
-small.errorMessage {
-  color: var(--alizarin-crimson-color);
-}
-
-.formMessage {
-display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.75em;
-}
 .submitButtonContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
 }
 
 .submitButton {
@@ -107,6 +88,22 @@ display: flex;
 .submitButton:hover {
   background: var(--foam-color);
   color: var(--black-pearl-color);
+}
+
+.formMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875em;
+  margin-bottom: 50px;
+}
+
+small.successMessage {
+  color: var(--bright-sun-color);
+}
+
+small.errorMessage {
+  color: var(--alizarin-crimson-color);
 }
 
 /* RESPONSIVE BREAKPOINTS */
