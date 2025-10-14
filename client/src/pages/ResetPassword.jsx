@@ -7,18 +7,66 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  // Email field validation
+  const validateFields = () => {
+    const newErrors = {};
+
+    if (!email) {
+      newErrors.email = "You did not enter your email address!";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Please enter a valid email address!";
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Clear previous status and errors
+    setStatus("");
+    setErrors({});
+
+    // Validate form
+    const newErrors = validateFields();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setLoading(true);
 
     try {
       await requestPasswordReset(email, window.location.origin);
       setStatus("success");
     } catch (error) {
-      setStatus("error");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message === "No user found with this email address"
+      ) {
+        setErrors({ email: "No account found with this email address!" });
+      } else {
+        setStatus("error");
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleInputChange = (value) => {
+    setEmail(value);
+
+    // Clear email error when user starts typing
+    if (errors.email) {
+      setErrors({});
+    }
+
+    // Clear status when user starts typing
+    if (status === "error") {
+      setStatus("");
     }
   };
 
@@ -26,7 +74,7 @@ const ResetPassword = () => {
     const emailDomain = email.split("@")[1];
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // Mapping of email domains to app inboxes. Not sure if this works correctly. Tutaconfirm in prod.
+    // Map email domains to app inboxes
     const mailAppLinks = {
       "gmail.com": isMobile ? "googlegmail://inbox" : "mailto:",
       "yahoo.com": isMobile ? "ymail://inbox" : "mailto:",
@@ -101,6 +149,9 @@ const ResetPassword = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  {errors.email && (
+                    <small className={styles.error}>{errors.email}</small>
+                  )}
                 </div>
                 <div className={styles.getLinkBtnContainer}>
                   <button

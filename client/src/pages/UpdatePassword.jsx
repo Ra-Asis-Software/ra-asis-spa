@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styles from "./UpdatePassword.module.css";
 import headerStyles from "./ResetPassword.module.css";
-import { resetPassword } from "../services/authService";
+import { resetPassword } from "../services/authService.js";
 
 const UpdatePassword = () => {
   const { token } = useParams();
@@ -31,22 +31,22 @@ const UpdatePassword = () => {
       newErrors.password = "Please enter your preferred password!";
       isValid = false;
     } else if (newPassword.length < 8) {
-      newErrors.password = "Password should be at least 8 characters long";
+      newErrors.password = "Password should be at least 8 characters long!";
       isValid = false;
     } else if (!/[A-Z]/.test(newPassword)) {
       newErrors.password =
-        "Password should contain at least one uppercase letter";
+        "Password should contain at least one uppercase letter!";
       isValid = false;
     } else if (!/[a-z]/.test(newPassword)) {
       newErrors.password =
-        "Password should contain at least one lowercase letter";
+        "Password should contain at least one lowercase letter!";
       isValid = false;
     } else if (!/[0-9]/.test(newPassword)) {
-      newErrors.password = "Password should contain at least one number";
+      newErrors.password = "Password should contain at least one number!";
       isValid = false;
     } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
       newErrors.password =
-        "Password should contain at least one special character";
+        "Password should contain at least one special character!";
       isValid = false;
     }
 
@@ -55,7 +55,7 @@ const UpdatePassword = () => {
       newErrors.confirmPass = "You have to confirm your password here!";
       isValid = false;
     } else if (confirmPassword !== newPassword) {
-      newErrors.confirmPass = "Passwords do not match";
+      newErrors.confirmPass = "Passwords do not match!";
       isValid = false;
     }
 
@@ -84,7 +84,7 @@ const UpdatePassword = () => {
   };
 
   return (
-    <>
+    <div className={styles.updatePasswordPage}>
       <header className={headerStyles.resetPasswordHeader}>
         <div className="app-logo">
           <Link to="/">
@@ -125,6 +125,9 @@ const UpdatePassword = () => {
                     {showNewPassword ? "visibility_off" : "visibility"}
                   </i>
                 </div>
+                {errors.password && (
+                  <small className={styles.error}>{errors.password}</small>
+                )}
               </div>
               <div className={styles.confirmPasswordInput}>
                 <label>Confirm New Password</label>
@@ -133,6 +136,9 @@ const UpdatePassword = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
+                {errors.confirmPass && (
+                  <small className={styles.error}>{errors.confirmPass}</small>
+                )}
               </div>
               <div className={styles.resetPasswordBtnContainer}>
                 <button
@@ -147,22 +153,12 @@ const UpdatePassword = () => {
                 {message && (
                   <small className={styles.successMessage}>{message}</small>
                 )}
-                {errors.password && (
-                  <small className={styles.errorMessage}>
-                    {errors.password}
-                  </small>
-                )}
-                {errors.confirmPass && (
-                  <small className={styles.errorMessage}>
-                    {errors.confirmPass}
-                  </small>
-                )}
               </div>
             </form>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

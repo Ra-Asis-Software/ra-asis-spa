@@ -11,6 +11,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // State for submit button loading
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -27,9 +28,42 @@ const Login = () => {
     }
   }, []);
 
+  // Validation Function
+  const validateFields = () => {
+    const newErrors = {};
+
+    // Email/Username Validation
+    if (!emailOrUsername) {
+      newErrors.emailOrUsername = "You did not enter your email or username!";
+    } else if (emailOrUsername.includes("@")) {
+      // Basic email format check
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrUsername)) {
+        newErrors.emailOrUsername = "Please enter a valid email address!";
+      }
+    }
+
+    // Password Validation
+    if (!password) {
+      newErrors.password = "You did not enter your password!";
+    }
+
+    return newErrors;
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Reset error message before each new login attempt
+
+    // Clear previous messages
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    // Validate form
+    const newErrors = validateFields();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -60,9 +94,13 @@ const Login = () => {
         const message = error.response.data.message;
 
         // Check for account lockout message
-        if (message === "Your account is locked! Try again later.") {
+        if (message === "Your SPA account is locked! Try again later.") {
           setErrorMessage(
             "Your account has been locked due to too many failed login attempts. Please try again after 24 hours."
+          );
+        } else if (message === "Please verify your email before logging in.") {
+          setErrorMessage(
+            "Your email is not verified. Check your inbox for the verification link."
           );
         } else {
           setErrorMessage(message || "Invalid email/username or password!");
@@ -75,8 +113,25 @@ const Login = () => {
     }
   };
 
+  // Handle input change to clear errors
+  const handleInputChange = (field, value) => {
+    if (field === "emailOrUsername") {
+      setEmailOrUsername(value);
+    } else if (field === "password") {
+      setPassword(value);
+    }
+
+    // Clear field error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: "",
+      }));
+    }
+  };
+
   return (
-    <>
+    <div className={styles.loginPage}>
       <header className={styles.loginHeader}>
         <div className="app-logo">
           <Link to="/">
@@ -102,23 +157,37 @@ const Login = () => {
                     value={emailOrUsername}
                     placeholder="Username/Email Address"
                     size="30"
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("emailOrUsername", e.target.value)
+                    }
                   />
+                  {errors.emailOrUsername && (
+                    <small className={styles.error}>
+                      {errors.emailOrUsername}
+                    </small>
+                  )}
                 </div>
-                <div className={styles.passwordInput}>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    placeholder="Password"
-                    size="30"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <i
-                    onClick={togglePasswordVisibility}
-                    className="material-symbols-sharp"
-                  >
-                    {showPassword ? "visibility_off" : "visibility"}
-                  </i>
+                <div className={styles.passwordInputContainer}>
+                  <div className={styles.passwordInput}>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      placeholder="Password"
+                      size="30"
+                      onChange={(e) =>
+                        handleInputChange("password", e.target.value)
+                      }
+                    />
+                    <i
+                      onClick={togglePasswordVisibility}
+                      className="material-symbols-sharp"
+                    >
+                      {showPassword ? "visibility_off" : "visibility"}
+                    </i>
+                  </div>
+                  {errors.password && (
+                    <small className={styles.error}>{errors.password}</small>
+                  )}
                 </div>
               </div>
               <div className={styles.submitBtnContainer}>
@@ -175,7 +244,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
