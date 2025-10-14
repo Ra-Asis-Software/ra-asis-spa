@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styles from "./ContactForm.module.css";
 import { sendUserInquiry } from "../../services/userService.js";
 
-const ContactForm = () => {
+const ContactForm = ({ user }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,19 +21,49 @@ const ContactForm = () => {
   const { firstName, lastName, email, phoneNumber, title, school, message } =
     formData;
 
-  // Handle input change
+  //  Auto-fill for authenticated users
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        firstName: user.firstName || prev.firstName,
+        lastName: user.lastName || prev.lastName,
+        email: user.email || prev.email,
+      }));
+    } else {
+      //  if user logs out, clear data
+      setFormData((prev) => ({
+        ...prev,
+        firstName: "",
+        lastName: "",
+        email: "",
+      }));
+    }
+  }, [user]);
+
+  //  onChange that clears field error
   const onChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[name];
+        return updated;
+      });
+    }
   };
 
-  // Validation Function
+  // Updated validation
   const validateFields = () => {
     const newErrors = {};
 
-    // First Name Validation
+    // Required fields
     if (!firstName) newErrors.firstName = "You did not enter your first name!";
     else if (!/^[A-Za-z]+$/.test(firstName))
       newErrors.firstName = "Your first name should contain only letters!";
@@ -41,7 +71,6 @@ const ContactForm = () => {
       newErrors.firstName =
         "Your first name should be at least 2 characters long!";
 
-    // Last Name Validation
     if (!lastName) newErrors.lastName = "Please enter your last name!";
     else if (!/^[A-Za-z]+$/.test(lastName))
       newErrors.lastName = "Your last name should contain only letters!";
@@ -49,34 +78,29 @@ const ContactForm = () => {
       newErrors.lastName =
         "Your last name should be at least 2 characters long!";
 
-    // Email Validation
     if (!email) newErrors.email = "Please enter your email address!";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       newErrors.email = "Please enter a valid email address!";
-
-    // Phone Number Validation
-    if (!phoneNumber) newErrors.phoneNumber = "Please enter your phone number!";
-    else if (!/^\d{10}$/.test(phoneNumber))
-      newErrors.phoneNumber = "The phone number you provided is invalid!";
-
-    // Title Validation
-    if (!title) newErrors.title = "Please enter your title!";
-    else if (title.length < 2)
-      newErrors.title = "Title should be at least 2 characters long!";
-
-    // School/Group Validation
-    if (!school) newErrors.school = "Please enter your school/group name!";
-    else if (school.length < 2)
-      newErrors.school =
-        "School/Group name should be at least 2 characters long!";
 
     if (!message.trim()) {
       newErrors.message = "Please provide your message!";
     } else if (message.trim().length < 20) {
       newErrors.message = "That is too short! Please provide more details.";
-    } else if (message.trim().length > 500) {
+    } else if (message.trim().length > 750) {
       newErrors.message =
-        "That is too long! Please keep it under 500 characters.";
+        "That is too long! Please keep it under 750 characters.";
+    }
+
+    // Optional validations (only if user typed something)
+    if (phoneNumber && !/^\d{10}$/.test(phoneNumber)) {
+      newErrors.phoneNumber = "The phone number you provided is invalid!";
+    }
+    if (title && title.length < 2) {
+      newErrors.title = "Title should be at least 2 characters long!";
+    }
+    if (school && school.length < 2) {
+      newErrors.school =
+        "School/Group name should be at least 2 characters long!";
     }
 
     return newErrors;
@@ -94,7 +118,6 @@ const ContactForm = () => {
     }
 
     setIsLoading(true);
-
     const inquirySubmitted = await sendUserInquiry(formData);
 
     if (inquirySubmitted.error) {
@@ -107,11 +130,10 @@ const ContactForm = () => {
       setErrorMessage("");
       setErrors({});
 
-      // Reset form fields after submit
       setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        email: user?.email || "",
         phoneNumber: "",
         title: "",
         school: "",
@@ -150,8 +172,8 @@ const ContactForm = () => {
                 type="text"
                 name="firstName"
                 value={firstName}
-                size="30"
                 onChange={onChange}
+                autoComplete="given-name"
               />
               {errors.firstName && (
                 <small className={styles.error}>{errors.firstName}</small>
@@ -165,14 +187,15 @@ const ContactForm = () => {
                 type="text"
                 name="lastName"
                 value={lastName}
-                size="30"
                 onChange={onChange}
+                autoComplete="family-name"
               />
               {errors.lastName && (
                 <small className={styles.error}>{errors.lastName}</small>
               )}
             </div>
           </div>
+
           <div className={`${styles.contactEmailPhone} ${styles.formSection}`}>
             <div className={styles.inputContainer}>
               <label>
@@ -182,39 +205,35 @@ const ContactForm = () => {
                 type="email"
                 name="email"
                 value={email}
-                size="30"
                 onChange={onChange}
+                autoComplete="email"
               />
               {errors.email && (
                 <small className={styles.error}>{errors.email}</small>
               )}
             </div>
             <div className={styles.inputContainer}>
-              <label>
-                Phone Number<span className={styles.requiredStar}>*</span>
-              </label>
+              <label>Phone Number</label>
               <input
                 type="text"
                 name="phoneNumber"
                 value={phoneNumber}
-                size="30"
                 onChange={onChange}
+                autoComplete="tel"
               />
               {errors.phoneNumber && (
                 <small className={styles.error}>{errors.phoneNumber}</small>
               )}
             </div>
           </div>
+
           <div className={`${styles.contactTitleSchool} ${styles.formSection}`}>
             <div className={styles.inputContainer}>
-              <label>
-                Title<span className={styles.requiredStar}>*</span>
-              </label>
+              <label>Title/Position</label>
               <input
                 type="text"
                 name="title"
                 value={title}
-                size="30"
                 onChange={onChange}
               />
               {errors.title && (
@@ -222,14 +241,11 @@ const ContactForm = () => {
               )}
             </div>
             <div className={styles.inputContainer}>
-              <label>
-                School/Group<span className={styles.requiredStar}>*</span>
-              </label>
+              <label>Institution/School/Group</label>
               <input
                 type="text"
                 name="school"
                 value={school}
-                size="30"
                 onChange={onChange}
               />
               {errors.school && (
@@ -237,6 +253,7 @@ const ContactForm = () => {
               )}
             </div>
           </div>
+
           <div className={styles.contactMessage}>
             <div className={styles.inputContainer}>
               <textarea
@@ -250,6 +267,7 @@ const ContactForm = () => {
               )}
             </div>
           </div>
+
           <div className={styles.submitButtonContainer}>
             <button
               type="submit"
@@ -259,6 +277,7 @@ const ContactForm = () => {
               {isLoading ? "Sending Message..." : "Send Message"}
             </button>
           </div>
+
           <div className={styles.formMessage}>
             {successMessage && (
               <small className={styles.successMessage}>{successMessage}</small>
