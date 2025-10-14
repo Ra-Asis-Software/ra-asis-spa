@@ -100,7 +100,7 @@ const ContactForm = ({ user }) => {
     }
     if (school && school.length < 2) {
       newErrors.school =
-        "School/Group name should be at least 2 characters long!";
+        "Institution/School/Group name should be at least 2 characters long!";
     }
 
     return newErrors;
