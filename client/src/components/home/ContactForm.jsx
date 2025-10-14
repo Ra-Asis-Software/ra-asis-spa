@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./ContactForm.module.css";
-import { sendUserInquiry } from "../../services/userService";
+import { sendUserInquiry } from "../../services/userService.js";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -127,7 +127,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div className={styles.contactFormContainer}>
+    <div className={styles.contactFormContainer} id="support">
       <div className={styles.contactFormIntro}>
         <h2>Let's Connect</h2>
         <p>

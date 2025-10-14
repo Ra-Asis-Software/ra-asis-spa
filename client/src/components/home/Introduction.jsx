@@ -13,7 +13,7 @@ const Introduction = () => {
   }, [location]); // Re-check when location changes
 
   return (
-    <div className={styles.landingIntro}>
+    <div className={styles.landingIntro} id="landing_intro">
       <h1>Empower Student Success With Real-Time Analytics</h1>
       <video
         className={styles.introVideo}

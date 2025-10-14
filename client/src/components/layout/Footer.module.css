@@ -58,12 +58,14 @@
 
 .footerLinks a {
   color: var(--aqua-color);
-  text-decoration: none;
-  transition: all 400ms ease-in-out;
 }
 
 .footerLinks a:hover {
   color: var(--bright-sun-color);
+}
+
+.whatWeOffer a {
+  cursor: auto;
 }
 
 /* RESPONSIVE BREAKPOINTS */
