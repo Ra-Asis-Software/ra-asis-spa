@@ -46,6 +46,10 @@
   gap: 20px;
 }
 
+.assignmentCardContainer h4 {
+  margin: 0;
+}
+
 .summaryAndDeadlineRow {
   gap: 70px;
   margin-top: 40px;

@@ -148,3 +148,15 @@ export const CapitalizeFirstLetter = (string) => {
 export const getAssessmentType = (type) => {
   return type === "assignment" ? "Assignments" : type === "quiz" && "Quizzes";
 };
+
+export const shortenTitle = (title) => {
+  return window.innerWidth < 768 || title.length <= 15
+    ? title
+    : title.slice(0, 15).concat("...");
+};
+
+export const shortenContent = (content) => {
+  return window.innerWidth < 768 || content.length <= 25
+    ? content
+    : content.slice(0, 25).concat("...");
+};

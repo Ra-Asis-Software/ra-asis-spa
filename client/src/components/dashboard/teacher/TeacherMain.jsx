@@ -45,7 +45,7 @@ const TeacherMain = ({
       return assessments;
     }
     return assessments.filter(
-      (assignment) => assignment.unit._id === selectedUnit.id
+      (assessment) => assessment.unit._id === selectedUnit.id
     );
   }, [assessments, selectedUnit.id]);
 

@@ -472,7 +472,19 @@ export const createUnitRequest = asyncHandler(async (req, res) => {
   }
 
   // Check if teacher already has 5 units
-  const teacher = await Teacher.findOne({ bio: teacherId }).populate("units");
+  const teacher = await Teacher.findOneAndUpdate(
+    { bio: teacherId },
+    {
+      $setOnInsert: {
+        bio: teacherId,
+        units: [],
+      },
+    },
+    {
+      new: true,
+      upsert: true,
+    }
+  ).populate("units");
 
   if (!teacher) {
     return res.status(404).json({

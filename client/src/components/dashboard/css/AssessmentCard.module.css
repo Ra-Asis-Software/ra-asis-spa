@@ -1,4 +1,5 @@
 .card {
+  height: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -80,12 +81,10 @@
 }
 
 @media screen and (max-width: 520px) {
-  .card {
-    height: 15vh;
-  }
-
-  .teacherCard,
-  .parentCard {
-    height: 10vh;
+  button {
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
