@@ -1,14 +1,15 @@
-import { handleDueDate, useUrlParams } from "../../../utils/assessments";
 import styles from "../css/Assessments.module.css";
 import { studentBar } from "../css/SideBarStyles.module.css";
+import { handleDueDate, useUrlParams } from "../../../utils/assessments.js";
 
-export const SubmissionTools = ({
+const SubmissionTools = ({
   currentAssessment,
   handleSubmitAssessment,
   openSubmission,
   message,
 }) => {
   const { type } = useUrlParams();
+
   return (
     <>
       {((currentAssessment && !openSubmission) ||
@@ -52,3 +53,5 @@ export const SubmissionTools = ({
     </>
   );
 };
+
+export default SubmissionTools;

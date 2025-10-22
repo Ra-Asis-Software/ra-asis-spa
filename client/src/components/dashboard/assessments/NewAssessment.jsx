@@ -1,19 +1,19 @@
-import styles from "../css/Assessments.module.css";
-import AssessmentTools from "./AssessmentTools";
 import { useState } from "react";
-import { createAssignment } from "../../../services/assignmentService";
+import styles from "../css/Assessments.module.css";
+import { createAssignment } from "../../../services/assignmentService.js";
+import { createQuiz } from "../../../services/quizService.js";
 import {
   correctAnswerNotSet,
   hasSingleAnswerOption,
   isAnyAnswerEmpty,
   useFileUploads,
   useUrlParams,
-} from "../../../utils/assessments";
-import { TeacherAssessmentContent } from "./TeacherAssessmentContent";
-import { FileSelector } from "./FileSelector";
-import { createQuiz } from "../../../services/quizService";
+} from "../../../utils/assessments.js";
+import TeacherAssessmentContent from "./TeacherAssessmentContent.jsx";
+import AssessmentTools from "./AssessmentTools.jsx";
+import FileSelector from "./FileSelector.jsx";
 
-export const NewAssessment = ({
+const NewAssessment = ({
   resetAssessmentContent,
   showButton,
   setShowButton,
@@ -180,3 +180,5 @@ export const NewAssessment = ({
     </>
   );
 };
+
+export default NewAssessment;

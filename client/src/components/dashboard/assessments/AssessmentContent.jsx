@@ -1,9 +1,7 @@
-import RoleRestricted from "../../ui/RoleRestricted";
-import { TeacherAssessmentContent } from "./TeacherAssessmentContent";
-import { StudentAssessmentContent } from "./StudentAssessmentContent";
+import { useRef, useState } from "react";
 import styles from "../css/Assessments.module.css";
 import {
-  CapitalizeFirstLetter,
+  capitalizeFirstLetter,
   correctAnswerNotSet,
   handleDueDate,
   hasSingleAnswerOption,
@@ -11,20 +9,25 @@ import {
   timeLeft,
   useFileUploads,
   useUrlParams,
-} from "../../../utils/assessments";
-import { useState } from "react";
+} from "../../../utils/assessments.js";
 import {
   submitAssignment,
   editAssignment,
   deleteSubmission,
-} from "../../../services/assignmentService";
-import AssessmentTools from "./AssessmentTools";
-import { SubmissionTools } from "./SubmissionTools";
-import { editQuiz, startQuiz, submitQuiz } from "../../../services/quizService";
-import StartQuiz from "./StartQuiz";
-import QuizTimer from "./QuizTimer";
-import { useRef } from "react";
-import SubmissionDetails from "./SubmissionDetails";
+} from "../../../services/assignmentService.js";
+import {
+  editQuiz,
+  startQuiz,
+  submitQuiz,
+} from "../../../services/quizService.js";
+import RoleRestricted from "../../ui/RoleRestricted.jsx";
+import TeacherAssessmentContent from "./TeacherAssessmentContent.jsx";
+import StudentAssessmentContent from "./StudentAssessmentContent.jsx";
+import StartQuiz from "./StartQuiz.jsx";
+import QuizTimer from "./QuizTimer.jsx";
+import AssessmentTools from "./AssessmentTools.jsx";
+import SubmissionTools from "./SubmissionTools.jsx";
+import SubmissionDetails from "./SubmissionDetails.jsx";
 
 const AssessmentContent = ({
   content,
@@ -207,7 +210,7 @@ const AssessmentContent = ({
               </button>
 
               <h3>
-                {CapitalizeFirstLetter(type)} : {currentAssessment.title}
+                {capitalizeFirstLetter(type)} : {currentAssessment.title}
               </h3>
 
               {canEdit ? (

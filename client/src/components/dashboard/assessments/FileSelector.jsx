@@ -1,6 +1,6 @@
 import styles from "../css/Assessments.module.css";
 
-export const FileSelector = ({ selector }) => {
+const FileSelector = ({ selector }) => {
   return (
     <div>
       {/* Add an input for taking in files */}
@@ -30,3 +30,5 @@ export const FileSelector = ({ selector }) => {
     </div>
   );
 };
+
+export default FileSelector;

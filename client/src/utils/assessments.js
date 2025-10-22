@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+
 export const handleDueDate = (dateTime) => {
   const dateTimeString = `${dateTime}:00`;
   const fullDateTimeString = new Date(dateTimeString);
@@ -141,7 +142,7 @@ export const getMilliSeconds = (time) => {
     : unit === "seconds" && value * 1000;
 };
 
-export const CapitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
