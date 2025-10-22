@@ -46,27 +46,27 @@ const StudentMain = ({
     fetchData();
   }, [profile?.id, profile?.role]);
 
-  const filteredAssignments = useMemo(() => {
+  const filteredAssessments = useMemo(() => {
     if (!assessments) return [];
     if (selectedUnit.id === "all") {
       return assessments;
     }
     return assessments.filter(
-      (assignment) => assignment.unit._id === selectedUnit.id
+      (assessment) => assessment.unit._id === selectedUnit.id
     );
   }, [assessments, selectedUnit.id]);
 
   // `deadlines` are derived directly from filtered assessments
   const deadlines = useMemo(() => {
-    return filteredAssignments.map((assignment) => {
-      const deadLineStr = assignment.deadLine || "";
+    return filteredAssessments.map((assessment) => {
+      const deadLineStr = assessment.deadLine || "";
       return {
         date: deadLineStr.slice(0, 10),
-        event: assignment.title,
+        event: assessment.title,
         time: deadLineStr.slice(11, 16),
       };
     });
-  }, [filteredAssignments]);
+  }, [filteredAssessments]);
 
   if (units.length === 0) {
     return <WelcomeBoard firstName={profile?.firstName} />;
@@ -85,15 +85,15 @@ const StudentMain = ({
         <div className={styles.mainContent}>
           <h3
             className={styles.heading}
-          >{`${selectedUnit.name} Assignments`}</h3>
+          >{`${selectedUnit.name} Assessments`}</h3>
           <div className={styles.assignmentCardContainer}>
-            {filteredAssignments.length > 0 ? (
-              filteredAssignments.map((assignment) => (
+            {filteredAssessments.length > 0 ? (
+              filteredAssessments.map((assessment) => (
                 <AssessmentCard
-                  key={assignment._id}
-                  unitName={assignment.unit.unitName}
-                  title={assignment.title}
-                  id={assignment._id}
+                  key={assessment._id}
+                  unitName={assessment.unit.unitName}
+                  title={assessment.title}
+                  id={assessment._id}
                   role={profile.role}
                 />
               ))

@@ -1,7 +1,8 @@
 import api from "./api";
 
 const USERS_PATH = "/users";
-const getUserDetails = async (role, id) => {
+
+export const getUserDetails = async (role, id) => {
   try {
     const response = await api.get(`${USERS_PATH}/${role}/${id}`);
 
@@ -15,7 +16,7 @@ const getUserDetails = async (role, id) => {
   }
 };
 
-const getParentDetails = async (parentId) => {
+export const getParentDetails = async (parentId) => {
   try {
     const response = await api.get(`${USERS_PATH}/parent/${parentId}`);
     return response.data;
@@ -27,7 +28,7 @@ const getParentDetails = async (parentId) => {
   }
 };
 
-const linkStudentToParent = async (parentId, studentId) => {
+export const linkStudentToParent = async (parentId, studentId) => {
   try {
     const response = await api.patch(
       `${USERS_PATH}/parent/${parentId}/link-student`,
@@ -42,42 +43,43 @@ const linkStudentToParent = async (parentId, studentId) => {
   }
 };
 
-const getAllStudents = async (search = "") => {
+export const getAllStudents = async (search = "") => {
   try {
     const response = await api.get(`${USERS_PATH}/students?search=${search}`);
     return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return {
-        error: error.response.data.message || error.response.data.error.message,
-      };
+    if (error.response.data) {
+      return { error: error.response.data.message };
     } else {
       return { error: "Sorry, an unexpected error occurred" };
     }
   }
 };
 
-const searchStudentByEmail = async (email) => {
+export const searchStudentByEmail = async (email) => {
   try {
     const response = await api.get(
       `${USERS_PATH}/search-student?email=${email}`
     );
     return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return {
-        error: error.response.data.message || error.response.data.error.message,
-      };
+    if (error.response.data) {
+      return { error: error.response.data.message };
     } else {
       return { error: "Sorry, an unexpected error occurred" };
     }
   }
 };
 
-export {
-  getUserDetails,
-  getParentDetails,
-  linkStudentToParent,
-  getAllStudents,
-  searchStudentByEmail,
+export const sendUserInquiry = async (data) => {
+  try {
+    const response = await api.post(`${USERS_PATH}/inquiry`, data);
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return { error: error.response.data.message };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
 };

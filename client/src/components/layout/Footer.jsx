@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Footer.module.css";
-import { footerLinkContainers } from "../../data/footerLinksData";
-import { footerSocials } from "../../data/footerSocialsData";
+import { footerLinkContainers } from "../../data/footerLinksData.js";
+import { footerSocials } from "../../data/footerSocialsData.js";
 
 const Footer = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,6 +14,24 @@ const Footer = () => {
     setIsLoggedIn(!!token);
   }, [location]); // Re-check when location changes
 
+  // Handle Why Us? link click
+  const handleWhyUsLinkClick = () => {
+    const whyUs = document.getElementById("why_choose");
+    whyUs.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Handle About Us link click
+  const handleAboutUsLinkClick = () => {
+    const aboutUs = document.getElementById("landing_intro");
+    aboutUs.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Handle Contact Us link click
+  const handleContactLinkClick = () => {
+    const contact = document.getElementById("support");
+    contact.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     setIsLoggedIn(false);
@@ -22,7 +40,7 @@ const Footer = () => {
 
   // Update only the "Popular Links" section
   const updatedFooterLinks = footerLinkContainers.map((container) => {
-    if (container.className === "popular-links") {
+    if (container.className === styles.popularLinks) {
       return {
         ...container,
         containerLinks: container.containerLinks.map((link) => {
@@ -82,6 +100,12 @@ const Footer = () => {
           className={`${footerLinkContainer.className} ${styles.footerLinks}`}
         >
           <h3>{footerLinkContainer.containerHeading}</h3>
+          {footerLinkContainer.containerHeading === "Company" && (
+            <Link onClick={handleWhyUsLinkClick}>Why Ra'Asis Analytica</Link>
+          )}
+          {footerLinkContainer.containerHeading === "Popular Links" && (
+            <Link onClick={handleContactLinkClick}>Contact Us</Link>
+          )}
           {footerLinkContainer.containerLinks.map((link, index) => (
             <Link
               key={index}
@@ -91,6 +115,9 @@ const Footer = () => {
               {link.linkText}
             </Link>
           ))}
+          {footerLinkContainer.containerHeading === "Company" && (
+            <Link onClick={handleAboutUsLinkClick}>About Us</Link>
+          )}
         </div>
       ))}
     </footer>

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+
 export const handleDueDate = (dateTime) => {
   const dateTimeString = `${dateTime}:00`;
   const fullDateTimeString = new Date(dateTimeString);
@@ -141,10 +142,22 @@ export const getMilliSeconds = (time) => {
     : unit === "seconds" && value * 1000;
 };
 
-export const CapitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 export const getAssessmentType = (type) => {
   return type === "assignment" ? "Assignments" : type === "quiz" && "Quizzes";
+};
+
+export const shortenTitle = (title) => {
+  return window.innerWidth < 768 || title.length <= 15
+    ? title
+    : title.slice(0, 15).concat("...");
+};
+
+export const shortenContent = (content) => {
+  return window.innerWidth < 768 || content.length <= 25
+    ? content
+    : content.slice(0, 25).concat("...");
 };

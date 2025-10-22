@@ -1,3 +1,4 @@
+import { shortenContent, shortenTitle } from "../../../utils/assessments";
 import styles from "../css/AssessmentCard.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -20,8 +21,8 @@ const AssessmentCard = ({
           : role === "parent" && styles.parentCard
       }`}
     >
-      <h4 className={styles.unit}>{unitName}</h4>
-      <p className={styles.title}>{title}</p>
+      <h4 className={styles.unit}>{shortenTitle(unitName)}</h4>
+      <p className={styles.title}>{shortenContent(title)}</p>
       <div
         className={`${styles.status} ${
           styles[status.toLowerCase().replace(/\s/g, "")]

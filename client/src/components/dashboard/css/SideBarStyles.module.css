@@ -129,7 +129,7 @@ ul li a.active {
 @media (max-width: 991px) {
   .sidebar {
     position: fixed;
-    height: 50vh;
+    height: max-content;
   }
 
   .adminBar {

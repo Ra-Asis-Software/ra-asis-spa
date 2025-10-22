@@ -1,0 +1,31 @@
+.emailVerification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  min-height: 100vh;
+}
+
+.emailVerificationParagraph {
+  color: var(--pine-green-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.emailVerificationIcon {
+  font-size: 4.375em;
+}
+
+.emailVerificationLink {
+  background: var(--pine-green-color);
+  color: var(--bright-sun-color);
+  padding: 20px;
+  border-radius: 7px;
+}
+
+.emailVerificationLink:hover {
+  background: var(--bright-sun-color);
+  color: var(--pine-green-color);
+}

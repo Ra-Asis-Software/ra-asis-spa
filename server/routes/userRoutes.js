@@ -5,6 +5,7 @@ import {
   getStudent,
   getTeacher,
   linkStudentToParent,
+  sendInquiry,
   searchStudentByEmail,
 } from "../controllers/userController.js";
 import { hasRole } from "../middleware/checkUserRole.js";
@@ -40,5 +41,8 @@ router.get(
   hasRole("administrator", "parent"),
   searchStudentByEmail
 );
+
+// Send inquiry
+router.post("/inquiry", sendInquiry);
 
 export default router;

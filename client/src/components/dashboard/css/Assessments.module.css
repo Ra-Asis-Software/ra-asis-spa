@@ -24,6 +24,7 @@
 
 .addAssignment {
   background-color: var(--cerulean-color);
+  color: var(--foam-color);
   display: flex;
   align-items: center;
   height: 6vh;

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { stripHTML, timeLeft } from "../../../utils/assessments";
 import styles from "../css/Assessments.module.css";
-import { FileSelector } from "./FileSelector";
+import { stripHTML, timeLeft } from "../../../utils/assessments.js";
+import FileSelector from "./FileSelector.jsx";
 
-export const StudentAssessmentContent = ({
+const StudentAssessmentContent = ({
   content,
   currentAssessment,
   studentAnswers,
@@ -33,6 +33,7 @@ export const StudentAssessmentContent = ({
   };
 
   let questionNumber = 1;
+
   return (
     <>
       <p className={styles.lateSubmission}>
@@ -192,3 +193,5 @@ export const StudentAssessmentContent = ({
     </>
   );
 };
+
+export default StudentAssessmentContent;

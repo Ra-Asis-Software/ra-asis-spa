@@ -1,26 +1,72 @@
 import { useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import styles from "./ResetPassword.module.css";
+import { requestPasswordReset } from "../services/authService.js";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  // Email field validation
+  const validateFields = () => {
+    const newErrors = {};
+
+    if (!email) {
+      newErrors.email = "You did not enter your email address!";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Please enter a valid email address!";
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Clear previous status and errors
+    setStatus("");
+    setErrors({});
+
+    // Validate form
+    const newErrors = validateFields();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await axios.post("/api/auth/reset-password", {
-        email,
-        frontendUrl: window.location.origin,
-      });
+      await requestPasswordReset(email, window.location.origin);
       setStatus("success");
     } catch (error) {
-      setStatus("error");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message === "No user found with this email address"
+      ) {
+        setErrors({ email: "No account found with this email address!" });
+      } else {
+        setStatus("error");
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleInputChange = (value) => {
+    setEmail(value);
+
+    // Clear email error when user starts typing
+    if (errors.email) {
+      setErrors({});
+    }
+
+    // Clear status when user starts typing
+    if (status === "error") {
+      setStatus("");
     }
   };
 
@@ -28,7 +74,7 @@ const ResetPassword = () => {
     const emailDomain = email.split("@")[1];
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // Mapping of email domains to app inboxes. Not sure if this works correctly. Tutaconfirm in prod.
+    // Map email domains to app inboxes
     const mailAppLinks = {
       "gmail.com": isMobile ? "googlegmail://inbox" : "mailto:",
       "yahoo.com": isMobile ? "ymail://inbox" : "mailto:",
@@ -45,30 +91,37 @@ const ResetPassword = () => {
 
   return (
     <>
-      <header id="reset_password_header">
+      <header className={styles.resetPasswordHeader}>
         <div className="app-logo">
           <Link to="/">
-            <img src="/assets/spa_logo.webp" alt="SPA logo" />
+            <img
+              src="/assets/spa_logo.webp"
+              alt="SPA logo"
+              className={styles.resetPasswordLogo}
+            />
           </Link>
         </div>
       </header>
-      <div className="reset-password">
+      <div className={styles.resetPassword}>
         {status === "success" ? (
-          <div className="request-success">
-            <div className="success-icon">
+          <div className={styles.requestSuccess}>
+            <div className={styles.successIconContainer}>
               <img
                 src="/assets/email_icon.webp"
                 alt="Envelope icon with an @ symbol to show sending mail was successfull"
+                className={styles.successIcon}
               />
             </div>
-            <div className="success-text">
-              <h2>Check Your Mail</h2>
+            <div className={styles.successText}>
+              <h5>Check Your Mail</h5>
               <p>We have sent password recovery instructions to your email</p>
             </div>
-            <div className="mail-app-btn">
-              <button onClick={handleOpenMailApp}>Open the mail app</button>
+            <div className={styles.mailAppBtnContainer}>
+              <button className={styles.mailAppBtn} onClick={handleOpenMailApp}>
+                Open the mail app
+              </button>
             </div>
-            <div className="try-again-text">
+            <div className={styles.tryAgainText}>
               <p>
                 Did not receive the email? Check your spam folder or{" "}
                 <Link to="/reset-password">try another email address</Link>
@@ -76,31 +129,42 @@ const ResetPassword = () => {
             </div>
           </div>
         ) : (
-          <div className="request-container">
-            <div className="reset-password-intro">
+          <div className={styles.requestContainer}>
+            <div className={styles.resetPasswordIntro}>
               <p>
                 Enter the email address associated with your account, and we
                 will send you a link to reset your password
               </p>
             </div>
-            <div className="request-reset-form">
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="email-input">
+            <div className={styles.requestResetFormContainer}>
+              <form
+                className={styles.requestResetForm}
+                onSubmit={handleSubmit}
+                noValidate
+              >
+                <div className={styles.emailInput}>
                   <input
                     type="email"
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  {errors.email && (
+                    <small className={styles.error}>{errors.email}</small>
+                  )}
                 </div>
-                <div className="get-link-btn">
-                  <button type="submit" disabled={loading}>
+                <div className={styles.getLinkBtnContainer}>
+                  <button
+                    className={styles.getLinkBtn}
+                    type="submit"
+                    disabled={loading}
+                  >
                     {loading ? "Preparing Link..." : "Get Link"}
                   </button>
                 </div>
-                <div className="form-message">
+                <div className={styles.formMessage}>
                   {status === "error" && (
-                    <small className="error-message">
+                    <small className={styles.errorMessage}>
                       Something went wrong when sending reset link. Please try
                       again.
                     </small>
@@ -108,10 +172,11 @@ const ResetPassword = () => {
                 </div>
               </form>
             </div>
-            <div className="reset-password-img">
+            <div className={styles.resetPasswordImgContainer}>
               <img
                 src="/assets/password_reset.webp"
                 alt="a boy holding a broken key which is stuck on the padlock in the background. An analogy of a lost password."
+                className={styles.resetPasswordImg}
               />
             </div>
           </div>

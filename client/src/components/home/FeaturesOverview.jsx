@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { featuresContent } from "../../data/featuresOverviewData";
+import { featuresContent } from "../../data/featuresOverviewData.js";
 import styles from "./FeaturesOverview.module.css";
 
 const FeaturesOverview = () => {
@@ -14,7 +14,7 @@ const FeaturesOverview = () => {
   }, [location]); // Re-check when location changes
 
   return (
-    <div className={styles.featuresOverview}>
+    <div className={styles.featuresOverview} id="features_overview">
       <div className={styles.featuresHeading}>
         <h2>Features Overview</h2>
       </div>
@@ -27,7 +27,7 @@ const FeaturesOverview = () => {
               className={styles.featureContentImage}
             />
             <div className={styles.descriptionsTexts}>
-              <h3>{featureContent.title}</h3>
+              <h4>{featureContent.title}</h4>
               <p>{featureContent.description}</p>
             </div>
           </div>

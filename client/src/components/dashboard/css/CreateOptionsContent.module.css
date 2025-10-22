@@ -20,11 +20,12 @@
 }
 
 .button {
+  background: var(--cerulean-color);
+  color: var(--foam-color);
   height: 6vh;
   width: 200px;
   display: flex;
   align-items: center;
-  background-color: var(--cerulean-color);
   gap: 10px;
 }
 
@@ -34,6 +35,11 @@
 }
 
 .faIcon {
-  color: var(--bright-sun-color);
+  color: var(--foam-color);
   font-size: 24px;
+  transition: all 400ms ease-in-out;
+}
+
+.button:hover .faIcon {
+  color: var(--cerulean-color);
 }

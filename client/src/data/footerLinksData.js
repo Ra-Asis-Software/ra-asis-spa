@@ -1,3 +1,5 @@
+import styles from "../components/layout/Footer.module.css";
+
 // Footer links containers data
 export const footerLinkContainers = [
   {
@@ -25,16 +27,12 @@ export const footerLinkContainers = [
         linkTo: "#",
       },
     ],
-    className: "what-we-offer",
+    className: styles.whatWeOffer,
   },
   {
     id: 2,
     containerHeading: "Company",
     containerLinks: [
-      {
-        linkText: "Why Ra'Asis Analytica",
-        linkTo: "#",
-      },
       {
         linkText: "Become A Partner",
         linkTo: "#",
@@ -43,24 +41,16 @@ export const footerLinkContainers = [
         linkText: "Our Partners",
         linkTo: "#",
       },
-      {
-        linkText: "About Us",
-        linkTo: "#",
-      },
     ],
-    className: "company",
+    className: styles.company,
   },
   {
     id: 3,
     containerHeading: "Popular Links",
     containerLinks: [
       {
-        linkText: "Contact Us",
-        linkTo: "#",
-      },
-      {
         linkText: "Resources",
-        linkTo: "#",
+        linkTo: "/dashboard",
       },
       {
         linkText: "Register",
@@ -71,6 +61,6 @@ export const footerLinkContainers = [
         linkTo: "/login",
       },
     ],
-    className: "popular-links",
+    className: styles.popularLinks,
   },
 ];

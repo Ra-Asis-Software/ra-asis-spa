@@ -1,9 +1,9 @@
-import styles from "../css/Assessments.module.css";
 import { useEffect, useState } from "react";
-import { stripHTML, useUrlParams } from "../../../utils/assessments";
-import { FileSelector } from "./FileSelector";
+import styles from "../css/Assessments.module.css";
+import { stripHTML, useUrlParams } from "../../../utils/assessments.js";
+import FileSelector from "./FileSelector.jsx";
 
-export const TeacherAssessmentContent = ({
+const TeacherAssessmentContent = ({
   content,
   setContent,
   showButton,
@@ -223,6 +223,7 @@ export const TeacherAssessmentContent = ({
   };
 
   let questionNumber = 1;
+  
   return (
     <div className={styles.textContent}>
       {(isOpened || assignmentFiles.length > 0) && (
@@ -500,3 +501,5 @@ export const TeacherAssessmentContent = ({
     </div>
   );
 };
+
+export default TeacherAssessmentContent;

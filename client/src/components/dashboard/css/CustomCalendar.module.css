@@ -1,9 +1,18 @@
 .container {
   padding: 1rem;
   background: #ffffff;
-  border-radius: 12px;
+  color: var(--cerulean-color);
+  border-radius: 7px;
   box-shadow: 0 4px 10px var(--black-pearl-color);
   max-width: 280px;
+}
+
+.container button {
+  color: var(--black-pearl-color);
+}
+
+.container button:hover {
+  color: var(--cerulean-color);
 }
 
 .calendar :global(.react-calendar) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
-import { navItems } from "../../data/headerNavData";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,6 +22,24 @@ const Header = () => {
   // Close menu on user selection
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  // Handle What We Offer link click
+  const handleOffersLinkClick = () => {
+    const whatWeOffer = document.getElementById("features_overview");
+    whatWeOffer.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Handle Support link click
+  const handleSupportLinkClick = () => {
+    const support = document.getElementById("support");
+    support.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Handle Why Us? link click
+  const handleWhyUsLinkClick = () => {
+    const whyUs = document.getElementById("why_choose");
+    whyUs.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleLogout = () => {
@@ -51,21 +68,33 @@ const Header = () => {
         }`}
       >
         {/* Common navigation items */}
-        {navItems.slice(0, 5).map((navItem) => (
-          <Link
-            key={navItem.id}
-            to={navItem.linkTo}
-            className={
-              location.pathname === navItem.linkTo ? styles.active : ""
-            }
-            onClick={closeMenu}
-          >
-            {navItem.linkText}
-            {navItem.hasDropdownMenu && (
-              <i className="fa-solid fa-chevron-down" />
-            )}
-          </Link>
-        ))}
+        <Link
+          onClick={() => {
+            handleOffersLinkClick();
+            closeMenu();
+          }}
+        >
+          WHAT WE OFFER
+        </Link>
+        <Link
+          onClick={() => {
+            handleSupportLinkClick();
+            closeMenu();
+          }}
+        >
+          SUPPORT
+        </Link>
+        <Link
+          onClick={() => {
+            handleWhyUsLinkClick();
+            closeMenu();
+          }}
+        >
+          WHY US?
+        </Link>
+        <Link to="/dashboard" onClick={closeMenu}>
+          RESOURCES
+        </Link>
 
         {/* Conditional navigation items */}
         {isLoggedIn ? (

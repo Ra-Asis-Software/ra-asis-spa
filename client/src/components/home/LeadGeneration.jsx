@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import styles from "./LeadGeneration.module.css";
 
 const LeadGeneration = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,8 +13,8 @@ const LeadGeneration = () => {
   }, [location]); // Re-check when location changes
 
   return (
-    <div className="lead-generation">
-      <div className="lead-generation-image">
+    <div className={styles.leadGeneration}>
+      <div className={styles.leadGenerationImage}>
         <img
           src="/assets/think_want_get.webp"
           alt="Think it want it get it graphic"
@@ -21,10 +22,10 @@ const LeadGeneration = () => {
         <img
           src="/assets/think_want_get_res.webp"
           alt="Think it want it get it graphic"
-          className="mobile-responsive"
+          className={styles.mobileResponsive}
         />
       </div>
-      <div className="lead-generation-links">
+      <div className={styles.leadGenerationLinks}>
         <Link to="">REQUEST A DEMO</Link>
         <Link to={isLoggedIn ? "/dashboard" : "/register"}>
           {isLoggedIn ? "GO TO DASHBOARD" : "SIGN UP FOR FREE"}

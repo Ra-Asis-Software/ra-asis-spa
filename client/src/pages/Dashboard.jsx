@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import RoleRestricted from "../components/ui/RoleRestricted";
 import styles from "./Dashboard.module.css";
-import { getParentDetails } from "../services/userService";
-import { getUnitsForUser } from "../services/unitService";
-import Sidebar from "../components/dashboard/SideBar";
-import DashboardHeader from "../components/dashboard/DashboardHeader";
-import TeacherMain from "../components/dashboard/teacher/TeacherMain";
-import StudentMain from "../components/dashboard/student/StudentMain";
-import Students from "../components/dashboard/parent/Students";
-import Assessments from "../components/dashboard/assessments/Assessments";
-import Units from "../components/dashboard/Units";
-import ProfileContent from "../components/dashboard/ProfileContent";
-import ParentMain from "../components/dashboard/parent/ParentMain";
-import Submissions from "../components/dashboard/grading/Submissions";
-import Users from "../components/dashboard/admin/Users";
-import AdminUnits from "../components/dashboard/admin/AdminUnits";
+import { getParentDetails } from "../services/userService.js";
+import { getUnitsForUser } from "../services/unitService.js";
+import RoleRestricted from "../components/ui/RoleRestricted.jsx";
+import Sidebar from "../components/dashboard/SideBar.jsx";
+import DashboardHeader from "../components/dashboard/DashboardHeader.jsx";
+import TeacherMain from "../components/dashboard/teacher/TeacherMain.jsx";
+import StudentMain from "../components/dashboard/student/StudentMain.jsx";
+import Students from "../components/dashboard/parent/Students.jsx";
+import Assessments from "../components/dashboard/assessments/Assessments.jsx";
+import Units from "../components/dashboard/Units.jsx";
+import ProfileContent from "../components/dashboard/ProfileContent.jsx";
+import ParentMain from "../components/dashboard/parent/ParentMain.jsx";
+import Submissions from "../components/dashboard/grading/Submissions.jsx";
+import Users from "../components/dashboard/admin/Users.jsx";
+import AdminUnits from "../components/dashboard/admin/AdminUnits.jsx";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -86,7 +86,6 @@ const Dashboard = () => {
     }
   }, [user?.id, user?.role]);
 
-  //set selected unit in localStorage
   const persistSelectedUnit = () => {
     const storedUnit = localStorage.getItem("focusUnit");
     setSelectedUnit(
@@ -102,11 +101,19 @@ const Dashboard = () => {
 
   // Either display loading or error state
   if (loading) {
-    return <div className="loading-container">Loading...</div>;
+    return (
+      <div className={styles.dashboardContainer}>
+        <div className={styles.loadingContainer}>Loading...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="loading-error">{error}</div>;
+    return (
+      <div className={styles.dashboardContainer}>
+        <div className={styles.errorContainer}>{error}</div>
+      </div>
+    );
   }
 
   return (
@@ -126,7 +133,7 @@ const Dashboard = () => {
 
       <div className={styles.content}>
         <Sidebar show={showNav} logout={handleLogout} role={user?.role} />
-        <div className={styles.dashboards}>
+        <div className={styles.mainContent}>
           <Routes>
             <Route
               path="/"
