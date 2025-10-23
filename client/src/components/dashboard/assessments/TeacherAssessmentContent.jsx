@@ -109,7 +109,7 @@ const TeacherAssessmentContent = ({
 
       setContent(tempArray);
 
-      setSectionData({ ...sectionData, answer: "" }); //return answer to empty
+      setSectionData({ ...sectionData, answer: "" }); // return answer to empty
       setShowAnswerButton(null); // hide the add answer input
     }
   };
