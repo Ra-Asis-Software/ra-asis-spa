@@ -83,6 +83,23 @@ export const getQuizzesForUnit = async (unitId) => {
   }
 };
 
+export const getQuizzesForTeacher = async () => {
+  try {
+    const response = await api.get(`${QUIZ_PATH}/get-quizzes-for-teacher`);
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
 export const getQuizDetails = async (quizId) => {
   try {
     const response = await api.get(`${QUIZ_PATH}/${quizId}/details`);

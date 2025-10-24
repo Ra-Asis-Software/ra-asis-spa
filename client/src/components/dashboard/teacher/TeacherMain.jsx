@@ -8,7 +8,10 @@ import WelcomeBoard from "../WelcomeBoard";
 import Progress from "../Progress";
 import Modal from "../../ui/Modal";
 import CreateOptionsContent from "../CreateOptionsContent";
-import { sortAssessmentsByDeadline } from "../../../utils/assessments";
+import {
+  excludeMarkedAssessments,
+  sortAssessmentsByDeadline,
+} from "../../../utils/assessments";
 
 const TeacherMain = ({
   showNav,
@@ -36,7 +39,9 @@ const TeacherMain = ({
           teacherData.data.data.assignments || [],
           teacherData.data.data.quizzes || []
         );
-        setAssessments(tempAssessments);
+
+        const excludeMarked = excludeMarkedAssessments(tempAssessments);
+        setAssessments(excludeMarked);
         setUnits(teacherData.data.data.units);
         persistSelectedUnit();
       }

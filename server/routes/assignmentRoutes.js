@@ -6,6 +6,7 @@ import {
   deleteAssignment,
   getAssignmentDetails,
   editAssignment,
+  getAssignmentsForTeacher,
 } from "../controllers/assignmentController.js";
 import {
   submitAssignment,
@@ -52,6 +53,12 @@ router.get(
   "/:unitId/assignments",
   hasPermission("view:assignment"),
   getAssignments
+);
+
+router.get(
+  "/get-assignments-for-teacher",
+  hasPermission("view:assignment"),
+  getAssignmentsForTeacher
 );
 
 router.get(

@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import Assignment from "../models/Assignment.js";
 import Unit from "../models/Unit.js";
 import Teacher from "../models/Teacher.js";
+import { prepareAssessment } from "../utils/assignment.js";
 
 // @desc    Create an assignment
 // @route   POST /api/assignments
@@ -33,28 +34,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
 
   //get answers from auto graded questions
   const parsedContent = JSON.parse(content);
-
-  const { newContent, newAnswers } = parsedContent.reduce(
-    (acc, item) => {
-      const id = crypto.randomUUID();
-
-      if (item.type === "question" && item.answer) {
-        acc.newContent.push({
-          type: item.type,
-          data: item.data,
-          answers: item.answers,
-          marks: item.marks,
-          id,
-        }); // question with new ID
-        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
-      } else {
-        acc.newContent.push({ ...item, id }); //if not a question with answers, return original
-      }
-
-      return acc;
-    },
-    { newContent: [], newAnswers: [] }
-  );
+  const { newData, correctAnswers } = prepareAssessment(parsedContent);
 
   // Create assignment
   const assignment = await Assignment.create({
@@ -63,8 +43,8 @@ export const createAssignment = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
-    content: JSON.stringify(newContent),
-    answers: JSON.stringify(newAnswers),
+    content: JSON.stringify(newData),
+    answers: JSON.stringify(correctAnswers),
     createdBy: req.user._id,
     files: req.files?.map((file) => ({
       filePath: file.path,
@@ -205,6 +185,36 @@ export const editAssignment = asyncHandler(async (req, res) => {
 // @access  Private (Students/Teachers/Admins)
 export const getAssignments = asyncHandler(async (req, res) => {
   const assignments = await Assignment.find({ unit: req.params.unitId })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName",
+    })
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    })
+    .select("-answers");
+
+  res.status(200).json(assignments);
+});
+
+// @desc    Get assignments for a teacher
+// @route   GET /api/assignments/get-assignments-by-teacher
+// @access  Private (Teachers/Admins)
+export const getAssignmentsForTeacher = asyncHandler(async (req, res) => {
+  const assignments = await Assignment.find({ createdBy: req.user._id })
     .populate({
       path: "unit",
       select: "unitCode unitName",

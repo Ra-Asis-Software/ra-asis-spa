@@ -27,3 +27,39 @@ export const submissionMadeOnTime = (startedAt, timeLimit) => {
 
   return Date.now() <= deadLine;
 };
+
+export const prepareAssessment = (assessmentData) => {
+  //we expect assignmentData to be an array
+
+  //we separate the correct answers from the questions (for auto-graded questions that is)
+  const { newData, correctAnswers } = assessmentData.reduce(
+    (acc, dataItem) => {
+      const id = crypto.randomUUID();
+
+      if (dataItem.type === "question" && dataItem.answer) {
+        // question with new ID
+        acc.newData.push({
+          type: dataItem.type,
+          data: dataItem.data,
+          answers: dataItem.answers,
+          marks: dataItem.marks,
+          id,
+        });
+
+        // matching answer
+        acc.correctAnswers.push({
+          id,
+          answer: dataItem.answer,
+          marks: dataItem.marks,
+        });
+      } else {
+        acc.newData.push({ ...dataItem, id }); //if not a question with answers, return original
+      }
+
+      return acc;
+    },
+    { newData: [], correctAnswers: [] }
+  );
+
+  return { newData, correctAnswers };
+};

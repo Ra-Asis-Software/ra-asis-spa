@@ -11,6 +11,7 @@ const AssessmentTools = ({
   assessmentExtras,
   timeLimit,
   setTimeLimit,
+  submissionType,
 }) => {
   const { isNew, isOpened, type } = useUrlParams();
   return (
@@ -25,19 +26,23 @@ const AssessmentTools = ({
           Instruction
         </button>
 
-        <button
-          className={styles.addAssignment}
-          onClick={() => setShowButton("question")}
-        >
-          Question
-        </button>
+        {submissionType?.toLowerCase() !== "file" && (
+          <>
+            <button
+              className={styles.addAssignment}
+              onClick={() => setShowButton("question")}
+            >
+              Question
+            </button>
 
-        <button
-          className={styles.addAssignment}
-          onClick={() => setShowButton("textArea")}
-        >
-          Text Area
-        </button>
+            <button
+              className={styles.addAssignment}
+              onClick={() => setShowButton("textArea")}
+            >
+              Text Area
+            </button>
+          </>
+        )}
 
         <button
           className={styles.addAssignment}

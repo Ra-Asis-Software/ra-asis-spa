@@ -4,7 +4,11 @@ import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
 import QuizSubmission from "../models/QuizSubmission.js";
 import Student from "../models/Student.js";
-import { submissionMadeOnTime, timeLeft } from "../utils/assignment.js";
+import {
+  prepareAssessment,
+  submissionMadeOnTime,
+  timeLeft,
+} from "../utils/assignment.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
@@ -48,28 +52,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
 
   //get answers from auto graded questions
   const parsedContent = JSON.parse(content);
-
-  const { newContent, newAnswers } = parsedContent.reduce(
-    (acc, item) => {
-      const id = crypto.randomUUID();
-
-      if (item.type === "question" && item.answer) {
-        acc.newContent.push({
-          type: item.type,
-          data: item.data,
-          answers: item.answers,
-          marks: item.marks,
-          id,
-        }); // question with new ID
-        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
-      } else {
-        acc.newContent.push({ ...item, id }); //if not a question with answers, return original
-      }
-
-      return acc;
-    },
-    { newContent: [], newAnswers: [] }
-  );
+  const { newData, correctAnswers } = prepareAssessment(parsedContent);
 
   // Create quiz
   const quiz = await Quiz.create({
@@ -79,8 +62,8 @@ export const createQuiz = asyncHandler(async (req, res) => {
     deadLine,
     maxMarks,
     timeLimit: parsedTimeLimit,
-    content: JSON.stringify(newContent),
-    answers: JSON.stringify(newAnswers),
+    content: JSON.stringify(newData),
+    answers: JSON.stringify(correctAnswers),
     createdBy: req.user._id,
     files: req.files?.map((file) => ({
       filePath: file.path,
@@ -453,6 +436,36 @@ export const getQuizDetails = asyncHandler(async (req, res) => {
 // @access  Private (Students/Teachers/Admins)
 export const getQuizzes = asyncHandler(async (req, res) => {
   const quizzes = await Quiz.find({ unit: req.params.unitId })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName",
+    })
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    })
+    .select("-answers");
+
+  res.status(200).json(quizzes);
+});
+
+// @desc    Get quizzes for a teacher
+// @route   GET /api/quizzes/get-quizzes-for-teacher
+// @access  Private (Teachers/Admins)
+export const getQuizzesForTeacher = asyncHandler(async (req, res) => {
+  const quizzes = await Quiz.find({ createdBy: req.user._id })
     .populate({
       path: "unit",
       select: "unitCode unitName",

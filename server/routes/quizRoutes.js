@@ -6,6 +6,7 @@ import {
   editQuiz,
   getQuizDetails,
   getQuizzes,
+  getQuizzesForTeacher,
   getSubmission,
   getSubmissions,
   gradeQuizSubmission,
@@ -61,6 +62,12 @@ router.post(
 );
 
 router.get("/:unitId/quizzes", hasPermission("view:quiz"), getQuizzes);
+
+router.get(
+  "/get-quizzes-for-teacher",
+  hasPermission("view:quiz"),
+  getQuizzesForTeacher
+);
 
 //get quiz details
 router.get("/:id/details", hasPermission("view:quiz"), getQuizDetails);

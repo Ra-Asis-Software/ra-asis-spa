@@ -178,9 +178,9 @@ export const shortenTitle = (title) => {
 };
 
 export const shortenContent = (content) => {
-  return window.innerWidth < 768 || content.length <= 25
+  return window.innerWidth < 768 || content.length <= 23
     ? content
-    : content.slice(0, 25).concat("...");
+    : content.slice(0, 23).concat("...");
 };
 
 export const sortAssessmentsByDeadline = (assignments, quizzes) => {
@@ -204,6 +204,10 @@ export const excludeSubmittedAssessments = (assessments, submissions) => {
     );
     return !hasSubmission;
   });
+};
+
+export const excludeMarkedAssessments = (assessments) => {
+  return assessments.filter((assessment) => assessment.status !== "completed");
 };
 
 export const assignType = (assessments, type) => {

@@ -147,6 +147,10 @@
   transition: all 0.4s ease;
 }
 
+.assignmentCard h3 {
+  margin: 0;
+}
+
 .assignmentCard:hover,
 .assignmentCard.selected:hover {
   border-color: var(--aqua-color);

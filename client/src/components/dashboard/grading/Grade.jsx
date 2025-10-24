@@ -223,8 +223,8 @@ const Grade = ({
                       <input
                         type="number"
                         disabled={
-                          item.studentAnswer.correctAnswer ||
-                          item.studentAnswer.marks !== null
+                          item.studentAnswer?.correctAnswer ||
+                          item.studentAnswer?.marks !== null
                         }
                         min={0}
                         step={1}
@@ -272,7 +272,7 @@ const Grade = ({
               </div>
               <div className={styles.summaryItem}>
                 <label>Submitted:</label>
-                <span>{selectedSubmission.submittedAt.slice(0, 10)}</span>
+                <span>{selectedSubmission.submittedAt?.slice(0, 10)}</span>
               </div>
               <div className={styles.summaryItem}>
                 <label>Status:</label>

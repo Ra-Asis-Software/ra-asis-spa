@@ -12,6 +12,7 @@ import {
 import TeacherAssessmentContent from "./TeacherAssessmentContent.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import FileSelector from "./FileSelector.jsx";
+import { useEffect } from "react";
 
 const NewAssessment = ({
   resetAssessmentContent,
@@ -37,6 +38,14 @@ const NewAssessment = ({
   const { type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
+
+  //remove questions and textarea whenever file-type submission is enabled
+  useEffect(() => {
+    const tempContent = content.filter(
+      (item) => !["textArea", "question"].includes(item.type)
+    );
+    setContent(tempContent);
+  }, [submissionType]);
 
   //handles publishing assignment
   const handlePublishAssessment = async () => {
@@ -95,10 +104,9 @@ const NewAssessment = ({
           } else {
             const createdAssessment = creationResult.data?.[type];
             resetAssessmentContent();
+            assignmentFiles.resetFiles();
             handleOpenExistingAssessment(createdAssessment);
           }
-
-          assignmentFiles.resetFiles();
         } catch (error) {
           setMessage(error);
         }
@@ -174,6 +182,7 @@ const NewAssessment = ({
             assignmentFiles,
             timeLimit,
             setTimeLimit,
+            submissionType,
           }}
         />
       </div>
