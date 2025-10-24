@@ -1,5 +1,6 @@
 .container {
   flex: 1;
+  height: 90dvh;
   display: flex;
   padding: 10px;
   max-width: 100%;
@@ -459,6 +460,7 @@
 .extras {
   width: max-content;
   max-width: 400px;
+  min-width: 300px;
   transition: width 0.4s ease-in-out;
 }
 

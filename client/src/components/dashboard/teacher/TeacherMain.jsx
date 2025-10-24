@@ -8,6 +8,7 @@ import WelcomeBoard from "../WelcomeBoard";
 import Progress from "../Progress";
 import Modal from "../../ui/Modal";
 import CreateOptionsContent from "../CreateOptionsContent";
+import { sortAssessmentsByDeadline } from "../../../utils/assessments";
 
 const TeacherMain = ({
   showNav,
@@ -31,7 +32,10 @@ const TeacherMain = ({
       const teacherData = await getUserDetails(profile.role, profile.id);
 
       if (teacherData.data.message) {
-        const tempAssessments = teacherData.data.data.assignments || [];
+        const tempAssessments = sortAssessmentsByDeadline(
+          teacherData.data.data.assignments || [],
+          teacherData.data.data.quizzes || []
+        );
         setAssessments(tempAssessments);
         setUnits(teacherData.data.data.units);
         persistSelectedUnit();
@@ -111,7 +115,7 @@ const TeacherMain = ({
               ) : (
                 <div className={styles.assignmentsBox}>
                   <div className={styles.assignmentsTitle}>
-                    <h4>{selectedUnit.name} Assignments</h4>
+                    <h4>{selectedUnit.name} Assessments</h4>
                     <button
                       className={styles.addAssignment}
                       onClick={handleChooseNewAssessment}
@@ -129,6 +133,8 @@ const TeacherMain = ({
                           title={assignment.title}
                           id={assignment._id}
                           role={profile.role}
+                          dueDate={assignment.deadLine}
+                          type={assignment.type}
                         />
                       );
                     })}

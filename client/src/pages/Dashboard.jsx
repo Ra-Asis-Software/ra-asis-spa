@@ -89,7 +89,11 @@ const Dashboard = () => {
   const persistSelectedUnit = () => {
     const storedUnit = localStorage.getItem("focusUnit");
     setSelectedUnit(
-      storedUnit ? JSON.parse(storedUnit) : units.length > 0 && units[0]
+      storedUnit
+        ? JSON.parse(storedUnit)
+        : units.length > 0
+        ? units[0]
+        : { name: "All Units", id: "all" }
     );
   };
 

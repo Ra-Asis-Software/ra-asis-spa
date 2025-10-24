@@ -22,6 +22,27 @@ export const handleDueDate = (dateTime) => {
   return `${Math.floor(years)} years`;
 };
 
+export const handleDueDateShort = (dateTime) => {
+  const dateTimeString = `${dateTime}:00`;
+  const fullDateTimeString = new Date(dateTimeString);
+  const milliSeconds = fullDateTimeString.getTime();
+  const today = Date.now();
+  const diff = milliSeconds - today;
+  if (diff < 0) return "Overdue";
+  const minutes = diff / (1000 * 60);
+  if (minutes < 60) return `${Math.floor(minutes)}m `;
+  const hours = minutes / 60;
+  if (hours < 24) return `${Math.floor(hours)}h `;
+  const days = hours / 24;
+  if (days < 7) return `${Math.floor(days)}d `;
+  const weeks = days / 7;
+  if (weeks < 4) return `${Math.floor(weeks)}w `;
+  const months = weeks / 4;
+  if (months < 12) return `${Math.floor(months)}mo `;
+  const years = months / 12;
+  return `${Math.floor(years)}y `;
+};
+
 export const timeLeft = (dueDate) => {
   const dateTimeString = `${dueDate}:00`;
   const fullDateTimeString = new Date(dateTimeString);
@@ -160,4 +181,33 @@ export const shortenContent = (content) => {
   return window.innerWidth < 768 || content.length <= 25
     ? content
     : content.slice(0, 25).concat("...");
+};
+
+export const sortAssessmentsByDeadline = (assignments, quizzes) => {
+  assignments = assignType(assignments, "assignment");
+  quizzes = assignType(quizzes, "quiz");
+  const allAssessments = [...assignments, ...quizzes];
+
+  return allAssessments.sort((a, b) => {
+    const dateA = new Date(a.deadLine).getTime();
+    const dateB = new Date(b.deadLine).getTime();
+    return dateA - dateB;
+  });
+};
+
+export const excludeSubmittedAssessments = (assessments, submissions) => {
+  return assessments.filter((assessment) => {
+    const hasSubmission = submissions.some(
+      (submission) =>
+        submission.assignment === assessment._id ||
+        submission.quiz === assessment._id
+    );
+    return !hasSubmission;
+  });
+};
+
+export const assignType = (assessments, type) => {
+  return assessments.map((assessment) => {
+    return { ...assessment, type: type };
+  });
 };
