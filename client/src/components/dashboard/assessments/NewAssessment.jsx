@@ -24,7 +24,6 @@ const NewAssessment = ({
   handleOpenExistingAssessment,
   currentAssessment,
   handleCloseAssessment,
-  message,
   setMessage,
   clearMessage,
   assessmentExtras,
@@ -50,24 +49,37 @@ const NewAssessment = ({
   //handles publishing assignment
   const handlePublishAssessment = async () => {
     if (!selectedUnit.id || selectedUnit.id === "all") {
-      setMessage("No unit Selected");
+      setMessage({ type: "error", text: "No unit Selected" });
     } else if (content.length === 0 && assignmentFiles.files.length === 0) {
-      setMessage("No content or files exist for the assignment");
+      setMessage({
+        type: "error",
+        text: "No content or files exist for the assignment",
+      });
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
-      setMessage(`Ensure both ${type} Title and Submission Type are set`);
+      setMessage({
+        type: "error",
+        text: `Ensure both ${type} Title and Submission Type are set`,
+      });
     } else {
       //check if all auto-grade answers are set
       const answerNotSet = correctAnswerNotSet(content);
       const singleAnswerOption = hasSingleAnswerOption(content);
       const answerIsEmpty = isAnyAnswerEmpty(content);
       if (singleAnswerOption) {
-        setMessage(`Question ${singleAnswerOption} has only one answer option`);
+        setMessage({
+          type: "error",
+          text: `Question ${singleAnswerOption} has only one answer option`,
+        });
       } else if (answerIsEmpty) {
-        setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+        setMessage({
+          type: "error",
+          text: `You have an empty answer in question ${answerIsEmpty}`,
+        });
       } else if (answerNotSet) {
-        setMessage(
-          `You have not set the correct answer for question ${answerNotSet}`
-        );
+        setMessage({
+          type: "error",
+          text: `You have not set the correct answer for question ${answerNotSet}`,
+        });
       } else {
         //setup deadlines for those not set
         let tempDate, tempTime;
@@ -93,28 +105,28 @@ const NewAssessment = ({
           );
         }
 
-        try {
-          const creationResult =
-            type === "quiz"
-              ? await createQuiz(formData)
-              : type === "assignment" && (await createAssignment(formData));
+        const creationResult =
+          type === "quiz"
+            ? await createQuiz(formData)
+            : type === "assignment" && (await createAssignment(formData));
 
-          if (creationResult.error) {
-            setMessage(creationResult.error);
-          } else {
-            const createdAssessment = creationResult.data?.[type];
-            resetAssessmentContent();
-            assignmentFiles.resetFiles();
-            handleOpenExistingAssessment(createdAssessment);
-          }
-        } catch (error) {
-          setMessage(error);
+        if (creationResult.error) {
+          setMessage({ type: "error", text: creationResult.error });
+        } else {
+          const createdAssessment = creationResult.data?.[type];
+          resetAssessmentContent();
+          assignmentFiles.resetFiles();
+          handleOpenExistingAssessment(createdAssessment);
+          setMessage({
+            type: "success",
+            text: "Assessment created successfully",
+          });
         }
       }
     }
 
     setTimeout(() => {
-      setMessage("");
+      setMessage({ type: "", text: "" });
     }, 5000);
   };
 
@@ -161,7 +173,6 @@ const NewAssessment = ({
                 setTrigger,
                 currentAssessment,
                 assignmentFiles,
-                message,
                 setMessage,
                 clearMessage,
                 setAssessmentExtras,
@@ -177,7 +188,6 @@ const NewAssessment = ({
             setShowButton,
             setAssessmentExtras,
             handlePublishAssessment,
-            message,
             assessmentExtras,
             assignmentFiles,
             timeLimit,

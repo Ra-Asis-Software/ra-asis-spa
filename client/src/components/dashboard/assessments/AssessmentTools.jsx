@@ -7,7 +7,6 @@ const AssessmentTools = ({
   setAssessmentExtras,
   handlePublishAssessment = null,
   handleEditAssessment = null,
-  message,
   assessmentExtras,
   timeLimit,
   setTimeLimit,
@@ -59,7 +58,6 @@ const AssessmentTools = ({
         >
           File
         </button>
-        {message !== "" && <p className={styles.submissionAlert}>{message}</p>}
       </div>
       <div className={styles.extraTools}>
         <div className={styles.deadline}>

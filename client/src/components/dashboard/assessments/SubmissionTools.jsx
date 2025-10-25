@@ -6,7 +6,6 @@ const SubmissionTools = ({
   currentAssessment,
   handleSubmitAssessment,
   openSubmission,
-  message,
 }) => {
   const { type } = useUrlParams();
 
@@ -39,9 +38,6 @@ const SubmissionTools = ({
           <p className={styles.normalText}>
             Max Mark: {currentAssessment.maxMarks}
           </p>
-          {message !== "" && (
-            <p className={styles.submissionAlert}>{message}</p>
-          )}
           <button
             className={`${styles.studentSubmit} ${studentBar}`}
             onClick={handleSubmitAssessment}

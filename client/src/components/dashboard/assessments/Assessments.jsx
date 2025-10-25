@@ -13,6 +13,7 @@ import Modal from "../../ui/Modal.jsx";
 import AssessmentContent from "./AssessmentContent.jsx";
 import NewAssessment from "./NewAssessment.jsx";
 import CreateOptionsContent from "../CreateOptionsContent.jsx";
+import ResponseModal from "../../ui/ResponseModal.jsx";
 
 const Assessments = ({
   showNav,
@@ -29,7 +30,7 @@ const Assessments = ({
   const submissions = useRef([]);
   const [currentAssessment, setCurrentAssessment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ type: "", text: "" });
 
   const [showButton, setShowButton] = useState(null);
 
@@ -153,7 +154,7 @@ const Assessments = ({
 
   const clearMessage = () => {
     return setTimeout(() => {
-      setMessage("");
+      setMessage({ type: "", text: "" });
     }, 5000);
   };
 
@@ -179,6 +180,10 @@ const Assessments = ({
     <div
       className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}
     >
+      {message.text.length > 0 && (
+        <ResponseModal isOpen={true} message={message} />
+      )}
+
       {isNew ? ( //for teachers to create assessments
         <RoleRestricted allowedRoles={["teacher"]}>
           <NewAssessment
@@ -189,12 +194,9 @@ const Assessments = ({
               setShowButton,
               trigger,
               setTrigger,
-              user,
               selectedUnit,
               handleOpenExistingAssessment,
-              canEdit,
               currentAssessment,
-              message,
               setMessage,
               clearMessage,
               assessmentExtras,
@@ -222,7 +224,6 @@ const Assessments = ({
             handleOpenExistingAssessment,
             canEdit,
             setCanEdit,
-            message,
             setMessage,
             clearMessage,
             timeLimit,

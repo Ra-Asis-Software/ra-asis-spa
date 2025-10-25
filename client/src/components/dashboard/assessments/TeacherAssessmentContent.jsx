@@ -101,7 +101,7 @@ const TeacherAssessmentContent = ({
 
   const handleAddAnswer = (index) => {
     if (!sectionData.answer) {
-      setMessage("Cannot add an empty answer");
+      setMessage({type: 'error', text: "Cannot add an empty answer"});
       clearMessage();
     } else {
       const tempArray = [...content];
@@ -188,7 +188,7 @@ const TeacherAssessmentContent = ({
 
   const addBlock = (type, data, extra = {}) => {
     if (!data) {
-      setMessage("Cannot add an empty field");
+      setMessage({type: 'error', text: "Cannot add an empty field"});
       clearMessage();
     } else {
       setContent((prev) => [...prev, { type, data, ...extra }]);

@@ -45,7 +45,6 @@ const AssessmentContent = ({
   canEdit,
   setCanEdit,
   handleCloseAssessment,
-  message,
   setMessage,
   clearMessage,
   timeLimit,
@@ -85,7 +84,10 @@ const AssessmentContent = ({
   const handleSubmitAssessment = async () => {
     const lacksAnswer = checkEmptyAnswerFields(studentAnswers, content);
     if (lacksAnswer && type === "assignment") {
-      setMessage(`Question ${lacksAnswer} has not been answered`);
+      setMessage({
+        type: "error",
+        text: `Question ${lacksAnswer} has not been answered`,
+      });
       clearMessage();
     } else {
       const formData = new FormData();
@@ -106,7 +108,7 @@ const AssessmentContent = ({
             (await submitQuiz(formData, currentAssessment._id));
 
       if (submissionResults.error) {
-        setMessage(submissionResults.error);
+        setMessage({ type: "error", text: submissionResults.error });
         clearMessage();
       } else {
         window.location.reload();
@@ -121,13 +123,20 @@ const AssessmentContent = ({
     const singleAnswerOption = hasSingleAnswerOption(content);
     const answerIsEmpty = isAnyAnswerEmpty(content);
     if (singleAnswerOption) {
-      setMessage(`Question ${singleAnswerOption} has only one answer option`);
+      setMessage({
+        type: "error",
+        text: `Question ${singleAnswerOption} has only one answer option`,
+      });
     } else if (answerIsEmpty) {
-      setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+      setMessage({
+        type: "error",
+        text: `You have an empty answer in question ${answerIsEmpty}`,
+      });
     } else if (answerNotSet) {
-      setMessage(
-        `You have not set the correct answer for question ${answerNotSet}`
-      );
+      setMessage({
+        type: "error",
+        text: `You have not set the correct answer for question ${answerNotSet}`,
+      });
     } else {
       const formData = new FormData();
 
@@ -150,26 +159,22 @@ const AssessmentContent = ({
         );
       }
 
-      try {
-        const assessmentId = currentAssessment._id;
-        if (assessmentId) {
-          const editResult =
-            type === "assignment"
-              ? await editAssignment(formData, assessmentId)
-              : await editQuiz(formData, assessmentId);
+      const assessmentId = currentAssessment._id;
+      if (assessmentId) {
+        const editResult =
+          type === "assignment"
+            ? await editAssignment(formData, assessmentId)
+            : await editQuiz(formData, assessmentId);
 
-          if (editResult.error) {
-            setMessage(editResult.error);
-          } else {
-            const editedAssessment = editResult.data?.[type];
-            resetAssessmentContent();
-            handleOpenExistingAssessment(editedAssessment);
-          }
+        if (editResult.error) {
+          setMessage({ type: "error", text: editResult.error });
+        } else {
+          const editedAssessment = editResult.data?.[type];
+          resetAssessmentContent();
+          handleOpenExistingAssessment(editedAssessment);
         }
-        assignmentFiles.resetFiles();
-      } catch (error) {
-        console.log(error);
       }
+      assignmentFiles.resetFiles();
     }
     clearMessage();
   };
@@ -188,11 +193,12 @@ const AssessmentContent = ({
     const quizStarted = await startQuiz({ quizId: currentAssessment._id });
 
     if (quizStarted.error) {
-      //
+      setMessage({ type: "error", text: quizStarted.error });
     } else {
       setTrigger(!trigger);
       handleOpenExistingAssessment(quizStarted.data.quiz);
     }
+    clearMessage();
   };
 
   return (
@@ -257,7 +263,6 @@ const AssessmentContent = ({
                 setShowButton,
                 setAssessmentExtras,
                 handleEditAssessment,
-                message,
                 assessmentExtras,
                 assignmentFiles,
                 timeLimit,
@@ -349,7 +354,6 @@ const AssessmentContent = ({
                   handleSubmitAssessment,
                   currentAssessment,
                   openSubmission,
-                  message,
                 }}
               />
             </div>
