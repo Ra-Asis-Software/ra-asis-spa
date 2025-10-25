@@ -3,7 +3,10 @@ import fs from "fs/promises";
 import Assignment from "../models/Assignment.js";
 import Unit from "../models/Unit.js";
 import Teacher from "../models/Teacher.js";
-import { prepareAssessment } from "../utils/assignment.js";
+import {
+  prepareAssessment,
+  prepareEditedAssessment,
+} from "../utils/assignment.js";
 
 // @desc    Create an assignment
 // @route   POST /api/assignments
@@ -87,70 +90,15 @@ export const editAssignment = asyncHandler(async (req, res) => {
 
   //check the changes made
   const parsedContent = JSON.parse(content);
-  let currentAnswers = JSON.parse(assignment.answers);
 
-  const { changedContent, changedAnswers } = parsedContent.reduce(
-    (acc, item) => {
-      if (!item.id) {
-        item.id = crypto.randomUUID(); //create id for new question items
-      }
-      if (item?.answer) {
-        acc.changedAnswers.push({
-          id: item.id,
-          newAnswer: item.answer,
-          marks: item.marks,
-        });
-      }
-      const { answer, ...rest } = item; //separate answer from the object
-      acc.changedContent.push(rest);
-
-      return acc;
-    },
-    { changedContent: [], changedAnswers: [] }
-  );
-
-  //remove from the db answers whose question was deleted from the assignment
-  currentAnswers = currentAnswers.filter((answer) => {
-    return changedContent.some((question) => question.id === answer.id);
-  });
-
-  //update the current answers with the incoming edits
-  const replaceAnswers = currentAnswers.map((answer) => {
-    const isAnswerModified = changedAnswers.find(
-      (newAnswer) => newAnswer.id === answer.id
-    );
-
-    if (!isAnswerModified) {
-      return answer;
-    } else {
-      return {
-        id: isAnswerModified.id,
-        answer: isAnswerModified.newAnswer,
-        marks: isAnswerModified.marks,
-      };
-    }
-  });
-
-  //include edits that are bringing in new questions, or answers currently not present
-  const veryNewAnswers = changedAnswers
-    .filter(
-      (newAnswer) =>
-        !currentAnswers.some((answer) => answer.id === newAnswer.id)
-    )
-    .map((newAnswer) => ({
-      id: newAnswer.id,
-      answer: newAnswer.newAnswer,
-      marks: newAnswer.marks,
-    }));
-
-  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+  const { newData, newAnswers } = prepareEditedAssessment(parsedContent);
 
   assignment.maxMarks = maxMarks;
-  assignment.content = JSON.stringify(changedContent);
+  assignment.content = JSON.stringify(newData);
   assignment.answers = JSON.stringify(newAnswers);
   assignment.deadLine = deadLine;
 
-  //clear existing files
+  //clear existing files if new files were added
   if (req.files?.length > 0 && assignment.files?.length > 0) {
     await Promise.all(
       assignment.files.map((file) =>
@@ -161,13 +109,15 @@ export const editAssignment = asyncHandler(async (req, res) => {
     );
   }
 
-  //add new files
-  assignment.files = req.files?.map((file) => ({
-    filePath: file.path,
-    fileName: file.originalname,
-    fileSize: file.size,
-    mimetype: file.mimetype,
-  }));
+  if (req.files?.length > 0) {
+    //add new files
+    assignment.files = req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    }));
+  }
 
   await assignment.save();
 

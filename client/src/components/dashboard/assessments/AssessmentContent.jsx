@@ -140,7 +140,10 @@ const AssessmentContent = ({
     } else {
       const formData = new FormData();
 
-      assignmentFiles.files.forEach((file) => formData.append("files", file));
+      if (assignmentFiles.files.length > 0) {
+        assignmentFiles.files.forEach((file) => formData.append("files", file));
+      }
+
       const newContent = JSON.stringify(content);
       formData.append("content", newContent);
       formData.append(
@@ -172,9 +175,13 @@ const AssessmentContent = ({
           const editedAssessment = editResult.data?.[type];
           resetAssessmentContent();
           handleOpenExistingAssessment(editedAssessment);
+          assignmentFiles.resetFiles();
+          setMessage({
+            type: "success",
+            text: "Assessment successfully edited",
+          });
         }
       }
-      assignmentFiles.resetFiles();
     }
     clearMessage();
   };
@@ -243,8 +250,6 @@ const AssessmentContent = ({
                 setContent,
                 showButton,
                 setShowButton,
-                trigger,
-                setTrigger,
                 currentAssessment,
                 canEdit,
                 assignmentFiles,
@@ -267,6 +272,7 @@ const AssessmentContent = ({
                 assignmentFiles,
                 timeLimit,
                 setTimeLimit,
+                submissionType: currentAssessment?.submissionType,
               }}
             />
           ) : (

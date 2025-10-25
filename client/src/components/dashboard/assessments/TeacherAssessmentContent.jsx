@@ -8,8 +8,6 @@ const TeacherAssessmentContent = ({
   setContent,
   showButton,
   setShowButton,
-  trigger,
-  setTrigger,
   currentAssessment,
   canEdit,
   assignmentFiles,
@@ -101,7 +99,7 @@ const TeacherAssessmentContent = ({
 
   const handleAddAnswer = (index) => {
     if (!sectionData.answer) {
-      setMessage({type: 'error', text: "Cannot add an empty answer"});
+      setMessage({ type: "error", text: "Cannot add an empty answer" });
       clearMessage();
     } else {
       const tempArray = [...content];
@@ -125,7 +123,6 @@ const TeacherAssessmentContent = ({
       tempArray[index] = itemToSwap;
     }
     setContent(tempArray);
-    setTrigger(!trigger); //trigger a rerender of the page
   };
 
   const handleMoveItemDown = (index) => {
@@ -139,14 +136,12 @@ const TeacherAssessmentContent = ({
       tempArray[index] = itemToSwap;
     }
     setContent(tempArray);
-    setTrigger(!trigger); //trigger a rerender of the page
   };
 
   const handleDeleteNoteItem = (index) => {
     const tempArray = [...content];
     tempArray.splice(index, 1);
     setContent(tempArray);
-    setTrigger(!trigger); //trigger a rerender of the page
     setRecalculateMarks(!recalculateMarks);
   };
 
@@ -188,7 +183,7 @@ const TeacherAssessmentContent = ({
 
   const addBlock = (type, data, extra = {}) => {
     if (!data) {
-      setMessage({type: 'error', text: "Cannot add an empty field"});
+      setMessage({ type: "error", text: "Cannot add an empty field" });
       clearMessage();
     } else {
       setContent((prev) => [...prev, { type, data, ...extra }]);
@@ -223,7 +218,7 @@ const TeacherAssessmentContent = ({
   };
 
   let questionNumber = 1;
-  
+
   return (
     <div className={styles.textContent}>
       {(isOpened || assignmentFiles.length > 0) && (

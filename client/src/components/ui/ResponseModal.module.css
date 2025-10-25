@@ -13,6 +13,7 @@
   right: 10px;
   z-index: 1000;
   background-color: #fff;
+  border-radius: 10px;
 }
 
 .content {
@@ -21,7 +22,8 @@
 }
 
 .content:first-of-type {
-  height: 6vh;
+  height: max-content;
+  min-height: 5vh;
   padding: 5px;
   margin: 5px;
 }

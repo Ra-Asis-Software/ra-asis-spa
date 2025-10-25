@@ -6,9 +6,11 @@ import QuizSubmission from "../models/QuizSubmission.js";
 import Student from "../models/Student.js";
 import {
   prepareAssessment,
+  prepareEditedAssessment,
   submissionMadeOnTime,
   timeLeft,
 } from "../utils/assignment.js";
+import fs from "fs/promises";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
@@ -106,71 +108,15 @@ export const editQuiz = asyncHandler(async (req, res) => {
 
   //check the changes made
   const parsedContent = JSON.parse(content);
-  let currentAnswers = JSON.parse(quiz.answers);
-
-  const { changedContent, changedAnswers } = parsedContent.reduce(
-    (acc, item) => {
-      if (!item.id) {
-        item.id = crypto.randomUUID(); //create id for new question items
-      }
-      if (item?.answer) {
-        acc.changedAnswers.push({
-          id: item.id,
-          newAnswer: item.answer,
-          marks: item.marks,
-        });
-      }
-      const { answer, ...rest } = item; //separate answer from the object
-      acc.changedContent.push(rest);
-
-      return acc;
-    },
-    { changedContent: [], changedAnswers: [] }
-  );
-
-  //remove from the db answers whose question was deleted from the assignment
-  currentAnswers = currentAnswers.filter((answer) => {
-    return changedContent.some((question) => question.id === answer.id);
-  });
-
-  //update the current answers with the incoming edits (their new values)
-  const replaceAnswers = currentAnswers.map((answer) => {
-    const isAnswerModified = changedAnswers.find(
-      (newAnswer) => newAnswer.id === answer.id
-    );
-
-    if (!isAnswerModified) {
-      return answer;
-    } else {
-      return {
-        id: isAnswerModified.id,
-        answer: isAnswerModified.newAnswer,
-        marks: isAnswerModified.marks,
-      };
-    }
-  });
-
-  //include edits that are bringing in new questions, or answers currently not present
-  const veryNewAnswers = changedAnswers
-    .filter(
-      (newAnswer) =>
-        !currentAnswers.some((answer) => answer.id === newAnswer.id)
-    )
-    .map((newAnswer) => ({
-      id: newAnswer.id,
-      answer: newAnswer.newAnswer,
-      marks: newAnswer.marks,
-    }));
-
-  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+  const { newData, newAnswers } = prepareEditedAssessment(parsedContent);
 
   quiz.maxMarks = maxMarks;
-  quiz.content = JSON.stringify(changedContent);
+  quiz.content = JSON.stringify(newData);
   quiz.answers = JSON.stringify(newAnswers);
   quiz.deadLine = deadLine;
   quiz.timeLimit = JSON.parse(timeLimit);
 
-  //clear existing files
+  //clear existing files if new files were added
   if (req.files?.length > 0 && quiz.files?.length > 0) {
     await Promise.all(
       quiz.files.map((file) =>
@@ -181,13 +127,15 @@ export const editQuiz = asyncHandler(async (req, res) => {
     );
   }
 
-  //add new files
-  quiz.files = req.files?.map((file) => ({
-    filePath: file.path,
-    fileName: file.originalname,
-    fileSize: file.size,
-    mimetype: file.mimetype,
-  }));
+  if (req.files?.length > 0) {
+    //add new files
+    quiz.files = req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    }));
+  }
 
   await quiz.save();
 

@@ -63,3 +63,35 @@ export const prepareAssessment = (assessmentData) => {
 
   return { newData, correctAnswers };
 };
+
+export const prepareEditedAssessment = (editedAssessment) => {
+  //we expect both parameters to be arrays
+
+  //separate questions from answers since there might be edits, new questions, deleted questions etc.
+  const { newData, newAnswers } = editedAssessment.reduce(
+    (acc, dataItem) => {
+      //first assign ids to new questions
+      if (!dataItem.id) {
+        dataItem.id = crypto.randomUUID();
+      }
+
+      //collect answers -new, edited, existing
+      if (dataItem?.answer) {
+        acc.newAnswers.push({
+          id: dataItem.id,
+          answer: dataItem.answer,
+          marks: dataItem.marks,
+        });
+      }
+
+      //collect question data without answers
+      const { answer, ...rest } = dataItem; //separate answer from the object
+      acc.newData.push(rest);
+
+      return acc;
+    },
+    { newData: [], newAnswers: [] }
+  );
+
+  return { newData, newAnswers };
+};
