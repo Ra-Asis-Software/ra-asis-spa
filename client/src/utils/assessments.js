@@ -54,6 +54,13 @@ export const timeLeft = (dueDate) => {
   return diff;
 };
 
+export const absoluteTimeLeft = (timeLimit, startedAt) => {
+  //this follows server stored times, which are not affected by the user changing their local time
+  return (
+    getMilliSeconds(timeLimit) - (Date.now() - new Date(startedAt).getTime())
+  );
+};
+
 export const useFileUploads = () => {
   const inputRef = useRef(null);
   const [files, setFiles] = useState([]);
@@ -200,7 +207,7 @@ export const excludeSubmittedAssessments = (assessments, submissions) => {
     const hasSubmission = submissions.some(
       (submission) =>
         submission.assignment === assessment._id ||
-        submission.quiz === assessment._id
+        (submission.quiz === assessment._id && submission?.submittedAt)
     );
     return !hasSubmission;
   });

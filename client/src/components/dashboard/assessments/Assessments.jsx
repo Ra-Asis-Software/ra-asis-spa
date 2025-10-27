@@ -149,7 +149,11 @@ const Assessments = ({
   };
 
   const submissionExists = (id) => {
-    return submissions.current.some((submission) => submission?.[type] === id);
+    return type === "assignment"
+      ? submissions.current.some((submission) => submission?.[type] === id)
+      : submissions.current.some(
+          (submission) => submission?.[type] === id && submission?.submittedAt
+        );
   };
 
   const clearMessage = () => {

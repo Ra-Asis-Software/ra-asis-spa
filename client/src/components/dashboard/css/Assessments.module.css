@@ -639,10 +639,13 @@
 .quizTimer {
   height: 4vh;
   width: 120px;
-  position: absolute;
-  top: 10px;
+  position: sticky;
+  align-self: flex-end;
+  top: 5px;
   right: 10px;
+  padding: 2px 5px;
   color: var(--alizarin-crimson-color);
+  background-color: var(--foam-color);
 }
 
 .startQuizButton:hover {

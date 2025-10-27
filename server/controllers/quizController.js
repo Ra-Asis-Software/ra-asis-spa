@@ -11,6 +11,7 @@ import {
   timeLeft,
 } from "../utils/assignment.js";
 import fs from "fs/promises";
+import mongoose from "mongoose";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
@@ -317,6 +318,44 @@ export const submitQuiz = asyncHandler(async (req, res) => {
   await submission.save();
 
   res.status(201).json({ success: "Quiz successfully submitted", submission });
+});
+
+//@desc   Delete a started but unsubmitted quiz
+// @route   DELETE /api/quizzes/:quizId/submissions/:submissionId
+// @access  Private (Student/Teacher/Admin)
+export const deleteUnresolvedSubmission = asyncHandler(async (req, res) => {
+  const { quizId, submissionId } = req.params;
+
+  //confirm student exists
+  const student = await Student.findOne({ bio: req.user._id });
+  if (!student)
+    return res
+      .status(404)
+      .json({ message: "An error occurred while validating your details" });
+
+  //we run a transaction to ensure submission is removed from QuizSubmission and from Student
+  try {
+    await mongoose.connection.transaction(async (session) => {
+      await QuizSubmission.findOneAndDelete(
+        { _id: submissionId, quiz: quizId, student: student._id },
+        { session }
+      );
+
+      await Student.updateOne(
+        { _id: student._id },
+        { $pull: { quizSubmissions: submissionId } },
+        { session }
+      );
+    });
+
+    res.status(200).json({
+      message: "You can start your quiz now",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while resolving your quiz submission",
+    });
+  }
 });
 
 //@desc   Get a single submission for a quiz

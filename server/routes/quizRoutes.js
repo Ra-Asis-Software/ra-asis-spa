@@ -3,6 +3,7 @@ import { upload } from "../config/multerConfig.js";
 import { hasPermission } from "../middleware/checkUserRole.js";
 import {
   createQuiz,
+  deleteUnresolvedSubmission,
   editQuiz,
   getQuizDetails,
   getQuizzes,
@@ -43,6 +44,12 @@ router.patch(
     });
   },
   editQuiz
+);
+
+router.delete(
+  "/:quizId/submissions/:submissionId/delete",
+  hasPermission("view:quiz"),
+  deleteUnresolvedSubmission
 );
 
 router.post("/start", hasPermission("upload:quiz-submission"), startQuiz);

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import styles from "../css/Assessments.module.css";
 import {
+  absoluteTimeLeft,
   capitalizeFirstLetter,
   correctAnswerNotSet,
   handleDueDate,
@@ -16,6 +17,7 @@ import {
   deleteSubmission,
 } from "../../../services/assignmentService.js";
 import {
+  deleteUnresolvedQuiz,
   editQuiz,
   startQuiz,
   submitQuiz,
@@ -28,6 +30,7 @@ import QuizTimer from "./QuizTimer.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import SubmissionTools from "./SubmissionTools.jsx";
 import SubmissionDetails from "./SubmissionDetails.jsx";
+import { useEffect } from "react";
 
 const AssessmentContent = ({
   content,
@@ -56,6 +59,38 @@ const AssessmentContent = ({
 
   const assignmentFiles = useFileUploads();
   const submissionFiles = useFileUploads();
+
+  useEffect(() => {
+    //handle submission that has been started but not submitted yet
+    const resolveUnsubmittedQuiz = async () => {
+      if (
+        type === "quiz" &&
+        openSubmission?.startedAt &&
+        !openSubmission?.submittedAt &&
+        absoluteTimeLeft(
+          currentAssessment?.timeLimit,
+          openSubmission?.startedAt
+        ) < 0
+      ) {
+        const submissionResolved = await deleteUnresolvedQuiz(
+          currentAssessment._id,
+          openSubmission._id
+        );
+        if (submissionResolved.error) {
+          setMessage({ type: "error", text: submissionResolved.error });
+        } else {
+          setTrigger(!trigger);
+          setMessage({
+            type: "success",
+            text: submissionResolved.data.message,
+          });
+        }
+
+        clearMessage();
+      }
+    };
+    resolveUnsubmittedQuiz();
+  }, []);
 
   const checkEmptyAnswerFields = (studentAnswers, content) => {
     let questionNumber = 0;
@@ -109,11 +144,17 @@ const AssessmentContent = ({
 
       if (submissionResults.error) {
         setMessage({ type: "error", text: submissionResults.error });
-        clearMessage();
       } else {
-        window.location.reload();
+        setMessage({
+          type: "success",
+          text: "Your submission has been accepted",
+        });
+        submissionFiles.resetFiles();
+        resetAssessmentContent();
+        setStudentAnswers({});
+        handleOpenExistingAssessment(currentAssessment);
       }
-      submissionFiles.resetFiles();
+      clearMessage();
     }
   };
 
@@ -190,10 +231,17 @@ const AssessmentContent = ({
     const removeSubmission = await deleteSubmission(openSubmission._id);
 
     if (removeSubmission.error) {
-      //
+      setMessage({ type: "error", text: removeSubmission.error });
     } else {
-      window.location.reload();
+      resetAssessmentContent();
+      setStudentAnswers({});
+      handleOpenExistingAssessment(currentAssessment);
+      setMessage({
+        type: "success",
+        text: "Submission revoked, You can re-attempt your assessment",
+      });
     }
+    clearMessage();
   };
 
   const handleStartQuiz = async () => {
@@ -333,15 +381,6 @@ const AssessmentContent = ({
                 </div>
               ) : (
                 <>
-                  <StudentAssessmentContent
-                    {...{
-                      currentAssessment,
-                      content,
-                      studentAnswers,
-                      setStudentAnswers,
-                      submissionFiles,
-                    }}
-                  />
                   {type === "quiz" && (
                     <QuizTimer
                       startedAt={openSubmission.startedAt}
@@ -351,6 +390,15 @@ const AssessmentContent = ({
                       {...{ quizSystemSubmitted, studentAnswers }}
                     />
                   )}
+                  <StudentAssessmentContent
+                    {...{
+                      currentAssessment,
+                      content,
+                      studentAnswers,
+                      setStudentAnswers,
+                      submissionFiles,
+                    }}
+                  />
                 </>
               )}
             </div>

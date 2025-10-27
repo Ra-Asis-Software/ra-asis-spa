@@ -204,9 +204,7 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
     });
 
   //transaction for deleting submission instance in submissions and for a student
-  const session = await mongoose.startSession();
-
-  await session.withTransaction(async () => {
+  await mongoose.connection.transaction(async (session) => {
     await Student.updateOne(
       { bio: req.user._id },
       {
@@ -214,6 +212,8 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
       },
       { session }
     );
+
+    await submissionExists.deleteOne({ session });
 
     //remove files
     if (submissionExists.files?.length > 0) {
@@ -226,11 +226,7 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
         })
       );
     }
-
-    await submissionExists.deleteOne({ session });
   });
-
-  session.endSession();
 
   return res.status(200).json({ message: "Submission has been removed" });
 });

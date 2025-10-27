@@ -32,13 +32,18 @@ const StudentAssessmentContent = ({
     setAnswerValue(null);
   };
 
+  const handleExpandAnswerArea = (target) => {
+    target.style.height = "auto";
+    target.style.height = `${target.scrollHeight}px`;
+  };
+
   let questionNumber = 1;
 
   return (
     <>
       <p className={styles.lateSubmission}>
         {timeLeft(currentAssessment.deadLine) < 0 &&
-          "This assignment is overdue, it will be flagged as late and penalized"}
+          "This assessment is overdue, it will be flagged as late and penalized"}
       </p>
       <h3>Assignment: {currentAssessment.title}</h3>
       {["file", "mixed"].includes(currentAssessment.submissionType) && (
@@ -132,8 +137,12 @@ const StudentAssessmentContent = ({
                         <textarea
                           defaultValue={studentAnswers?.[item.id]}
                           placeholder="Enter answer here..."
-                          className={styles.addedTextArea}
-                          onChange={(e) => setAnswerValue(e.target.value)}
+                          className={`${styles.addedTextArea}`}
+                          onFocus={(e) => handleExpandAnswerArea(e.target)}
+                          onChange={(e) => {
+                            setAnswerValue(e.target.value);
+                            handleExpandAnswerArea(e.target);
+                          }}
                         />
                         <button onClick={() => handleWriteAnswer(item.id)}>
                           Save answer
@@ -178,7 +187,11 @@ const StudentAssessmentContent = ({
                       defaultValue={studentAnswers?.[item.id]}
                       placeholder="Enter answer here..."
                       className={styles.addedTextArea}
-                      onChange={(e) => setAnswerValue(e.target.value)}
+                      onFocus={(e) => handleExpandAnswerArea(e.target)}
+                      onChange={(e) => {
+                        setAnswerValue(e.target.value);
+                        handleExpandAnswerArea(e.target);
+                      }}
                     />
                     <button onClick={() => handleWriteAnswer(item.id)}>
                       Save answer

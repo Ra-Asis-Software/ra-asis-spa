@@ -36,6 +36,7 @@ const submissionSchema = new mongoose.Schema({
     enum: ["submitted", "graded", "in-progress"],
     default: "submitted",
   },
+  attemptsRemaining: { type: Number, default: 2 },
   submittedAt: { type: Date, default: Date.now() },
 });
 

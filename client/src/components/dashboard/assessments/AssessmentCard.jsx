@@ -16,6 +16,14 @@ const AssessmentCard = ({
 }) => {
   const navigate = useNavigate();
 
+  const handleNavigateToAssessment = () => {
+    return type === "assignment"
+      ? navigate(`/dashboard/assessments?type=assignment&open=${id}`)
+      : type === "quiz"
+      ? navigate(`/dashboard/assessments?type=quiz&open=${id}`)
+      : null;
+  };
+
   return (
     <div
       className={`${styles.card} ${
@@ -34,9 +42,7 @@ const AssessmentCard = ({
       <div className={`${styles.status}`}>
         <button
           className={styles.viewButton}
-          onClick={() =>
-            navigate(`/dashboard/assessments?type=assignment&open=${id}`)
-          }
+          onClick={handleNavigateToAssessment}
         >
           View
         </button>
