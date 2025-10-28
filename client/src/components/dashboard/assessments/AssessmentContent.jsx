@@ -191,7 +191,11 @@ const AssessmentContent = ({
         "deadLine",
         `${assessmentExtras.date}T${assessmentExtras.time}`
       );
-      formData.append("maxMarks", assessmentExtras.marks);
+      formData.append(
+        "maxMarks",
+        Number(assessmentExtras.marks) + Number(assessmentExtras.fileMarks)
+      );
+      formData.append("fileMarks", assessmentExtras.fileMarks);
       formData.append("createdBy", currentAssessment?.createdBy?._id);
       if (type === "quiz") {
         formData.append(

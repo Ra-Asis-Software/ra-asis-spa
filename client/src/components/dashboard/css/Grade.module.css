@@ -703,6 +703,48 @@
   background-color: var(--pine-green-color);
 }
 
+.noAnswer {
+  color: var(--alizarin-crimson-color);
+}
+
+.submissionFiles {
+  border: 1px solid var(--cerulean-color);
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+.submissionFiles h5 {
+  margin: 0;
+  color: var(--cerulean-color);
+}
+
+.marksGroup {
+  display: flex;
+  align-items: center;
+}
+
+.fileBox {
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.buttonFile {
+  height: 5vh;
+  border-radius: 7px;
+  padding: 8px 12px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
 /* Responsive Media Queries */
 @media (max-width: 1200px) {
   .gradingContainer {

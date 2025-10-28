@@ -22,6 +22,8 @@ const Grade = ({
   const [comments, setComments] = useState("");
   const { submission, type } = useUrlParams();
   const [alertMessage, setAlertMessage] = useState({ text: "", type: "" });
+  const [fileMarks, setFileMarks] = useState(0);
+  const [fileMarked, setFileMarked] = useState(false);
 
   //for checking if both assessment and submission are present
   useEffect(() => {
@@ -44,7 +46,7 @@ const Grade = ({
   useEffect(() => {
     const tempAnswers = { ...studentAnswers };
 
-    const tempTotalMarks = Object.entries(tempAnswers).reduce(
+    let tempTotalMarks = Object.entries(tempAnswers).reduce(
       (total, current) => {
         return total + Number(current[1].marks ?? 0);
       },
@@ -53,6 +55,19 @@ const Grade = ({
 
     setTotalMarks(tempTotalMarks);
   }, [studentAnswers]);
+
+  //recalculate total marks when fileMarks changes
+  useEffect(() => {
+    let tempMarks = totalMarks;
+
+    if (fileMarked === true) {
+      tempMarks += Number(fileMarks);
+    } else {
+      tempMarks -= Number(fileMarks);
+    }
+
+    setTotalMarks(tempMarks);
+  }, [fileMarked]);
 
   //integrate student answers to the questions
   const fuseAnswersToQuestions = (questions, answers) => {
@@ -191,6 +206,54 @@ const Grade = ({
         </div>
 
         <div className={styles.assignmentContent}>
+          {selectedSubmission?.files.length > 0 && (
+            <div className={styles.submissionFiles}>
+              <h5>Student files</h5>
+              {
+                <div className={styles.fileBox}>
+                  {selectedSubmission.files.map((file, index) => {
+                    return (
+                      <button key={index} className={styles.buttonFile}>
+                        <p>{file.fileName}</p>
+                        <i class="fa-solid fa-download"></i>
+                      </button>
+                    );
+                  })}
+                </div>
+              }
+              <div className={styles.marksGroup}>
+                <div className={styles.marksContent}>
+                  <label className={styles.inputLabel}>Marks</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    defaultValue={fileMarks || 0}
+                    className={styles.marksInput}
+                    onChange={(e) => setFileMarks(e.target.value)}
+                  />
+                  <label className={styles.inputLabel}>
+                    /{selectedAssessment.fileMarks}
+                  </label>
+                </div>
+                {fileMarked ? (
+                  <button
+                    className={styles.marked}
+                    onClick={() => setFileMarked(false)}
+                  >
+                    Marked
+                  </button>
+                ) : (
+                  <button
+                    className={styles.confirmMark}
+                    onClick={() => setFileMarked(true)}
+                  >
+                    Mark
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
           {content.map((item) => {
             return (
               <div
@@ -210,7 +273,11 @@ const Grade = ({
 
                 {["question", "textArea"].includes(item.type) && (
                   <div className={styles.studentAnswerContainer}>
-                    <p className={styles.studentAnswer}>
+                    <p
+                      className={`${styles.studentAnswer} ${
+                        !item.studentAnswer && styles.noAnswer
+                      }`}
+                    >
                       {item?.studentAnswer?.userAnswer || "No answer provided"}
                     </p>
                   </div>
@@ -237,12 +304,13 @@ const Grade = ({
                       />
                       <label className={styles.inputLabel}>/{item.marks}</label>
                     </div>
-                    {item.studentAnswer.marks !== null ? (
+                    {item.studentAnswer === null ||
+                    item.studentAnswer.marks !== null ? (
                       <button
                         className={styles.marked}
                         onClick={() => handleCancelMark(item)}
                       >
-                        marked
+                        {item.studentAnswer === null ? "No mark" : "marked"}
                       </button>
                     ) : (
                       <button

@@ -25,6 +25,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
     maxMarks,
     content,
     timeLimit,
+    fileMarks,
   } = req.body;
 
   // Validate the requested unit exists
@@ -64,6 +65,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
+    fileMarks,
     timeLimit: parsedTimeLimit,
     content: JSON.stringify(newData),
     answers: JSON.stringify(correctAnswers),
@@ -93,7 +95,8 @@ export const createQuiz = asyncHandler(async (req, res) => {
 // @route   PATCH /api/quizzes/:quizId/edit
 // @access  Private (Teachers, Admins)
 export const editQuiz = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine, createdBy, timeLimit } = req.body;
+  const { maxMarks, content, deadLine, createdBy, timeLimit, fileMarks } =
+    req.body;
   const { quizId } = req.params;
 
   //check existence of quiz
@@ -112,6 +115,7 @@ export const editQuiz = asyncHandler(async (req, res) => {
   const { newData, newAnswers } = prepareEditedAssessment(parsedContent);
 
   quiz.maxMarks = maxMarks;
+  quiz.fileMarks = fileMarks;
   quiz.content = JSON.stringify(newData);
   quiz.answers = JSON.stringify(newAnswers);
   quiz.deadLine = deadLine;

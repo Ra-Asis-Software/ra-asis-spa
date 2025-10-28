@@ -40,6 +40,7 @@ const Assessments = ({
     marks: 0,
     date: "",
     time: "",
+    fileMarks: 0,
   });
   const [timeLimit, setTimeLimit] = useState({
     value: 0,
@@ -128,6 +129,7 @@ const Assessments = ({
       date: assessment.deadLine.slice(0, 10),
       time: assessment.deadLine.slice(11),
       marks: assessment.maxMarks,
+      fileMarks: assessment.fileMarks,
     });
     setTimeLimit(assessment?.timeLimit);
     setCurrentAssessment(assessment);

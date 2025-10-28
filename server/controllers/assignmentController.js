@@ -12,8 +12,15 @@ import {
 // @route   POST /api/assignments
 // @access  Private (Admin/Teacher)
 export const createAssignment = asyncHandler(async (req, res) => {
-  const { title, unitId, submissionType, deadLine, maxMarks, content } =
-    req.body;
+  const {
+    title,
+    unitId,
+    submissionType,
+    deadLine,
+    maxMarks,
+    content,
+    fileMarks,
+  } = req.body;
 
   // Validate the requested unit exists
   const unit = await Unit.findById(unitId);
@@ -46,6 +53,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
+    fileMarks,
     content: JSON.stringify(newData),
     answers: JSON.stringify(correctAnswers),
     createdBy: req.user._id,
@@ -74,7 +82,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
 // @route   PATCH /api/assignments/:assignmentId/edit
 // @access  Private (Teachers)
 export const editAssignment = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine } = req.body;
+  const { maxMarks, content, deadLine, fileMarks } = req.body;
   const { assignmentId } = req.params;
 
   //check existence of assignment
@@ -94,6 +102,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
   const { newData, newAnswers } = prepareEditedAssessment(parsedContent);
 
   assignment.maxMarks = maxMarks;
+  assignment.fileMarks = fileMarks;
   assignment.content = JSON.stringify(newData);
   assignment.answers = JSON.stringify(newAnswers);
   assignment.deadLine = deadLine;

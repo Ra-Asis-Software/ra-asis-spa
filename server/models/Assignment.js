@@ -22,6 +22,7 @@ const assignmentSchema = new mongoose.Schema(
     gradingCriteria: [{ type: String }],
     deadLine: { type: String, required: true },
     maxMarks: { type: Number },
+    fileMarks: { type: Number, default: 0 }, // Maximum marks for file submissions
     status: {
       type: String,
       enum: ["pending", "completed", "overdue"],

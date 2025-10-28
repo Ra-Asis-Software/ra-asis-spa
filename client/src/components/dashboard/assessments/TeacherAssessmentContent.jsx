@@ -246,6 +246,25 @@ const TeacherAssessmentContent = ({
         </>
       )}
 
+      {["file", "mixed"].includes(
+        currentAssessment?.submissionType?.toLowerCase()
+      ) && (
+        <div className={styles.fileMarks}>
+          Marks for file submission:{" "}
+          <input
+            type="number"
+            min={0}
+            disabled={!canEdit}
+            defaultValue={currentAssessment.fileMarks}
+            onChange={(e) =>
+              setAssessmentExtras((prev) => ({
+                ...prev,
+                fileMarks: e.target.value,
+              }))
+            }
+          />
+        </div>
+      )}
       {content.map((item, index) => {
         return (
           <div

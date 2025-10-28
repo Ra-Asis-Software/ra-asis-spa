@@ -32,6 +32,7 @@ const NewAssessment = ({
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
+  const [fileMarks, setFileMarks] = useState(0);
   const { type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
@@ -43,6 +44,11 @@ const NewAssessment = ({
     );
     setContent(tempContent);
   }, [submissionType]);
+
+  //keep tabs on file submission marks
+  useEffect(() => {
+    setAssessmentExtras((prev) => ({ ...prev, fileMarks: fileMarks }));
+  }, [fileMarks]);
 
   //handles publishing assignment
   const handlePublishAssessment = async () => {
@@ -90,7 +96,11 @@ const NewAssessment = ({
         formData.append("title", assignmentTitle);
         formData.append("submissionType", submissionType);
         formData.append("deadLine", `${tempDate}T${tempTime}`);
-        formData.append("maxMarks", assessmentExtras.marks);
+        formData.append(
+          "maxMarks",
+          Number(assessmentExtras.marks) + Number(assessmentExtras.fileMarks)
+        );
+        formData.append("fileMarks", assessmentExtras.fileMarks);
         formData.append("content", JSON.stringify(content));
         formData.append("unitId", selectedUnit.id);
         if (type === "quiz") {
@@ -158,6 +168,17 @@ const NewAssessment = ({
         <div className={styles.newAssignmentContent}>
           <div className={`${styles.textContent}`}>
             <FileSelector selector={assignmentFiles} />
+            {["file", "mixed"].includes(submissionType.toLowerCase()) && (
+              <div className={styles.fileMarks}>
+                Assign marks for file submission:{" "}
+                <input
+                  type="number"
+                  min={0}
+                  value={fileMarks}
+                  onChange={(e) => setFileMarks(e.target.value)}
+                />
+              </div>
+            )}
             {content.length === 0 && (
               <p>Use the tools on the right to add content</p>
             )}

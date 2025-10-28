@@ -63,6 +63,14 @@ const StudentAssessmentContent = ({
           <FileSelector selector={submissionFiles} />
         </>
       )}
+      {["file", "mixed"].includes(
+        currentAssessment?.submissionType?.toLowerCase()
+      ) && (
+        <div className={`${styles.fileMarks} ${styles.studentFileMarks}`}>
+          <p>Marks for file submission:</p>
+          <p>({currentAssessment.fileMarks} marks)</p>
+        </div>
+      )}
       {content.map((item, index) => {
         return (
           <div key={item.id || index} className={`${styles.edDivWork}`}>
