@@ -191,10 +191,7 @@ const AssessmentContent = ({
         "deadLine",
         `${assessmentExtras.date}T${assessmentExtras.time}`
       );
-      formData.append(
-        "maxMarks",
-        Number(assessmentExtras.marks) + Number(assessmentExtras.fileMarks)
-      );
+      formData.append("maxMarks", assessmentExtras.marks);
       formData.append("fileMarks", assessmentExtras.fileMarks);
       formData.append("createdBy", currentAssessment?.createdBy?._id);
       if (type === "quiz") {
@@ -368,7 +365,12 @@ const AssessmentContent = ({
                     Score:{" "}
                     <p className={styles.cerulianText}>
                       {openSubmission.gradingStatus === "graded"
-                        ? `${openSubmission.marks} / ${currentAssessment.maxMarks}`
+                        ? `${
+                            openSubmission.marks + openSubmission.fileMarks
+                          } / ${
+                            currentAssessment.maxMarks +
+                            currentAssessment.fileMarks
+                          }`
                         : openSubmission.gradingStatus}
                     </p>
                   </div>

@@ -38,9 +38,15 @@ const Grade = ({
     setStudentAnswers(tempStudentAnswers);
     setComments(selectedSubmission?.feedBack || "");
 
+    if (selectedSubmission?.gradingStatus === "graded") {
+      setFileMarked(true);
+      setFileMarks(selectedSubmission?.fileMarks);
+    }
+
     //integrating student answers to the questions
     fuseAnswersToQuestions(tempContent, tempStudentAnswers);
   }, []);
+  console.log(fileMarks);
 
   //for recalculating total marks
   useEffect(() => {
@@ -55,19 +61,6 @@ const Grade = ({
 
     setTotalMarks(tempTotalMarks);
   }, [studentAnswers]);
-
-  //recalculate total marks when fileMarks changes
-  useEffect(() => {
-    let tempMarks = totalMarks;
-
-    if (fileMarked === true) {
-      tempMarks += Number(fileMarks);
-    } else {
-      tempMarks -= Number(fileMarks);
-    }
-
-    setTotalMarks(tempMarks);
-  }, [fileMarked]);
 
   //integrate student answers to the questions
   const fuseAnswersToQuestions = (questions, answers) => {
@@ -136,23 +129,35 @@ const Grade = ({
       //ensure no questions go unmarked
       Object.entries(studentAnswers).every((item) => item[1]?.marks !== null)
     ) {
-      if (selectedSubmission.gradingStatus !== "graded") {
-        const gradeSubmitted =
-          type === "assignment"
-            ? await gradeAssignmentSubmission(
-                selectedAssessment._id,
-                selectedSubmission._id,
-                { studentAnswers, comments }
-              )
-            : await gradeQuizSubmission(
-                selectedAssessment._id,
-                selectedSubmission._id,
-                { studentAnswers, comments }
-              );
+      if (
+        ["file", "mixed"].includes(
+          selectedAssessment?.submissionType?.toLowerCase()
+        ) &&
+        !fileMarked
+      ) {
+        setAlertMessage({
+          type: "bad",
+          text: "No mark has been set for the file submission",
+        });
+      } else {
+        if (selectedSubmission.gradingStatus !== "graded") {
+          const gradeSubmitted =
+            type === "assignment"
+              ? await gradeAssignmentSubmission(
+                  selectedAssessment._id,
+                  selectedSubmission._id,
+                  { studentAnswers, comments, fileMarks }
+                )
+              : await gradeQuizSubmission(
+                  selectedAssessment._id,
+                  selectedSubmission._id,
+                  { studentAnswers, comments, fileMarks }
+                );
 
-        if (!gradeSubmitted.error) {
-          removeUrlParams("submission");
-          window.location.reload();
+          if (!gradeSubmitted.error) {
+            removeUrlParams("submission");
+            window.location.reload();
+          }
         }
       }
     } else {
@@ -160,6 +165,17 @@ const Grade = ({
         text: "Some questions have not been graded",
         type: "bad",
       });
+    }
+  };
+
+  const handleChangeFileMarks = (value) => {
+    if (selectedAssessment.fileMarks < value) {
+      setAlertMessage({
+        text: "The mark assigned is greater than the alloted file marks",
+        type: "bad",
+      });
+    } else {
+      setFileMarks(value);
     }
   };
 
@@ -228,9 +244,10 @@ const Grade = ({
                     type="number"
                     min={0}
                     step={1}
-                    defaultValue={fileMarks || 0}
+                    disabled={fileMarked}
+                    value={fileMarks}
                     className={styles.marksInput}
-                    onChange={(e) => setFileMarks(e.target.value)}
+                    onChange={(e) => handleChangeFileMarks(e.target.value)}
                   />
                   <label className={styles.inputLabel}>
                     /{selectedAssessment.fileMarks}
@@ -239,6 +256,7 @@ const Grade = ({
                 {fileMarked ? (
                   <button
                     className={styles.marked}
+                    disabled={selectedSubmission?.gradingStatus === "graded"}
                     onClick={() => setFileMarked(false)}
                   >
                     Marked
@@ -363,11 +381,19 @@ const Grade = ({
               </div>
 
               <div className={styles.inputGroup}>
-                <label htmlFor="totalMarks">Total Marks: {totalMarks}</label>
+                <label htmlFor="totalMarks">
+                  Total Marks:{" "}
+                  {totalMarks + (fileMarked ? Number(fileMarks) : 0)} /{" "}
+                  {selectedAssessment.maxMarks + selectedAssessment.fileMarks}
+                </label>
               </div>
 
               <div className={styles.inputGroup}>
-                <label>Final Grade: {totalMarks - 0}</label>
+                <label>
+                  Final Grade:{" "}
+                  {totalMarks + (fileMarked ? Number(fileMarks) : 0)} /{" "}
+                  {selectedAssessment.maxMarks + selectedAssessment.fileMarks}
+                </label>
               </div>
 
               <div className={styles.inputGroup}>

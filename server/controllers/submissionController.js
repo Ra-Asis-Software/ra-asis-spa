@@ -235,7 +235,7 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
 // @route   PATCH /api/assignments/:assignmentId/submissions/:submissionId/grade
 // @access  Private (Teacher)
 export const gradeAssignmentSubmission = asyncHandler(async (req, res) => {
-  const { studentAnswers, comments } = req.body;
+  const { studentAnswers, comments, fileMarks } = req.body;
   const { assignmentId, submissionId } = req.params;
 
   const submission = await Submission.findOne({
@@ -290,6 +290,7 @@ export const gradeAssignmentSubmission = asyncHandler(async (req, res) => {
       Number(questionDetails.marks) >= 0 ? Number(questionDetails.marks) : 0; //compute total marks
   }
 
+  submission.fileMarks = Number(fileMarks);
   submission.content = JSON.stringify(content);
   submission.marks = total;
   submission.feedBack = comments;

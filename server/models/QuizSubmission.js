@@ -21,6 +21,7 @@ const quizSubmissionSchema = new mongoose.Schema({
     },
   ],
   marks: { type: Number },
+  fileMarks: { type: Number, default: 0 },
   feedBack: { type: String },
   submissionStatus: {
     //this has to do with the time student submitted

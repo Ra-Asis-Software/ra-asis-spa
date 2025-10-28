@@ -96,10 +96,7 @@ const NewAssessment = ({
         formData.append("title", assignmentTitle);
         formData.append("submissionType", submissionType);
         formData.append("deadLine", `${tempDate}T${tempTime}`);
-        formData.append(
-          "maxMarks",
-          Number(assessmentExtras.marks) + Number(assessmentExtras.fileMarks)
-        );
+        formData.append("maxMarks", assessmentExtras.marks);
         formData.append("fileMarks", assessmentExtras.fileMarks);
         formData.append("content", JSON.stringify(content));
         formData.append("unitId", selectedUnit.id);

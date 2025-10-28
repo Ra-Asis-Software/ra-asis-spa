@@ -115,8 +115,7 @@ const AssessmentTools = ({
             max={100}
             disabled
             value={
-              Number(assessmentExtras.marks) +
-              Number(assessmentExtras.fileMarks)
+              Number(assessmentExtras.marks)
             }
           />
         </div>
