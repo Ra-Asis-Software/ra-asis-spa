@@ -9,17 +9,19 @@ export const handleDueDate = (dateTime) => {
   const diff = milliSeconds - today;
   if (diff < 0) return "Overdue";
   const minutes = diff / (1000 * 60);
-  if (minutes < 60) return `${Math.floor(minutes)} minutes `;
+  if (minutes < 60)
+    return `${Math.floor(minutes)} minute${minutes > 1.9 ? "s" : ""} `;
   const hours = minutes / 60;
-  if (hours < 24) return `${Math.floor(hours)} hours `;
+  if (hours < 24) return `${Math.floor(hours)} hour${hours > 1.9 ? "s" : ""} `;
   const days = hours / 24;
-  if (days < 7) return `${Math.floor(days)} days`;
+  if (days < 7) return `${Math.floor(days)} day${days > 1.9 ? "s" : ""}`;
   const weeks = days / 7;
-  if (weeks < 4) return `${Math.floor(weeks)} weeks`;
+  if (weeks < 4) return `${Math.floor(weeks)} week${weeks > 1.9 ? "s" : ""}`;
   const months = weeks / 4;
-  if (months < 12) return `${Math.floor(months)} months`;
+  if (months < 12)
+    return `${Math.floor(months)} month${months > 1.9 ? "s" : ""}`;
   const years = months / 12;
-  return `${Math.floor(years)} years`;
+  return `${Math.floor(years)} year${years > 1.9 ? "s" : ""}`;
 };
 
 export const handleDueDateShort = (dateTime) => {

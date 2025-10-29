@@ -247,7 +247,7 @@ const TeacherAssessmentContent = ({
       )}
 
       {["file", "mixed"].includes(
-        currentAssessment?.submissionType?.toLowerCase()
+        currentAssessment?.submissionType?.toLowerCase() && isOpened
       ) && (
         <div className={styles.fileMarks}>
           Marks for file submission:{" "}

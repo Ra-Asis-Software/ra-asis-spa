@@ -109,7 +109,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     })),
     marks: total,
     gradingStatus:
-      complete === true
+      complete === true && assignment.fileMarks < 1
         ? "graded"
         : complete === false
         ? "in-progress"

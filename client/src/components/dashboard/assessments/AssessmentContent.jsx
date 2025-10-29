@@ -376,14 +376,16 @@ const AssessmentContent = ({
                   </div>
                   {/* restrict reattempts to when deadline is in > 20 minutes */}
                   {type === "assignment" &&
-                    timeLeft(currentAssessment.deadLine) > 20 && (
-                      <button
-                        className={styles.removeSubmission}
-                        onClick={handleRemoveSubmission}
-                      >
-                        REMOVE SUBMISSION
-                      </button>
-                    )}
+                    timeLeft(currentAssessment.deadLine) > 20 &&
+                    openSubmission.gradingStatus !==
+                      "graded"(
+                        <button
+                          className={styles.removeSubmission}
+                          onClick={handleRemoveSubmission}
+                        >
+                          REMOVE SUBMISSION
+                        </button>
+                      )}
                 </div>
               ) : (
                 <>

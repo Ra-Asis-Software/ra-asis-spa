@@ -222,11 +222,14 @@ const Grade = ({
         </div>
 
         <div className={styles.assignmentContent}>
-          {selectedSubmission?.files.length > 0 && (
+          {selectedAssessment?.fileMarks > 0 && (
             <div className={styles.submissionFiles}>
               <h5>Student files</h5>
               {
                 <div className={styles.fileBox}>
+                  {selectedSubmission.files.length === 0 && (
+                    <p>Student did not submit any file</p>
+                  )}
                   {selectedSubmission.files.map((file, index) => {
                     return (
                       <button key={index} className={styles.buttonFile}>

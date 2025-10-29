@@ -8,10 +8,7 @@ import Progress from "../Progress";
 import RecentActivities from "../RecentActivities";
 import { getUserDetails } from "../../../services/userService";
 import WelcomeBoard from "../WelcomeBoard";
-import {
-  excludeSubmittedAssessments,
-  sortAssessmentsByDeadline,
-} from "../../../utils/assessments";
+import { sortAssessmentsByDeadline } from "../../../utils/assessments";
 
 const today = new Date();
 const todayTimeStamp = new Date(today).setHours(0, 0, 59, 999);
@@ -41,19 +38,11 @@ const StudentMain = ({
 
       // Check for valid data before setting state
       if (studentData?.data?.data) {
-        const tempAllSubmissions = [
-          ...studentData.data.data.submissions,
-          ...studentData.data.data.quizSubmissions,
-        ];
         const tempAllAssessments = sortAssessmentsByDeadline(
           studentData.data.data.assignments || [],
           studentData.data.data.quizzes || []
         );
-        const excludeSubmitted = excludeSubmittedAssessments(
-          tempAllAssessments,
-          tempAllSubmissions
-        );
-        setAssessments(excludeSubmitted);
+        setAssessments(tempAllAssessments);
         setUnits(studentData.data.data.units || []);
         persistSelectedUnit();
       }

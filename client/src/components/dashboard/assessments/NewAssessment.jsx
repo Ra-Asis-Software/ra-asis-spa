@@ -120,6 +120,9 @@ const NewAssessment = ({
         } else {
           const createdAssessment = creationResult.data?.[type];
           resetAssessmentContent();
+          setSubmissionType("");
+          setFileMarks(0);
+          setContent([]);
           assignmentFiles.resetFiles();
           handleOpenExistingAssessment(createdAssessment);
           setMessage({
