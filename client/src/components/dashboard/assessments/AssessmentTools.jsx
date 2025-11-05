@@ -11,6 +11,7 @@ const AssessmentTools = ({
   timeLimit,
   setTimeLimit,
   submissionType,
+  loading,
 }) => {
   const { isNew, isOpened, type } = useUrlParams();
   return (
@@ -114,9 +115,7 @@ const AssessmentTools = ({
             type="number"
             max={100}
             disabled
-            value={
-              Number(assessmentExtras.marks)
-            }
+            value={Number(assessmentExtras.marks)}
           />
         </div>
       </div>
@@ -125,14 +124,16 @@ const AssessmentTools = ({
           className={styles.publishAssignment}
           onClick={handlePublishAssessment}
         >
-          PUBLISH {type.toUpperCase() ?? "ASSESSMENT"}
+          {loading
+            ? `PUBLISHING...`
+            : `PUBLISH ${type.toUpperCase() ?? "ASSESSMENT"}`}
         </button>
       ) : isOpened ? (
         <button
           className={styles.publishAssignment}
           onClick={handleEditAssessment}
         >
-          SAVE CHANGES
+          {loading ? "SAVING..." : "SAVE CHANGES"}
         </button>
       ) : (
         <p>No action</p>

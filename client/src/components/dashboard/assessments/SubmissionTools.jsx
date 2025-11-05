@@ -6,6 +6,7 @@ const SubmissionTools = ({
   currentAssessment,
   handleSubmitAssessment,
   openSubmission,
+  loading,
 }) => {
   const { type } = useUrlParams();
 
@@ -42,7 +43,7 @@ const SubmissionTools = ({
             className={`${styles.studentSubmit} ${studentBar}`}
             onClick={handleSubmitAssessment}
           >
-            Submit {type ?? "Assessment"}
+            {loading ? `Submitting...` : `Submit ${type ?? "Assessment"}`}
           </button>
         </div>
       )}

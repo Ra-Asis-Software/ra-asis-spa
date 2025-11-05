@@ -28,6 +28,8 @@ const NewAssessment = ({
   setAssessmentExtras,
   timeLimit,
   setTimeLimit,
+  loading,
+  setLoading,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
@@ -37,12 +39,19 @@ const NewAssessment = ({
 
   const assignmentFiles = useFileUploads();
 
-  //remove questions and textarea whenever file-type submission is enabled
+  //give warning whenever file-type submission is enabled
   useEffect(() => {
-    const tempContent = content.filter(
-      (item) => !["textArea", "question"].includes(item.type)
-    );
-    setContent(tempContent);
+    if (
+      submissionType === "file" &&
+      content.some((item) => ["textArea", "question"].includes(item.type))
+    ) {
+      setMessage({
+        type: "error",
+        text: "File type submissions cannot be accompanied by questions. Existing questions will be deleted upon publishing this Assessment ",
+      });
+
+      clearMessage();
+    }
   }, [submissionType]);
 
   //keep tabs on file submission marks
@@ -52,6 +61,14 @@ const NewAssessment = ({
 
   //handles publishing assignment
   const handlePublishAssessment = async () => {
+    //remove any questions present in file-type submissions
+    const finalContent =
+      submissionType === "file"
+        ? content.filter(
+            (item) => !["textArea", "question"].includes(item.type)
+          )
+        : [...content];
+
     if (!selectedUnit.id || selectedUnit.id === "all") {
       setMessage({ type: "error", text: "No unit Selected" });
     } else if (content.length === 0 && assignmentFiles.files.length === 0) {
@@ -98,7 +115,7 @@ const NewAssessment = ({
         formData.append("deadLine", `${tempDate}T${tempTime}`);
         formData.append("maxMarks", assessmentExtras.marks);
         formData.append("fileMarks", assessmentExtras.fileMarks);
-        formData.append("content", JSON.stringify(content));
+        formData.append("content", JSON.stringify(finalContent));
         formData.append("unitId", selectedUnit.id);
         if (type === "quiz") {
           formData.append(
@@ -110,10 +127,12 @@ const NewAssessment = ({
           );
         }
 
+        setLoading(true);
         const creationResult =
           type === "quiz"
             ? await createQuiz(formData)
             : type === "assignment" && (await createAssignment(formData));
+        setLoading(false);
 
         if (creationResult.error) {
           setMessage({ type: "error", text: creationResult.error });
@@ -210,6 +229,7 @@ const NewAssessment = ({
             timeLimit,
             setTimeLimit,
             submissionType,
+            loading,
           }}
         />
       </div>

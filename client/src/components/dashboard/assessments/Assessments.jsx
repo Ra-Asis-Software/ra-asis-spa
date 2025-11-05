@@ -31,6 +31,7 @@ const Assessments = ({
   const [currentAssessment, setCurrentAssessment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(false);
 
   const [showButton, setShowButton] = useState(null);
 
@@ -46,7 +47,6 @@ const Assessments = ({
     value: 0,
     unit: "minutes",
   });
-  const [loading, setLoading] = useState(true);
   const [openSubmission, setOpenSubmission] = useState(null);
 
   //keep tabs of url to see whether its new/open/all
@@ -58,7 +58,6 @@ const Assessments = ({
   useEffect(() => {
     const fetchData = async () => {
       const myData = await getUserDetails(user.role, user.id);
-      setLoading(false);
 
       if (myData.data.message) {
         const tempAssessments =
@@ -170,10 +169,6 @@ const Assessments = ({
     setShowButton(null);
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   if (!type) {
     return (
       <Modal isOpen={true} onClose={() => navigate(-1)}>
@@ -209,10 +204,12 @@ const Assessments = ({
               setAssessmentExtras,
               timeLimit,
               setTimeLimit,
+              loading,
+              setLoading,
             }}
           />
         </RoleRestricted>
-      ) : isOpened ? (
+      ) : isOpened && currentAssessment ? (
         <AssessmentContent
           {...{
             handleCloseAssessment,
@@ -234,6 +231,8 @@ const Assessments = ({
             clearMessage,
             timeLimit,
             setTimeLimit,
+            loading,
+            setLoading,
           }}
         />
       ) : (

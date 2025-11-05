@@ -52,6 +52,8 @@ const AssessmentContent = ({
   clearMessage,
   timeLimit,
   setTimeLimit,
+  loading,
+  setLoading,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
   const quizSystemSubmitted = useRef(false); //if student was locked out of the quiz or not
@@ -136,11 +138,13 @@ const AssessmentContent = ({
         formData.append("submissionId", openSubmission._id);
       }
 
+      setLoading(true);
       const submissionResults =
         type === "assignment"
           ? await submitAssignment(formData, currentAssessment._id)
           : type === "quiz" &&
             (await submitQuiz(formData, currentAssessment._id));
+      setLoading(false);
 
       if (submissionResults.error) {
         setMessage({ type: "error", text: submissionResults.error });
@@ -206,10 +210,12 @@ const AssessmentContent = ({
 
       const assessmentId = currentAssessment._id;
       if (assessmentId) {
+        setLoading(true);
         const editResult =
           type === "assignment"
             ? await editAssignment(formData, assessmentId)
             : await editQuiz(formData, assessmentId);
+        setLoading(false);
 
         if (editResult.error) {
           setMessage({ type: "error", text: editResult.error });
@@ -229,7 +235,9 @@ const AssessmentContent = ({
   };
 
   const handleRemoveSubmission = async () => {
+    setLoading(true);
     const removeSubmission = await deleteSubmission(openSubmission._id);
+    setLoading(false);
 
     if (removeSubmission.error) {
       setMessage({ type: "error", text: removeSubmission.error });
@@ -272,7 +280,7 @@ const AssessmentContent = ({
               </button>
 
               <h3>
-                {capitalizeFirstLetter(type)} : {currentAssessment.title}
+                {capitalizeFirstLetter(type)} : {currentAssessment?.title}
               </h3>
 
               {canEdit ? (
@@ -322,6 +330,7 @@ const AssessmentContent = ({
                 timeLimit,
                 setTimeLimit,
                 submissionType: currentAssessment?.submissionType,
+                loading,
               }}
             />
           ) : (
@@ -377,15 +386,14 @@ const AssessmentContent = ({
                   {/* restrict reattempts to when deadline is in > 20 minutes */}
                   {type === "assignment" &&
                     timeLeft(currentAssessment.deadLine) > 20 &&
-                    openSubmission.gradingStatus !==
-                      "graded"(
-                        <button
-                          className={styles.removeSubmission}
-                          onClick={handleRemoveSubmission}
-                        >
-                          REMOVE SUBMISSION
-                        </button>
-                      )}
+                    openSubmission?.gradingStatus !== "graded" && (
+                      <button
+                        className={styles.removeSubmission}
+                        onClick={handleRemoveSubmission}
+                      >
+                        {loading ? "DELETING..." : "REMOVE SUBMISSION"}
+                      </button>
+                    )}
                 </div>
               ) : (
                 <>
@@ -416,6 +424,7 @@ const AssessmentContent = ({
                   handleSubmitAssessment,
                   currentAssessment,
                   openSubmission,
+                  loading,
                 }}
               />
             </div>
