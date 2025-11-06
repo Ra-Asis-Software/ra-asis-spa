@@ -46,7 +46,6 @@ const Grade = ({
     //integrating student answers to the questions
     fuseAnswersToQuestions(tempContent, tempStudentAnswers);
   }, []);
-  console.log(fileMarks);
 
   //for recalculating total marks
   useEffect(() => {

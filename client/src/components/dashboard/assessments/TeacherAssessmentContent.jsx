@@ -285,7 +285,7 @@ const TeacherAssessmentContent = ({
             )}
 
             {item.type === "title" && (
-              <h4
+              <h5
                 className={`${styles.textTitle} ${styles.editable} ${
                   !canEdit && styles.textTitleWork
                 }`}
@@ -294,7 +294,7 @@ const TeacherAssessmentContent = ({
                 onBlur={(e) => handleChangeText(e, index)}
               >
                 {stripHTML(item.data)}
-              </h4>
+              </h5>
             )}
 
             {item.type === "question" && (

@@ -390,6 +390,7 @@ const AssessmentContent = ({
                       <button
                         className={styles.removeSubmission}
                         onClick={handleRemoveSubmission}
+                        disabled={loading}
                       >
                         {loading ? "DELETING..." : "REMOVE SUBMISSION"}
                       </button>

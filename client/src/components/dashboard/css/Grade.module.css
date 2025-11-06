@@ -126,15 +126,16 @@
   gap: 5px;
 }
 
+.extraItem h4 {
+  margin-right: 5px;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
 .extraItem p {
   color: var(--cerulean-color);
   margin-left: 5px;
   font-size: clamp(0.8rem, 2vw, 1rem);
-}
-
-.extraItem h4 {
-  margin-right: 5px;
-  font-size: 1.1rem;
 }
 
 .assignmentCard {
@@ -441,6 +442,7 @@
 
 .finishGradingButton {
   background-color: var(--cerulean-color);
+  color: var(--foam-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -449,7 +451,7 @@
 
 .finishGradingButton:hover:not(:disabled) {
   background: var(--pine-green-color);
-  color: white;
+  color: var(--foam-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(2, 122, 121, 0.3);
 }
@@ -564,20 +566,23 @@
 
 .confirmMark {
   background-color: var(--pine-green-color);
-}
-
-.marked {
-  color: var(--pine-green-color);
-  background-color: transparent;
-}
-
-.marked:hover {
-  background-color: var(--alizarin-crimson-color);
-  color: #fff;
+  color: var(--foam-color);
 }
 
 .confirmMark:hover {
   background-color: var(--foam-color);
+  color: var(--pine-green-color);
+}
+
+.marked {
+  background-color: var(--foam-color);
+  color: var(--pine-green-color);
+  text-transform: capitalize;
+}
+
+.marked:hover {
+  background-color: var(--alizarin-crimson-color);
+  color: var(--foam-color);
 }
 
 .notQuestion {

@@ -93,7 +93,11 @@ export const editAssignment = asyncHandler(async (req, res) => {
   });
 
   if (!assignment) {
-    return res.status(404).json({ message: "No assignment found" });
+    return res
+      .status(404)
+      .json({
+        message: "Edit failed. You can only edit assessments you created!",
+      });
   }
 
   //check the changes made

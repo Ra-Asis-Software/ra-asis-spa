@@ -43,7 +43,7 @@ const SubmissionTools = ({
             className={`${styles.studentSubmit} ${studentBar}`}
             onClick={handleSubmitAssessment}
           >
-            {loading ? `Submitting...` : `Submit ${type ?? "Assessment"}`}
+            {loading ? "Submitting..." : `Submit ${type ?? "Assessment"}`}
           </button>
         </div>
       )}

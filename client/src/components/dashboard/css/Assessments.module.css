@@ -74,6 +74,10 @@
   color: var(--black-pearl-color);
 }
 
+.teacherAssignment {
+  color: var(--foam-color);
+}
+
 .teacherAssignment:hover {
   color: var(--cerulean-color);
 }
@@ -141,6 +145,10 @@
   background-color: var(--cerulean-color);
   color: #fff;
   border: none;
+}
+
+.studentSubmit {
+  text-transform: capitalize;
 }
 
 .studentSubmit:hover {
@@ -304,6 +312,8 @@
 
 .textInstruction {
   color: var(--bright-sun-color);
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
 .noteText {
@@ -551,6 +561,8 @@
 
 .cerulianText {
   color: var(--cerulean-color);
+  text-transform: capitalize;
+  font-weight: 600;
 }
 
 .foamBackground {
@@ -591,14 +603,29 @@
   justify-content: center;
 }
 
+.submittedBox h3 {
+  text-transform: capitalize;
+}
+
 .removeSubmission {
   background-color: var(--alizarin-crimson-color);
+  color: var(--foam-color);
+}
+
+.removeSubmission:hover {
+  background: var(--foam-color);
+  color: var(--alizarin-crimson-color);
+}
+
+.removeSubmission:disabled {
+  cursor: not-allowed;
 }
 
 .divFlex {
   display: flex;
   align-items: center;
   gap: 5px;
+  font-weight: 700;
 }
 
 .filesEmpty {

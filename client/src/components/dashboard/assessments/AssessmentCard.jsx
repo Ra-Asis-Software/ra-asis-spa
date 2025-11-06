@@ -36,7 +36,9 @@ const AssessmentCard = ({
     >
       <div className={styles.titleSection}>
         <h4 className={styles.unit}>{shortenTitle(unitName)}</h4>
-        <h5 className={styles.assessmentType}>{type?.at(0)?.toUpperCase()}</h5>
+        <h5 className={styles.assessmentType} title={type}>
+          {type?.at(0)?.toUpperCase()}
+        </h5>
       </div>
       <p className={styles.title}>{shortenContent(title)}</p>
       <div className={`${styles.status}`}>
