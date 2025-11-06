@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import styles from "../css/Assessments.module.css";
 import {
+  absoluteTimeLeft,
   capitalizeFirstLetter,
   correctAnswerNotSet,
   handleDueDate,
@@ -16,6 +17,7 @@ import {
   deleteSubmission,
 } from "../../../services/assignmentService.js";
 import {
+  deleteUnresolvedQuiz,
   editQuiz,
   startQuiz,
   submitQuiz,
@@ -28,6 +30,7 @@ import QuizTimer from "./QuizTimer.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import SubmissionTools from "./SubmissionTools.jsx";
 import SubmissionDetails from "./SubmissionDetails.jsx";
+import { useEffect } from "react";
 
 const AssessmentContent = ({
   content,
@@ -45,11 +48,12 @@ const AssessmentContent = ({
   canEdit,
   setCanEdit,
   handleCloseAssessment,
-  message,
   setMessage,
   clearMessage,
   timeLimit,
   setTimeLimit,
+  loading,
+  setLoading,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
   const quizSystemSubmitted = useRef(false); //if student was locked out of the quiz or not
@@ -57,6 +61,38 @@ const AssessmentContent = ({
 
   const assignmentFiles = useFileUploads();
   const submissionFiles = useFileUploads();
+
+  useEffect(() => {
+    //handle submission that has been started but not submitted yet
+    const resolveUnsubmittedQuiz = async () => {
+      if (
+        type === "quiz" &&
+        openSubmission?.startedAt &&
+        !openSubmission?.submittedAt &&
+        absoluteTimeLeft(
+          currentAssessment?.timeLimit,
+          openSubmission?.startedAt
+        ) < 0
+      ) {
+        const submissionResolved = await deleteUnresolvedQuiz(
+          currentAssessment._id,
+          openSubmission._id
+        );
+        if (submissionResolved.error) {
+          setMessage({ type: "error", text: submissionResolved.error });
+        } else {
+          setTrigger(!trigger);
+          setMessage({
+            type: "success",
+            text: submissionResolved.data.message,
+          });
+        }
+
+        clearMessage();
+      }
+    };
+    resolveUnsubmittedQuiz();
+  }, []);
 
   const checkEmptyAnswerFields = (studentAnswers, content) => {
     let questionNumber = 0;
@@ -85,7 +121,10 @@ const AssessmentContent = ({
   const handleSubmitAssessment = async () => {
     const lacksAnswer = checkEmptyAnswerFields(studentAnswers, content);
     if (lacksAnswer && type === "assignment") {
-      setMessage(`Question ${lacksAnswer} has not been answered`);
+      setMessage({
+        type: "error",
+        text: `Question ${lacksAnswer} has not been answered`,
+      });
       clearMessage();
     } else {
       const formData = new FormData();
@@ -99,19 +138,27 @@ const AssessmentContent = ({
         formData.append("submissionId", openSubmission._id);
       }
 
+      setLoading(true);
       const submissionResults =
         type === "assignment"
           ? await submitAssignment(formData, currentAssessment._id)
           : type === "quiz" &&
             (await submitQuiz(formData, currentAssessment._id));
+      setLoading(false);
 
       if (submissionResults.error) {
-        setMessage(submissionResults.error);
-        clearMessage();
+        setMessage({ type: "error", text: submissionResults.error });
       } else {
-        window.location.reload();
+        setMessage({
+          type: "success",
+          text: "Your submission has been accepted",
+        });
+        submissionFiles.resetFiles();
+        resetAssessmentContent();
+        setStudentAnswers({});
+        handleOpenExistingAssessment(currentAssessment);
       }
-      submissionFiles.resetFiles();
+      clearMessage();
     }
   };
 
@@ -121,17 +168,27 @@ const AssessmentContent = ({
     const singleAnswerOption = hasSingleAnswerOption(content);
     const answerIsEmpty = isAnyAnswerEmpty(content);
     if (singleAnswerOption) {
-      setMessage(`Question ${singleAnswerOption} has only one answer option`);
+      setMessage({
+        type: "error",
+        text: `Question ${singleAnswerOption} has only one answer option`,
+      });
     } else if (answerIsEmpty) {
-      setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+      setMessage({
+        type: "error",
+        text: `You have an empty answer in question ${answerIsEmpty}`,
+      });
     } else if (answerNotSet) {
-      setMessage(
-        `You have not set the correct answer for question ${answerNotSet}`
-      );
+      setMessage({
+        type: "error",
+        text: `You have not set the correct answer for question ${answerNotSet}`,
+      });
     } else {
       const formData = new FormData();
 
-      assignmentFiles.files.forEach((file) => formData.append("files", file));
+      if (assignmentFiles.files.length > 0) {
+        assignmentFiles.files.forEach((file) => formData.append("files", file));
+      }
+
       const newContent = JSON.stringify(content);
       formData.append("content", newContent);
       formData.append(
@@ -139,6 +196,7 @@ const AssessmentContent = ({
         `${assessmentExtras.date}T${assessmentExtras.time}`
       );
       formData.append("maxMarks", assessmentExtras.marks);
+      formData.append("fileMarks", assessmentExtras.fileMarks);
       formData.append("createdBy", currentAssessment?.createdBy?._id);
       if (type === "quiz") {
         formData.append(
@@ -150,49 +208,61 @@ const AssessmentContent = ({
         );
       }
 
-      try {
-        const assessmentId = currentAssessment._id;
-        if (assessmentId) {
-          const editResult =
-            type === "assignment"
-              ? await editAssignment(formData, assessmentId)
-              : await editQuiz(formData, assessmentId);
+      const assessmentId = currentAssessment._id;
+      if (assessmentId) {
+        setLoading(true);
+        const editResult =
+          type === "assignment"
+            ? await editAssignment(formData, assessmentId)
+            : await editQuiz(formData, assessmentId);
+        setLoading(false);
 
-          if (editResult.error) {
-            setMessage(editResult.error);
-          } else {
-            const editedAssessment = editResult.data?.[type];
-            resetAssessmentContent();
-            handleOpenExistingAssessment(editedAssessment);
-          }
+        if (editResult.error) {
+          setMessage({ type: "error", text: editResult.error });
+        } else {
+          const editedAssessment = editResult.data?.[type];
+          resetAssessmentContent();
+          handleOpenExistingAssessment(editedAssessment);
+          assignmentFiles.resetFiles();
+          setMessage({
+            type: "success",
+            text: "Assessment successfully edited",
+          });
         }
-        assignmentFiles.resetFiles();
-      } catch (error) {
-        console.log(error);
       }
     }
     clearMessage();
   };
 
   const handleRemoveSubmission = async () => {
+    setLoading(true);
     const removeSubmission = await deleteSubmission(openSubmission._id);
+    setLoading(false);
 
     if (removeSubmission.error) {
-      //
+      setMessage({ type: "error", text: removeSubmission.error });
     } else {
-      window.location.reload();
+      resetAssessmentContent();
+      setStudentAnswers({});
+      handleOpenExistingAssessment(currentAssessment);
+      setMessage({
+        type: "success",
+        text: "Submission revoked, You can re-attempt your assessment",
+      });
     }
+    clearMessage();
   };
 
   const handleStartQuiz = async () => {
     const quizStarted = await startQuiz({ quizId: currentAssessment._id });
 
     if (quizStarted.error) {
-      //
+      setMessage({ type: "error", text: quizStarted.error });
     } else {
       setTrigger(!trigger);
       handleOpenExistingAssessment(quizStarted.data.quiz);
     }
+    clearMessage();
   };
 
   return (
@@ -210,7 +280,7 @@ const AssessmentContent = ({
               </button>
 
               <h3>
-                {capitalizeFirstLetter(type)} : {currentAssessment.title}
+                {capitalizeFirstLetter(type)} : {currentAssessment?.title}
               </h3>
 
               {canEdit ? (
@@ -237,8 +307,6 @@ const AssessmentContent = ({
                 setContent,
                 showButton,
                 setShowButton,
-                trigger,
-                setTrigger,
                 currentAssessment,
                 canEdit,
                 assignmentFiles,
@@ -257,11 +325,12 @@ const AssessmentContent = ({
                 setShowButton,
                 setAssessmentExtras,
                 handleEditAssessment,
-                message,
                 assessmentExtras,
                 assignmentFiles,
                 timeLimit,
                 setTimeLimit,
+                submissionType: currentAssessment?.submissionType,
+                loading,
               }}
             />
           ) : (
@@ -305,32 +374,30 @@ const AssessmentContent = ({
                     Score:{" "}
                     <p className={styles.cerulianText}>
                       {openSubmission.gradingStatus === "graded"
-                        ? `${openSubmission.marks} / ${currentAssessment.maxMarks}`
+                        ? `${
+                            openSubmission.marks + openSubmission.fileMarks
+                          } / ${
+                            currentAssessment.maxMarks +
+                            currentAssessment.fileMarks
+                          }`
                         : openSubmission.gradingStatus}
                     </p>
                   </div>
                   {/* restrict reattempts to when deadline is in > 20 minutes */}
                   {type === "assignment" &&
-                    timeLeft(currentAssessment.deadLine) > 20 && (
+                    timeLeft(currentAssessment.deadLine) > 20 &&
+                    openSubmission?.gradingStatus !== "graded" && (
                       <button
                         className={styles.removeSubmission}
                         onClick={handleRemoveSubmission}
+                        disabled={loading}
                       >
-                        REMOVE SUBMISSION
+                        {loading ? "DELETING..." : "REMOVE SUBMISSION"}
                       </button>
                     )}
                 </div>
               ) : (
                 <>
-                  <StudentAssessmentContent
-                    {...{
-                      currentAssessment,
-                      content,
-                      studentAnswers,
-                      setStudentAnswers,
-                      submissionFiles,
-                    }}
-                  />
                   {type === "quiz" && (
                     <QuizTimer
                       startedAt={openSubmission.startedAt}
@@ -340,6 +407,15 @@ const AssessmentContent = ({
                       {...{ quizSystemSubmitted, studentAnswers }}
                     />
                   )}
+                  <StudentAssessmentContent
+                    {...{
+                      currentAssessment,
+                      content,
+                      studentAnswers,
+                      setStudentAnswers,
+                      submissionFiles,
+                    }}
+                  />
                 </>
               )}
             </div>
@@ -349,7 +425,7 @@ const AssessmentContent = ({
                   handleSubmitAssessment,
                   currentAssessment,
                   openSubmission,
-                  message,
+                  loading,
                 }}
               />
             </div>

@@ -3,9 +3,11 @@ import { upload } from "../config/multerConfig.js";
 import { hasPermission } from "../middleware/checkUserRole.js";
 import {
   createQuiz,
+  deleteUnresolvedSubmission,
   editQuiz,
   getQuizDetails,
   getQuizzes,
+  getQuizzesForTeacher,
   getSubmission,
   getSubmissions,
   gradeQuizSubmission,
@@ -44,6 +46,12 @@ router.patch(
   editQuiz
 );
 
+router.delete(
+  "/:quizId/submissions/:submissionId/delete",
+  hasPermission("view:quiz"),
+  deleteUnresolvedSubmission
+);
+
 router.post("/start", hasPermission("upload:quiz-submission"), startQuiz);
 
 router.post(
@@ -61,6 +69,12 @@ router.post(
 );
 
 router.get("/:unitId/quizzes", hasPermission("view:quiz"), getQuizzes);
+
+router.get(
+  "/get-quizzes-for-teacher",
+  hasPermission("view:quiz"),
+  getQuizzesForTeacher
+);
 
 //get quiz details
 router.get("/:id/details", hasPermission("view:quiz"), getQuizDetails);

@@ -13,6 +13,7 @@ import Modal from "../../ui/Modal.jsx";
 import AssessmentContent from "./AssessmentContent.jsx";
 import NewAssessment from "./NewAssessment.jsx";
 import CreateOptionsContent from "../CreateOptionsContent.jsx";
+import ResponseModal from "../../ui/ResponseModal.jsx";
 
 const Assessments = ({
   showNav,
@@ -29,7 +30,8 @@ const Assessments = ({
   const submissions = useRef([]);
   const [currentAssessment, setCurrentAssessment] = useState(null);
   const [content, setContent] = useState([]); //array for holding all assignment content
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(false);
 
   const [showButton, setShowButton] = useState(null);
 
@@ -39,12 +41,12 @@ const Assessments = ({
     marks: 0,
     date: "",
     time: "",
+    fileMarks: 0,
   });
   const [timeLimit, setTimeLimit] = useState({
     value: 0,
     unit: "minutes",
   });
-  const [loading, setLoading] = useState(true);
   const [openSubmission, setOpenSubmission] = useState(null);
 
   //keep tabs of url to see whether its new/open/all
@@ -56,7 +58,6 @@ const Assessments = ({
   useEffect(() => {
     const fetchData = async () => {
       const myData = await getUserDetails(user.role, user.id);
-      setLoading(false);
 
       if (myData.data.message) {
         const tempAssessments =
@@ -127,6 +128,7 @@ const Assessments = ({
       date: assessment.deadLine.slice(0, 10),
       time: assessment.deadLine.slice(11),
       marks: assessment.maxMarks,
+      fileMarks: assessment.fileMarks,
     });
     setTimeLimit(assessment?.timeLimit);
     setCurrentAssessment(assessment);
@@ -148,12 +150,16 @@ const Assessments = ({
   };
 
   const submissionExists = (id) => {
-    return submissions.current.some((submission) => submission?.[type] === id);
+    return type === "assignment"
+      ? submissions.current.some((submission) => submission?.[type] === id)
+      : submissions.current.some(
+          (submission) => submission?.[type] === id && submission?.submittedAt
+        );
   };
 
   const clearMessage = () => {
     return setTimeout(() => {
-      setMessage("");
+      setMessage({ type: "", text: "" });
     }, 5000);
   };
 
@@ -162,10 +168,6 @@ const Assessments = ({
     navigate(`/dashboard/assessments?type=${type}`);
     setShowButton(null);
   };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   if (!type) {
     return (
@@ -179,6 +181,10 @@ const Assessments = ({
     <div
       className={`${styles.container} ${showNav ? "" : styles.marginCollapsed}`}
     >
+      {message.text.length > 0 && (
+        <ResponseModal isOpen={true} message={message} />
+      )}
+
       {isNew ? ( //for teachers to create assessments
         <RoleRestricted allowedRoles={["teacher"]}>
           <NewAssessment
@@ -189,22 +195,21 @@ const Assessments = ({
               setShowButton,
               trigger,
               setTrigger,
-              user,
               selectedUnit,
               handleOpenExistingAssessment,
-              canEdit,
               currentAssessment,
-              message,
               setMessage,
               clearMessage,
               assessmentExtras,
               setAssessmentExtras,
               timeLimit,
               setTimeLimit,
+              loading,
+              setLoading,
             }}
           />
         </RoleRestricted>
-      ) : isOpened ? (
+      ) : isOpened && currentAssessment ? (
         <AssessmentContent
           {...{
             handleCloseAssessment,
@@ -222,11 +227,12 @@ const Assessments = ({
             handleOpenExistingAssessment,
             canEdit,
             setCanEdit,
-            message,
             setMessage,
             clearMessage,
             timeLimit,
             setTimeLimit,
+            loading,
+            setLoading,
           }}
         />
       ) : (

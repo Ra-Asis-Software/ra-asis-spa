@@ -9,17 +9,40 @@ export const handleDueDate = (dateTime) => {
   const diff = milliSeconds - today;
   if (diff < 0) return "Overdue";
   const minutes = diff / (1000 * 60);
-  if (minutes < 60) return `${Math.floor(minutes)} minutes `;
+  if (minutes < 60)
+    return `${Math.floor(minutes)} minute${minutes > 1.9 ? "s" : ""} `;
   const hours = minutes / 60;
-  if (hours < 24) return `${Math.floor(hours)} hours `;
+  if (hours < 24) return `${Math.floor(hours)} hour${hours > 1.9 ? "s" : ""} `;
   const days = hours / 24;
-  if (days < 7) return `${Math.floor(days)} days`;
+  if (days < 7) return `${Math.floor(days)} day${days > 1.9 ? "s" : ""}`;
   const weeks = days / 7;
-  if (weeks < 4) return `${Math.floor(weeks)} weeks`;
+  if (weeks < 4) return `${Math.floor(weeks)} week${weeks > 1.9 ? "s" : ""}`;
   const months = weeks / 4;
-  if (months < 12) return `${Math.floor(months)} months`;
+  if (months < 12)
+    return `${Math.floor(months)} month${months > 1.9 ? "s" : ""}`;
   const years = months / 12;
-  return `${Math.floor(years)} years`;
+  return `${Math.floor(years)} year${years > 1.9 ? "s" : ""}`;
+};
+
+export const handleDueDateShort = (dateTime) => {
+  const dateTimeString = `${dateTime}:00`;
+  const fullDateTimeString = new Date(dateTimeString);
+  const milliSeconds = fullDateTimeString.getTime();
+  const today = Date.now();
+  const diff = milliSeconds - today;
+  if (diff < 0) return "Overdue";
+  const minutes = diff / (1000 * 60);
+  if (minutes < 60) return `${Math.floor(minutes)}m `;
+  const hours = minutes / 60;
+  if (hours < 24) return `${Math.floor(hours)}h `;
+  const days = hours / 24;
+  if (days < 7) return `${Math.floor(days)}d `;
+  const weeks = days / 7;
+  if (weeks < 4) return `${Math.floor(weeks)}w `;
+  const months = weeks / 4;
+  if (months < 12) return `${Math.floor(months)}mo `;
+  const years = months / 12;
+  return `${Math.floor(years)}y `;
 };
 
 export const timeLeft = (dueDate) => {
@@ -31,6 +54,13 @@ export const timeLeft = (dueDate) => {
   const diff = (milliSeconds - today) / (1000 * 60); //in minutes
 
   return diff;
+};
+
+export const absoluteTimeLeft = (timeLimit, startedAt) => {
+  //this follows server stored times, which are not affected by the user changing their local time
+  return (
+    getMilliSeconds(timeLimit) - (Date.now() - new Date(startedAt).getTime())
+  );
 };
 
 export const useFileUploads = () => {
@@ -157,7 +187,40 @@ export const shortenTitle = (title) => {
 };
 
 export const shortenContent = (content) => {
-  return window.innerWidth < 768 || content.length <= 25
+  return window.innerWidth < 768 || content.length <= 23
     ? content
-    : content.slice(0, 25).concat("...");
+    : content.slice(0, 23).concat("...");
+};
+
+export const sortAssessmentsByDeadline = (assignments, quizzes) => {
+  assignments = assignType(assignments, "assignment");
+  quizzes = assignType(quizzes, "quiz");
+  const allAssessments = [...assignments, ...quizzes];
+
+  return allAssessments.sort((a, b) => {
+    const dateA = new Date(a.deadLine).getTime();
+    const dateB = new Date(b.deadLine).getTime();
+    return dateA - dateB;
+  });
+};
+
+export const excludeSubmittedAssessments = (assessments, submissions) => {
+  return assessments.filter((assessment) => {
+    const hasSubmission = submissions.some(
+      (submission) =>
+        submission.assignment === assessment._id ||
+        (submission.quiz === assessment._id && submission?.submittedAt)
+    );
+    return !hasSubmission;
+  });
+};
+
+export const excludeMarkedAssessments = (assessments) => {
+  return assessments.filter((assessment) => assessment.status !== "completed");
+};
+
+export const assignType = (assessments, type) => {
+  return assessments.map((assessment) => {
+    return { ...assessment, type: type };
+  });
 };

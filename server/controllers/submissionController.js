@@ -109,7 +109,7 @@ export const submitAssignment = asyncHandler(async (req, res) => {
     })),
     marks: total,
     gradingStatus:
-      complete === true
+      complete === true && assignment.fileMarks < 1
         ? "graded"
         : complete === false
         ? "in-progress"
@@ -204,9 +204,7 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
     });
 
   //transaction for deleting submission instance in submissions and for a student
-  const session = await mongoose.startSession();
-
-  await session.withTransaction(async () => {
+  await mongoose.connection.transaction(async (session) => {
     await Student.updateOne(
       { bio: req.user._id },
       {
@@ -214,6 +212,8 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
       },
       { session }
     );
+
+    await submissionExists.deleteOne({ session });
 
     //remove files
     if (submissionExists.files?.length > 0) {
@@ -226,11 +226,7 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
         })
       );
     }
-
-    await submissionExists.deleteOne({ session });
   });
-
-  session.endSession();
 
   return res.status(200).json({ message: "Submission has been removed" });
 });
@@ -239,7 +235,7 @@ export const deleteSubmission = asyncHandler(async (req, res) => {
 // @route   PATCH /api/assignments/:assignmentId/submissions/:submissionId/grade
 // @access  Private (Teacher)
 export const gradeAssignmentSubmission = asyncHandler(async (req, res) => {
-  const { studentAnswers, comments } = req.body;
+  const { studentAnswers, comments, fileMarks } = req.body;
   const { assignmentId, submissionId } = req.params;
 
   const submission = await Submission.findOne({
@@ -294,6 +290,7 @@ export const gradeAssignmentSubmission = asyncHandler(async (req, res) => {
       Number(questionDetails.marks) >= 0 ? Number(questionDetails.marks) : 0; //compute total marks
   }
 
+  submission.fileMarks = Number(fileMarks);
   submission.content = JSON.stringify(content);
   submission.marks = total;
   submission.feedBack = comments;

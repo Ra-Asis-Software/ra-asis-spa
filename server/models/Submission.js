@@ -23,6 +23,7 @@ const submissionSchema = new mongoose.Schema({
     },
   ],
   marks: { type: Number },
+  fileMarks: { type: Number, default: 0 },
   feedBack: { type: String },
   submissionStatus: {
     //this has to do with the time student submitted
@@ -36,6 +37,7 @@ const submissionSchema = new mongoose.Schema({
     enum: ["submitted", "graded", "in-progress"],
     default: "submitted",
   },
+  attemptsRemaining: { type: Number, default: 2 },
   submittedAt: { type: Date, default: Date.now() },
 });
 

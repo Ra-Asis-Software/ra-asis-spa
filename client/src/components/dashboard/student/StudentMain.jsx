@@ -8,6 +8,7 @@ import Progress from "../Progress";
 import RecentActivities from "../RecentActivities";
 import { getUserDetails } from "../../../services/userService";
 import WelcomeBoard from "../WelcomeBoard";
+import { sortAssessmentsByDeadline } from "../../../utils/assessments";
 
 const today = new Date();
 const todayTimeStamp = new Date(today).setHours(0, 0, 59, 999);
@@ -37,7 +38,11 @@ const StudentMain = ({
 
       // Check for valid data before setting state
       if (studentData?.data?.data) {
-        setAssessments(studentData.data.data.assignments || []);
+        const tempAllAssessments = sortAssessmentsByDeadline(
+          studentData.data.data.assignments || [],
+          studentData.data.data.quizzes || []
+        );
+        setAssessments(tempAllAssessments);
         setUnits(studentData.data.data.units || []);
         persistSelectedUnit();
       }
@@ -95,6 +100,8 @@ const StudentMain = ({
                   title={assessment.title}
                   id={assessment._id}
                   role={profile.role}
+                  dueDate={assessment.deadLine}
+                  type={assessment.type}
                 />
               ))
             ) : (

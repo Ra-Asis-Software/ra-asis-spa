@@ -4,7 +4,14 @@ import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
 import QuizSubmission from "../models/QuizSubmission.js";
 import Student from "../models/Student.js";
-import { submissionMadeOnTime, timeLeft } from "../utils/assignment.js";
+import {
+  prepareAssessment,
+  prepareEditedAssessment,
+  submissionMadeOnTime,
+  timeLeft,
+} from "../utils/assignment.js";
+import fs from "fs/promises";
+import mongoose from "mongoose";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
@@ -18,6 +25,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
     maxMarks,
     content,
     timeLimit,
+    fileMarks,
   } = req.body;
 
   // Validate the requested unit exists
@@ -48,28 +56,7 @@ export const createQuiz = asyncHandler(async (req, res) => {
 
   //get answers from auto graded questions
   const parsedContent = JSON.parse(content);
-
-  const { newContent, newAnswers } = parsedContent.reduce(
-    (acc, item) => {
-      const id = crypto.randomUUID();
-
-      if (item.type === "question" && item.answer) {
-        acc.newContent.push({
-          type: item.type,
-          data: item.data,
-          answers: item.answers,
-          marks: item.marks,
-          id,
-        }); // question with new ID
-        acc.newAnswers.push({ id, answer: item.answer, marks: item.marks }); // matching answer
-      } else {
-        acc.newContent.push({ ...item, id }); //if not a question with answers, return original
-      }
-
-      return acc;
-    },
-    { newContent: [], newAnswers: [] }
-  );
+  const { newData, correctAnswers } = prepareAssessment(parsedContent);
 
   // Create quiz
   const quiz = await Quiz.create({
@@ -78,9 +65,10 @@ export const createQuiz = asyncHandler(async (req, res) => {
     submissionType,
     deadLine,
     maxMarks,
+    fileMarks,
     timeLimit: parsedTimeLimit,
-    content: JSON.stringify(newContent),
-    answers: JSON.stringify(newAnswers),
+    content: JSON.stringify(newData),
+    answers: JSON.stringify(correctAnswers),
     createdBy: req.user._id,
     files: req.files?.map((file) => ({
       filePath: file.path,
@@ -107,7 +95,8 @@ export const createQuiz = asyncHandler(async (req, res) => {
 // @route   PATCH /api/quizzes/:quizId/edit
 // @access  Private (Teachers, Admins)
 export const editQuiz = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine, createdBy, timeLimit } = req.body;
+  const { maxMarks, content, deadLine, createdBy, timeLimit, fileMarks } =
+    req.body;
   const { quizId } = req.params;
 
   //check existence of quiz
@@ -123,71 +112,16 @@ export const editQuiz = asyncHandler(async (req, res) => {
 
   //check the changes made
   const parsedContent = JSON.parse(content);
-  let currentAnswers = JSON.parse(quiz.answers);
-
-  const { changedContent, changedAnswers } = parsedContent.reduce(
-    (acc, item) => {
-      if (!item.id) {
-        item.id = crypto.randomUUID(); //create id for new question items
-      }
-      if (item?.answer) {
-        acc.changedAnswers.push({
-          id: item.id,
-          newAnswer: item.answer,
-          marks: item.marks,
-        });
-      }
-      const { answer, ...rest } = item; //separate answer from the object
-      acc.changedContent.push(rest);
-
-      return acc;
-    },
-    { changedContent: [], changedAnswers: [] }
-  );
-
-  //remove from the db answers whose question was deleted from the assignment
-  currentAnswers = currentAnswers.filter((answer) => {
-    return changedContent.some((question) => question.id === answer.id);
-  });
-
-  //update the current answers with the incoming edits (their new values)
-  const replaceAnswers = currentAnswers.map((answer) => {
-    const isAnswerModified = changedAnswers.find(
-      (newAnswer) => newAnswer.id === answer.id
-    );
-
-    if (!isAnswerModified) {
-      return answer;
-    } else {
-      return {
-        id: isAnswerModified.id,
-        answer: isAnswerModified.newAnswer,
-        marks: isAnswerModified.marks,
-      };
-    }
-  });
-
-  //include edits that are bringing in new questions, or answers currently not present
-  const veryNewAnswers = changedAnswers
-    .filter(
-      (newAnswer) =>
-        !currentAnswers.some((answer) => answer.id === newAnswer.id)
-    )
-    .map((newAnswer) => ({
-      id: newAnswer.id,
-      answer: newAnswer.newAnswer,
-      marks: newAnswer.marks,
-    }));
-
-  const newAnswers = [...replaceAnswers, ...veryNewAnswers]; //combine replaced answers with the new ones
+  const { newData, newAnswers } = prepareEditedAssessment(parsedContent);
 
   quiz.maxMarks = maxMarks;
-  quiz.content = JSON.stringify(changedContent);
+  quiz.fileMarks = fileMarks;
+  quiz.content = JSON.stringify(newData);
   quiz.answers = JSON.stringify(newAnswers);
   quiz.deadLine = deadLine;
   quiz.timeLimit = JSON.parse(timeLimit);
 
-  //clear existing files
+  //clear existing files if new files were added
   if (req.files?.length > 0 && quiz.files?.length > 0) {
     await Promise.all(
       quiz.files.map((file) =>
@@ -198,13 +132,15 @@ export const editQuiz = asyncHandler(async (req, res) => {
     );
   }
 
-  //add new files
-  quiz.files = req.files?.map((file) => ({
-    filePath: file.path,
-    fileName: file.originalname,
-    fileSize: file.size,
-    mimetype: file.mimetype,
-  }));
+  if (req.files?.length > 0) {
+    //add new files
+    quiz.files = req.files?.map((file) => ({
+      filePath: file.path,
+      fileName: file.originalname,
+      fileSize: file.size,
+      mimetype: file.mimetype,
+    }));
+  }
 
   await quiz.save();
 
@@ -388,6 +324,44 @@ export const submitQuiz = asyncHandler(async (req, res) => {
   res.status(201).json({ success: "Quiz successfully submitted", submission });
 });
 
+//@desc   Delete a started but unsubmitted quiz
+// @route   DELETE /api/quizzes/:quizId/submissions/:submissionId
+// @access  Private (Student/Teacher/Admin)
+export const deleteUnresolvedSubmission = asyncHandler(async (req, res) => {
+  const { quizId, submissionId } = req.params;
+
+  //confirm student exists
+  const student = await Student.findOne({ bio: req.user._id });
+  if (!student)
+    return res
+      .status(404)
+      .json({ message: "An error occurred while validating your details" });
+
+  //we run a transaction to ensure submission is removed from QuizSubmission and from Student
+  try {
+    await mongoose.connection.transaction(async (session) => {
+      await QuizSubmission.findOneAndDelete(
+        { _id: submissionId, quiz: quizId, student: student._id },
+        { session }
+      );
+
+      await Student.updateOne(
+        { _id: student._id },
+        { $pull: { quizSubmissions: submissionId } },
+        { session }
+      );
+    });
+
+    res.status(200).json({
+      message: "You can start your quiz now",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while resolving your quiz submission",
+    });
+  }
+});
+
 //@desc   Get a single submission for a quiz
 // @route   GET /api/quizzes/:quizId/submissions/:submissionId
 // @access  Private (Teacher/Admin)
@@ -478,6 +452,36 @@ export const getQuizzes = asyncHandler(async (req, res) => {
   res.status(200).json(quizzes);
 });
 
+// @desc    Get quizzes for a teacher
+// @route   GET /api/quizzes/get-quizzes-for-teacher
+// @access  Private (Teachers/Admins)
+export const getQuizzesForTeacher = asyncHandler(async (req, res) => {
+  const quizzes = await Quiz.find({ createdBy: req.user._id })
+    .populate({
+      path: "unit",
+      select: "unitCode unitName",
+    })
+    .populate({
+      path: "submissionCount",
+      select: "_id",
+    })
+    .populate({
+      path: "gradedCount",
+      select: "_id",
+    })
+    .populate({
+      path: "inProgressCount",
+      select: "_id",
+    })
+    .populate({
+      path: "enrolledStudentsCount",
+      select: "_id",
+    })
+    .select("-answers");
+
+  res.status(200).json(quizzes);
+});
+
 // @desc    Get submissions for a quiz
 // @route   GET /api/quizzes/:quizId/submissions?page=page&limit=limit
 // @access  Private (Teacher/Admin)
@@ -514,7 +518,7 @@ export const getSubmissions = asyncHandler(async (req, res) => {
 // @route   PATCH /api/quizzes/:quizId/submissions/:submissionId/grade
 // @access  Private (Teacher)
 export const gradeQuizSubmission = asyncHandler(async (req, res) => {
-  const { studentAnswers, comments } = req.body;
+  const { studentAnswers, comments, fileMarks } = req.body;
   const { quizId, submissionId } = req.params;
 
   const submission = await QuizSubmission.findOne({
@@ -569,6 +573,7 @@ export const gradeQuizSubmission = asyncHandler(async (req, res) => {
       Number(questionDetails.marks) >= 0 ? Number(questionDetails.marks) : 0; //compute total marks
   }
 
+  submission.fileMarks = Number(fileMarks);
   submission.content = JSON.stringify(content);
   submission.marks = total;
   submission.feedBack = comments;

@@ -7,10 +7,11 @@ const AssessmentTools = ({
   setAssessmentExtras,
   handlePublishAssessment = null,
   handleEditAssessment = null,
-  message,
   assessmentExtras,
   timeLimit,
   setTimeLimit,
+  submissionType,
+  loading,
 }) => {
   const { isNew, isOpened, type } = useUrlParams();
   return (
@@ -25,19 +26,23 @@ const AssessmentTools = ({
           Instruction
         </button>
 
-        <button
-          className={styles.addAssignment}
-          onClick={() => setShowButton("question")}
-        >
-          Question
-        </button>
+        {submissionType?.toLowerCase() !== "file" && (
+          <>
+            <button
+              className={styles.addAssignment}
+              onClick={() => setShowButton("question")}
+            >
+              Question
+            </button>
 
-        <button
-          className={styles.addAssignment}
-          onClick={() => setShowButton("textArea")}
-        >
-          Text Area
-        </button>
+            <button
+              className={styles.addAssignment}
+              onClick={() => setShowButton("textArea")}
+            >
+              Text Area
+            </button>
+          </>
+        )}
 
         <button
           className={styles.addAssignment}
@@ -54,7 +59,6 @@ const AssessmentTools = ({
         >
           File
         </button>
-        {message !== "" && <p className={styles.submissionAlert}>{message}</p>}
       </div>
       <div className={styles.extraTools}>
         <div className={styles.deadline}>
@@ -111,7 +115,7 @@ const AssessmentTools = ({
             type="number"
             max={100}
             disabled
-            value={assessmentExtras.marks}
+            value={Number(assessmentExtras.marks)}
           />
         </div>
       </div>
@@ -120,14 +124,16 @@ const AssessmentTools = ({
           className={styles.publishAssignment}
           onClick={handlePublishAssessment}
         >
-          PUBLISH {type.toUpperCase() ?? "ASSESSMENT"}
+          {loading
+            ? `PUBLISHING...`
+            : `PUBLISH ${type.toUpperCase() ?? "ASSESSMENT"}`}
         </button>
       ) : isOpened ? (
         <button
           className={styles.publishAssignment}
           onClick={handleEditAssessment}
         >
-          SAVE CHANGES
+          {loading ? "SAVING..." : "SAVE CHANGES"}
         </button>
       ) : (
         <p>No action</p>

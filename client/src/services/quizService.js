@@ -67,9 +67,44 @@ export const submitQuiz = async (data, id) => {
   }
 };
 
+export const deleteUnresolvedQuiz = async (quizId, submissionId) => {
+  try {
+    const response = await api.delete(
+      `${QUIZ_PATH}/${quizId}/submissions/${submissionId}/delete`
+    );
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
 export const getQuizzesForUnit = async (unitId) => {
   try {
     const response = await api.get(`${QUIZ_PATH}/${unitId}/quizzes`);
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
+export const getQuizzesForTeacher = async () => {
+  try {
+    const response = await api.get(`${QUIZ_PATH}/get-quizzes-for-teacher`);
+
     return response;
   } catch (error) {
     if (error.response.data) {

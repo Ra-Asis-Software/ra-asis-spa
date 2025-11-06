@@ -8,9 +8,9 @@ export const createAssignment = async (data) => {
 
     return response;
   } catch (error) {
-    if (error.response && error.response.data) {
+    if (error.response.data) {
       return {
-        error: error.response.data.error.message,
+        error: error.response.data.message,
         status: error.response.status,
       };
     } else {
@@ -24,9 +24,9 @@ export const editAssignment = async (data, id) => {
     const response = await api.patch(`${ASSIGNMENTS_PATH}/${id}/edit`, data);
     return response;
   } catch (error) {
-    if (error.response && error.response.data) {
+    if (error.response.data) {
       return {
-        error: error.response.data.error.message,
+        error: error.response.data.message,
         status: error.response.status,
       };
     } else {
@@ -46,6 +46,25 @@ export const getAssignmentsForUnit = async (unitId) => {
         message: "Failed to fetch assignments for the unit",
       }
     );
+  }
+};
+
+export const getAssignmentsForTeacher = async () => {
+  try {
+    const response = await api.get(
+      `${ASSIGNMENTS_PATH}/get-assignments-for-teacher`
+    );
+
+    return response;
+  } catch (error) {
+    if (error.response.data) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
   }
 };
 
@@ -131,9 +150,9 @@ export const deleteSubmission = async (submissionId) => {
     );
     return response;
   } catch (error) {
-    if (error.response && error.response.data) {
+    if (error.response.data) {
       return {
-        error: error.response.data.error.message,
+        error: error.response.data.message,
         status: error.response.status,
       };
     } else {

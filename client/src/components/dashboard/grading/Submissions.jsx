@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styles from "../css/Grade.module.css";
 import {
   getAssignmentDetails,
+  getAssignmentsForTeacher,
   getAssignmentsForUnit,
   getAssignmentSubmissions,
 } from "../../../services/assignmentService";
 import {
   getQuizDetails,
+  getQuizzesForTeacher,
   getQuizzesForUnit,
   getSubmissionsForQuiz,
 } from "../../../services/quizService";
@@ -46,8 +48,16 @@ const Submissions = () => {
   //useEffect to fetch assessments when component mounts
   useEffect(() => {
     const fetchAssessments = async () => {
-      const assignments = await getAssignmentsForUnit(selectedUnit.id);
-      const quizzes = await getQuizzesForUnit(selectedUnit.id);
+      let assignments;
+      let quizzes;
+
+      if (selectedUnit.id === "all") {
+        assignments = await getAssignmentsForTeacher();
+        quizzes = await getQuizzesForTeacher();
+      } else {
+        assignments = await getAssignmentsForUnit(selectedUnit.id);
+        quizzes = await getQuizzesForUnit(selectedUnit.id);
+      }
 
       const tempHolder = {
         assignments: !assignments.error ? assignments.data : [],
@@ -60,7 +70,7 @@ const Submissions = () => {
       );
     };
     fetchAssessments();
-  }, []);
+  }, [selectedUnit.id]);
 
   //useEffect to fetch submissions when selectedAssessment changes
   useEffect(() => {

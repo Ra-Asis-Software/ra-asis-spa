@@ -4,10 +4,21 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 8px;
-  min-width: 230px;
-  max-width: 230px;
+  min-width: 240px;
+  max-width: 240px;
   height: max-content;
   border-radius: 7px;
+}
+
+.titleSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assessmentType {
+  color: var(--west-coast-color);
+  margin: 0;
 }
 
 .studentCard {

@@ -12,53 +12,95 @@ import {
 import TeacherAssessmentContent from "./TeacherAssessmentContent.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import FileSelector from "./FileSelector.jsx";
+import { useEffect } from "react";
 
 const NewAssessment = ({
   resetAssessmentContent,
   showButton,
   setShowButton,
-  trigger,
-  setTrigger,
   selectedUnit,
   handleOpenExistingAssessment,
   currentAssessment,
   handleCloseAssessment,
-  message,
   setMessage,
   clearMessage,
   assessmentExtras,
   setAssessmentExtras,
   timeLimit,
   setTimeLimit,
+  loading,
+  setLoading,
 }) => {
   const [content, setContent] = useState([]);
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [submissionType, setSubmissionType] = useState("");
+  const [fileMarks, setFileMarks] = useState(0);
   const { type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
 
+  //give warning whenever file-type submission is enabled
+  useEffect(() => {
+    if (
+      submissionType === "file" &&
+      content.some((item) => ["textArea", "question"].includes(item.type))
+    ) {
+      setMessage({
+        type: "error",
+        text: "File type submissions cannot be accompanied by questions. Existing questions will be deleted upon publishing this Assessment ",
+      });
+
+      clearMessage();
+    }
+  }, [submissionType]);
+
+  //keep tabs on file submission marks
+  useEffect(() => {
+    setAssessmentExtras((prev) => ({ ...prev, fileMarks: fileMarks }));
+  }, [fileMarks]);
+
   //handles publishing assignment
   const handlePublishAssessment = async () => {
+    //remove any questions present in file-type submissions
+    const finalContent =
+      submissionType === "file"
+        ? content.filter(
+            (item) => !["textArea", "question"].includes(item.type)
+          )
+        : [...content];
+
     if (!selectedUnit.id || selectedUnit.id === "all") {
-      setMessage("No unit Selected");
+      setMessage({ type: "error", text: "No unit Selected" });
     } else if (content.length === 0 && assignmentFiles.files.length === 0) {
-      setMessage("No content or files exist for the assignment");
+      setMessage({
+        type: "error",
+        text: "No content or files exist for the assignment",
+      });
     } else if (assignmentTitle.length === 0 || submissionType.length === 0) {
-      setMessage(`Ensure both ${type} Title and Submission Type are set`);
+      setMessage({
+        type: "error",
+        text: `Ensure both ${type} Title and Submission Type are set`,
+      });
     } else {
       //check if all auto-grade answers are set
       const answerNotSet = correctAnswerNotSet(content);
       const singleAnswerOption = hasSingleAnswerOption(content);
       const answerIsEmpty = isAnyAnswerEmpty(content);
       if (singleAnswerOption) {
-        setMessage(`Question ${singleAnswerOption} has only one answer option`);
+        setMessage({
+          type: "error",
+          text: `Question ${singleAnswerOption} has only one answer option`,
+        });
       } else if (answerIsEmpty) {
-        setMessage(`You have an empty answer in question ${answerIsEmpty}`);
+        setMessage({
+          type: "error",
+          text: `You have an empty answer in question ${answerIsEmpty}`,
+        });
       } else if (answerNotSet) {
-        setMessage(
-          `You have not set the correct answer for question ${answerNotSet}`
-        );
+        setMessage({
+          type: "error",
+          text: `You have not set the correct answer for question ${answerNotSet}`,
+        });
       } else {
         //setup deadlines for those not set
         let tempDate, tempTime;
@@ -72,7 +114,8 @@ const NewAssessment = ({
         formData.append("submissionType", submissionType);
         formData.append("deadLine", `${tempDate}T${tempTime}`);
         formData.append("maxMarks", assessmentExtras.marks);
-        formData.append("content", JSON.stringify(content));
+        formData.append("fileMarks", assessmentExtras.fileMarks);
+        formData.append("content", JSON.stringify(finalContent));
         formData.append("unitId", selectedUnit.id);
         if (type === "quiz") {
           formData.append(
@@ -84,29 +127,33 @@ const NewAssessment = ({
           );
         }
 
-        try {
-          const creationResult =
-            type === "quiz"
-              ? await createQuiz(formData)
-              : type === "assignment" && (await createAssignment(formData));
+        setLoading(true);
+        const creationResult =
+          type === "quiz"
+            ? await createQuiz(formData)
+            : type === "assignment" && (await createAssignment(formData));
+        setLoading(false);
 
-          if (creationResult.error) {
-            setMessage(creationResult.error);
-          } else {
-            const createdAssessment = creationResult.data?.[type];
-            resetAssessmentContent();
-            handleOpenExistingAssessment(createdAssessment);
-          }
-
+        if (creationResult.error) {
+          setMessage({ type: "error", text: creationResult.error });
+        } else {
+          const createdAssessment = creationResult.data?.[type];
+          resetAssessmentContent();
+          setSubmissionType("");
+          setFileMarks(0);
+          setContent([]);
           assignmentFiles.resetFiles();
-        } catch (error) {
-          setMessage(error);
+          handleOpenExistingAssessment(createdAssessment);
+          setMessage({
+            type: "success",
+            text: "Assessment created successfully",
+          });
         }
       }
     }
 
     setTimeout(() => {
-      setMessage("");
+      setMessage({ type: "", text: "" });
     }, 5000);
   };
 
@@ -140,6 +187,17 @@ const NewAssessment = ({
         <div className={styles.newAssignmentContent}>
           <div className={`${styles.textContent}`}>
             <FileSelector selector={assignmentFiles} />
+            {["file", "mixed"].includes(submissionType.toLowerCase()) && (
+              <div className={styles.fileMarks}>
+                Assign marks for file submission:{" "}
+                <input
+                  type="number"
+                  min={0}
+                  value={fileMarks}
+                  onChange={(e) => setFileMarks(e.target.value)}
+                />
+              </div>
+            )}
             {content.length === 0 && (
               <p>Use the tools on the right to add content</p>
             )}
@@ -149,11 +207,8 @@ const NewAssessment = ({
                 setContent,
                 showButton,
                 setShowButton,
-                trigger,
-                setTrigger,
                 currentAssessment,
                 assignmentFiles,
-                message,
                 setMessage,
                 clearMessage,
                 setAssessmentExtras,
@@ -169,11 +224,12 @@ const NewAssessment = ({
             setShowButton,
             setAssessmentExtras,
             handlePublishAssessment,
-            message,
             assessmentExtras,
             assignmentFiles,
             timeLimit,
             setTimeLimit,
+            submissionType,
+            loading,
           }}
         />
       </div>
