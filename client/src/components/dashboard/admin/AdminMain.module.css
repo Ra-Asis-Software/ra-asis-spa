@@ -1,0 +1,26 @@
+.adminMainContainer {
+  padding: 10px;
+}
+
+.greetingParagraph {
+  margin-top: -20px;
+}
+
+.strongTextBlue {
+  color: var(--cerulean-color);
+}
+
+.strongTextGreen {
+  color: var(--pine-green-color);
+}
+
+.strongTextRed {
+  color: var(--alizarin-crimson-color);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 520px) {
+  .greetingParagraph {
+    margin-top: -10px;
+  }
+}

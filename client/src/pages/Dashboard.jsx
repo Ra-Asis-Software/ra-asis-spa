@@ -17,6 +17,7 @@ import ParentMain from "../components/dashboard/parent/ParentMain.jsx";
 import Submissions from "../components/dashboard/grading/Submissions.jsx";
 import Users from "../components/dashboard/admin/Users.jsx";
 import AdminUnits from "../components/dashboard/admin/AdminUnits.jsx";
+import AdminMain from "../components/dashboard/admin/AdminMain.jsx";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -182,7 +183,7 @@ const Dashboard = () => {
                   </RoleRestricted>
 
                   <RoleRestricted allowedRoles={["administrator"]}>
-                    {/* AdminMain will go here later on */}
+                    <AdminMain lastName={user.lastName} />
                   </RoleRestricted>
                 </>
               }
