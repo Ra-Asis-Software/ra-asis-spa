@@ -157,7 +157,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
     // Lock account if login attempts reach or exceed 5
     if (user.loginAttempts >= 5) {
-      user.lockUntil = Date.now() + 23 * 60 * 60 * 1000; // Lock for 24 hrs, Tutaadjust with change in sec policy
+      user.lockUntil = Date.now() + 24 * 60 * 60 * 1000; // Lock for 24 hrs, Tutaadjust with change in sec. policy
 
       // Send an email notifying the user of the account lock
       await sendMail({
