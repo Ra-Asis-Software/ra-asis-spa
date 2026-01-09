@@ -329,10 +329,11 @@ export const getTeachers = asyncHandler(async (req, res) => {
 // @access  Public
 export const getAllUnits = asyncHandler(async (req, res) => {
   const units = await Unit.find({}, "unitCode unitName");
+  const count = await Unit.countDocuments();
 
   return res
     .status(200)
-    .json({ success: "Unit retrieval successful", data: units });
+    .json({ success: "Unit retrieval successful", data: units, count });
 });
 
 //@desc Enroll for a unit
@@ -438,7 +439,19 @@ export const getUnitsForUser = asyncHandler(async (req, res) => {
 // @access  Private (Admin)
 export const getUnitRequests = asyncHandler(async (req, res) => {
   try {
-    const requests = await UnitRequest.find()
+    const { countOnly, status } = req.query;
+
+    const filter = {};
+    if (status) {
+      filter.status = status;
+    }
+
+    if (countOnly === "true") {
+      const count = await UnitRequest.countDocuments(filter);
+      return res.status(200).json({ count });
+    }
+
+    const requests = await UnitRequest.find(filter)
       .populate("teacher", "firstName lastName email")
       .populate("unit", "unitCode unitName")
       .sort({ createdAt: -1 });

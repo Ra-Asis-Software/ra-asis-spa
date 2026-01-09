@@ -110,6 +110,7 @@ export const getUsers = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     users,
+    count,
     totalPages: Math.ceil(count / limit),
     currentPage: page,
   });
