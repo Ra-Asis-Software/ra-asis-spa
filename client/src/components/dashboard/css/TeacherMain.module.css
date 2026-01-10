@@ -77,11 +77,8 @@
 
 .assignments {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 30px;
-  width: 800px;
-  overflow: auto;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .submissions {
@@ -97,6 +94,7 @@
 .submissionsBox {
   width: 100%;
   overflow-y: auto;
+  border-radius: 7px 7px 0 0;
 }
 
 .submissionsTable {
@@ -106,7 +104,12 @@
 }
 
 .submissionsTable thead {
-  background: var(--aqua-color);
+  background: var(--cerulean-color);
+  color: var(--foam-color);
+}
+
+.submissionsTable thead th {
+  padding: 10px;
 }
 
 .submissionsTable tbody {
@@ -120,6 +123,7 @@
 
 .submissionsTable td {
   width: 20%;
+  padding: 10px;
 }
 
 .submissionsTable tbody td:first-of-type {
@@ -193,8 +197,17 @@
   display: none;
 }
 
-/* RESPONSIVE BREAKPOINTS */
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+/* RESPONSIVE BREAKPOINTS */
 @media screen and (max-width: 1200px) {
   .teacherContainer {
     flex-direction: column;
@@ -241,15 +254,5 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-  }
-}
-
-/* ANIMATIONS */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

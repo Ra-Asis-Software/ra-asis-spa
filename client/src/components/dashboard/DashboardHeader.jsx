@@ -125,7 +125,11 @@ const DashboardHeader = ({
                 {units.map((unit) => (
                   <div
                     key={unit.id}
-                    className={styles.dropdownOption}
+                    className={`${styles.dropdownOption} ${
+                      profile.role === "teacher"
+                        ? styles.teacherDropdownOption
+                        : ""
+                    }`}
                     onClick={() => {
                       setSelectedUnit(unit);
                       // window.location.reload(); // Simple for now, to refine in the next commit
@@ -137,7 +141,11 @@ const DashboardHeader = ({
                   </div>
                 ))}
                 <div
-                  className={styles.dropdownOption}
+                  className={`${styles.dropdownOption} ${
+                    profile.role === "teacher"
+                      ? styles.teacherDropdownOption
+                      : ""
+                  }`}
                   onClick={() => {
                     setSelectedUnit({ name: "All Units", id: "all" });
                     window.location.reload(); // In final sol. think effects on existing behavior on other dashs

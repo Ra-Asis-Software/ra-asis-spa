@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
-import { getUserDetails } from "../../../services/userService";
-import AssessmentCard from "../assessments/AssessmentCard";
-import CustomCalendar from "../CustomCalendar";
-import RecentActivities from "../RecentActivities";
-import WelcomeBoard from "../WelcomeBoard";
-import Progress from "../Progress";
-import Modal from "../../ui/Modal";
-import CreateOptionsContent from "../CreateOptionsContent";
-import { sortAssessmentsByDeadline } from "../../../utils/assessments";
+import { sortAssessmentsByDeadline } from "../../../utils/assessments.js";
+import { getUserDetails } from "../../../services/userService.js";
+import AssessmentCard from "../assessments/AssessmentCard.jsx";
+import CustomCalendar from "../CustomCalendar.jsx";
+import RecentActivities from "../RecentActivities.jsx";
+import WelcomeBoard from "../WelcomeBoard.jsx";
+import Progress from "../Progress.jsx";
+import Modal from "../../ui/Modal.jsx";
+import CreateOptionsContent from "../CreateOptionsContent.jsx";
 
 const TeacherMain = ({
   showNav,
@@ -159,10 +159,10 @@ const TeacherMain = ({
                 <table className={styles.submissionsTable}>
                   <thead>
                     <tr>
-                      <th>Assignment title</th>
-                      <th>Sumission status</th>
-                      <th>Evaluation status</th>
-                      <th>Date assigned</th>
+                      <th>Assignment Title</th>
+                      <th>Sumission Status</th>
+                      <th>Evaluation Status</th>
+                      <th>Date Assigned</th>
                     </tr>
                   </thead>
                   <tbody>

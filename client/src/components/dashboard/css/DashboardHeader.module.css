@@ -69,6 +69,11 @@
   color: #fff;
 }
 
+.teacherDropdownOption:hover {
+  background-color: var(--cerulean-color);
+  color: var(--foam-color);
+}
+
 .avatar {
   background: var(--bright-sun-color);
   color: var(--black-pearl-color);
