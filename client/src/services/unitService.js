@@ -189,6 +189,21 @@ const getUnitRequests = async () => {
   }
 };
 
+const getPendingUnitRequestsCount = async () => {
+  try {
+    const response = await api.get(
+      `${UNITS_PATH}/requests?countOnly=true&status=pending`
+    );
+    return response.data;
+  } catch (error) {
+    throw (
+      error.response?.data || {
+        message: "Failed to fetch pending unit requests count",
+      }
+    );
+  }
+};
+
 const createUnitRequest = async (unitCode) => {
   try {
     const response = await api.post(`${UNITS_PATH}/requests`, { unitCode });
@@ -235,6 +250,7 @@ export {
   enrollToUnit,
   getUnitsForUser,
   getUnitRequests,
+  getPendingUnitRequestsCount,
   createUnitRequest,
   approveUnitRequest,
   rejectUnitRequest,

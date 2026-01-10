@@ -1,0 +1,75 @@
+.overviewContainer {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 700ms ease-in-out;
+}
+
+.statCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  background-color: var(--cerulean-color);
+  color: var(--foam-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 7px;
+  box-sizing: border-box;
+}
+
+.statValue {
+  color: var(--bright-sun-color);
+  font-size: 2.375em;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+
+.statLink {
+  background-color: var(--foam-color);
+  color: var(--cerulean-color);
+  padding: 10px;
+  font-weight: 600;
+}
+
+.statLink:hover {
+  background-color: var(--pine-green-color);
+  color: var(--bright-sun-color);
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 991px) {
+  .statCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .statCards {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .statCard {
+    width: 350px;
+  }
+}
+
+@media (max-width: 462px) {
+  .statCard {
+    width: 300px;
+  }
+}

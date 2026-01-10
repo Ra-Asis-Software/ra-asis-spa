@@ -1,4 +1,5 @@
 import styles from "./AdminMain.module.css";
+import SystemOverview from "./SystemOverview.jsx";
 
 const AdminMain = ({ lastName }) => {
   const currentHour = new Date().getHours();
@@ -19,6 +20,7 @@ const AdminMain = ({ lastName }) => {
         <strong className={styles.strongTextRed}>System Analytics</strong> all
         in one place.
       </p>
+      <SystemOverview />
     </div>
   );
 };
