@@ -39,6 +39,11 @@
   z-index: 1;
 }
 
+.header span {
+  color: var(--cerulean-color);
+  font-size: 0.675em;
+}
+
 .closeSubmissions {
   height: 6vh;
   min-height: 40px;

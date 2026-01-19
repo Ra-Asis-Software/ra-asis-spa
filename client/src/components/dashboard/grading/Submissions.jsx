@@ -177,7 +177,9 @@ const Submissions = () => {
         <div className={styles.gradingContainer}>
           <div className={styles.left}>
             <div className={styles.header}>
-              <h2>Grade {getAssessmentType(type)}</h2>
+              <h3>
+                Grading {getAssessmentType(type)} <span>(Switch below)</span>
+              </h3>
               {!openSubmissions ? (
                 <div className={unitDropdown}>
                   <button
