@@ -5,6 +5,7 @@
   border-radius: 7px;
   box-shadow: 0 4px 10px var(--black-pearl-color);
   max-width: 280px;
+  position: relative;
 }
 
 .container button {
@@ -55,4 +56,16 @@
 
 .specialDayPassed {
   background-color: var(--alizarin-crimson-color);
+}
+
+.eventTooltip {
+  background-color: var(--pine-green-color);
+  color: var(--bright-sun-color);
+  position: absolute;
+  padding: 5px;
+  font-size: 0.875em;
+  border-radius: 7px;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

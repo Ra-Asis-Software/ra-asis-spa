@@ -5,6 +5,7 @@ import styles from "./css/CustomCalendar.module.css";
 
 const CustomCalendar = ({ deadlines = [] }) => {
   const [value, setValue] = useState(new Date());
+  const [hoveredEvent, setHoveredEvent] = useState(null);
 
   const tileContent = ({ date, view }) => {
     if (view === "month") {
@@ -23,10 +24,14 @@ const CustomCalendar = ({ deadlines = [] }) => {
 
         const difference = eventTimeStamp - timestamp;
 
-        return difference < 0 ? (
-          <div className={styles.specialDayPassed} />
-        ) : (
-          <div className={styles.specialDay} />
+        return (
+          <div
+            className={
+              difference < 0 ? styles.specialDayPassed : styles.specialDay
+            }
+            onMouseEnter={() => setHoveredEvent(eventExists.event)}
+            onMouseLeave={() => setHoveredEvent(null)}
+          />
         );
       }
       return null;
@@ -44,6 +49,9 @@ const CustomCalendar = ({ deadlines = [] }) => {
         next2Label={null}
         prev2Label={null}
       />
+      {hoveredEvent && (
+        <div className={styles.eventTooltip}>{hoveredEvent} due</div>
+      )}
     </div>
   );
 };
