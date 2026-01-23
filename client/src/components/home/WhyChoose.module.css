@@ -51,6 +51,39 @@
 .reasonImage {
   width: 120px;
   height: 120px;
+  animation: fadeInRight 700ms ease-out forwards;
+}
+
+.reasonTitle,
+.reasonDescription {
+  animation: fadeInUp 700ms ease-out forwards;
+}
+
+.reasonDescription {
+  animation-delay: 100ms;
+}
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* RESPONSIVE BREAKPOINTS */
