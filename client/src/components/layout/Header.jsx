@@ -73,6 +73,7 @@ const Header = () => {
             handleOffersLinkClick();
             closeMenu();
           }}
+          className={styles.mainNavLink}
         >
           WHAT WE OFFER
         </Link>
@@ -81,6 +82,7 @@ const Header = () => {
             handleSupportLinkClick();
             closeMenu();
           }}
+          className={styles.mainNavLink}
         >
           SUPPORT
         </Link>
@@ -89,10 +91,15 @@ const Header = () => {
             handleWhyUsLinkClick();
             closeMenu();
           }}
+          className={styles.mainNavLink}
         >
           WHY US?
         </Link>
-        <Link to="/dashboard" onClick={closeMenu}>
+        <Link
+          to="/dashboard"
+          onClick={closeMenu}
+          className={styles.mainNavLink}
+        >
           RESOURCES
         </Link>
 
@@ -101,9 +108,11 @@ const Header = () => {
           <>
             <Link
               to="/dashboard"
-              className={
-                location.pathname === "/dashboard" ? styles.active : ""
+              className={`
+                ${location.pathname === "/dashboard" ? styles.active : ""} ${
+                styles.mainNavLink
               }
+              `}
               onClick={closeMenu}
             >
               DASHBOARD
@@ -116,14 +125,18 @@ const Header = () => {
           <>
             <Link
               to="/register"
-              className={location.pathname === "/register" ? styles.active : ""}
+              className={`${
+                location.pathname === "/register" ? styles.active : ""
+              } ${styles.mainNavLink}`}
               onClick={closeMenu}
             >
               REGISTER
             </Link>
             <Link
               to="/login"
-              className={location.pathname === "/login" ? styles.active : ""}
+              className={`${
+                location.pathname === "/login" ? styles.active : ""
+              } ${styles.mainNavLink}`}
               onClick={closeMenu}
             >
               LOGIN

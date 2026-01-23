@@ -23,9 +23,19 @@
   border: 2px solid var(--aqua-color);
 }
 
-.logoName h3 {
+.appName {
+  display: flex;
+  flex-direction: column;
   color: var(--aqua-color);
   font-size: 1.5em;
+}
+
+.appTagline {
+  color: var(--bright-sun-color);
+  font-style: italic;
+  font-size: 0.75em;
+  font-family: Lato, Poppins, sans-serif;
+  margin-top: -20px;
 }
 
 .socials {
@@ -33,7 +43,7 @@
   gap: 20px;
 }
 
-.socials a i {
+.socialIcon {
   background: var(--bright-sun-color);
   color: var(--black-pearl-color);
   font-size: 1.2em;
@@ -42,7 +52,7 @@
   transition: all 400ms ease-in-out;
 }
 
-.socials a i:hover {
+.socialIcon:hover {
   background: var(--aqua-color);
 }
 
@@ -52,19 +62,19 @@
   gap: 10px;
 }
 
-.footerLinks h3 {
+.containerHeading {
   color: var(--bright-sun-color);
 }
 
-.footerLinks a {
+.containerLink {
   color: var(--aqua-color);
 }
 
-.footerLinks a:hover {
+.containerLink:hover {
   color: var(--bright-sun-color);
 }
 
-.whatWeOffer a {
+.whatWeOffer .containerLink {
   cursor: auto;
 }
 

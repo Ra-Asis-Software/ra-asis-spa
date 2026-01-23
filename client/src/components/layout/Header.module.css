@@ -15,18 +15,18 @@
   cursor: pointer;
 }
 
-.mainNavigation a {
+.mainNavLink {
   color: var(--pine-green-color);
   font-weight: 700;
   margin-right: 40px;
 }
 
-.mainNavigation a:hover,
-.mainNavigation a.active {
+.mainNavLink:hover,
+.mainNavLink.active {
   color: var(--bright-sun-color);
 }
 
-.mainNavigation a i {
+.mainNavLink i {
   font-size: 1.2em;
 }
 
@@ -41,8 +41,17 @@
   color: var(--pine-green-color);
 }
 
-/* RESPONSIVE BREAKPOINTS */
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+/* RESPONSIVE BREAKPOINTS */
 @media (max-width: 1100px) {
   .landingHeader {
     justify-content: space-between;
@@ -69,27 +78,17 @@
     display: flex;
   }
 
-  .mainNavigation a {
+  .mainNavLink {
     margin: 10px 0;
   }
 
-  .mainNavigation a:hover {
+  .mainNavLink:hover {
     color: var(--black-pearl-color);
   }
 
-  .mainNavigation .logoutButton {
+  .logoutButton {
     max-width: 120px;
     box-sizing: border-box;
     text-align: left;
-  }
-}
-
-/* ANIMATIONS */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
