@@ -59,20 +59,20 @@ export const createUser = asyncHandler(async (req, res) => {
 
   const message = `
     <p>Hello ${firstName},</p>
-    <p>Your Ra'Asis SPA ${role} account has been created by an administrator.</p>
+    <p>Your Ra'Analytica ${role} account has been created by an administrator.</p>
     <p>You can login using:</p>
     <p>Email: ${email}</p>
     <p>Password: ${password}</p>
     <p>Ensure to change your password after logging in. Don't share your credentials!</p>
     <br />
     <br />
-    <p><strong>Regards,<br />The Ra'Asis SPA Team.</strong></p>
+    <p><strong>Regards,<br />The Ra'Analytica Team.</strong></p>
   `;
 
   try {
     await sendMail({
       email: user.email,
-      subject: "Your New Ra'Asis SPA Account",
+      subject: "Your New Ra'Analytica Account",
       message,
     });
   } catch (emailError) {
@@ -182,17 +182,17 @@ export const updateUser = asyncHandler(async (req, res) => {
 
   const message = `
     <p><strong>Hello ${user.firstName},</strong></p>
-    <p>Your Ra'Asis SPA account has been modified by an administrator.</p>
+    <p>Your Ra'Analytica account has been modified by an administrator.</p>
     <p>Contact <a href="mailto:support@raasissoftware.com">support</a> to know what has changed to avoid service disruptions. Ensure you can access your account by signing out then signing in again.</p>
     <br />
     <br />
-    <p><strong>Regards,<br />The Ra'Asis SPA Team.</strong></p>
+    <p><strong>Regards,<br />The Ra'Analytica Team.</strong></p>
   `;
 
   try {
     await sendMail({
       email: user.email,
-      subject: "Your Ra'Asis SPA Account Has Been Modified",
+      subject: "Your Ra'Analytica Account Has Been Modified",
       message,
     });
   } catch (emailError) {
@@ -238,27 +238,27 @@ export const toggleUserActivation = asyncHandler(async (req, res) => {
 
   // Send appropriate email notification
   const emailSubject = newStatus
-    ? "Your Ra'Asis SPA Account Is Back Active"
-    : "Your Ra'Asis SPA Account Has Been Deactivated";
+    ? "Your Ra'Analytica Account Is Back Active"
+    : "Your Ra'Analytica Account Has Been Deactivated";
 
   const emailMessage = newStatus
     ? `
       <p><strong>Hello ${user.firstName},</strong></p>
-      <p>Your Ra'Asis SPA account has been reactivated by an administrator.</p>
+      <p>Your Ra'Analytica account has been reactivated by an administrator.</p>
       <p>You can now log in and access all features as before.</p>
       <p>If you have any questions, please contact <a href="mailto:support@raasissoftware.com">support</a>.</p>
       <br />
       <br />
-      <p><strong>Regards,<br />The Ra'Asis SPA Team.</strong></p>
+      <p><strong>Regards,<br />The Ra'Analytica Team.</strong></p>
     `
     : `
       <p><strong>Hello ${user.firstName},</strong></p>
-      <p>Your Ra'Asis SPA account has been deactivated by an administrator.</p>
+      <p>Your Ra'Analytica account has been deactivated by an administrator.</p>
       <p>You will no longer be able to access your account until it is reactivated.</p>
       <p>If you believe this was done in error, please contact <a href="mailto:support@raasissoftware.com">support</a> immediately.</p>
       <br />
       <br />
-      <p><strong>Regards,<br />The Ra'Asis SPA Team.</strong></p>
+      <p><strong>Regards,<br />The Ra'Analytica Team.</strong></p>
     `;
 
   try {
@@ -348,18 +348,18 @@ export const deleteUser = asyncHandler(async (req, res) => {
 
   const message = `
       <p style="color:#027a79;"><strong>Hello ${user.firstName},</strong></p>
-      <p>Your Ra'Asis SPA account has been permanently deleted by an administrator.</p>
+      <p>Your Ra'Analytica account has been permanently deleted by an administrator.</p>
       <p>All associated data including your submissions, assignment files and references have been removed from our system.</p>
       <p>If you believe this was done in error, please contact <a href="mailto:support@raasissoftware.com">support</a> immediately.</p>
       <br />
       <br />
-      <p><strong>Regards,<br />The Ra'Asis SPA Team.</strong></p>
+      <p><strong>Regards,<br />The Ra'Analytica Team.</strong></p>
     `;
 
   try {
     await sendMail({
       email: user.email,
-      subject: "Your Ra'Asis SPA Account Deletion",
+      subject: "Your Ra'Analytica Account Deletion",
       message,
     });
   } catch (emailError) {

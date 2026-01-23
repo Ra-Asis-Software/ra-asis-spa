@@ -154,7 +154,7 @@ const ContactForm = ({ user }) => {
         <h2>Let's Connect</h2>
         <p>
           Fill out the form below to make an inquiry or start a discussion on
-          how Ra'Asis Analytica can help your school, your group or just you.
+          how Ra'Analytica can help your school, your group or just you.
         </p>
       </div>
       <div className={styles.contactFormFields}>

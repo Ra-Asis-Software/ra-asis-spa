@@ -79,7 +79,10 @@ const Footer = () => {
               className={styles.footerLogo}
             />
           </Link>
-          <h3>Ra'Asis Analytica</h3>
+          <div className={styles.appFooterTexts}>
+            <h3 className={styles.appName}>Ra'Analytica</h3>
+            <p className={styles.appTagline}>Student Progress Analytics</p>
+          </div>
         </div>
         <div className={styles.socials}>
           {footerSocials.map((footerSocial) => (
@@ -89,7 +92,9 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i className={`fa-brands ${footerSocial.socialIcon}`}></i>
+              <i
+                className={`fa-brands ${footerSocial.socialIcon} ${styles.socialIcon}`}
+              />
             </Link>
           ))}
         </div>
@@ -99,24 +104,42 @@ const Footer = () => {
           key={footerLinkContainer.id}
           className={`${footerLinkContainer.className} ${styles.footerLinks}`}
         >
-          <h3>{footerLinkContainer.containerHeading}</h3>
+          <h3 className={styles.containerHeading}>
+            {footerLinkContainer.containerHeading}
+          </h3>
           {footerLinkContainer.containerHeading === "Company" && (
-            <Link onClick={handleWhyUsLinkClick}>Why Ra'Asis Analytica</Link>
+            <Link
+              onClick={handleWhyUsLinkClick}
+              className={styles.containerLink}
+            >
+              Why Ra'Analytica
+            </Link>
           )}
           {footerLinkContainer.containerHeading === "Popular Links" && (
-            <Link onClick={handleContactLinkClick}>Contact Us</Link>
+            <Link
+              onClick={handleContactLinkClick}
+              className={styles.containerLink}
+            >
+              Contact Us
+            </Link>
           )}
           {footerLinkContainer.containerLinks.map((link, index) => (
             <Link
               key={index}
               to={link.linkTo}
               onClick={link.onClick || undefined}
+              className={styles.containerLink}
             >
               {link.linkText}
             </Link>
           ))}
           {footerLinkContainer.containerHeading === "Company" && (
-            <Link onClick={handleAboutUsLinkClick}>About Us</Link>
+            <Link
+              onClick={handleAboutUsLinkClick}
+              className={styles.containerLink}
+            >
+              About Us
+            </Link>
           )}
         </div>
       ))}

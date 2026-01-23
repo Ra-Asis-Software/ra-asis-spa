@@ -55,7 +55,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     // Prepare email message
     const message = `
           <p>Hello ${user.firstName},</p>
-          <h1>Welcome to Ra'Asis SPA. Just One More Step... Verify Your Email</h1>
+          <h3>Welcome to Ra'Analytica. Just One More Step... Verify Your Email</h3>
           <p>Please verify your email by clicking the link below:</p>
           <a href="${verifyUrl}">Verify Email</a>
       `;
@@ -171,7 +171,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         email: user.email,
         subject: "Your SPA Account Is Locked!",
         message: `<p>Attention ${user.firstName},</p>
-        <p>Your Ra'Asis SPA Account has been locked due to multiple failed attempts to login. For security reasons, you won't be able to access your account for the next 24 hours. If this was not you, contact us immediately. Thank you for your patience.</p>`,
+        <p>Your Ra'Analytica Account has been locked due to multiple failed attempts to login. For security reasons, you won't be able to access your account for the next 24 hours. If this was not you, contact us immediately. Thank you for your patience.</p>`,
       });
     }
 
@@ -213,7 +213,7 @@ export const requestPasswordReset = asyncHandler(async (req, res) => {
   // Send the email
   await sendMail({
     email: user.email,
-    subject: "Ra'Asis SPA - Password Reset",
+    subject: "Ra'Analytica - Password Reset",
     message,
   });
 

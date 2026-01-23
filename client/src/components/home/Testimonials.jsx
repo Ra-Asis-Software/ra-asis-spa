@@ -17,7 +17,7 @@ const Testimonials = ({ isAuthenticated }) => {
       name: "Allan Kimutai",
       title: "Teacher, Lugulu Girls High School",
       testimonial:
-        "Ra'Asis SPA is a one-stop shop where you can manage information and reports concerning students, teachers, support staff, and parents with ease. It is fast, accessible, and reliable from any web browser or mobile phone.",
+        "Ra'Analytica is a one-stop shop where you can manage information and reports concerning students, teachers, support staff, and parents with ease. It is fast, accessible, and reliable from any web browser or mobile phone.",
       isStatic: true,
     },
     {
@@ -33,7 +33,7 @@ const Testimonials = ({ isAuthenticated }) => {
       name: "Jelimo Birir",
       title: "Student, ALX Kenya",
       testimonial:
-        "The Ra'Asis SPA web app has really made a difference in my life. With it, I can easily organize my academic work and monitor my progress over time. I am also able to get real-time help from expert tutors who use the app.",
+        "The Ra'Analytica web app has really made a difference in my life. With it, I can easily organize my academic work and monitor my progress over time. I am also able to get real-time help from expert tutors who use the app.",
       isStatic: true,
     },
   ];
@@ -145,7 +145,7 @@ const Testimonials = ({ isAuthenticated }) => {
       {isAuthenticated && (
         <div className={styles.leaveTestimonialButtonContainer}>
           <p>
-            How is your experience with Ra'Asis SPA ? If you have a moment let
+            How is your experience with Ra'Analytica ? If you have a moment let
             us know below
           </p>
           <button

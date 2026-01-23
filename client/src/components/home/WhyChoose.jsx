@@ -5,7 +5,7 @@ const WhyChoose = () => {
   return (
     <div className={styles.whyChoose} id="why_choose">
       <div className={styles.whyChooseHeading}>
-        <h2>Why Choose Ra'Asis Analytica</h2>
+        <h2>Why Choose Ra'Analytica</h2>
       </div>
       <div className={styles.whyChooseReasons}>
         {whyChooseReasons.map((reason) => (

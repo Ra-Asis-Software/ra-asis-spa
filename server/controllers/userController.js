@@ -424,7 +424,7 @@ export const sendInquiry = asyncHandler(async (req, res) => {
 
   const mail = `
           <div style="padding:20px;">
-          <h6 style="color:#027a79;"><strong>Hello Ra'Asis SPA Support,</strong></h6>
+          <h6 style="color:#027a79;"><strong>Hello Ra'Analytica Support,</strong></h6>
           <p>Someone filled your landing page inquiry form with data. The name of this particular someone is <strong style="color:#027a79;">${firstName} ${lastName}</strong>. Here are the details they gave us:</p>
           <p><strong style="color:#027a79;">${firstName}'s Email:</strong> ${email}</p>
           <p><strong style="color:#027a79;">${firstName}'s School/Group:</strong> ${school}</p>
@@ -433,7 +433,7 @@ export const sendInquiry = asyncHandler(async (req, res) => {
           <p style="color:#027a79;"><strong>${firstName}'s Message:</strong></p>
           <p>${message}</p>
           <br />
-          <h6 style="color:#027a79;"><strong>Regards,<br />The Ra'Asis SPA Codebase.</strong></h6>
+          <h6 style="color:#027a79;"><strong>Regards,<br />The Ra'Analytica Codebase.</strong></h6>
           </div>
           `;
 
