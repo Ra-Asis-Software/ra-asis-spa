@@ -14,6 +14,7 @@ import AssessmentContent from "./AssessmentContent.jsx";
 import NewAssessment from "./NewAssessment.jsx";
 import CreateOptionsContent from "../CreateOptionsContent.jsx";
 import ResponseModal from "../../ui/ResponseModal.jsx";
+import WelcomeBoard from "../WelcomeBoard.jsx";
 
 const Assessments = ({
   showNav,
@@ -25,6 +26,7 @@ const Assessments = ({
   canEdit,
   setCanEdit,
   persistSelectedUnit,
+  units,
 }) => {
   const [allAssessments, setAllAssessments] = useState([]);
   const submissions = useRef([]);
@@ -32,9 +34,7 @@ const Assessments = ({
   const [content, setContent] = useState([]); //array for holding all assignment content
   const [message, setMessage] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
-
   const [showButton, setShowButton] = useState(null);
-
   const [trigger, setTrigger] = useState(false);
   const navigate = useNavigate();
   const [assessmentExtras, setAssessmentExtras] = useState({
@@ -169,11 +169,29 @@ const Assessments = ({
     setShowButton(null);
   };
 
+  // Check if Teacher or Student has units
+  const shouldShowWelcomeBoard = () => {
+    const teacherOrStudent = ["teacher", "student"].includes(user.role);
+    return teacherOrStudent && units.length === 0;
+  };
+
   if (!type) {
     return (
       <Modal isOpen={true} onClose={() => navigate(-1)}>
         <CreateOptionsContent open={true} />
       </Modal>
+    );
+  }
+
+  if (shouldShowWelcomeBoard()) {
+    return (
+      <div
+        className={`${styles.container} ${
+          showNav ? "" : styles.marginCollapsed
+        }`}
+      >
+        <WelcomeBoard firstName={user.firstName} />
+      </div>
     );
   }
 

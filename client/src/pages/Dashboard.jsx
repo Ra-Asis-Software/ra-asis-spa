@@ -227,6 +227,7 @@ const Dashboard = () => {
                     canEdit,
                     setCanEdit,
                     persistSelectedUnit,
+                    units,
                   }}
                 />
               }
