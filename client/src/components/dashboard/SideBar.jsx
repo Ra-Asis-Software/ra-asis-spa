@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import styles from "./css/SideBarStyles.module.css";
 import RoleRestricted from "../ui/RoleRestricted";
 
-const SideBar = ({ show, logout, role }) => {
+const SideBar = ({ show, logout, role, units }) => {
   const [active, setActive] = useState("dashboard");
+
+  // Check if teacher has units (only for teacher role)
+  const teacherHasUnits = role === "teacher" && units.length > 0;
 
   return (
     <div
@@ -113,20 +116,22 @@ const SideBar = ({ show, logout, role }) => {
           </li>
         </RoleRestricted>
 
-        {/* New Grading Route */}
+        {/* Only show Grading route if teacher has units */}
         <RoleRestricted allowedRoles={["teacher"]}>
-          <li>
-            <Link
-              to="/dashboard/grading?type=assignment"
-              onClick={() => setActive("grading")}
-              className={`${active === "grading" && styles.active}`}
-            >
-              <i
-                className={`${styles.sideBarIcon} fa-solid fa-clipboard-check`}
-              ></i>
-              <span className={styles.linkLabel}>Grading</span>
-            </Link>
-          </li>
+          {teacherHasUnits && (
+            <li>
+              <Link
+                to="/dashboard/grading?type=assignment"
+                onClick={() => setActive("grading")}
+                className={`${active === "grading" && styles.active}`}
+              >
+                <i
+                  className={`${styles.sideBarIcon} fa-solid fa-clipboard-check`}
+                ></i>
+                <span className={styles.linkLabel}>Grading</span>
+              </Link>
+            </li>
+          )}
         </RoleRestricted>
 
         <li>

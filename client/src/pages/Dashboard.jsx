@@ -137,7 +137,12 @@ const Dashboard = () => {
       />
 
       <div className={styles.content}>
-        <Sidebar show={showNav} logout={handleLogout} role={user?.role} />
+        <Sidebar
+          show={showNav}
+          logout={handleLogout}
+          role={user?.role}
+          units={units}
+        />
         <div className={styles.mainContent}>
           <Routes>
             <Route
