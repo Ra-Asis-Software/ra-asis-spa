@@ -114,7 +114,7 @@ const SideBar = ({ show, logout, role }) => {
         </RoleRestricted>
 
         {/* New Grading Route */}
-        <RoleRestricted allowedRoles={["teacher", "administrator"]}>
+        <RoleRestricted allowedRoles={["teacher"]}>
           <li>
             <Link
               to="/dashboard/grading?type=assignment"

@@ -189,7 +189,14 @@ const Dashboard = () => {
               }
             />
 
-            <Route path="/users" element={<Users />} />
+            <Route
+              path="/users"
+              element={
+                <RoleRestricted allowedRoles={["administrator"]}>
+                  <Users />
+                </RoleRestricted>
+              }
+            />
 
             <Route
               path="/units"
@@ -225,9 +232,23 @@ const Dashboard = () => {
               }
             />
 
-            <Route path="/students" element={<Students {...{ user }} />} />
+            <Route
+              path="/students"
+              element={
+                <RoleRestricted allowedRoles={["parent"]}>
+                  <Students {...{ user }} />
+                </RoleRestricted>
+              }
+            />
 
-            <Route path="/grading" element={<Submissions />} />
+            <Route
+              path="/grading"
+              element={
+                <RoleRestricted allowedRoles={["teacher"]}>
+                  <Submissions />
+                </RoleRestricted>
+              }
+            />
 
             <Route path="/profile" element={<ProfileContent {...{ user }} />} />
           </Routes>
