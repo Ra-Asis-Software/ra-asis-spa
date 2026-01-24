@@ -21,6 +21,7 @@ const Introduction = () => {
         autoPlay
         muted
         loop
+        poster="/assets/spa_site_icon.webp"
       />
       <Link to={isLoggedIn ? "/dashboard" : "/register"}>
         {isLoggedIn ? "GO TO YOUR DASHBOARD" : "SIGN UP FOR FREE!"}

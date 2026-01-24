@@ -17,6 +17,7 @@
     var(--pine-green-color),
     var(--aqua-color)
   );
+  width: 1100px;
   max-width: 1100px;
   padding: 40px;
   box-sizing: border-box;
