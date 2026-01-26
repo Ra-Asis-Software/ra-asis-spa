@@ -156,47 +156,59 @@ const TeacherMain = ({
             <div className={styles.submissions}>
               <h3>Submissions</h3>
               <div className={styles.submissionsBox}>
-                <table className={styles.submissionsTable}>
-                  <thead>
-                    <tr>
-                      <th>Assignment Title</th>
-                      <th>Sumission Status</th>
-                      <th>Evaluation Status</th>
-                      <th>Date Assigned</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredAssignments.map((assignment) => {
-                      return (
-                        <tr key={assignment._id}>
-                          <td>{assignment.title}</td>
-                          <td>
-                            {assignment.submissionCount}/
-                            {assignment.enrolledStudentsCount}
-                          </td>
-                          <td>{assignment.status}</td>
-                          <td>
-                            {assignment?.createdAt?.slice(0, 10) || "N/A"}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                {filteredAssignments.length === 0 ? (
+                  <div className={styles.message}>
+                    <p>There are no submissions to view at the moment</p>
+                  </div>
+                ) : (
+                  <table className={styles.submissionsTable}>
+                    <thead>
+                      <tr>
+                        <th>Assignment Title</th>
+                        <th>Sumission Status</th>
+                        <th>Evaluation Status</th>
+                        <th>Date Assigned</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredAssignments.map((assignment) => {
+                        return (
+                          <tr key={assignment._id}>
+                            <td>{assignment.title}</td>
+                            <td>
+                              {assignment.submissionCount}/
+                              {assignment.enrolledStudentsCount}
+                            </td>
+                            <td>{assignment.status}</td>
+                            <td>
+                              {assignment?.createdAt?.slice(0, 10) || "N/A"}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
 
             <div className={styles.deadlines}>
               <h3>Deadlines</h3>
               <div className={styles.deadlineBox}>
-                {upcomingDeadlines.map((item, index) => {
-                  return (
-                    <div className={styles.deadlineEvent} key={index}>
-                      <p>{item.event}</p>
-                      <p>{item.date}</p>
-                    </div>
-                  );
-                })}
+                {upcomingDeadlines.length === 0 ? (
+                  <div className={styles.message}>
+                    <p>There are no upcoming deadlines</p>
+                  </div>
+                ) : (
+                  upcomingDeadlines.map((item, index) => {
+                    return (
+                      <div className={styles.deadlineEvent} key={index}>
+                        <p>{item.event}</p>
+                        <p>{item.date}</p>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
             <div className={styles.progress}>
