@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../css/Assessments.module.css";
 import {
   absoluteTimeLeft,
@@ -30,7 +30,6 @@ import QuizTimer from "./QuizTimer.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import SubmissionTools from "./SubmissionTools.jsx";
 import SubmissionDetails from "./SubmissionDetails.jsx";
-import { useEffect } from "react";
 
 const AssessmentContent = ({
   content,
@@ -56,11 +55,19 @@ const AssessmentContent = ({
   setLoading,
 }) => {
   const [studentAnswers, setStudentAnswers] = useState({});
+  const [title, setTitle] = useState(currentAssessment?.title || "");
   const quizSystemSubmitted = useRef(false); //if student was locked out of the quiz or not
   const { isOpened, type } = useUrlParams();
 
   const assignmentFiles = useFileUploads();
   const submissionFiles = useFileUploads();
+
+  // Update when currentAssessment changes
+  useEffect(() => {
+    if (currentAssessment?.title) {
+      setTitle(currentAssessment.title);
+    }
+  }, [currentAssessment]);
 
   useEffect(() => {
     //handle submission that has been started but not submitted yet
@@ -163,6 +170,15 @@ const AssessmentContent = ({
   };
 
   const handleEditAssessment = async () => {
+    if (!title || title.trim() === "") {
+      setMessage({
+        type: "error",
+        text: "Title is required. Please enter a title for the assessment.",
+      });
+      clearMessage();
+      return;
+    }
+
     //check if all auto-grade answers are still intact
     const answerNotSet = correctAnswerNotSet(content);
     const singleAnswerOption = hasSingleAnswerOption(content);
@@ -198,6 +214,8 @@ const AssessmentContent = ({
       formData.append("maxMarks", assessmentExtras.marks);
       formData.append("fileMarks", assessmentExtras.fileMarks);
       formData.append("createdBy", currentAssessment?.createdBy?._id);
+      formData.append("title", title);
+
       if (type === "quiz") {
         formData.append(
           "timeLimit",
@@ -313,6 +331,8 @@ const AssessmentContent = ({
                 setMessage,
                 clearMessage,
                 setAssessmentExtras,
+                title,
+                setTitle,
               }}
             />
           </div>

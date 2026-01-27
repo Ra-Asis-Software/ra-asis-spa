@@ -82,7 +82,7 @@ export const createAssignment = asyncHandler(async (req, res) => {
 // @route   PATCH /api/assignments/:assignmentId/edit
 // @access  Private (Teachers)
 export const editAssignment = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine, fileMarks } = req.body;
+  const { maxMarks, content, deadLine, fileMarks, title } = req.body;
   const { assignmentId } = req.params;
 
   //check existence of assignment
@@ -93,11 +93,9 @@ export const editAssignment = asyncHandler(async (req, res) => {
   });
 
   if (!assignment) {
-    return res
-      .status(404)
-      .json({
-        message: "Edit failed. You can only edit assessments you created!",
-      });
+    return res.status(404).json({
+      message: "Edit failed. You can only edit assessments you created!",
+    });
   }
 
   //check the changes made
@@ -110,6 +108,7 @@ export const editAssignment = asyncHandler(async (req, res) => {
   assignment.content = JSON.stringify(newData);
   assignment.answers = JSON.stringify(newAnswers);
   assignment.deadLine = deadLine;
+  assignment.title = title;
 
   //clear existing files if new files were added
   if (req.files?.length > 0 && assignment.files?.length > 0) {

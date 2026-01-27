@@ -225,6 +225,28 @@
   margin: 0;
 }
 
+.titleInputContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.editTitleLabel {
+  color: var(--black-pearl-color);
+  font-weight: 600;
+}
+
+.titleInput {
+  color: var(--cerulean-color);
+  border-radius: 7px;
+  padding: 10px 5px;
+}
+
+.titleInput:focus {
+  outline-color: var(--pine-green-color);
+}
+
 .marksArea {
   min-width: max-content;
   align-self: right;

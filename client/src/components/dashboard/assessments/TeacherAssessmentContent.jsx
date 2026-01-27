@@ -14,6 +14,8 @@ const TeacherAssessmentContent = ({
   setMessage,
   clearMessage,
   setAssessmentExtras,
+  title,
+  setTitle,
 }) => {
   const [sectionData, setSectionData] = useState({
     instruction: "",
@@ -24,7 +26,7 @@ const TeacherAssessmentContent = ({
   });
   const [showAnswerButton, setShowAnswerButton] = useState(null);
   const [recalculateMarks, setRecalculateMarks] = useState(false);
-  const { isOpened } = useUrlParams();
+  const { isOpened, type } = useUrlParams();
 
   //match answers to their questions during editing
   useEffect(() => {
@@ -221,6 +223,22 @@ const TeacherAssessmentContent = ({
 
   return (
     <div className={styles.textContent}>
+      {canEdit && isOpened && (
+        <div className={styles.titleInputContainer}>
+          <label htmlFor="assessmentTitle" className={styles.editTitleLabel}>
+            {type === "assignment" ? "Assignment" : "Quiz"} Title:
+          </label>
+          <input
+            id="assessmentTitle"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className={styles.titleInput}
+            placeholder="Enter assessment title"
+          />
+        </div>
+      )}
+
       {(isOpened || assignmentFiles.length > 0) && (
         <>
           <FileSelector selector={assignmentFiles} />

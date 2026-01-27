@@ -95,8 +95,15 @@ export const createQuiz = asyncHandler(async (req, res) => {
 // @route   PATCH /api/quizzes/:quizId/edit
 // @access  Private (Teachers, Admins)
 export const editQuiz = asyncHandler(async (req, res) => {
-  const { maxMarks, content, deadLine, createdBy, timeLimit, fileMarks } =
-    req.body;
+  const {
+    maxMarks,
+    content,
+    deadLine,
+    createdBy,
+    timeLimit,
+    fileMarks,
+    title,
+  } = req.body;
   const { quizId } = req.params;
 
   //check existence of quiz
@@ -120,6 +127,7 @@ export const editQuiz = asyncHandler(async (req, res) => {
   quiz.answers = JSON.stringify(newAnswers);
   quiz.deadLine = deadLine;
   quiz.timeLimit = JSON.parse(timeLimit);
+  quiz.title = title;
 
   //clear existing files if new files were added
   if (req.files?.length > 0 && quiz.files?.length > 0) {
