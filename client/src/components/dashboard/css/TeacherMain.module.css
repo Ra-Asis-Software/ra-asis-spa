@@ -130,6 +130,31 @@
   width: 40%;
 }
 
+.statusBadge {
+  font-size: 0.875em;
+  font-weight: 600;
+}
+
+.graded {
+  color: var(--pine-green-color);
+}
+
+.partialGraded {
+  color: var(--aqua-color);
+}
+
+.inProgress {
+  color: var(--west-coast-color);
+}
+
+.awaiting {
+  color: var(--bright-sun-color);
+}
+
+.noSubmissions {
+  color: var(--pale-sky-color);
+}
+
 .deadlines {
   display: flex;
   flex-direction: column;

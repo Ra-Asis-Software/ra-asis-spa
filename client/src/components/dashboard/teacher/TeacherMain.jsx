@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
 import { sortAssessmentsByDeadline } from "../../../utils/assessments.js";
 import { getUserDetails } from "../../../services/userService.js";
+import { getAssignmentSubmissions } from "../../../services/assignmentService.js";
+import { getSubmissionsForQuiz } from "../../../services/quizService.js";
 import AssessmentCard from "../assessments/AssessmentCard.jsx";
 import CustomCalendar from "../CustomCalendar.jsx";
 import RecentActivities from "../RecentActivities.jsx";
@@ -22,6 +24,7 @@ const TeacherMain = ({
   persistSelectedUnit,
 }) => {
   const [newAssessment, setNewAssessment] = useState(false);
+  const [submissionStatuses, setSubmissionStatuses] = useState({});
 
   //get today at midnight
   const today = new Date();
@@ -44,6 +47,62 @@ const TeacherMain = ({
     };
     fetchData();
   }, []);
+
+  // Fetch submissions for all assessments when assessments change
+  useEffect(() => {
+    const fetchAllSubmissions = async () => {
+      if (!assessments.length) return;
+
+      const statuses = {};
+
+      for (const assessment of assessments) {
+        try {
+          const response =
+            assessment.type === "assignment"
+              ? await getAssignmentSubmissions(assessment._id, 1)
+              : await getSubmissionsForQuiz(assessment._id, 1);
+
+          if (!response.error && response.data) {
+            const submissions = response.data;
+
+            // Count grading statuses
+            const counts = {
+              graded: 0,
+              inProgress: 0,
+              submitted: 0,
+              pending: 0,
+              total: submissions.length,
+            };
+
+            submissions.forEach((sub) => {
+              if (sub.gradingStatus === "graded") counts.graded++;
+              else if (sub.gradingStatus === "in-progress") counts.inProgress++;
+              else if (sub.gradingStatus === "submitted") counts.submitted++;
+              else if (sub.gradingStatus === "pending") counts.pending++;
+            });
+
+            statuses[assessment._id] = counts;
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching submissions for ${assessment._id}:`,
+            error
+          );
+          statuses[assessment._id] = {
+            graded: 0,
+            inProgress: 0,
+            submitted: 0,
+            pending: 0,
+            total: 0,
+          };
+        }
+      }
+
+      setSubmissionStatuses(statuses);
+    };
+
+    fetchAllSubmissions();
+  }, [assessments]);
 
   const filteredAssignments = useMemo(() => {
     if (selectedUnit.id === "all" || !selectedUnit.id) {
@@ -82,6 +141,38 @@ const TeacherMain = ({
   const pastActivities = events.filter(
     (event) => convertDateTime(event.date, event.time) <= todayTimeStamp
   );
+
+  // Calculate evaluation status based on actual submission counts
+  const getEvaluationStatus = (assessment) => {
+    const status = submissionStatuses[assessment._id];
+    if (!status) return "Loading...";
+
+    const totalStudents = assessment.enrolledStudentsCount || 0;
+    const totalSubmissions = status.total || 0;
+
+    // No submissions
+    if (totalSubmissions === 0) {
+      return "No Submissions";
+    }
+
+    // All students graded
+    if (status.graded === totalStudents && totalStudents > 0) {
+      return "Fully Graded";
+    }
+
+    // Some graded
+    if (status.graded > 0) {
+      return `${status.graded}/${totalSubmissions} Graded`;
+    }
+
+    // Some in progress
+    if (status.inProgress > 0) {
+      return `${status.inProgress} In Progress`;
+    }
+
+    // Only submitted/pending (not graded or in-progress)
+    return "Awaiting Grading";
+  };
 
   const handleChooseNewAssessment = () => {
     setCanEdit(true);
@@ -164,22 +255,42 @@ const TeacherMain = ({
                   <table className={styles.submissionsTable}>
                     <thead>
                       <tr>
-                        <th>Assignment Title</th>
-                        <th>Sumission Status</th>
+                        <th>Assessment Title</th>
+                        <th>Submission Count</th>
                         <th>Evaluation Status</th>
                         <th>Date Assigned</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filteredAssignments.map((assignment) => {
+                        const evaluationStatus =
+                          getEvaluationStatus(assignment);
+                        const status = submissionStatuses[assignment._id];
+
                         return (
                           <tr key={assignment._id}>
                             <td>{assignment.title}</td>
                             <td>
-                              {assignment.submissionCount}/
-                              {assignment.enrolledStudentsCount}
+                              {assignment.submissionCount || 0}/
+                              {assignment.enrolledStudentsCount || 0}
                             </td>
-                            <td>{assignment.status}</td>
+                            <td>
+                              <span
+                                className={`${styles.statusBadge} ${
+                                  evaluationStatus.includes("Fully Graded")
+                                    ? styles.graded
+                                    : evaluationStatus.includes("Graded")
+                                    ? styles.partialGraded
+                                    : evaluationStatus.includes("In Progress")
+                                    ? styles.inProgress
+                                    : evaluationStatus.includes("Awaiting")
+                                    ? styles.awaiting
+                                    : styles.noSubmissions
+                                }`}
+                              >
+                                {evaluationStatus}
+                              </span>
+                            </td>
                             <td>
                               {assignment?.createdAt?.slice(0, 10) || "N/A"}
                             </td>
@@ -196,7 +307,7 @@ const TeacherMain = ({
               <h3>Deadlines</h3>
               <div className={styles.deadlineBox}>
                 {upcomingDeadlines.length === 0 ? (
-                  <div className={styles.message}>
+                  <div className={styles.emptyMessage}>
                     <p>There are no upcoming deadlines</p>
                   </div>
                 ) : (
