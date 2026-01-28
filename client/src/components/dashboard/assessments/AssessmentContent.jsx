@@ -403,6 +403,14 @@ const AssessmentContent = ({
                         : openSubmission.gradingStatus}
                     </p>
                   </div>
+                  {openSubmission.feedBack && (
+                    <div className={styles.divFlex}>
+                      Tutor Feedback:{" "}
+                      <p className={styles.lightCerulianText}>
+                        {openSubmission.feedBack}
+                      </p>
+                    </div>
+                  )}
                   {/* restrict reattempts to when deadline is in > 20 minutes */}
                   {type === "assignment" &&
                     timeLeft(currentAssessment.deadLine) > 20 &&

@@ -587,6 +587,11 @@
   font-weight: 600;
 }
 
+.lightCerulianText {
+  color: var(--cerulean-color);
+  font-weight: 500;
+}
+
 .foamBackground {
   background-color: var(--foam-color);
 }
