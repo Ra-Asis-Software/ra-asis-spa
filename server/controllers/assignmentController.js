@@ -6,7 +6,7 @@ import Teacher from "../models/Teacher.js";
 import {
   prepareAssessment,
   prepareEditedAssessment,
-} from "../utils/assignment.js";
+} from "../utils/assessmentUtils.js";
 
 // @desc    Create an assignment
 // @route   POST /api/assignments

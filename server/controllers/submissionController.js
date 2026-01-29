@@ -4,7 +4,7 @@ import Assignment from "../models/Assignment.js";
 import Student from "../models/Student.js";
 import mongoose from "mongoose";
 import fs from "fs/promises";
-import { timeLeft } from "../utils/assignment.js";
+import { timeLeft } from "../utils/assessmentUtils.js";
 
 // @desc    Submit an assignment
 // @route   POST /api/assignments/:assignmentId/submit

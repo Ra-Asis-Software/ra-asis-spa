@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { timeLeft } from "../utils/assignment.js";
+import { timeLeft } from "../utils/assessmentUtils.js";
 
 const submissionSchema = new mongoose.Schema({
   assignment: {

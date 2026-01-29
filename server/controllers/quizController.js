@@ -1,4 +1,6 @@
 import asyncHandler from "express-async-handler";
+import fs from "fs/promises";
+import mongoose from "mongoose";
 import Unit from "../models/Unit.js";
 import Quiz from "../models/Quiz.js";
 import Teacher from "../models/Teacher.js";
@@ -9,9 +11,7 @@ import {
   prepareEditedAssessment,
   submissionMadeOnTime,
   timeLeft,
-} from "../utils/assignment.js";
-import fs from "fs/promises";
-import mongoose from "mongoose";
+} from "../utils/assessmentUtils.js";
 
 // @desc    Create a quiz
 // @route   POST /api/quizzes
