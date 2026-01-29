@@ -6,6 +6,7 @@ import Teacher from "../models/Teacher.js";
 import User from "../models/User.js";
 import Student from "../models/Student.js";
 import UnitRequest from "../models/UnitRequest.js";
+import Quiz from "../models/Quiz.js";
 
 // @desc    Create a new unit
 // @route   POST /api/unit/add-unit
@@ -404,6 +405,107 @@ export const getAssignmentSummaryByUnit = asyncHandler(async (req, res) => {
     completed: Math.round((completed / total) * 100),
     pending: Math.round((pending / total) * 100),
     overdue: Math.round((overdue / total) * 100),
+  });
+});
+
+// @desc    Get assessment summary for a unit (for student)
+// @route   GET /api/unit/assessment-summary/:unitId
+// @access  Private (Student)
+export const getAssessmentSummaryForStudent = asyncHandler(async (req, res) => {
+  const { unitId } = req.params;
+  const studentId = req.user.id; // Get student user ID
+
+  // Find student record
+  const student = await Student.findOne({ bio: studentId })
+    .populate({
+      path: "submissions",
+      select: "assignment gradingStatus",
+    })
+    .populate({
+      path: "quizSubmissions",
+      select: "quiz gradingStatus",
+    });
+
+  if (!student) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+
+  // Get all assessments for the unit
+  const assignments = await Assignment.find({ unit: unitId });
+  const quizzes = await Quiz.find({ unit: unitId });
+  const allAssessments = [...assignments, ...quizzes];
+
+  const total = allAssessments.length || 1;
+
+  // Count assessments by status for this student
+  let submitted = 0;
+  let graded = 0;
+  let pending = 0;
+  let overdue = 0;
+
+  // Process assignments
+  assignments.forEach((assignment) => {
+    const submission = student.submissions.find(
+      (sub) =>
+        sub.assignment &&
+        sub.assignment.toString() === assignment._id.toString()
+    );
+
+    if (submission) {
+      if (submission.gradingStatus === "graded") {
+        graded++;
+      } else if (
+        ["submitted", "in-progress"].includes(submission.gradingStatus)
+      ) {
+        submitted++;
+      }
+    } else {
+      // No submission - check if overdue
+      const deadline = new Date(assignment.deadLine);
+      const now = new Date();
+      if (deadline < now) {
+        overdue++;
+      } else {
+        pending++;
+      }
+    }
+  });
+
+  // Process quizzes
+  quizzes.forEach((quiz) => {
+    const submission = student.quizSubmissions.find(
+      (sub) => sub.quiz && sub.quiz.toString() === quiz._id.toString()
+    );
+
+    if (submission) {
+      if (submission.gradingStatus === "graded") {
+        graded++;
+      } else if (
+        ["submitted", "in-progress", "pending"].includes(
+          submission.gradingStatus
+        )
+      ) {
+        submitted++;
+      }
+    } else {
+      // No submission - check if overdue
+      const deadline = new Date(quiz.deadLine);
+      const now = new Date();
+      if (deadline < now) {
+        overdue++;
+      } else {
+        pending++;
+      }
+    }
+  });
+
+  return res.json({
+    graded: Math.round((graded / total) * 100),
+    submitted: Math.round((submitted / total) * 100),
+    pending: Math.round((pending / total) * 100),
+    overdue: Math.round((overdue / total) * 100),
+    totalAssessments: total,
+    counts: { graded, submitted, pending, overdue },
   });
 });
 

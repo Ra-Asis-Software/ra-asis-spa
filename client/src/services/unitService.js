@@ -141,6 +141,24 @@ const getAssignmentSummary = async (unitCode) => {
   }
 };
 
+const getAssessmentSummary = async (unitId) => {
+  try {
+    const response = await api.get(
+      `${UNITS_PATH}/assessment-summary/${unitId}`
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return {
+        error:
+          error.response.data.error?.message || error.response.data.message,
+      };
+    } else {
+      return { error: "Sorry, an unexpected error occurred" };
+    }
+  }
+};
+
 const getUnitsForUser = async () => {
   try {
     const response = await api.get(`${UNITS_PATH}/get-units-by-user`);
@@ -245,6 +263,7 @@ export {
   deleteUnit,
   getStudentsOfUnit,
   getTeachersOfUnit,
+  getAssessmentSummary,
   getAssignmentSummary,
   getAllUnits,
   enrollToUnit,

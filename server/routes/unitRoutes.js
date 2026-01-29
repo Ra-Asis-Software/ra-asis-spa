@@ -7,6 +7,7 @@ import {
   deleteUnit,
   enrollUnit,
   getAllUnits,
+  getAssessmentSummaryForStudent,
   getAssignmentSummaryByUnit,
   getAvailableStudents,
   getAvailableTeachers,
@@ -90,6 +91,13 @@ router.get(
 
 // Route for getting assignment summary for a unit
 router.get("/assignment-summary/:unitCode", getAssignmentSummaryByUnit);
+
+// Route for getting assessment summary for unit for specific student
+router.get(
+  "/assessment-summary/:unitId",
+  hasRole("student"),
+  getAssessmentSummaryForStudent
+);
 
 // Route for getting units by user
 router.get("/get-units-by-user", hasPermission("view:units"), getUnitsForUser);
