@@ -1,4 +1,4 @@
-import { handleDueDate } from "../../../utils/assessments";
+import { handleDueDate } from "../../../utils/assessmentUtils";
 import styles from "../css/Assessments.module.css";
 
 const StartQuiz = ({ quiz, handleStartQuiz }) => {

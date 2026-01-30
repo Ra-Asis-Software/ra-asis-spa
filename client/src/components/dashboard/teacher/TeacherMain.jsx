@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "../css/TeacherMain.module.css";
-import { sortAssessmentsByDeadline } from "../../../utils/assessments.js";
+import { sortAssessmentsByDeadline } from "../../../utils/assessmentUtils.js";
 import { getUserDetails } from "../../../services/userService.js";
 import { getAssignmentSubmissions } from "../../../services/assignmentService.js";
 import { getSubmissionsForQuiz } from "../../../services/quizService.js";

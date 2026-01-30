@@ -4,7 +4,7 @@ import {
   handleDueDate,
   removeUrlParams,
   useUrlParams,
-} from "../../../utils/assessments";
+} from "../../../utils/assessmentUtils";
 import { gradeAssignmentSubmission } from "../../../services/assignmentService";
 import { gradeQuizSubmission } from "../../../services/quizService";
 import Modal from "../../ui/Modal";

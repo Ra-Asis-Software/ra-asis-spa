@@ -1,4 +1,4 @@
-import { handleDueDate, useUrlParams } from "../../../utils/assessments";
+import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils";
 import styles from "../css/Assessments.module.css";
 import { useNavigate } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Assessments.module.css";
-import { stripHTML, useUrlParams } from "../../../utils/assessments.js";
+import { stripHTML, useUrlParams } from "../../../utils/assessmentUtils.js";
 import FileSelector from "./FileSelector.jsx";
 
 const TeacherAssessmentContent = ({

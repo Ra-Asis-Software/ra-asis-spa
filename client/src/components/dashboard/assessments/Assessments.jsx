@@ -6,7 +6,7 @@ import {
   teacherBar,
   parentBar,
 } from "../css/SideBarStyles.module.css";
-import { handleDueDate, useUrlParams } from "../../../utils/assessments.js";
+import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
 import { getUserDetails } from "../../../services/userService.js";
 import RoleRestricted from "../../ui/RoleRestricted.jsx";
 import Modal from "../../ui/Modal.jsx";

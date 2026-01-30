@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../css/Assessments.module.css";
-import { stripHTML, timeLeft } from "../../../utils/assessments.js";
+import { stripHTML, timeLeft } from "../../../utils/assessmentUtils.js";
 import FileSelector from "./FileSelector.jsx";
 
 const StudentAssessmentContent = ({

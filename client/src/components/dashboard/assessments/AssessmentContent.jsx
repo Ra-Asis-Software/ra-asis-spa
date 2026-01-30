@@ -10,7 +10,7 @@ import {
   timeLeft,
   useFileUploads,
   useUrlParams,
-} from "../../../utils/assessments.js";
+} from "../../../utils/assessmentUtils.js";
 import {
   submitAssignment,
   editAssignment,

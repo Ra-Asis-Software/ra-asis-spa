@@ -1,6 +1,6 @@
 import styles from "../css/Assessments.module.css";
 import { studentBar } from "../css/SideBarStyles.module.css";
-import { handleDueDate, useUrlParams } from "../../../utils/assessments.js";
+import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
 
 const SubmissionTools = ({
   currentAssessment,

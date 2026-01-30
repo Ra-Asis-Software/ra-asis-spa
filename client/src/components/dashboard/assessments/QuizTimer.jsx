@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../css/Assessments.module.css";
-import { getMilliSeconds } from "../../../utils/assessments";
+import { getMilliSeconds } from "../../../utils/assessmentUtils";
 
 const QuizTimer = ({
   startedAt,

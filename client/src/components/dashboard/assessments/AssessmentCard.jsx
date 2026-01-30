@@ -2,7 +2,7 @@ import {
   handleDueDateShort,
   shortenContent,
   shortenTitle,
-} from "../../../utils/assessments";
+} from "../../../utils/assessmentUtils";
 import styles from "../css/AssessmentCard.module.css";
 import { useNavigate } from "react-router-dom";
 

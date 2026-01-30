@@ -1,5 +1,5 @@
 import styles from "../css/Assessments.module.css";
-import { useUrlParams } from "../../../utils/assessments";
+import { useUrlParams } from "../../../utils/assessmentUtils";
 
 const AssessmentTools = ({
   setShowButton,

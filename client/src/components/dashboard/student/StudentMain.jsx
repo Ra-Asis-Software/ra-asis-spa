@@ -8,7 +8,7 @@ import Progress from "../Progress";
 import RecentActivities from "../RecentActivities";
 import { getUserDetails } from "../../../services/userService";
 import WelcomeBoard from "../WelcomeBoard";
-import { sortAssessmentsByDeadline } from "../../../utils/assessments";
+import { sortAssessmentsByDeadline } from "../../../utils/assessmentUtils";
 
 const today = new Date();
 const todayTimeStamp = new Date(today).setHours(0, 0, 59, 999);

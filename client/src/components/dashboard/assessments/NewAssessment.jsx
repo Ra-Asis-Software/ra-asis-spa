@@ -8,7 +8,7 @@ import {
   isAnyAnswerEmpty,
   useFileUploads,
   useUrlParams,
-} from "../../../utils/assessments.js";
+} from "../../../utils/assessmentUtils.js";
 import TeacherAssessmentContent from "./TeacherAssessmentContent.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import FileSelector from "./FileSelector.jsx";
