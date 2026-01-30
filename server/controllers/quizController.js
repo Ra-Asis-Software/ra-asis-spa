@@ -181,8 +181,11 @@ export const startQuiz = asyncHandler(async (req, res) => {
       .status(404)
       .json({ message: "The quiz for this submission does not exist" });
 
-  //check existing submission
-  const submissionExists = await QuizSubmission.findOne({ quiz: quizId });
+  // Check existing submission from student
+  const submissionExists = await QuizSubmission.findOne({
+    quiz: quizId,
+    student: student._id,
+  });
 
   if (submissionExists)
     return res.status(409).json({ message: "You already submitted this quiz" });
