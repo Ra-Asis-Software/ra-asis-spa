@@ -4,10 +4,11 @@ import {
   handleDueDate,
   removeUrlParams,
   useUrlParams,
-} from "../../../utils/assessmentUtils";
-import { gradeAssignmentSubmission } from "../../../services/assignmentService";
-import { gradeQuizSubmission } from "../../../services/quizService";
-import Modal from "../../ui/Modal";
+} from "../../../utils/assessmentUtils.js";
+import { handleFileDownload } from "../../../utils/downloadUtils.js";
+import { gradeAssignmentSubmission } from "../../../services/assignmentService.js";
+import { gradeQuizSubmission } from "../../../services/quizService.js";
+import Modal from "../../ui/Modal.jsx";
 
 const Grade = ({
   selectedSubmission,
@@ -231,9 +232,14 @@ const Grade = ({
                   )}
                   {selectedSubmission.files.map((file, index) => {
                     return (
-                      <button key={index} className={styles.buttonFile}>
+                      <button
+                        key={index}
+                        className={styles.buttonFile}
+                        onClick={() => handleFileDownload(file)}
+                        title={`Download ${file.fileName}`}
+                      >
                         <p>{file.fileName}</p>
-                        <i class="fa-solid fa-download"></i>
+                        <i className="fa-solid fa-download" />
                       </button>
                     );
                   })}

@@ -83,3 +83,80 @@ export const sendUserInquiry = async (data) => {
     }
   }
 };
+
+export const downloadFile = async (filename, originalName = null) => {
+  try {
+    // Since files are served statically at /uploads, we create a direct link
+    const fileUrl = `/uploads/${filename}`;
+
+    // Fetch the file
+    const response = await fetch(fileUrl);
+
+    if (!response.ok) {
+      throw new Error(`File not found or server error: ${response.status}`);
+    }
+
+    // Create blob from response
+    const blob = await response.blob();
+
+    // Create object URL
+    const url = window.URL.createObjectURL(blob);
+
+    // Create temporary link element
+    const link = document.createElement("a");
+    link.href = url;
+
+    // Set download filename (use original name if provided)
+    const downloadName = originalName || filename;
+    link.download = downloadName;
+
+    // Append to body, trigger click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up URL object
+    window.URL.revokeObjectURL(url);
+
+    // Optional: Log the download for analytics
+    console.log(`Downloaded: ${downloadName}`);
+
+    return {
+      success: true,
+      message: "File downloaded successfully",
+      filename: downloadName,
+      url: fileUrl,
+    };
+  } catch (error) {
+    console.error("Download service error:", error);
+
+    return {
+      success: false,
+      error: "Failed to download file",
+      details: error.message || "Network error or file not found",
+    };
+  }
+};
+
+// Alternative: Simple URL generator for direct linking
+export const getFileUrl = (filename) => {
+  if (!filename) return null;
+
+  // Remove any path traversal attempts
+  const safeFilename = filename.replace(/\.\.\//g, "");
+
+  return `/uploads/${safeFilename}`;
+};
+
+// For direct anchor tag usage (simplest approach)
+export const downloadFileDirect = (filename, originalName = null) => {
+  const fileUrl = getFileUrl(filename);
+  if (!fileUrl) return null;
+
+  const link = document.createElement("a");
+  link.href = fileUrl;
+  link.download = originalName || filename;
+  link.click();
+
+  return true;
+};

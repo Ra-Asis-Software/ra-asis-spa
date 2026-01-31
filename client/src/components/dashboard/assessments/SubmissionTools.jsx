@@ -1,6 +1,7 @@
 import styles from "../css/Assessments.module.css";
 import { studentBar } from "../css/SideBarStyles.module.css";
 import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
+import { handleFileDownload } from "../../../utils/downloadUtils.js";
 
 const SubmissionTools = ({
   currentAssessment,
@@ -23,9 +24,14 @@ const SubmissionTools = ({
             </h5>
             {currentAssessment.files.map((file, index) => {
               return (
-                <div className={`${styles.chosenFile} `} key={index}>
-                  {file.fileName}
-                  <i className="fa-solid fa-download"></i>
+                <div
+                  className={`${styles.chosenFile}`}
+                  key={index}
+                  onClick={() => handleFileDownload(file)}
+                  title={`Download ${file.fileName}`}
+                >
+                  <span>{file.fileName}</span>
+                  <i className="fa-solid fa-download" />
                 </div>
               );
             })}

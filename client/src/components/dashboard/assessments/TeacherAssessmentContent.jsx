@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Assessments.module.css";
 import { stripHTML, useUrlParams } from "../../../utils/assessmentUtils.js";
+import { handleFileDownload } from "../../../utils/downloadUtils.js";
 import FileSelector from "./FileSelector.jsx";
 
 const TeacherAssessmentContent = ({
@@ -253,9 +254,11 @@ const TeacherAssessmentContent = ({
                       assignmentFiles.files.length > 0 && styles.oldFile
                     }`}
                     key={index}
+                    onClick={() => handleFileDownload(file)}
+                    title={`Click to download ${file.fileName}`}
                   >
-                    {file.fileName}
-                    <i className="fa-solid fa-download"></i>
+                    <span>{file.fileName}</span>
+                    <i className="fa-solid fa-download" />
                   </div>
                 );
               })}
