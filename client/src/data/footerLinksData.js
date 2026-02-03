@@ -34,11 +34,11 @@ export const footerLinkContainers = [
     containerHeading: "Company",
     containerLinks: [
       {
-        linkText: "Become A Partner",
+        linkText: "Terms & Conditions",
         linkTo: "#",
       },
       {
-        linkText: "Our Partners",
+        linkText: "Privacy Policy",
         linkTo: "#",
       },
     ],
