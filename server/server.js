@@ -28,7 +28,8 @@ const app = express();
 // Middleware
 app.use(json());
 app.use(cors());
-// This serves static files from 'uploads'
+
+// Serve static files from 'uploads'
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Main test route
@@ -43,13 +44,13 @@ app.use("/api/progress", progressRoutes);
 app.use("/api/admin", adminRoutes);
 
 // User auth routes
-app.use("/api/auth", authRoutes); // handle user auth-related requests
+app.use("/api/auth", authRoutes);
 
 // User functionality routes
-app.use("/api/users", userRoutes); // Use users routes for handling user-related requests
+app.use("/api/users", userRoutes);
 
 // Unit routes
-app.use("/api/unit", unitRoutes); // Unit routes: handles all unit-related requests
+app.use("/api/unit", unitRoutes);
 
 // Assignment/Submission routes
 app.use("/api/assignments", assignmentRoutes);

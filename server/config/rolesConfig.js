@@ -204,7 +204,7 @@ export const ROLES = {
   },
 };
 
-// This is a helper function to check permissions
+// Helper function to check permissions
 export const checkPermission = (role, permission) => {
   return ROLES[role]?.permissions.includes(permission) || false;
 };

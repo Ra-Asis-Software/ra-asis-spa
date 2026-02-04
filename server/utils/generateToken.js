@@ -5,7 +5,7 @@ const generateToken = (id, firstName, lastName, role, createdBy) => {
     { id, firstName, lastName, role, createdBy },
     process.env.JWT_SECRET,
     {
-      expiresIn: "30d", // Token will expire in 30 days
+      expiresIn: "30d",
     }
   );
 };

@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 
 const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
+    // Replace with mailgun
     service: "gmail",
     auth: {
       user: process.env.EMAIL_USERNAME, // Sender email address (We will have to setup an SPA email in prod)
@@ -11,7 +12,7 @@ const sendMail = async (options) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USERNAME,
-    to: options.email, // Recipient email
+    to: options.email,
     subject: options.subject, // Email subject
     html: options.message, // Email content in HTML format
   };
