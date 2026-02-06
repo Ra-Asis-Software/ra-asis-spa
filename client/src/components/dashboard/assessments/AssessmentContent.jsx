@@ -253,22 +253,30 @@ const AssessmentContent = ({
   };
 
   const handleRemoveSubmission = async () => {
-    setLoading(true);
-    const removeSubmission = await deleteSubmission(openSubmission._id);
-    setLoading(false);
+    if (loading) return;
 
-    if (removeSubmission.error) {
-      setMessage({ type: "error", text: removeSubmission.error });
-    } else {
-      resetAssessmentContent();
-      setStudentAnswers({});
-      handleOpenExistingAssessment(currentAssessment);
-      setMessage({
-        type: "success",
-        text: "Submission revoked, You can re-attempt your assessment",
-      });
+    setLoading(true);
+
+    try {
+      const result = await deleteSubmission(openSubmission._id);
+
+      if (result.error) {
+        setMessage({ type: "error", text: result.error });
+      } else {
+        resetAssessmentContent();
+        setStudentAnswers({});
+        handleOpenExistingAssessment(currentAssessment);
+        setMessage({
+          type: "success",
+          text: result.data?.message || "Submission removed successfully",
+        });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: "An unexpected error occurred" });
+    } finally {
+      setLoading(false);
+      setTimeout(clearMessage, 3000);
     }
-    clearMessage();
   };
 
   const handleStartQuiz = async () => {

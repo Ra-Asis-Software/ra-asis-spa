@@ -185,50 +185,93 @@ export const getSubmission = asyncHandler(async (req, res) => {
 export const deleteSubmission = asyncHandler(async (req, res) => {
   const { submissionId } = req.params;
 
-  const submissionExists = await Submission.findById(submissionId);
-
-  if (!submissionExists)
-    return res.status(404).json({ error: "Submission does not exist" });
-
-  const assignment = await Assignment.findById(submissionExists.assignment);
-
-  if (!assignment)
-    return res
-      .status(404)
-      .json({ error: "No assignment exists for this submission" });
-
-  //check for lateness
-  if (timeLeft(assignment.deadLine) < 20)
-    return res.status(409).json({
-      error: "You cannot revoke a submission 20 minutes to the deadline",
-    });
-
-  //transaction for deleting submission instance in submissions and for a student
-  await mongoose.connection.transaction(async (session) => {
-    await Student.updateOne(
-      { bio: req.user._id },
-      {
-        $pull: { submissions: submissionExists._id },
-      },
-      { session }
-    );
-
-    await submissionExists.deleteOne({ session });
-
-    //remove files
-    if (submissionExists.files?.length > 0) {
-      await Promise.all(
-        submissionExists.files.map((file) => {
-          fs.unlink(file).catch((err) => {
-            console.error("File delete error:", err);
-            throw new Error("An error occurred while deleting the submission");
-          });
-        })
-      );
+  try {
+    const submission = await Submission.findById(submissionId);
+    if (!submission) {
+      return res.status(404).json({ error: "Submission does not exist" });
     }
-  });
 
-  return res.status(200).json({ message: "Submission has been removed" });
+    const assignment = await Assignment.findById(submission.assignment);
+    if (!assignment) {
+      return res.status(404).json({
+        error: "That's not right. No assignment exists for this submission!",
+      });
+    }
+
+    const student = await Student.findOne({ bio: req.user._id });
+    if (!student) {
+      return res
+        .status(404)
+        .json({ error: "This student profile was not found" });
+    }
+
+    if (!student._id.equals(submission.student)) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this submission" });
+    }
+
+    if (timeLeft(assignment.deadLine) < 20) {
+      return res.status(409).json({
+        error: "You cannot revoke a submission 20 minutes to the deadline",
+      });
+    }
+
+    if (submission.gradingStatus === "graded") {
+      return res.status(409).json({
+        error: "Cannot delete a submission that has already been graded",
+      });
+    }
+
+    await Promise.resolve()
+      .then(async () => {
+        const updatedStudent = await Student.findByIdAndUpdate(
+          student._id,
+          { $pull: { submissions: submission._id } },
+          { new: true }
+        );
+        if (!updatedStudent) throw new Error("Failed to update student record");
+      })
+      .then(async () => {
+        if (submission.files?.length > 0) {
+          await Promise.allSettled(
+            submission.files.map(async (file) => {
+              try {
+                if (file.filePath) await fs.unlink(file.filePath);
+              } catch (error) {
+                console.error(`Failed to delete file ${file.fileName}:`, error);
+              }
+            })
+          );
+        }
+      })
+      .then(async () => {
+        const deleted = await Submission.findByIdAndDelete(submissionId);
+        if (!deleted) throw new Error("Failed to delete submission record");
+      });
+
+    return res
+      .status(200)
+      .json({ message: "Submission has been removed successfully" });
+  } catch (error) {
+    console.error("Error deleting submission:", error);
+
+    if (error.message.includes("Failed to update")) {
+      return res.status(500).json({ error: "Failed to update student record" });
+    }
+
+    if (error.message.includes("Failed to delete")) {
+      return res
+        .status(500)
+        .json({ error: "Failed to delete submission record" });
+    }
+
+    return res.status(500).json({
+      error: "An error occurred while deleting the submission",
+      details:
+        process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
+  }
 });
 
 // @desc    Grade an assignment (Teacher only)

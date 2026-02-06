@@ -150,14 +150,12 @@ export const deleteSubmission = async (submissionId) => {
     );
     return response;
   } catch (error) {
-    if (error.response.data) {
+    if (error.response?.data) {
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        error: error.response.data.error || error.response.data.message,
       };
-    } else {
-      return { error: "Sorry, an unexpected error occurred" };
     }
+    return { error: "Network error. Please check your connection." };
   }
 };
 
