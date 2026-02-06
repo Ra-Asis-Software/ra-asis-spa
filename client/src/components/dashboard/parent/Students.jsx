@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Students.module.css";
-import extraStyles from "../Units.module.css";
+import extraStyles from "../shared/Units.module.css";
 import {
   getParentDetails,
   linkStudentToParent,

@@ -3,9 +3,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import {
   getUserDetails,
   getParentDetails,
-} from "../../../services/userService";
-import StudentMain from "../student/StudentMain";
-import WelcomeBoard from "../WelcomeBoard";
+} from "../../../services/userService.js";
+import StudentMain from "../student/StudentMain.jsx";
+import WelcomeBoard from "../shared/WelcomeBoard.jsx";
 
 const ParentMain = ({ profile, setParentStudentData, onSelectUnit }) => {
   const [searchParams] = useSearchParams();

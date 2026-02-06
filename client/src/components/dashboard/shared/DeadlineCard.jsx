@@ -1,5 +1,5 @@
 import styles from "./DeadlineCard.module.css";
-import cardStyles from "./assessments/AssessmentCard.module.css";
+import cardStyles from "../assessments/AssessmentCard.module.css";
 
 const DeadlineCard = ({ unit, deadlines = [], role }) => {
   if (!unit) {

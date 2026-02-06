@@ -1,16 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Assessments.module.css";
-import { studentBar, teacherBar, parentBar } from "../SideBar.module.css";
+import {
+  studentBar,
+  teacherBar,
+  parentBar,
+} from "../shared/SideBar.module.css";
 import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
 import { getUserDetails } from "../../../services/userService.js";
 import RoleRestricted from "../../ui/RoleRestricted.jsx";
 import Modal from "../../ui/Modal.jsx";
 import AssessmentContent from "./AssessmentContent.jsx";
 import NewAssessment from "./NewAssessment.jsx";
-import CreateOptionsContent from "../CreateOptionsContent.jsx";
+import CreateOptionsContent from "../shared/CreateOptionsContent.jsx";
 import ResponseModal from "../../ui/ResponseModal.jsx";
-import WelcomeBoard from "../WelcomeBoard.jsx";
+import WelcomeBoard from "../shared/WelcomeBoard.jsx";
 
 const Assessments = ({
   showNav,

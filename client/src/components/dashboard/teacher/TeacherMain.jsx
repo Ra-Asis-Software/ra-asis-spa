@@ -5,12 +5,12 @@ import { getUserDetails } from "../../../services/userService.js";
 import { getAssignmentSubmissions } from "../../../services/assignmentService.js";
 import { getSubmissionsForQuiz } from "../../../services/quizService.js";
 import AssessmentCard from "../assessments/AssessmentCard.jsx";
-import CustomCalendar from "../CustomCalendar.jsx";
-import RecentActivities from "../RecentActivities.jsx";
-import WelcomeBoard from "../WelcomeBoard.jsx";
-import Progress from "../Progress.jsx";
+import CustomCalendar from "../shared/CustomCalendar.jsx";
+import RecentActivities from "../shared/RecentActivities.jsx";
+import WelcomeBoard from "../shared/WelcomeBoard.jsx";
+import Progress from "../shared/Progress.jsx";
 import Modal from "../../ui/Modal.jsx";
-import CreateOptionsContent from "../CreateOptionsContent.jsx";
+import CreateOptionsContent from "../shared/CreateOptionsContent.jsx";
 
 const TeacherMain = ({
   showNav,

@@ -6,7 +6,7 @@ import {
   unitButton,
   dropdownMenu,
   dropdownOption,
-} from "../DashboardHeader.module.css";
+} from "../shared/DashboardHeader.module.css";
 import {
   getAssignmentDetails,
   getAssignmentsForTeacher,

@@ -6,9 +6,9 @@ import {
   createUnitRequest,
   enrollToUnit,
   getAllUnits,
-} from "../../services/unitService.js";
-import { getUserDetails } from "../../services/userService.js";
-import RoleRestricted from "../ui/RoleRestricted.jsx";
+} from "../../../services/unitService.js";
+import { getUserDetails } from "../../../services/userService.js";
+import RoleRestricted from "../../ui/RoleRestricted.jsx";
 
 const Units = ({ user }) => {
   const [allUnits, setAllUnits] = useState([]);

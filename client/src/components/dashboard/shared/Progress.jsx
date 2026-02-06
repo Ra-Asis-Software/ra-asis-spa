@@ -9,8 +9,8 @@ import {
 } from "recharts";
 import styles from "./Progress.module.css";
 import { studentBtn, teacherBtn, parentBtn } from "./WelcomeBoard.module.css";
-import { getProgressData } from "../../services/progressService.js";
-import RoleRestricted from "../ui/RoleRestricted.jsx";
+import { getProgressData } from "../../../services/progressService.js";
+import RoleRestricted from "../../ui/RoleRestricted.jsx";
 
 const Progress = () => {
   const [view, setView] = useState("weekly");
