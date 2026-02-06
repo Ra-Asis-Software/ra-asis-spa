@@ -47,37 +47,48 @@ To run this project locally, you'll need to have the following installed:
 
 ### Verify Installation
 
----bash
+```bash
 
 node -v
 npm -v
 mongod --version
 git --version
 
+```
+
 ## Installation
 
 ### Clone the repository:
 
----bash
+```bash
 
 git clone https://github.com/Ra-Asis-Software/ra-asis-spa.git
+
 cd ra-asis-spa
+
+```
 
 ### Install Back-End Dependencies
 
----bash
+```bash
 
 cd server
+
 npm install
+
+```
 
 ### Install Front-End Dependencies
 
 Open a new terminal:
 
----bash
+```bash
 
 cd client
+
 npm install
+
+```
 
 ## Environment Setup
 
@@ -87,6 +98,8 @@ Set up environment variables: Create a .env file in the server directory and inc
 
 /server/.env
 
+```env
+
 MONGO_URI=mongodb://localhost:27017/ra_asis_spa
 PORT=5000
 JWT_SECRET=your_strong_secret_key
@@ -95,28 +108,38 @@ EMAIL_USERNAME=your_email@example.com
 EMAIL_PASSWORD=your_email_password
 INQUIRY_EMAIL=receiver_email@example.com
 
+```
+
 Replace all placeholder values above with your actual credentials.
 
-Run MongoDB: Start the MongoDB service locally by running:
+#### Run MongoDB:
 
-#### Linux (Systemd)
+Start the MongoDB service locally by running:
 
----bash
+##### Linux (Systemd)
+
+```bash
 
 sudo systemctl start mongod
-sudo systemctl status mongod `check status`
+sudo systemctl status mongod
 
-#### Windows
+```
 
----bash
+##### Windows
+
+```bash
 
 mongod
 
-#### macOS (Homebrew)
+```
 
----bash
+##### macOS (Homebrew)
+
+```bash
 
 brew services start mongodb-community
+
+```
 
 ## Running The Application (Dev Mode)
 
@@ -125,6 +148,8 @@ You must run both backend and frontend servers.
 ### Start Back-End Server
 
 From /server:
+
+```bash
 
 npx nodemon server.js
 
@@ -136,28 +161,36 @@ or
 
 npm start
 
+```
+
 Backend runs on:
+
 http://localhost:5000
 
 ### Start Front-End Server
 
 From /client:
 
+```bash
+
 npm run dev
 
+```
+
 Frontend runs on:
+
 http://localhost:5173
 
-Run this on your browser
+Paste this on a tab on your browser and load it
 
 ## Usage
 
 This application is designed to cater to four types of users: Students also referred to as Learners, Teachers also referred to as Tutors, Parents also referred to as Guardians, and Administrators. Based on their roles, users have access to different functionalities.
 
-- Students can view their activity dashboards, receive feedback, track their progress, and collaborate on tasks.
-- Teachers can manage assessments, view their analytics, view student analytics, and provide feedback.
-- Parents/Guardians can monitor their child’s academic progress and receive important notifications.
-- Administrators manage users and the overall system.
+- **Students/Learners** can view their activity dashboards, receive feedback, track their progress, and collaborate on tasks.
+- **Teachers/Tutors** can manage assessments, view their analytics, view student analytics, and provide feedback.
+- **Parents/Guardians** can monitor their child’s academic progress and receive important notifications.
+- **Administrators** manage users and the overall system.
 
 ## Building For Production
 
@@ -165,7 +198,11 @@ This application is designed to cater to four types of users: Students also refe
 
 From /client:
 
+```bash
+
 npm run build
+
+```
 
 Production files will be generated in:
 
@@ -181,21 +218,29 @@ and other necessary variables
 
 Then run:
 
+```bash
+
 npm start
+
+```
 
 ### Common Scripts
 
 #### Backend (/server)
 
 npm run dev - Start with Nodemon
+
 npm start - Start production server
 
 #### Frontend (/client)
 
 npm run dev - Start dev server
+
 npm run build - Build for production
+
 npm run preview - Preview build
-npm run lint - Run ESLint
+
+npm run lint - Run ESLint`
 
 ## Technologies Used
 
