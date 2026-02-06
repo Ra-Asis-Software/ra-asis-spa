@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../css/Grade.module.css";
+import styles from "./Grade.module.css";
+import {
+  unitDropdown,
+  unitButton,
+  dropdownMenu,
+  dropdownOption,
+} from "../DashboardHeader.module.css";
 import {
   getAssignmentDetails,
   getAssignmentsForTeacher,
   getAssignmentsForUnit,
   getAssignmentSubmissions,
-} from "../../../services/assignmentService";
+} from "../../../services/assignmentService.js";
 import {
   getQuizDetails,
   getQuizzesForTeacher,
   getQuizzesForUnit,
   getSubmissionsForQuiz,
-} from "../../../services/quizService";
+} from "../../../services/quizService.js";
 import {
   getAssessmentType,
   handleDueDate,
   pushUrlParams,
   removeUrlParams,
   useUrlParams,
-} from "../../../utils/assessmentUtils";
-import {
-  unitDropdown,
-  unitButton,
-  dropdownMenu,
-  dropdownOption,
-} from "../../dashboard/css/DashboardHeader.module.css";
-import Grade from "./Grade";
+} from "../../../utils/assessmentUtils.js";
+import Grade from "./Grade.jsx";
 
 const Submissions = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
-import { handleDueDate } from "../../../utils/assessmentUtils";
-import styles from "../css/Assessments.module.css";
+import styles from "./Assessments.module.css";
+import { handleDueDate } from "../../../utils/assessmentUtils.js";
 
 const StartQuiz = ({ quiz, handleStartQuiz }) => {
   const deadLine = handleDueDate(quiz.deadLine);

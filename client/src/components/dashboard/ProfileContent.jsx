@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
-import styles from "./css/ProfileContent.module.css";
-import { getUserDetails } from "../../services/userService";
-import {
-  studentBar,
-  teacherBar,
-  parentBar,
-} from "./css/SideBarStyles.module.css";
+import styles from "./ProfileContent.module.css";
+import { studentBar, teacherBar, parentBar } from "./SideBar.module.css";
+import { getUserDetails } from "../../services/userService.js";
 
 const ProfileContent = ({ user }) => {
   const [userData, setUserData] = useState({});

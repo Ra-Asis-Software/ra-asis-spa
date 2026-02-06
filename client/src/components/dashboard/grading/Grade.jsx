@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../css/Grade.module.css";
+import styles from "./Grade.module.css";
 import {
   handleDueDate,
   removeUrlParams,

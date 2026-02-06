@@ -1,6 +1,6 @@
-import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils";
-import styles from "../css/Assessments.module.css";
 import { useNavigate } from "react-router-dom";
+import styles from "./Assessments.module.css";
+import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
 
 const SubmissionDetails = ({ currentAssessment }) => {
   const { type, isOpened } = useUrlParams();

@@ -1,5 +1,5 @@
-import styles from "../css/Assessments.module.css";
-import { studentBar } from "../css/SideBarStyles.module.css";
+import styles from "./Assessments.module.css";
+import { studentBar } from "../SideBar.module.css";
 import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
 import { handleFileDownload } from "../../../utils/downloadUtils.js";
 

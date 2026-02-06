@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import RoleRestricted from "../ui/RoleRestricted";
-import styles from "./css/WelcomeBoard.module.css";
+import RoleRestricted from "../ui/RoleRestricted.jsx";
+import styles from "./WelcomeBoard.module.css";
 
 const WelcomeBoard = ({ firstName }) => {
   const currentHour = new Date().getHours();

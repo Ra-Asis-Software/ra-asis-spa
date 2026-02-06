@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../css/Summary.module.css";
+import styles from "./Summary.module.css";
 import { getAssessmentSummary } from "../../../services/unitService.js";
 
 const Summary = ({ selectedUnit }) => {

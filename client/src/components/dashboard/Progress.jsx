@@ -7,14 +7,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import styles from "./css/Progress.module.css";
-import { getProgressData } from "../../services/progressService";
-import RoleRestricted from "../ui/RoleRestricted";
-import {
-  studentBtn,
-  teacherBtn,
-  parentBtn,
-} from "./css/WelcomeBoard.module.css";
+import styles from "./Progress.module.css";
+import { studentBtn, teacherBtn, parentBtn } from "./WelcomeBoard.module.css";
+import { getProgressData } from "../../services/progressService.js";
+import RoleRestricted from "../ui/RoleRestricted.jsx";
 
 const Progress = () => {
   const [view, setView] = useState("weekly");

@@ -1,11 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./css/DashboardHeader.module.css";
-import {
-  studentBar,
-  teacherBar,
-  parentBar,
-} from "./css/SideBarStyles.module.css";
+import styles from "./DashboardHeader.module.css";
+import { studentBar, teacherBar, parentBar } from "./SideBar.module.css";
 
 const DashboardHeader = ({
   setShowNav,

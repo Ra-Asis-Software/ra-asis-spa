@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../css/Assessments.module.css";
+import styles from "./Assessments.module.css";
 import { stripHTML, useUrlParams } from "../../../utils/assessmentUtils.js";
 import { handleFileDownload } from "../../../utils/downloadUtils.js";
 import FileSelector from "./FileSelector.jsx";

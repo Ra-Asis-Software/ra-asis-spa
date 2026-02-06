@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import styles from "./css/Units.module.css";
-import { studentBar, teacherBar } from "./css/SideBarStyles.module.css";
+import { useNavigate } from "react-router-dom";
+import styles from "./Units.module.css";
+import { studentBar, teacherBar } from "./SideBar.module.css";
 import {
   createUnitRequest,
   enrollToUnit,
   getAllUnits,
-} from "../../services/unitService";
-import { getUserDetails } from "../../services/userService";
-import RoleRestricted from "../ui/RoleRestricted";
-import { useNavigate } from "react-router-dom";
+} from "../../services/unitService.js";
+import { getUserDetails } from "../../services/userService.js";
+import RoleRestricted from "../ui/RoleRestricted.jsx";
 
 const Units = ({ user }) => {
   const [allUnits, setAllUnits] = useState([]);

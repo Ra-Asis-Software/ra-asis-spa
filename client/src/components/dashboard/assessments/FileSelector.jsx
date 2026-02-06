@@ -1,4 +1,4 @@
-import styles from "../css/Assessments.module.css";
+import styles from "./Assessments.module.css";
 
 const FileSelector = ({ selector }) => {
   return (

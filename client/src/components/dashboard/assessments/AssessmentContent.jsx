@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "../css/Assessments.module.css";
+import styles from "./Assessments.module.css";
 import {
   absoluteTimeLeft,
   capitalizeFirstLetter,

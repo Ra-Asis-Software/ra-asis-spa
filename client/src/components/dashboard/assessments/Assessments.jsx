@@ -1,11 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../css/Assessments.module.css";
-import {
-  studentBar,
-  teacherBar,
-  parentBar,
-} from "../css/SideBarStyles.module.css";
+import styles from "./Assessments.module.css";
+import { studentBar, teacherBar, parentBar } from "../SideBar.module.css";
 import { handleDueDate, useUrlParams } from "../../../utils/assessmentUtils.js";
 import { getUserDetails } from "../../../services/userService.js";
 import RoleRestricted from "../../ui/RoleRestricted.jsx";

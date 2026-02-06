@@ -1,10 +1,10 @@
+import { useNavigate } from "react-router-dom";
+import styles from "./AssessmentCard.module.css";
 import {
   handleDueDateShort,
   shortenContent,
   shortenTitle,
-} from "../../../utils/assessmentUtils";
-import styles from "../css/AssessmentCard.module.css";
-import { useNavigate } from "react-router-dom";
+} from "../../../utils/assessmentUtils.js";
 
 const AssessmentCard = ({
   unitName,

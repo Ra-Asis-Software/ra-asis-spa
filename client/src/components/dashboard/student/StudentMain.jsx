@@ -1,14 +1,14 @@
 import { useEffect, useMemo } from "react";
-import styles from "../css/StudentMain.module.css";
-import AssessmentCard from "../assessments/AssessmentCard";
-import CustomCalendar from "../CustomCalendar";
-import DeadlineCard from "./DeadlineCard";
-import Summary from "./Summary";
-import Progress from "../Progress";
-import RecentActivities from "../RecentActivities";
-import { getUserDetails } from "../../../services/userService";
-import WelcomeBoard from "../WelcomeBoard";
-import { sortAssessmentsByDeadline } from "../../../utils/assessmentUtils";
+import styles from "./StudentMain.module.css";
+import { sortAssessmentsByDeadline } from "../../../utils/assessmentUtils.js";
+import AssessmentCard from "../assessments/AssessmentCard.jsx";
+import CustomCalendar from "../CustomCalendar.jsx";
+import DeadlineCard from "../DeadlineCard.jsx";
+import Summary from "./Summary.jsx";
+import Progress from "../Progress.jsx";
+import RecentActivities from "../RecentActivities.jsx";
+import { getUserDetails } from "../../../services/userService.js";
+import WelcomeBoard from "../WelcomeBoard.jsx";
 
 const today = new Date();
 const todayTimeStamp = new Date(today).setHours(0, 0, 59, 999);

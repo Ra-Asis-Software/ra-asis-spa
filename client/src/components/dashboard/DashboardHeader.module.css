@@ -192,7 +192,6 @@
 }
 
 /* RESPONSIVE BREAKPOINTS */
-
 @media (max-width: 768px) {
   .menuTitle {
     display: none;

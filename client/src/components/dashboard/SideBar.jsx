@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "./css/SideBarStyles.module.css";
-import RoleRestricted from "../ui/RoleRestricted";
+import styles from "./SideBar.module.css";
+import RoleRestricted from "../ui/RoleRestricted.jsx";
 
 const SideBar = ({ show, logout, role, units }) => {
   const [active, setActive] = useState("dashboard");

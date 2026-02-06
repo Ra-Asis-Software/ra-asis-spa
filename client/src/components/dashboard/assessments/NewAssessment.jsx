@@ -1,5 +1,5 @@
-import { useState } from "react";
-import styles from "../css/Assessments.module.css";
+import { useEffect, useState } from "react";
+import styles from "./Assessments.module.css";
 import { createAssignment } from "../../../services/assignmentService.js";
 import { createQuiz } from "../../../services/quizService.js";
 import {
@@ -12,7 +12,6 @@ import {
 import TeacherAssessmentContent from "./TeacherAssessmentContent.jsx";
 import AssessmentTools from "./AssessmentTools.jsx";
 import FileSelector from "./FileSelector.jsx";
-import { useEffect } from "react";
 
 const NewAssessment = ({
   resetAssessmentContent,

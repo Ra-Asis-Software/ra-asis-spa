@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./css/CreateOptionsContent.module.css";
+import styles from "./CreateOptionsContent.module.css";
 
 const CreateOptionsContent = ({ open = false }) => {
   const navigate = useNavigate();
